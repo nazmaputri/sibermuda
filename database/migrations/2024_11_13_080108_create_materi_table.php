@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('materi', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('course_id'); 
             $table->string('judul');
             $table->text('deskripsi');
-            $table->foreignId('courses_id')->constrained('courses'); 
+            $table->boolean('is_preview')->default(false);
             $table->timestamps();
         });
     }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('course_id')->constrained()->onDelete('cascade'); // Relasi ke kursus
             $table->integer('stars')->unsigned()->comment('Rating bintang (1-5)');
             $table->text('comment')->nullable()->comment('Komentar dari user');
+            $table->boolean('display')->default(false);
             $table->timestamps();
         });
     }

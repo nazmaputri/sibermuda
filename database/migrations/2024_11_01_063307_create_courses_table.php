@@ -12,13 +12,14 @@ class CreateCoursesTable extends Migration
             $table->id();
             $table->string('title'); // Judul kursus
             $table->text('description')->nullable(); // Deskripsi kursus
-            $table->string('category'); // Kategori kursus
-            $table->decimal('price', 8, 2)->nullable(); // Harga kursus
+            $table->unsignedBigInteger('category_id')->nullable(); // Relasi ke tabel category
+            $table->decimal('price', 8, 2); // Harga kursus
             $table->unsignedInteger('capacity')->nullable(); // Kapasitas peserta
-            $table->string('image_path')->nullable(); // Path gambar
-            $table->text('video_url')->nullable(); // URL video materi
-            $table->text('pdf_path')->nullable(); // Path PDF materi
-            $table->text('quiz')->nullable(); // Kolom untuk menyimpan kuis
+            $table->string('image_path'); // Path gambar
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
+            $table->enum('status', ['pending', 'approved', 'published', 'nopublished'])->default('pending');
+            $table->boolean('chat')->default(false);
             $table->unsignedBigInteger('mentor_id'); // Menyimpan ID mentor
             $table->timestamps(); // Kolom created_at dan updated_at
         

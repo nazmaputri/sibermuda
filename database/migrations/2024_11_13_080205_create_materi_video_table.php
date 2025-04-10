@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('materi_video', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('materi_id')->constrained('materi'); // Relasi ke tabel materi
-            $table->string('video_url'); // URL atau path video
+            $table->unsignedBigInteger('materi_id'); 
+            $table->string('title'); // Judul 
+            $table->text('description')->nullable(); // Deskripsi 
+            $table->string('link'); // URL atau path video
             $table->timestamps();
         });
     }    

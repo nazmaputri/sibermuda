@@ -16,7 +16,6 @@ class CreatePaymentsTable extends Migration
             $table->string('transaction_status'); // Status transaksi dari Midtrans (pending, success, failed)
             $table->string('transaction_id')->unique(); // ID transaksi dari Midtrans
             $table->decimal('amount', 15, 2); // Jumlah yang dibayar
-            $table->string('payment_url')->nullable(); // URL pembayaran jika menggunakan Midtrans
             $table->timestamps(); // Waktu transaksi
         });
     }

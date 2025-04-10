@@ -10,8 +10,9 @@ class CreateMateriUserTable extends Migration
     {
         Schema::create('materi_user', function (Blueprint $table) {
             $table->id();
+            $table->string('nilai');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('materi_id')->constrained('materi')->onDelete('cascade'); // Pastikan nama tabel 'materi' di sini
+            $table->foreignId('courses_id')->constrained('courses'); 
             $table->timestamp('completed_at')->nullable(); // Menyimpan waktu penyelesaian
             $table->timestamps();
         });

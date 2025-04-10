@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade'); // Menyimpan student yang terkait
             $table->foreignId('mentor_id')->constrained('users')->onDelete('cascade'); // Menyimpan mentor yang terkait
+            $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete(); // Hapus otomatis jika data terkait dihapus
             $table->timestamps();
         });
     }
