@@ -90,12 +90,7 @@ class RegisterController extends Controller
             'phone_number' => $request->phone_number,
             'role' => $request->role,
             'status' => $status,
-            'email_verified_at' => now(),
-            'profesi' => $request->profesi ?? null,
             'experience' => $request->experience ?? null,
-            'linkedin' => $request->linkedin ?? null,
-            'company' => $request->company ?? null,
-            'years_of_experience' => $request->years_of_experience ?? null,
         ]);
 
         // Tambahkan notifikasi ke database jika mentor
