@@ -43,12 +43,12 @@ class LoginController extends Controller
                 ]);
             }
     
-            // Cek verifikasi email
-            if (is_null($user->email_verified_at)) {
-                return redirect()->route('login')->withErrors([
-                    'email' => 'Email Anda belum diverifikasi.',
-                ]);
-            }
+            // // Cek verifikasi email
+            // if (is_null($user->email_verified_at)) {
+            //     return redirect()->route('login')->withErrors([
+            //         'email' => 'Email Anda belum diverifikasi.',
+            //     ]);
+            // }
     
             // Cek status akun
             if ($user->status !== 'active') {
@@ -113,10 +113,10 @@ class LoginController extends Controller
             ])->withInput($request->except('password'));
         }
     
-        // Cek apakah email sudah terverifikasi
-        if (is_null($user->email_verified_at)) {
-            return back()->withErrors(['email' => 'Email Anda belum terverifikasi.']);
-        }
+        // // Cek apakah email sudah terverifikasi
+        // if (is_null($user->email_verified_at)) {
+        //     return back()->withErrors(['email' => 'Email Anda belum terverifikasi.']);
+        // }
     
         // Cek apakah status pengguna aktif
         if ($user->status !== 'active') {
