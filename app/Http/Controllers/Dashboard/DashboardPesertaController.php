@@ -205,7 +205,7 @@ class DashboardPesertaController extends Controller
         $category = Category::findOrFail($categoryId);
     
         // Ambil semua kursus berdasarkan kategori
-        $courses = Course::where('category', $category->name)->get();
+        $courses = Course::where('category_id', $category->id)->get();
     
         // Iterasi setiap kursus untuk menghitung rating
         foreach ($courses as $course) {

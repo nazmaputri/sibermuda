@@ -65,11 +65,11 @@
             @enderror
         </div>
 
-        <div class="mb-4">
+        <!-- <div class="mb-4">
             <label for="ttd" class="block text-sm font-medium text-gray-700 font-semibold">Tanda Tangan</label>
             <input type="file" name="ttd" id="ttd" class="p-2 mt-2 block w-full border border-gray-200 rounded-md shadow-sm text-gray-700s">
             <p class="text-xs text-gray-500">*Upload ttd untuk sertifikat peserta, upload dalam bentuk digital dengan latar belakang putih dan format foto berukuran 3:4</p>
-        </div>
+        </div> -->
 
         <div class="flex justify-end space-x-4">
             <!-- Tombol Batal -->

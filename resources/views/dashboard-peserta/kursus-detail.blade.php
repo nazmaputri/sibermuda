@@ -5,12 +5,6 @@
     <div class="bg-white p-8 rounded-lg shadow-md relative">
         <h2 class="text-xl font-semibold mb-4 border-b-2 border-gray-300 pb-2 text-gray-700 text-center">Detail Kursus</h2>
 
-        @if (session('success'))
-            <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 p-2 rounded relative mb-3">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- Card Informasi Kursus -->
         <div class="flex flex-col lg:flex-row mb-4">
             <div class="w-full sm:w-1/4 md:w-1/5 mb-4 lg:mb-0">
@@ -109,16 +103,6 @@
     </div>
 
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-
     // Menampilkan modal saat tombol "Beri Rating" diklik
     document.getElementById('ratingButton').addEventListener('click', function () {
         document.getElementById('ratingModal').classList.remove('hidden');

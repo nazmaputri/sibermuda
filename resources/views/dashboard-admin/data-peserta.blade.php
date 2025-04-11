@@ -5,29 +5,44 @@
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
         <h2 class="text-xl font-semibold mb-5 border-b-2 pb-2 text-gray-700 text-center">Data Peserta</h2>
 
-        <!-- Search Bar -->
-        <form action="{{ route('datapeserta-admin') }}" method="GET" class="w-full max-w-xs mb-4">
-            <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
-            <div class="relative flex items-center">
-                <!-- Input Search -->
-                <input type="search" name="search" id="search" 
-                    class="block w-full pl-4 pr-14 py-2.5 text-sm text-gray-700 border-2 border-sky-300 focus:outline-none rounded-full bg-gray-50" 
-                    placeholder="Cari Peserta (Nama, Email)" value="{{ request('search') }}" />
-                <!-- Button Search -->
-                <button type="submit" 
-                    class="absolute right-1 py-2.5 bg-sky-300 text-white hover:bg-sky-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-3 flex items-center justify-center">
-                    <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                    </svg>
-                </button>
-            </div>
-        </form>
+        <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
+            <!-- Search Bar -->
+            <form action="{{ route('datapeserta-admin') }}" method="GET" class="w-full max-w-xs">
+                <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
+                <div class="relative flex items-center">
+                    <!-- Input Search -->
+                    <input type="search" name="search" id="search" 
+                        class="block w-full pl-4 pr-14 py-2.5 text-sm text-gray-700 border-2 border-sky-300 focus:outline-none rounded-full bg-gray-50" 
+                        placeholder="Cari Peserta (Nama, Email)" value="{{ request('search') }}" />
+                    <!-- Button Search -->
+                    <button type="submit" 
+                        class="absolute right-1 py-2.5 bg-sky-300 text-white hover:bg-sky-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-3 flex items-center justify-center">
+                        <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </form>
 
-        @if (session('success'))
-            <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3">
-                {{ session('success') }}
+            <div class="flex text-center justify-between">
+                <!-- button tambah peserta -->
+                <a href="#"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md bg-sky-300 hover:bg-sky-200 focus:outline-none flex items-center">
+                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+                    </svg>
+                    Import
+                </a>
+
+                <!-- button tambah peserta -->
+                <a href="{{ route('tambah-peserta') }}"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md bg-sky-300 hover:bg-sky-200 focus:outline-none flex items-center">
+                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
+                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+                    </svg>
+                    Tambah
+                </a>
             </div>
-         @endif
+        </div>
+        
 
         <!-- Tabel data peserta -->
         <div class="overflow-x-auto">
@@ -101,16 +116,6 @@
 </div>
 
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-
     //untuk membuka/menutup popup penghapusan data peserta
     function openDeleteModal() {
         document.getElementById('deleteModal').classList.remove('hidden');

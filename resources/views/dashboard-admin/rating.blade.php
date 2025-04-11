@@ -4,18 +4,6 @@
     <div class="container mx-auto">
         <div class="bg-white rounded-lg shadow-md p-5">
             <h1 class="text-xl font-semibold mb-6 border-b-2 pb-2 text-gray-700 text-center">Daftar Penilaian EduFlix</h1>
-            
-        @if (session('success'))
-            <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-3">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if(session('info'))
-            <div id="flash-message" class="bg-yellow-100 border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-3">
-                {{ session('info') }}
-            </div>
-        @endif
 
             <!-- Wrapper for responsiveness -->
             <div class="overflow-x-auto">
@@ -23,12 +11,12 @@
                <table class="min-w-full mt-1 border-collapse">
                     <thead>
                         <tr class="bg-sky-100 text-gray-700 text-sm">
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-l border-gray-200">No</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200">Nama</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200">Rating</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200">Komentar</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200">Status</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-r border-gray-200">Aksi</th>
+                            <th class="px-4 py-2 text-center text-gray-700 border-b border-l border-gray-200 border-t">No</th>
+                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200 border-t">Nama</th>
+                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200 border-t">Rating</th>
+                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200 border-t">Komentar</th>
+                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200 border-t">Status</th>
+                            <th class="px-4 py-2 text-center text-gray-700 border-b border-r border-gray-200 border-t">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,7 +75,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="text-center text-gray-500 py-4 text-sm">Belum ada rating</td>
+                            <td colspan="6" class="text-center text-gray-500 py-4 text-sm border-l border-r border-b">Belum ada rating</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -126,16 +114,6 @@
             // Mengirim formulir untuk mengubah status display
             form.submit();
         });
-    });
-
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
     });
 
     //untuk mengatur popup konfirmasi penghapusan rating

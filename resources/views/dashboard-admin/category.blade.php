@@ -36,12 +36,6 @@
             <span>Tambah Kategori</span>
         </a>
     </div>    
-    
-    @if (session('success'))
-        <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3">
-            {{ session('success') }}
-        </div>
-    @endif
 
     <!-- Tabel Kategori -->
     <div id="categoriesTable" class="overflow-hidden overflow-x-auto w-full">
@@ -149,7 +143,8 @@
  <!-- Modal Konfirmasi -->
  <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-[1000]">
     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h3 class="text-md font-medium text-center">Apakah Anda yakin ingin menghapus kategori ini?</h3>
+        <h2 class="text-lg font-semibold text-gray-700 mb-4 text-center">Konfirmasi Hapus</h2>
+        <p class="text-md font-medium text-gray-600 text-center">Apakah Anda yakin ingin menghapus kategori ini?</p>
         <div class="mt-4 flex justify-center space-x-3">
             <button onclick="closeDeleteModal()" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg">
                 Batal
@@ -166,16 +161,6 @@
 </div>
 
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-
     const showCoursesButton = document.getElementById('showCoursesButton');
     const coursesList = document.getElementById('coursesList');
     const categoriesTable = document.getElementById('categoriesTable');

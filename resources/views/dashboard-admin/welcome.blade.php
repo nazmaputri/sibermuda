@@ -1,13 +1,7 @@
 @extends('layouts.dashboard-admin')
 @section('content')
-    <!-- Notifikasi -->
-    @if (session('success'))
-        <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4">
-            {{ session('success') }}
-        </div>
-    @endif
 
-    <!-- Cards Informasi -->
+    <!-- Card Informasi -->
     <div class="bg-white rounded-lg shadow-md p-5 w-full flex flex-col md:flex-row h-auto items-center">
         <!-- Text Content -->
         <div class="w-full text-center md:text-left mb-4 md:mb-0">
@@ -86,16 +80,6 @@
     </div>
 
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-
         document.addEventListener('DOMContentLoaded', function () {
             const ctx = document.getElementById('userGrowthChart').getContext('2d');
         

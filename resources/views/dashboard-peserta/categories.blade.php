@@ -5,7 +5,10 @@
         <h2 class="text-xl font-semibold mb-6 text-center border-b-2 border-gray-300 text-gray-700 pb-2">Daftar Kategori</h2>
 
         <!-- Grid Kategori dengan scroll horizontal pada mode mobile dan iPad -->
-        <div class="overflow-x-auto">
+        <div class="overflow-x-auto"> 
+            @if ($categories->isEmpty())
+                    <p class="text-center py-1 text-gray-600">Data Kategori tidak tersedia</p>
+                @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 @foreach($categories as $category)
                 <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
@@ -25,6 +28,7 @@
                     </div>
                 </div>
                 @endforeach
+                @endif
             </div>
             
         <!-- Pagination -->

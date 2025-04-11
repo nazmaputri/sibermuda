@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('role', ['student', 'mentor', 'admin'])->default('student'); 
             $table->text('experience')->nullable(); 
             $table->enum('status', ['active', 'inactive', 'pending'])->default('pending'); 
+            $table->timestamp('email_verified_at')->nullable(); 
             $table->rememberToken(); 
             $table->timestamps(); 
         });

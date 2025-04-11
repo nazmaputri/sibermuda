@@ -31,12 +31,6 @@
             </div>
         </div>
 
-        @if (session('success'))
-            <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 p-2 mt-3 rounded mb-3">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- Tabel dengan responsivitas -->
         <div class="overflow-x-auto mt-6">
             <div class="min-w-full w-64">
@@ -167,16 +161,6 @@
 </div>
 
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-            const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-                }, 3000); // Hapus pesan setelah 3 detik
-            }
-        });
-    
     // untuk menampilkan detail diskon 
     function openDiscountModal(id, couponCode, discountPercentage, startDate, endDate, startTime, endTime, applyToAll) {
         // Isi data ke modal

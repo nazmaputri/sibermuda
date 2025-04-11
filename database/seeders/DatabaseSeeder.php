@@ -33,46 +33,46 @@ class DatabaseSeeder extends Seeder
         ]);
         
         User::factory()->create([
-            'name'      => 'Intan',
-            'email'     => 'intanosaurusss@gmail.com',
-            'password'  => Hash::make('intanosaurusss'), 
+            'name'      => 'Nurkhotijah',
+            'email'     => 'nurkhotijah1078@gmail.com',
+            'password'  => Hash::make('12345678'), 
             'role'      => 'mentor',
-            'status'    => 'inactive',
+            'status'    => 'active',
         ]);
 
-        RatingKursus::create([
-            'user_id' => 2,
-            'course_id' => 2,
-            'stars' => 2,
-            'comment' => 'tes rating',
-        ]);
+        // RatingKursus::create([
+        //     'user_id' => 2,
+        //     'course_id' => 2,
+        //     'stars' => 2,
+        //     'comment' => 'tes rating',
+        // ]);
 
-        RatingKursus::create([
-            'user_id' => 2,
-            'course_id' => 2,
-            'stars' => 2,
-            'comment' => 'tes rating aja',
-        ]);
+        // RatingKursus::create([
+        //     'user_id' => 2,
+        //     'course_id' => 2,
+        //     'stars' => 2,
+        //     'comment' => 'tes rating aja',
+        // ]);
 
-        RatingKursus::create([
-            'user_id' => 2,
-            'course_id' => 2,
-            'stars' => 2,
-            'comment' => 'tes rating aja',
-        ]);
+        // RatingKursus::create([
+        //     'user_id' => 2,
+        //     'course_id' => 2,
+        //     'stars' => 2,
+        //     'comment' => 'tes rating aja',
+        // ]);
 
-        RatingKursus::create([
-            'user_id' => 2,
-            'course_id' => 2,
-            'stars' => 2,
-            'comment' => 'tes rating aja',
-        ]);
+        // RatingKursus::create([
+        //     'user_id' => 2,
+        //     'course_id' => 2,
+        //     'stars' => 2,
+        //     'comment' => 'tes rating aja',
+        // ]);
 
-        Rating::create([
-            'nama' => 'intan',
-            'email' => 'intan@gmail.com',
-            'rating' => '3',
-            'comment' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
-        ]);
+        // Rating::create([
+        //     'nama' => 'intan',
+        //     'email' => 'intan@gmail.com',
+        //     'rating' => '3',
+        //     'comment' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
+        // ]);
     }
 }

@@ -6,19 +6,7 @@
     <div class="bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-xl text-gray-700 font-semibold mb-6 border-b-2 border-gray-300 pb-2 text-center">Keranjang Saya</h2>
 
-        @if (session('success'))
-            <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 p-2 rounded mb-3">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('warning'))
-            <div id="flash-message" class="bg-yellow-100 border border-yellow-400 text-yellow-700 p-2 mb-3 rounded" role="alert">
-                {{ session('warning') }}
-            </div>
-        @endif
-
-        <div id="flash-container"></div>
+        <!-- <div id="flash-container"></div> -->
 
         <!-- Pemberitahuan Diskon (Tetap Ada di Atas Keranjang) -->
         @if ($activeDiscount)
@@ -95,139 +83,116 @@
         <!-- kontainer untuk apply kupon, total harga dan beli -->
         <div class="bg-white p-3 rounded-lg shadow flex-1 max-h-40">
             <!-- Input Kupon -->
-            <div class="flex space-x-2 items-center mt-6">
-                <input type="text" id="coupon-code" class="border border-gray-300 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
+            <div class="flex space-x-2 items-center mt-1">
+                <input type="text" id="coupon-code" class="border border-gray-300 text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
                 <button id="apply-coupon" class="bg-sky-400 flex text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-sky-300">Gunakan</button>
             </div>
 
             <!-- Total Harga -->
-            <div class="flex justify-end space-x-3 items-center mt-3 flex-wrap">
-                <h3 class="font-semibold text-gray-700">
-                    Total: 
-                    @if ($couponCode) 
-                        <span class="text-gray-500 line-through">Rp {{ number_format($totalPrice, 0, ',', '.') }}</span> 
-                    @endif
-                    <span id="total-price" class="text-red-500">Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}</span>
-                </h3>
-                <button class="bg-sky-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-sky-300" 
+            <div class="mt-3">
+                <div class="flex justify-between items-center flex-wrap gap-2">
+                    <h3 class="font-semibold text-gray-700">
+                        Total:
+                    </h3>
+                    <div class="flex items-center space-x-2">
+                        @if ($couponCode)
+                            <span class="text-gray-500 line-through">
+                                Rp {{ number_format($totalPrice, 0, ',', '.') }}
+                            </span>
+                        @endif
+                        <span id="total-price" class="text-red-500 font-semibold">
+                            Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}
+                        </span>
+                    </div>
+                </div>
+                <button 
+                    class="bg-sky-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-sky-300 w-full mt-3" 
                     id="pay-now" 
                     data-total-price="{{ $totalPriceAfterDiscount }}">
                     Beli
                 </button>
             </div>
+
          </div>
         </div>
         @endif
     </div>
 
+<!-- Modal Overlay -->
+<div id="registration-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+    <!-- Modal Box -->
+    <div class="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6 relative">
+        <!-- Tombol Close -->
+        <button id="close-modal" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl font-bold">&times;</button>
+        
+        <h3 class="text-xl font-semibold mb-4 text-gray-700 text-center">Formulir Pendaftaran</h3>
+        <form id="wa-form">
+            <label class="block mb-3">
+                <span class="text-gray-700">Nama Lengkap</span>
+                <input id="nama" type="text" class="mt-1 block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" value="{{ Auth::user()->name }}" {{ Auth::user()->name ? 'readonly' : '' }} >
+            </label>
+            <label class="block mb-3">
+                <span class="text-gray-700">Email</span>
+                <input id="email" type="email"  class="mt-1 block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" value="{{ Auth::user()->email }}" {{ Auth::user()->email ? 'readonly' : '' }}>
+            </label>
+            <label class="block mb-4">
+                <span class="text-gray-700">No Telepon</span>
+                <input id="telepon" type="tel"  class="mt-1 block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" value="{{ Auth::user()->phone_number }}" {{ Auth::user()->phone_number ? 'readonly' : '' }}>
+            </label>
+
+            <!-- Tambahkan data kursus dan total harga sebagai <input hidden> jika ingin dikirim -->
+            <input type="hidden" id="nama-kursus" value="Kursus Pemrograman Laravel">
+            <input type="hidden" id="total-harga" value="Rp 150.000">
+
+            <p class="pb-2 text-gray-700">Kursus Yang Dibeli</p>
+            <p class="pb-2 text-gray-700">Total harga</p>
+            <p class="pb-2 text-gray-700">No Rekening Admin : 0895365544316</p>
+
+            <button type="submit" class="bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-400 w-full">
+                Kirim Bukti Pembayaran
+            </button>
+        </form>
+    </div>
+</div>
+
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-                }, 3000); // Hapus pesan setelah 3 detik
-            }
+    const payNowBtn = document.getElementById('pay-now');
+    const modal = document.getElementById('registration-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    payNowBtn.addEventListener('click', function () {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex'); // agar bisa tampil sebagai flex (centered)
     });
 
-    document.getElementById('pay-now').addEventListener('click', function(e) {
+    closeModalBtn.addEventListener('click', function () {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    });
+
+    // Opsional: Tutup modal jika klik di luar box
+    window.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    });
+
+     // WA Form Submit Handler
+     document.getElementById('wa-form').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const button = this;
-        button.disabled = true; // Nonaktifkan tombol setelah diklik
-        button.classList.add('opacity-50', 'cursor-not-allowed'); // Tambahkan efek visual tombol disable
-        
-        const totalPrice = this.getAttribute('data-total-price');
-        if (!totalPrice || isNaN(totalPrice)) {
-            showFlashMessage('Harga tidak valid', 'error');
-            button.disabled = false; // Aktifkan kembali jika terjadi error
-            button.classList.remove('opacity-50', 'cursor-not-allowed');
-            return;
-        }
-        
-        // Jika terdapat input kode kupon, ambil nilainya
-        const couponInput = document.getElementById('coupon-code');
-        const couponCode = couponInput ? couponInput.value : null;
-        
-        // Buat payload untuk payment creation
-        const payload = { amount: totalPrice };
-        if (couponCode) {
-            payload.coupon_code = couponCode;
-        }
-        
-        fetch('/create-payment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            },
-            body: JSON.stringify(payload)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); // Cek data dari backend
-                if (data.snapToken) {
-                    snap.pay(data.snapToken, {
-                        onSuccess: function(result) {
-                            showFlashMessage('Pembayaran berhasil', 'success');
+        const nama = document.getElementById('nama').value;
+        const email = document.getElementById('email').value;
+        const telepon = document.getElementById('telepon').value;
 
-                            // Pastikan ambil order_id dari result Midtrans
-                            const orderId = result.order_id || result.transaction_id;
-                            if (!orderId) {
-                                showFlashMessage('Order ID tidak ditemukan dari response pembayaran.', 'error');
-                                return;
-                            }
+        const pesan = `Halo Admin, saya ingin mengkonfirmasi pembayaran:\n\nNama: ${nama}\nEmail: ${email}\nNo Telepon: ${telepon}\n\nSaya telah melakukan pembayaran untuk kursus. Terima kasih.`;
 
-                            // Panggil endpoint update-payment-status untuk update ke database
-                            fetch('/update-payment-status', {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // pastikan ini di dalam blade
-                                },
-                                body: JSON.stringify({
-                                    order_id: orderId,
-                                    transaction_status: 'success'
-                                }),
-                            })
-                            .then(res => res.json())
-                            .then(response => {
-                                showFlashMessage(response.message);
-                                
-                                 // Arahkan user ke daftar kursus setelah 2 detik
-                                setTimeout(() => {
-                                    window.location.href = "{{ route('daftar-kursus') }}";
-                                }, 2000);
-                            })
-                            .catch(error => {
-                                console.error('Error updating payment status:', error);
-                                showFlashMessage('Gagal mengupdate status pembayaran.', 'error');
-                            });
-                        },
+        const nomor = "62895365544316"; // Gunakan format internasional (62 untuk Indonesia)
+        const url = `https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`;
 
-                        onPending: function(result) {
-                            showFlashMessage('Pembayaran sedang diproses', 'info');
-                        },
-
-                        onError: function(result) {
-                            console.error('Payment error:', result);
-                            showFlashMessage('Pembayaran gagal', 'error');
-                        }
-                    });
-                } else {
-                    showFlashMessage('Gagal mendapatkan token pembayaran', 'error');
-                    button.disabled = false; // Aktifkan kembali jika gagal
-                    button.classList.remove('opacity-50', 'cursor-not-allowed');
-                }
-            })
-            .catch(error => {
-                console.error('Error creating payment:', error);
-                showFlashMessage('Terjadi kesalahan saat memproses pembayaran.', 'error');
-                button.disabled = false; // Aktifkan kembali jika terjadi error
-                button.classList.remove('opacity-50', 'cursor-not-allowed');
-            });
-        });
+        window.open(url, '_blank'); // Buka link di tab baru
+    });
         
     document.getElementById('apply-coupon').addEventListener('click', function() {
         let couponCode = document.getElementById('coupon-code').value;
@@ -237,29 +202,5 @@
             alert("Masukkan kode kupon terlebih dahulu!");
         }
     });
-
-    // Fungsi untuk menampilkan flash message di dalam kontainer
-    function showFlashMessage(message, type = 'success') {
-        const flashContainer = document.getElementById('flash-container');
-        flashContainer.innerHTML = ''; // Hapus pesan lama sebelum menambahkan yang baru
-
-        const flashMessage = document.createElement('div');
-        flashMessage.id = 'flash-message';
-
-        const colorClass = {
-            'success': 'bg-green-100 border-green-400 text-green-700',
-            'error': 'bg-red-100 border-red-400 text-red-700',
-            'info': 'bg-blue-100 border-blue-400 text-blue-700'
-        }[type] || 'bg-gray-100 border-gray-400 text-gray-700';
-
-        flashMessage.className = `${colorClass} border p-2 rounded mb-3`;
-        flashMessage.textContent = message;
-
-        flashContainer.appendChild(flashMessage);
-
-        setTimeout(() => {
-            flashMessage.remove();
-        }, 3000);
-    }
 </script>
 @endsection

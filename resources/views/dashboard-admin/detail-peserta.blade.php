@@ -72,6 +72,7 @@
                             <th class="px-4 py-2 text-center border-b border-t border-gray-200">Judul</th>
                             <th class="px-4 py-2 text-center border-b border-t border-gray-200">Kategori</th>
                             <th class="px-4 py-2 text-center border-b border-t border-r border-gray-200">Status Pembayaran</th>
+                            <th class="px-4 py-2 text-center border-b border-t border-gray-200">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 text-sm">
@@ -85,10 +86,11 @@
                                         {{ $purchase->payment->transaction_status ?? '-' }}
                                     </span>
                                 </td>
+                                <td class="px-4 py-2 border-b border-gray-200 capitalize">button aksi</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-2 px-2 text-gray-400 border-l border-b border-r">Belum ada kursus yang dibeli</td>
+                                <td colspan="5" class="text-center py-2 px-2 text-gray-400 border-l border-b border-r">Belum ada kursus yang dibeli</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -105,6 +107,5 @@
             </a>
         </div>
     </div>
-
 </div>
 @endsection

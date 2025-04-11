@@ -4,7 +4,7 @@
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Data Mentor</h2>
+        <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 pb-2">Data Mentor</h2>
     </div> 
 
         <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
@@ -30,18 +30,6 @@
                 Tambah Mentor
             </a>
         </div>
-        
-    @if (session('success'))
-        <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('info'))
-        <div id="flash-message" class="bg-yellow-100 border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-3">
-            {{ session('info') }}
-        </div>
-    @endif
 
         <!-- Tabel data user -->
         <div class="overflow-x-auto">
@@ -140,16 +128,6 @@
 </div>
 
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-
     //membuka/menutu modal konfirmasi penghapusan data mentor
     function openDeleteModal() {
         document.getElementById('deleteModal').classList.remove('hidden');

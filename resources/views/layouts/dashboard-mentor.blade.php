@@ -7,11 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script> <!-- import tailwind (pake CDN juga soalnya pas di hosting ga muncul style nya) -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> <!-- import alphine untuk layout responsivenya -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- import sweetalert untuk popup -->
+    @vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
     <style>
         body {
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: 'Nunito', sans-serif;
         }
     </style>
 </head>
@@ -70,14 +72,14 @@
                     </li>
                 </a> -->
 
-                <a href="{{ route ('laporan-mentor') }}" class="block"class="block">
+                <!-- <a href="{{ route ('laporan-mentor') }}" class="block"class="block">
                     <li class="flex items-center px-4 py-2 rounded-xl space-x-4 {{ Request::routeIs('laporan-mentor') ? 'bg-sky-300' : 'hover:bg-sky-200' }}">
                         <svg class="w-5 h-5"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                             <path d="M32 32c17.7 0 32 14.3 32 32l0 336c0 8.8 7.2 16 16 16l400 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L80 480c-44.2 0-80-35.8-80-80L0 64C0 46.3 14.3 32 32 32zM160 224c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32zm128-64l0 160c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-160c0-17.7 14.3-32 32-32s32 14.3 32 32zm64 32c17.7 0 32 14.3 32 32l0 96c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-96c0-17.7 14.3-32 32-32zM480 96l0 224c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-224c0-17.7 14.3-32 32-32s32 14.3 32 32z"/>
                         </svg>
                         <span>Laporan</span>
                     </li>
-                </a>
+                </a> -->
 
                 </ul>
             </nav>
@@ -204,5 +206,14 @@
         }
     });
 </script>      
+
+<!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
+@if(session('success') || session('error') || session('info') || session('warning'))
+    <div id="sweetalert-data"
+         data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
+         data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">
+    </div>
+@endif
+
 </body>
 </html>
