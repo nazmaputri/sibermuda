@@ -11,9 +11,32 @@ use App\Models\User;
 use App\Models\Keranjang;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 class LoginController extends Controller
 {
+
+    //verifikasi email
+    public function verifyNotice()
+    {
+        return view('mail.email-verify');
+    }
+
+     //verifikasi email
+     public function verifyEmail(EmailVerificationRequest $request)
+     {
+        $request->fulfill();
+
+         return redirect()->route('welcome-peserta');
+     }
+
+    //Untuk mengirim email nya
+    public function verifyHandler (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+     
+        return back()->with('message', 'Verification link sent!');
+    }
+
     // Menampilkan form login
     public function showLoginForm()
     {
@@ -43,12 +66,12 @@ class LoginController extends Controller
                 ]);
             }
     
-            // // Cek verifikasi email
-            // if (is_null($user->email_verified_at)) {
-            //     return redirect()->route('login')->withErrors([
-            //         'email' => 'Email Anda belum diverifikasi.',
-            //     ]);
-            // }
+            // Cek verifikasi email
+            if (is_null($user->email_verified_at)) {
+                return redirect()->route('login')->withErrors([
+                    'email' => 'Email Anda belum diverifikasi.',
+                ]);
+            }
     
             // Cek status akun
             if ($user->status !== 'active') {
@@ -113,11 +136,13 @@ class LoginController extends Controller
             ])->withInput($request->except('password'));
         }
     
-        // // Cek apakah email sudah terverifikasi
-        // if (is_null($user->email_verified_at)) {
-        //     return back()->withErrors(['email' => 'Email Anda belum terverifikasi.']);
-        // }
-    
+        // Cek apakah email sudah terverifikasi
+        if (is_null($user->email_verified_at) && in_array($user->role, ['student'])) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Email Anda belum diverifikasi.',
+            ]);
+        }
+
         // Cek apakah status pengguna aktif
         if ($user->status !== 'active') {
             return back()->withErrors(['email' => 'Akun Anda tidak aktif.']);

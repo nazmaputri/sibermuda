@@ -18,18 +18,47 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\DiscountController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DashboardAdmin\NotifikasiMentorDaftarController;
 use App\Models\Course;
 use App\Mail\HelloMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 Route::get('/', [LandingPageController::class, 'lp'])->name('landingpage');
 Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kursus.detail');
 Route::get('/category/{name}', [LandingPageController::class, 'category'])->name('category.detail');
 Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
 Route::get('/beli-kursus/{id}', [KeranjangController::class, 'handlePurchase'])->name('beli.kursus');
+
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::get('/welcome-peserta', function () {
+//         return view('dashboard-peserta.welcome');
+//     });
+// });
+
+// // Saat user klik link verifikasi email
+// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+//     $request->fulfill(); // tandai email sebagai terverifikasi
+
+//     // Cek role peserta, redirect ke halaman peserta
+//     if ($request->user()->role === 'peserta') {
+//         return redirect('/welcome-peserta')->with('success', 'Email berhasil diverifikasi!');
+//     }
+
+//     // Role lain bisa diarahkan ke dashboard umum / halaman default
+//     return redirect('/login');
+// })->middleware(['auth', 'signed'])->name('verification.verify');
+
+// // Route untuk kirim ulang link verifikasi
+// Route::post('/email/verification-notification', function (Request $request) {
+//     $request->user()->sendEmailVerificationNotification();
+
+//     return back()->with('message', 'Link verifikasi telah dikirim!');
+// })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 
 // Route berdasarkan role
 
@@ -82,8 +111,14 @@ Route::middleware(['auth:admin'])->group(function () {
 });
 
 Route::middleware(['auth:student'])->group(function () {
+
+    //Verifikasi Email untuk peserta
+    Route::get('/email/verify', [LoginController::class, 'verifyNotice'])->name('verification.notice');
+    Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verifyEmail'])->middleware('signed')->name('verification.verify');
+    Route::post('/email/verification-notification', [LoginController::class, 'verifyHandler'])->middleware('throttle:6,1')->name('verification.send');
+
     //Dashboard Peserta
-    Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->name('welcome-peserta');
+    Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->middleware('verified')->name('welcome-peserta');
     Route::get('dashboard-peserta/daftar', [DashboardPesertaController::class, 'daftar'])->name('daftar-peserta');
     Route::get('dashboard-peserta/kursus', [DashboardPesertaController::class, 'kursusTerdaftar'])->name('daftar-kursus');
     Route::get('/kursus-peserta/{id}/{categoryId?}', [DashboardPesertaController::class, 'kursus'])->name('kursus-peserta');

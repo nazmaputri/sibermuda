@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\NotifikasiMentorDaftar;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -55,27 +56,11 @@ class RegisterController extends Controller
         // Validasi tambahan jika role adalah mentor
         if ($request->role === 'mentor') {
             $request->validate([
-                'profesi' => 'required|string|max:255',
                 'experience' => 'required|string|max:255',
-                'linkedin' => 'nullable|string|max:255',
-                'company' => 'nullable|string|max:255',
-                'years_of_experience' => 'nullable|integer',
             ], [
-                'profesi.required' => 'Profesi harus diisi.',
-                'profesi.string' => 'Profesi harus berupa teks.',
-                'profesi.max' => 'Profesi tidak boleh lebih dari 255 karakter.',
-
                 'experience.required' => 'Pengalaman harus diisi.',
                 'experience.string' => 'Pengalaman harus berupa teks.',
                 'experience.max' => 'Pengalaman tidak boleh lebih dari 255 karakter.',
-
-                'linkedin.string' => 'LinkedIn harus berupa teks.',
-                'linkedin.max' => 'LinkedIn tidak boleh lebih dari 255 karakter.',
-
-                'company.string' => 'Nama perusahaan harus berupa teks.',
-                'company.max' => 'Nama perusahaan tidak boleh lebih dari 255 karakter.',
-
-                'years_of_experience.integer' => 'Tahun pengalaman harus berupa angka.',
             ]);
         }
 
@@ -92,6 +77,13 @@ class RegisterController extends Controller
             'status' => $status,
             'experience' => $request->experience ?? null,
         ]);
+
+        // Kirim email verifikasi hanya untuk peserta
+        if ($request->role === 'student') {
+            $user->sendEmailVerificationNotification();
+        }
+
+        event(new Registered($user));
 
         // Tambahkan notifikasi ke database jika mentor
         if ($request->role === 'mentor') {

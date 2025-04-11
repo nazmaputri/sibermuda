@@ -12,7 +12,7 @@ class Course extends Model
     protected $fillable = [
         'title',
         'description',
-        'category',
+        'category_id',
         'price',
         'capacity',
         'chat',
@@ -44,12 +44,12 @@ class Course extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category', 'name'); 
+        return $this->belongsTo(Category::class, 'category_id', 'name'); 
     }
 
     public function materi()
     {
-        return $this->hasMany(Materi::class, 'courses_id', 'id');
+        return $this->hasMany(Materi::class, 'course_id', 'id');
     }
 
     public function videos()

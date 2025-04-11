@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, HasFactory, HasRoles;
 
@@ -21,16 +21,12 @@ class User extends Authenticatable
         'name',
         'photo',
         'email',
-        'password',
-        'profesi',       
+        'password',      
         'phone_number',
         'role',          
-        'experience', 
-        'linkedin',
-        'company',
-        'years_of_experience',  
+        'experience',  
         'status', 
-        'email_verified_at',       
+        'email_verified_at',     
     ];
 
     /**

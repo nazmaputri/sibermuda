@@ -56,7 +56,7 @@ class CourseController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'category' => 'required|integer',
+            'category_id' => 'required|integer',
             'price' => 'required|numeric',
             'capacity' => 'nullable|integer',
             'chat' => 'nullable|boolean', // Validasi chat
@@ -66,7 +66,7 @@ class CourseController extends Controller
         ], [
             'title.required' => 'Judul kursus harus diisi.',
             'description.required' => 'Deskripsi kursus harus diisi.',
-            'category.required' => 'Kategori kursus harus dipilih.',
+            'category_id.required' => 'Kategori kursus harus dipilih.',
             'price.required' => 'Harga kursus harus diisi.',
             'image.required' => 'Foto kursus harus diunggah.',
             'start_date.required' => 'Tanggal mulai kursus harus diisi.',

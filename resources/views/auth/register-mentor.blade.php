@@ -100,42 +100,6 @@
                         @enderror
                     </div>
                 
-                    <!-- Profesi -->
-                    <div>
-                        <label for="profesi" class="block text-sm font-medium text-sky-600 pb-2">Profesi</label>
-                        <input type="text" name="profesi" id="profesi" placeholder="Masukkan profesi anda saat ini" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('profesi') border-red-500 @enderror" value="{{ old('profesi') }}">
-                        @error('profesi')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                
-                    <!-- LinkedIn -->
-                    <div>
-                        <label for="linkedin" class="block text-sm font-medium text-sky-600 pb-2">LinkedIn</label>
-                        <input type="text" name="linkedin" id="linkedin" placeholder="Masukkan Link URL LinkedIn" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('linkedin') border-red-500 @enderror" value="{{ old('linkedin') }}">
-                        @error('linkedin')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                
-                    <!-- Perusahaan -->
-                    <div>
-                        <label for="company" class="block text-sm font-medium text-sky-600 pb-2">Perusahaan</label>
-                        <input type="text" name="company" id="company" placeholder="Masukkan nama perusahaan tempat bekerja" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('company') border-red-500 @enderror" value="{{ old('company') }}">
-                        @error('company')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                
-                    <!-- Tahun Pengalaman -->
-                    <div>
-                        <label for="years_of_experience" class="block text-sm font-medium text-sky-600 pb-2">Tahun Pengalaman</label>
-                        <input type="number" name="years_of_experience" id="years_of_experience" placeholder="Masukkan tahun pengalaman bekerja" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('years_of_experience') border-red-500 @enderror" value="{{ old('years_of_experience') }}">
-                        @error('years_of_experience')
-                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                
                     <!-- Deskripsi Pengalaman -->
                     <div>
                         <label for="experience" class="block text-sm font-medium text-sky-600 pb-2">Deskripsi Pengalaman</label>
