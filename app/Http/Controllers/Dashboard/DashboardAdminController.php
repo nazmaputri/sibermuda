@@ -359,6 +359,12 @@ class DashboardAdminController extends Controller
         return view('dashboard-admin.tambah-mentor');
     }
 
+    // menampilkan halaman form tambah peserta
+    public function tambahpeserta()
+    {
+        return view('dashboard-admin.tambah-peserta');
+    }
+
     public function registerMentorByAdmin(Request $request)
     {
         // Validasi input pendaftaran mentor

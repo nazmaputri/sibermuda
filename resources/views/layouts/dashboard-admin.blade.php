@@ -7,11 +7,13 @@
     <script src="https://cdn.tailwindcss.com"></script> <!-- import tailwind (pake CDN juga soalnya pas di hosting ga muncul style nya) -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> <!-- import alphine untuk layout responsivenya -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- import sweetalert untuk popup -->
+    @vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
     <style>
         body {
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: 'Nunito', sans-serif;
         }
     </style>
 </head>
@@ -283,88 +285,15 @@
             dropdownArrow.classList.add('rotate-180');
         }
     }
-
-    document.addEventListener('DOMContentLoaded', function () {
-    const notificationButton = document.getElementById('notification-button');
-    const notificationBadge = document.getElementById('notification-badge');
-    const notificationContainer = document.getElementById('notification-container');
-
-    const notificationList = document.createElement('div');
-    notificationList.id = 'notification-list';
-    notificationList.classList.add(
-        'absolute', 'top-12', 'right-0', 'bg-white', 'shadow-lg',
-        'w-64', 'md:w-72', 'lg:w-80', 'z-40', 'text-gray-700', 'rounded-lg', 'p-4', 'hidden',
-        'max-h-64', 'overflow-y-auto'
-    );
-    notificationContainer.appendChild(notificationList);
-
-    notificationButton.addEventListener('click', () => {
-        notificationList.classList.toggle('hidden');
-
-        fetch("{{ route('notifikasi.fetch') }}")
-            .then(response => response.json())
-            .then(notifications => {
-                notificationList.innerHTML = '';
-                if (notifications.length > 0) {
-                    notifications.forEach(notification => {
-                        const item = document.createElement('div');
-                        item.classList.add('p-2', 'border-b', 'text-sm', 'hover:bg-gray-100');
-                        item.textContent = notification.message;
-
-                        const selesaiButton = document.createElement('button');
-                        selesaiButton.classList.add('text-blue-500', 'ml-2', 'text-xs');
-                        selesaiButton.textContent = 'Selesai';
-                        selesaiButton.addEventListener('click', () => {
-                            fetch(`/notifikasi/mark-as-read/${notification.id}`, {
-                                method: 'POST',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                                }
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.status === 'success') {
-                                    item.remove();
-                                }
-                            })
-                            .catch(error => {
-                                console.error('Error marking notification as read:', error);
-                            });
-                        });
-
-                        item.appendChild(selesaiButton);
-                        notificationList.appendChild(item);
-                    });
-
-                    notificationBadge.classList.add('hidden');
-                } else {
-                    notificationList.innerHTML = '<p class="text-gray-500 text-sm">Tidak ada notifikasi baru.</p>';
-                }
-            })
-            .catch(error => {
-                notificationList.innerHTML = '<p class="text-red-500 text-sm">Gagal memuat notifikasi.</p>';
-                console.error('Error fetching notifications:', error);
-            });
-    });
-
-    // Cek jumlah notifikasi yang belum dibaca
-    fetch("/notifikasi/check-unread")
-        .then(response => response.json())
-        .then(data => {
-            const notificationCount = document.getElementById('notification-count');
-            if (data.unread_count > 0) {
-                notificationBadge.classList.remove('hidden');
-                notificationCount.textContent = data.unread_count;
-            } else {
-                notificationBadge.classList.add('hidden');
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching unread notifications:', error);
-        });
-});
-
 </script>      
+
+<!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
+@if(session('success') || session('error') || session('info') || session('warning'))
+    <div id="sweetalert-data"
+         data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
+         data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">
+    </div>
+@endif
+
 </body>
 </html>

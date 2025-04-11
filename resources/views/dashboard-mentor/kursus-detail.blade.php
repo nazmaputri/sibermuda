@@ -47,12 +47,6 @@
                     </a> 
                 </div>
         
-                @if (session('success'))
-                    <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4 mt-3">
-                        {{ session('success') }}
-                    </div>
-                @endif
-        
                 <!-- Tabel Materi -->
                 <div class="overflow-hidden overflow-x-auto w-full">
                     <div class="min-w-full w-64">
@@ -386,10 +380,6 @@
 </div>
 
 <script>
-    setTimeout(() => {
-        document.getElementById('flash-message').style.display = 'none';
-    }, 3000);
-    
     let deleteUrl = '';  // Variabel untuk menyimpan URL hapus materi
         // Fungsi untuk membuka modal dan mengatur URL hapus
         function openDeleteModal(materiId) {

@@ -39,12 +39,6 @@
             </div>  
         </div>      
 
-        @if (session('success'))
-            <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3 mt-4">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- Tabel Kursus -->
         <div class="overflow-hidden overflow-x-auto w-full">
             <div class="min-w-full w-64">
@@ -54,6 +48,7 @@
                         <th class="px-4 py-2 border-b border-l border-gray-200">No</th>
                         <th class="px-4 py-2 border-b border-gray-200">Judul</th>
                         <th class="px-4 py-2 border-b border-gray-200">Kategori</th>
+                        <th class="px-4 py-2 border-b border-gray-200">Total Peserta
                         <th class="px-4 py-2 border-b border-gray-200">Harga</th>
                         <th class="px-4 py-2 border-b border-r border-gray-200">Aksi</th>
                     </tr>
@@ -69,7 +64,8 @@
                         <!-- Kolom No -->
                         <td class="px-4 py-2 text-center border-b border-l  border-gray-200">{{ $index + 1 + ($courses->currentPage() - 1) * $courses->perPage() }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->title, 40) }}</td>
-                        <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->category, 40) }}</td>
+                        <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->category->name ?? '-', 40) }}</td>
+                        <td class="px-4 py-2 border-b border-gray-200 capitalize">total</td>
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $course->price ? 'Rp. ' . number_format($course->price, 0, ',', '.') : 'Gratis' }}</td>
                         <td class="py-2 px-4 text-center border-b  border-r border-gray-200">
                             <div class="flex items-center justify-center space-x-3">
@@ -137,11 +133,6 @@
 </div>
 
 <script>
-    // Mengatur flash-message selama 3 detik
-    setTimeout(() => {
-        document.getElementById('flash-message').style.display = 'none';
-    }, 3000);
-
     // Mengatur disable button chat jika tidak tersedia
     document.addEventListener('DOMContentLoaded', function() {
         const chatButton = document.getElementById('chatButton');

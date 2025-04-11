@@ -1,13 +1,6 @@
 @extends('layouts.dashboard-mentor')
 @section('content')
 
-    <!-- Notifikasi -->
-    @if (session('success'))
-        <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3">
-            {{ session('success') }}
-        </div>
-    @endif
-
     <div class="bg-white rounded-lg shadow-md p-8 w-full flex flex-col md:flex-row h-auto items-center">
         <div class="w-full text-center md:text-left mb-4 md:mb-0">
             <h1 class="text-xl font-semibold mb-4 text-gray-700">Selamat datang, {{ Auth::user()->name }}!</h1>
@@ -61,16 +54,4 @@
             </div>
         </div>
     </div> 
-    
-<script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-</script>
 @endsection

@@ -68,6 +68,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('dashboard-admin/data-mentor', [DashboardAdminController::class, 'mentor'])->name('datamentor-admin');
     Route::get('dashboard-admin/tambah-mentor', [DashboardAdminController::class, 'tambahmentor'])->name('tambah-mentor');
     Route::post('dashboard-admin/store-mentor', [DashboardAdminController::class, 'registerMentorByAdmin'])->name('store-mentor');
+    Route::get('dashboard-admin/tambah-peserta', [DashboardAdminController::class, 'tambahpeserta'])->name('tambah-peserta');
     Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'peserta'])->name('datapeserta-admin');
     Route::get('/kursus/{id}/{name}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
     Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus');
@@ -103,11 +104,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::patch('/courses/{id}/{name}/hiddencourse', [DashboardAdminController::class, 'hiddencourse'])->name('hiddencourse');
     Route::resource('categories', CategoryController::class);
     Route::get('/categories/{name}', [CategoryController::class, 'show'])->name('categories.show');
-
-    // Notifikasi Jika Ada Mentor Yang Daftar
-    Route::get('/admin/notifikasi', [NotifikasiMentorDaftarController::class, 'fetchNotifikasi'])->name('notifikasi.fetch');
-    Route::post('/notifikasi/mark-as-read/{id}', [NotifikasiMentorDaftarController::class, 'markAsRead']);
-    Route::get('/notifikasi/check-unread', [NotifikasiMentorDaftarController::class, 'checkUnreadNotifikasi']);
 });
 
 Route::middleware(['auth:student'])->group(function () {

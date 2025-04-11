@@ -6,13 +6,6 @@
     <div class="">
         <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Diskon</h2>
 
-        <!-- Menampilkan pesan sukses -->
-        @if(session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-2 rounded mb-4">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- Formulir Diskon -->
         <form action="{{ route('discount.store') }}" method="POST" class="mt-4 grid grid-col-1 md:grid-cols-2 space-x-3">
             @csrf

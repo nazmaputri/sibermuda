@@ -56,15 +56,15 @@
                     <!-- Input untuk Kategori -->
                     <div class="mb-4">
                         <label for="category_id" class="block font-semibold text-gray-700 pb-2">Kategori Kursus</label>
-                        <select name="category" id="category" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500">
+                        <select name="category_id" id="category_id" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500">
                             <option value="">Pilih Kategori</option>
                             @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category') == $category->id ? 'selected' : '' }}>
+                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                     {{ $category->name }}
                                 </option>
                             @endforeach
                         </select>
-                        @error('category')
+                        @error('category_id')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror
                     </div>

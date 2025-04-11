@@ -26,18 +26,18 @@ class CourseController extends Controller
         // Ambil query pencarian dari input
         $search = $request->input('search');
 
-        // Ambil kursus yang hanya dimiliki oleh mentor yang login
-        $courses = Course::where('mentor_id', $mentorId)
-        ->when($search, function ($query) use ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('title', 'LIKE', "%{$search}%")
-                ->orWhere('price', 'LIKE', "%{$search}%")
-                ->orWhereHas('category', function ($q2) use ($search) {
-                    $q2->where('name', 'LIKE', "%{$search}%");
-                });
-            });
-        })
-        ->paginate(10);
+        $courses = Course::with('category') // Tambahkan eager loading
+    ->where('mentor_id', $mentorId)
+    ->when($search, function ($query) use ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->where('title', 'LIKE', "%{$search}%")
+              ->orWhere('price', 'LIKE', "%{$search}%")
+              ->orWhereHas('category', function ($q2) use ($search) {
+                  $q2->where('name', 'LIKE', "%{$search}%");
+              });
+        });
+    })
+    ->paginate(10);
 
         // Kirim data ke view
         return view('dashboard-mentor.kursus', compact('courses', 'search'));
@@ -75,18 +75,18 @@ class CourseController extends Controller
             'end_date.after_or_equal' => 'Tanggal selesai harus setelah atau sama dengan tanggal mulai.',
         ]);
         
-        // Cari kategori berdasarkan ID
-        $category = Category::find($request->category);
-        
+        // Ambil kategori dari database (opsional, jika hanya untuk validasi)
+        $category = Category::find($request->category_id);
+
         if (!$category) {
-            return redirect()->back()->withErrors(['category' => 'Kategori yang dipilih tidak ditemukan.']);
+            return redirect()->back()->withErrors(['category_id' => 'Kategori yang dipilih tidak ditemukan.']);
         }
 
         // Buat instance baru untuk kursus
         $course = new Course($request->only('title', 'description', 'price', 'capacity', 'start_date', 'end_date'));
         
         // Menyimpan kategori dan mentor
-        $course->category = $category->name;
+        $course->category_id = $request->category_id;
         $course->mentor_id = auth()->user()->id;
         
         // Simpan status chat (gunakan boolean untuk memastikan nilainya benar)
@@ -102,13 +102,6 @@ class CourseController extends Controller
         $course->save();
 
         $mentor = auth()->user(); // PENTING: definisikan ini dulu
-        
-        // Simpan data ke tabel notifikasimentordaftar untuk menampilkan notifikasi mentor tambah kursus di role admin
-        NotifikasiMentorDaftar::create([
-            'user_id' => $mentor->id,
-            'course_id' => $course->id,
-            'message' => "{$mentor->name} berhasil menambahkan kursus \"{$course->title}\".",
-        ]);
         
         // Redirect ke halaman kursus dengan pesan sukses
         return redirect()->route('courses.index')->with('success', 'Kursus berhasil ditambahkan!');

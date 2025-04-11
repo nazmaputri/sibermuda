@@ -11,9 +11,11 @@ class Category extends Model
 
     protected $fillable = ['name', 'image_path', 'description', ]; 
 
-    public function courses()
-    {
-        return $this->hasMany(Course::class, 'category', 'name');
-    }
+    // app/Models/Category.php
+public function courses()
+{
+    return $this->hasMany(Course::class, 'category_id', 'id');
+}
+
 
 }

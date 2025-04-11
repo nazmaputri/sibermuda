@@ -42,9 +42,10 @@ class Course extends Model
         return $this->belongsTo(User::class, 'mentor_id');
     }
 
+   // app/Models/Course.php
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'name'); 
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
     public function materi()
@@ -97,11 +98,6 @@ class Course extends Model
         }
 
         return 'Akses Seumur Hidup';
-    }
-
-    public function notifikasiMentor()
-    {
-        return $this->hasMany(NotifikasiMentorDaftar::class);
     }
 
 }

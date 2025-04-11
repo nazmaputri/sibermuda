@@ -109,12 +109,6 @@
             </a>          
         </div>
 
-        @if (session('success'))
-            <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3 mt-3">
-                {{ session('success') }}
-            </div>
-        @endif
-
         <!-- tabel -->
         <div class="overflow-hidden overflow-x-auto w-full">
             <div class="min-w-full w-64">
@@ -198,16 +192,6 @@
 </div>
 
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-
     //untuk membuka/menutup popup konfirmasi penghapusa data
     function openDeleteModal(url) {
         document.getElementById('deleteForm').action = url;

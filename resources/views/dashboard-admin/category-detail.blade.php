@@ -27,18 +27,6 @@
 <div class="mt-6 bg-white p-6 rounded-lg shadow-md">
     <h3 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Daftar Kursus</h3>
 
-    @if (session('success'))
-        <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3">
-            {{ session('success') }}
-        </div>
-    @endif
-
-    @if(session('info'))
-        <div id="flash-message" class="bg-yellow-100 border-yellow-400 text-yellow-700 px-4 py-3 rounded relative mb-3">
-            {{ session('info') }}
-        </div>
-    @endif
-
     <!-- Membungkus tabel dengan div untuk pengguliran -->
     <div class="overflow-x-auto">
         <div class="min-w-full w-64">
@@ -146,16 +134,4 @@
         </a>
     </div>   
 </div>
-
-<script>
-     //untuk mengatur flash message dari backend
-     document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-</script>
 @endsection
