@@ -64,11 +64,11 @@
         <div>
             <!-- Input untuk Kategori -->
             <div class="mb-4">
-                <label for="category" class="block text-gray-700 font-semibold mb-2">Kategori Kursus</label>
-                <select name="category" id="category" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 border rounded @error('category') border-red-500 @enderror">
+                <label for="category_id" class="block text-gray-700 font-semibold mb-2">Kategori Kursus</label>
+                <select name="category_id" id="category_id" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 border rounded @error('category') border-red-500 @enderror">
                     <option value="">Pilih Kategori</option>
                     @foreach ($categories as $category)
-                        <option value="{{ $category->name }}" {{ old('category', $course->category) == $category->name ? 'selected' : '' }}>
+                        <option value="{{ $category->id }}" {{ old('category_id', $course->category) == $category->id ? 'selected' : '' }}>
                             {{ $category->name }}
                         </option>
                     @endforeach

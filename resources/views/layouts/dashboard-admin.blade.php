@@ -247,7 +247,7 @@
 
             <!-- Footer -->
             <footer class="bg-white text-left text-gray-600 text-sm p-3 shadow-lg"> 
-               Copyright © 2024 <span class="text-sky-600">Eduflix</span> All Rights Reserved.
+               Copyright © 2025 <span class="text-sky-600">Sibermuda.Idn</span> All Rights Reserved.
             </footer>
 
         </div>

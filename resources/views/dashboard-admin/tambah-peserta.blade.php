@@ -6,7 +6,7 @@
         <div class="justify-between items-center mb-4">
             <h3 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Peserta</h3>
         </div>
-        <form action="{{ route('store-mentor') }}" method="POST" class="gap-6 space-y-3">
+        <form action="{{ route('store-mentor') }}" method="POST" class="gap-6 space-y-3 grid grid-col-1 md:grid-cols-2">
             @csrf
             <input type="hidden" name="added_by_admin" value="true">
             <!-- Nama Lengkap -->

@@ -14,7 +14,7 @@ class Materi extends Model
     protected $fillable = [
         'judul', 
         'deskripsi', 
-        'courses_id',
+        'course_id',
         'is_preview'
     ];
 
@@ -23,20 +23,20 @@ class Materi extends Model
         return $this->hasMany(MateriVideo::class);
     }
 
-    public function pdfs()
-    {
-        return $this->hasMany(MateriPdf::class);
-    }
+    // public function pdfs()
+    // {
+    //     return $this->hasMany(MateriPdf::class);
+    // }
 
-    public function youtubes()
-    {
-        return $this->hasMany(YouTube::class);
-    }
+    // public function youtubes()
+    // {
+    //     return $this->hasMany(YouTube::class);
+    // }
 
-    public function quizzes()
-    {
-        return $this->hasMany(Quiz::class);
-    }
+    // public function quizzes()
+    // {
+    //     return $this->hasMany(Quiz::class);
+    // }
 
     public function course()
     {

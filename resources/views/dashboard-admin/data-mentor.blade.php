@@ -118,11 +118,15 @@
 <!-- Modal Konfirmasi Hapus Data Mentor-->
 <div id="deleteModal" class="fixed inset-0 w-full h-full bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-[1000]">
     <div class="bg-white p-6 rounded-lg shadow-lg">
-        <h2 class="text-lg font-semibold text-center text-gray-700">Konfirmasi Hapus</h2>
+        <div class="flex justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-gray-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+            </svg>
+        </div>
         <p class="text-center text-gray-600">Apakah Anda yakin ingin menghapus pengguna ini?</p>
         <div class="mt-4 flex justify-center space-x-4">
-            <button onclick="closeDeleteModal()" class="px-4 py-2 bg-sky-400 hover:bg-sky-300 text-white rounded-md">Batal</button>
-            <button onclick="confirmDelete()" class="ml-2 px-4 py-2 bg-red-400 hover:bg-red-300 text-white rounded-md">Hapus</button>
+            <button onclick="closeDeleteModal()" class="px-4 py-2 bg-red-400 hover:bg-red-300 text-white rounded-md">Batal</button>
+            <button onclick="confirmDelete()" class="ml-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-white rounded-md">Hapus</button>
         </div>
     </div>
 </div>

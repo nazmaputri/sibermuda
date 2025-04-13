@@ -15,9 +15,28 @@
         body {
             font-family: "Quicksand", sans-serif !important;
         }
+        @layer utilities {
+            @keyframes zoom-in {
+                0% {
+                    transform: scale(0.8);
+                    opacity: 0;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+
+            .animate-zoom-in {
+                animation: zoom-in 0.5s ease-out forwards;
+            }
+        }
     </style>
 </head>
 <body class="bg-sky-50">
+<!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
+<x-loading-screen />
+
     <div class="flex justify-center items-center min-h-screen p-6">
         <div class="w-full max-w-md p-5 space-y-6 bg-white rounded-lg shadow-lg">
             <!-- Logo and Website Name -->
@@ -206,6 +225,23 @@
             confirmPasswordField.type = 'password';
             eyeConfirmIcon.innerHTML = eyeOpenConfirm;
         }
+    });
+
+    // function untuk menampilkan animasi saat halaman sedang loading (component sudah di include di paling atas layout)
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+            loader.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+            setTimeout(() => loader.remove(), 500); // hilangkan dari DOM
+        }
+    });
+    
+    // Saat DOM sudah siap, tambahkan class animasi zoom-in ke kontainer
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginContainer = document.getElementById('login-container');
+        setTimeout(() => {
+            loginContainer.classList.add('animate-zoom-in');
+        }, 100); // delay sedikit agar smooth
     });
 </script>
 </body>

@@ -1,8 +1,8 @@
 @extends('layouts.dashboard-peserta')
 
 @section('content')
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+<!-- <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script> -->
 
 <div class="bg-white p-8 rounded-lg shadow-md">
     <h2 class="text-xl text-gray-700 font-semibold mb-6 border-b-2 border-gray-300 pb-2 text-center">Detail Kursus</h2>
@@ -125,34 +125,6 @@
                                     modal.classList.remove('flex');
                                 }
                             </script>
-
-                            {{-- PDF Section --}}
-                            @if($materi->pdfs->count())
-                                <div class="mt-4">
-                                    <h5 class="text-sm font-semibold text-gray-700 flex items-center space-x-2 mb-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-4 w-4">
-                                            <path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625ZM7.5 15a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5A.75.75 0 0 1 7.5 15Zm.75 2.25a.75.75 0 0 0 0 1.5H12a.75.75 0 0 0 0-1.5H8.25Z" clip-rule="evenodd" />
-                                            <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
-                                        </svg>
-                                        <span>PDF</span>
-                                    </h5>
-
-                                    <ul class="space-y-2">
-                                        @foreach($materi->pdfs as $pdf)
-                                            <li class="text-gray-700 text-sm">
-                                                @if($course->is_purchased)
-                                                    <p class="mb-1">{{ $pdf->judul }}</p>
-                                                    <iframe src="{{ asset('storage/' . $pdf->pdf_file) }}#toolbar=0" width="100%" height="500px" class="border rounded" allow="fullscreen"></iframe>
-                                                @else
-                                                    🔒 <span class="text-gray-500">{{ $pdf->judul }} (Terkunci)</span>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @else
-                                <p class="text-gray-600 mt-4">Belum ada PDF untuk materi ini.</p>
-                            @endif
                         </div>
                     </div>
                 </div>

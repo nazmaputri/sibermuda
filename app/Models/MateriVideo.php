@@ -12,10 +12,10 @@ class MateriVideo extends Model
     protected $table = 'materi_video'; 
 
     protected $fillable = [
-        'judul',
+        'title',
         'materi_id',
-        'course_id',
-        'video_url'
+        'description',
+        'link'
     ];
 
     public function materi()

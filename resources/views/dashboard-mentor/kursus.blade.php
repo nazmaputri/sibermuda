@@ -5,25 +5,17 @@
     <!-- Card Wrapper -->
     <div class="bg-white rounded-lg shadow-md p-6">
         <!-- Judul dan Tombol Tambah Kursus -->
-        <h2 class="text-xl font-semibold  text-gray-700 mb-5 text-center border-b-2 border-gray-300 pb-2">Daftar Kursus</h2>
+        <h2 class="text-xl font-semibold  text-gray-700 mb-5 text-center border-b-2 border-gray-300 pb-2">Data Kursus</h2>
 
         <!-- container searchbar dan button tambah kursus  -->
         <div class="flex flex-col md:flex-row items-center justify-between">
             <!-- Search Bar -->
             <form action="{{ route('courses.index') }}" method="GET" class="w-full md:max-w-xs">
-                <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
-                <div class="relative flex items-center">
-                    <!-- Input Search -->
-                    <input type="search" name="search" id="search" 
-                        class="block w-full pl-4 pr-14 py-3 text-sm text-gray-700 border-2 border-sky-300 rounded-full focus:outline-none bg-gray-50 focus:ring-sky-400 focus:border-sky-400" 
-                        placeholder="Cari Kursus Atau Kategori" value="{{ request('search') }}" />
-                    <!-- Button Search -->
-                    <button type="submit" 
-                        class="absolute right-2 bottom-2 bg-sky-300 text-white hover:bg-sky-200 focus:ring-4 focus:outline-none focus:ring-sky-300 font-semibold rounded-full text-sm px-3 py-2 flex items-center justify-center">
-                        <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                    </button>
+                <div class="flex items-center border border-gray-300 rounded-lg bg-white">
+                    <svg class="w-4 h-4 text-gray-500 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                    <input type="search" name="search" id="default-search" class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none" placeholder="Cari Kursus atau Kategori..." required />
                 </div>
             </form>
 
@@ -48,15 +40,15 @@
                         <th class="px-4 py-2 border-b border-l border-gray-200">No</th>
                         <th class="px-4 py-2 border-b border-gray-200">Judul</th>
                         <th class="px-4 py-2 border-b border-gray-200">Kategori</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Total Peserta
                         <th class="px-4 py-2 border-b border-gray-200">Harga</th>
+                        <th class="px-4 py-2 border-b border-gray-200">Total Peserta</th>
                         <th class="px-4 py-2 border-b border-r border-gray-200">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm font-light">
                     @if($courses->isEmpty())
                         <tr>
-                            <td colspan="5" class="text-center py-2 text-sm text-gray-600 border-b border-l border-r border-gray-200">Data tidak tersedia</td>
+                            <td colspan="6" class="text-center py-2 text-sm text-gray-600 border-b border-l border-r border-gray-200">Data tidak tersedia</td>
                         </tr>
                     @endif
                     @foreach ($courses as $index => $course)
@@ -65,8 +57,8 @@
                         <td class="px-4 py-2 text-center border-b border-l  border-gray-200">{{ $index + 1 + ($courses->currentPage() - 1) * $courses->perPage() }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->title, 40) }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->category->name ?? '-', 40) }}</td>
-                        <td class="px-4 py-2 border-b border-gray-200 capitalize">total</td>
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $course->price ? 'Rp. ' . number_format($course->price, 0, ',', '.') : 'Gratis' }}</td>
+                        <td class="px-4 py-2 border-b border-gray-200 capitalize">total Peserta</td>
                         <td class="py-2 px-4 text-center border-b  border-r border-gray-200">
                             <div class="flex items-center justify-center space-x-3">
                                 <!-- Tombol Chat -->
@@ -119,14 +111,18 @@
  <!-- Modal Konfirmasi Hapus Kursus -->
  <div id="deleteModal" class="fixed inset-0  bg-gray-500 bg-opacity-50 flex justify-center items-center hidden z-[1000]">
     <div class="bg-white p-5 rounded-md w-96 mx-4">
-        <h2 class="text-lg text-gray-700 text-center font-semibold mb-2">Konfirmasi Hapus</h2>
-        <p class="text-gray-600 text-center font-semibold mb-4">Apakah Anda yakin ingin menghapus kursus ini?</p>
+        <div class="flex justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-gray-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+            </svg>
+        </div>
+        <p class="text-gray-600 text-center font-semibold mb-4">Apakah Anda yakin ingin menghapus ini?</p>
         <div class="flex justify-center space-x-4">
-            <button onclick="closeDeleteModal()" class="px-4 py-2 bg-sky-400 text-white hover:bg-sky-300 rounded-md">Batal</button>
+            <button onclick="closeDeleteModal()" class="px-4 py-2 bg-red-400 text-white hover:bg-red-300 rounded-md">Batal</button>
             <form id="confirmDeleteForm" action="" method="POST" class="inline">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="px-4 py-2 bg-red-400 hover:bg-red-300  text-white rounded-md">Hapus</button>
+                <button type="submit" class="px-4 py-2 bg-green-400 hover:bg-green-300  text-white rounded-md">Hapus</button>
             </form>
         </div>
     </div>
