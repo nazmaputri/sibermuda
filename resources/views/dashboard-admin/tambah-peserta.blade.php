@@ -6,7 +6,7 @@
         <div class="justify-between items-center mb-4">
             <h3 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Peserta</h3>
         </div>
-        <form action="{{ route('store-mentor') }}" method="POST" class="gap-6 space-y-3">
+        <form action="{{ route('register') }}" method="POST" class="gap-6 space-y-3">
             @csrf
             <input type="hidden" name="added_by_admin" value="true">
             <!-- Nama Lengkap -->
@@ -26,15 +26,6 @@
                     <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
                 @enderror
             </div>
-
-            <!-- Email -->
-            <div>
-                <label for="tanggal_pendaftaran" class="block font-semibold text-gray-700 pb-2">Tanggal Pendaftaran</label>
-                <input type="email" name="email" id="email" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('email') border-red-500 @enderror" placeholder="Masukkan Email">
-                @error('tanggal_pendaftaran')
-                    <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
-                @enderror
-            </div>
            
             <!-- Nomor Telepon -->
             <div>
@@ -45,41 +36,8 @@
                 @enderror
             </div>
 
-            <!-- Profesi -->
-            <!-- <div>
-                <label for="profesi" class="block font-semibold text-gray-700 pb-2">Profesi</label>
-                <input type="text" name="profesi" id="profesi" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('profesi') border-red-500 @enderror" placeholder="Masukkan profesi">
-            </div> -->
-
-            <!-- LinkedIn -->
-            <!-- <div>
-                <label for="linkedin" class="block font-semibold text-gray-700 pb-2">LinkedIn</label>
-                <input type="text" name="linkedin" id="linkedin" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('linkedin') border-red-500 @enderror" placeholder="Masukkan link URL linkedin">
-                @error('linkedin')
-                    <p class="text-red-500 text-sm mt-1" id="linkedin-error">{{ $message }}</p>
-                @enderror
-            </div> -->
-
-            <!-- Company -->
-            <!-- <div>
-                <label for="company" class="block font-semibold text-gray-700 pb-2">Perusahaan</label>
-                <input type="text" name="company" id="company" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('company') border-red-500 @enderror" placeholder="Masukkan nama perusahaan tempat bekerja">
-                @error('company')
-                    <p class="text-red-500 text-sm mt-1" id="company-error">{{ $message }}</p>
-                @enderror
-            </div> -->
-
-            <!-- Years of Experience -->
-            <!-- <div>
-                <label for="years_of_experience" class="block font-semibold text-gray-700 pb-2">Tahun Pengalaman</label>
-                <input type="number" name="years_of_experience" id="years_of_experience" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('years_of_experience') border-red-500 @enderror" placeholder="Masukkan tahun pengalaman bekerja">
-                @error('years_of_experience')
-                    <p class="text-red-500 text-sm mt-1" id="years_of_experienc-error">{{ $message }}</p>
-                @enderror
-            </div> -->
-
             <!-- Password -->
-            <!-- <div class="relative">
+            <div class="relative">
                 <label for="password" class="block font-semibold text-gray-700 pb-2">Kata Sandi</label>
                 <input type="password" name="password" id="password" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('password') border-red-500 @enderror" placeholder="Masukkan password">
                 <span class="absolute right-3 mt-2.5 cursor-pointer text-gray-500" id="togglePassword">
@@ -91,19 +49,10 @@
                 @error('password')
                     <p class="text-red-500 text-sm mt-1" id="password-error">{{ $message }}</p>
                 @enderror
-            </div> -->
-
-            <!-- Deskripsi Pengalaman -->
-            <!-- <div class="">
-                <label for="experience" class="block font-semibold text-gray-700 pb-2">Deskripsi Pengalaman</label>
-                <textarea name="experience" id="experience" rows="4" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('experience') border-red-500 @enderror" placeholder="Deskripsikan pengalaman"></textarea>
-                @error('experience')
-                    <p class="text-red-500 text-sm mt-1" id="experience-error">{{ $message }}</p>
-                @enderror
-            </div> -->
+            </div> 
 
             <!-- Konfirmasi Password -->
-            <!-- <div class="relative">
+            <div class="relative">
                 <label for="password_confirmation" class="block font-semibold text-gray-700 pb-2">Konfirmasi Kata Sandi</label>
                 <input type="password" name="password_confirmation" id="password_confirmation" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('password_confirmation') border-red-500 @enderror" placeholder="Masukkan konfirmasi password">
                 <span class="absolute mt-2.5 right-3 cursor-pointer text-gray-500" id="toggleConfirmPassword">
@@ -115,14 +64,14 @@
                 @error('password_confirmation')
                     <p class="text-red-500 text-sm mt-1" id="password_confirmation-error">{{ $message }}</p>
                 @enderror
-            </div> -->
+            </div>
 
             <!-- Hidden Role -->
-            <!-- <input type="hidden" name="role" value="student"> -->
+            <input type="hidden" name="role" value="student">
 
             <!-- Submit Button -->
             <div class="col-span-1 md:col-span-2 flex justify-end space-x-4">
-                <a href="#" class="bg-red-400 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-300">Batal</a>
+                <a href="{{ route('datapeserta-admin') }}" class="bg-red-400 text-white font-semibold py-2 px-6 rounded-lg hover:bg-red-300">Batal</a>
                 <button type="submit" class="bg-sky-400 text-white font-semibold py-2 px-6 rounded-lg hover:bg-sky-300">
                     Tambah
                 </button>

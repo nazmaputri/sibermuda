@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="storage/logo.png">
     <title>Login</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,6 +18,8 @@
             font-family: "Quicksand", sans-serif !important;
         }
     </style>
+        
+    {!! htmlScriptTagJsApi() !!}
 </head>
 <body class="bg-sky-50">
     <div class="flex justify-center items-center min-h-screen px-4">
@@ -68,6 +71,13 @@
                     @enderror
                 </div>
 
+                <div class="flex justify-center">
+                    {!! htmlFormSnippet() !!}
+                </div>
+                @error('g-recaptcha-response')
+                    <p class="text-red-500 text-sm mt-1 text-center">{{ $message }}</p>
+                @enderror
+                
                 <!-- Submit Button -->
                 <div>
                     <button type="submit" id="btn-submit" class="inline-flex justify-center items-center w-full px-4 py-2 bg-sky-600 text-white font-semibold rounded-md hover:bg-sky-500 focus:outline-none">
@@ -90,6 +100,23 @@
                     </a>
                 </div>                
             </h4>
+
+            @if(session('resent_time'))
+                @php
+                    $timeDiff = now()->diffInSeconds(session('resent_time'));
+                @endphp
+            
+                @if($timeDiff < 60)
+                    <p class="text-gray-500 text-sm">Please wait {{ 60 - $timeDiff }} seconds before sending again.</p>
+                @else
+                    <!-- Tampilkan tombol kirim ulang email jika lebih dari 60 detik -->
+                    <form action="{{ route('verification.send') }}" method="post">
+                        @csrf
+                        <button class="btn">Send Again</button>
+                    </form>
+                @endif
+            @endif
+        
         </div>
     </div>
 

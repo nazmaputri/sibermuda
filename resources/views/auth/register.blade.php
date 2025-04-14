@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="storage/logo.png">
     <title>Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -32,17 +33,6 @@
                 </h4>
             </div>  
 
-            <!-- Error Messages -->
-            {{-- @if ($errors->any())
-                <div class="bg-red-100 text-red-700 p-4 rounded mb-4">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif --}}
-            
             <!-- Form -->
             <form action="{{ route('register') }}" method="POST" class="space-y-4" id="form">
                 @csrf

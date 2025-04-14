@@ -32,32 +32,13 @@ Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kurs
 Route::get('/category/{name}', [LandingPageController::class, 'category'])->name('category.detail');
 Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
 Route::get('/beli-kursus/{id}', [KeranjangController::class, 'handlePurchase'])->name('beli.kursus');
+// Route::get('/email/verify', [LoginController::class, 'verifyNotice'])->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verify'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
 
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('/welcome-peserta', function () {
-//         return view('dashboard-peserta.welcome');
-//     });
-// });
-
-// // Saat user klik link verifikasi email
-// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-//     $request->fulfill(); // tandai email sebagai terverifikasi
-
-//     // Cek role peserta, redirect ke halaman peserta
-//     if ($request->user()->role === 'peserta') {
-//         return redirect('/welcome-peserta')->with('success', 'Email berhasil diverifikasi!');
-//     }
-
-//     // Role lain bisa diarahkan ke dashboard umum / halaman default
-//     return redirect('/login');
-// })->middleware(['auth', 'signed'])->name('verification.verify');
-
-// // Route untuk kirim ulang link verifikasi
-// Route::post('/email/verification-notification', function (Request $request) {
-//     $request->user()->sendEmailVerificationNotification();
-
-//     return back()->with('message', 'Link verifikasi telah dikirim!');
-// })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+//Verifikasi Email untuk peserta
+Route::post('/email/verification-notification', [LoginController::class, 'verifyHandler'])->middleware('throttle:6,1')->name('verification.send');
 
 
 // Route berdasarkan role
@@ -67,7 +48,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('dashboard-admin/welcome', [DashboardAdminController::class, 'show'])->name('welcome-admin');
     Route::get('dashboard-admin/data-mentor', [DashboardAdminController::class, 'mentor'])->name('datamentor-admin');
     Route::get('dashboard-admin/tambah-mentor', [DashboardAdminController::class, 'tambahmentor'])->name('tambah-mentor');
-    Route::post('dashboard-admin/store-mentor', [DashboardAdminController::class, 'registerMentorByAdmin'])->name('store-mentor');
     Route::get('dashboard-admin/tambah-peserta', [DashboardAdminController::class, 'tambahpeserta'])->name('tambah-peserta');
     Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'peserta'])->name('datapeserta-admin');
     Route::get('/kursus/{id}/{name}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
@@ -76,7 +56,6 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('dashboard-admin/rating', [DashboardAdminController::class, 'rating'])->name('rating-admin');
     Route::post('/admin/users/{id}/status', [DashboardAdminController::class, 'updateStatus'])->name('admin.users.updateStatus'); //this method is patch before edited
     Route::post('/admin/users/{id}/status/inactive', [DashboardAdminController::class, 'updateStatusToInactive'])->name('updateStatusToInactive'); // (untuk menonaktifkan mentor, sebenarnya statusnya pending sih)
-    Route::delete('/admin/users/{id}', [DashboardAdminController::class, 'deleteUser'])->name('admin.delete');
     Route::get('/mentor/user/{id}', [DashboardAdminController::class, 'detailmentor'])->name('detaildata-mentor');
     Route::post('/mentor/toggle/status', [DashboardAdminController::class, 'toggleActive'])->name('mentors.toggle');
     Route::get('/peserta/user/{id}', [DashboardAdminController::class, 'detailpeserta'])->name('detaildata-peserta');
@@ -89,6 +68,9 @@ Route::middleware(['auth:admin'])->group(function () {
 
     Route::delete('/dashboard/mentor/{id}', [DashboardAdminController::class, 'deleteMentor']);
     Route::delete('/dashboard/peserta/{id}', [DashboardAdminController::class, 'deletePeserta'])->name('datapeserta-admin.delete');
+
+    //Import Peserta dari Excel
+    Route::post('import-excel', [DashboardAdminController::class, 'importExcel'])->name('import.excel');
 
     //Discount 
     Route::get('discount', [DiscountController::class, 'index'])->name('discount');
@@ -107,12 +89,6 @@ Route::middleware(['auth:admin'])->group(function () {
 });
 
 Route::middleware(['auth:student'])->group(function () {
-
-    //Verifikasi Email untuk peserta
-    Route::get('/email/verify', [LoginController::class, 'verifyNotice'])->name('verification.notice');
-    Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verifyEmail'])->middleware('signed')->name('verification.verify');
-    Route::post('/email/verification-notification', [LoginController::class, 'verifyHandler'])->middleware('throttle:6,1')->name('verification.send');
-
     //Dashboard Peserta
     Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->middleware('verified')->name('welcome-peserta');
     Route::get('dashboard-peserta/daftar', [DashboardPesertaController::class, 'daftar'])->name('daftar-peserta');

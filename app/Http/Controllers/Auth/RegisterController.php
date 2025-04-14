@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\NotifikasiMentorDaftar;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -25,36 +24,25 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        // Validasi input pendaftaran
+        // Validasi dasar untuk semua pengguna
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8', // Memastikan password dan konfirmasi sama
-            'password_confirmation' => 'required',
+            'password' => 'required|string|min:8|confirmed',
             'phone_number' => 'required|string|max:15',
-            'role' => 'required|in:student,mentor', // Validasi role yang diinput
         ], [
             'name.required' => 'Nama lengkap harus diisi.',
-            'name.string' => 'Nama lengkap harus berupa teks.',
-            'name.max' => 'Nama lengkap tidak boleh lebih dari 255 karakter.',
-        
             'email.required' => 'Email harus diisi.',
-            'email.string' => 'Email harus berupa teks.',
             'email.email' => 'Format email tidak valid.',
-            'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
-            'email.unique' => 'Email sudah terdaftar, gunakan email lain.',
-        
+            'email.unique' => 'Email sudah terdaftar.',
             'password.required' => 'Password harus diisi.',
-            'password.min' => 'Password minimal harus terdiri dari 8 karakter.',
-            'password_confirmation' => 'Konfirmasi password tidak cocok.',
-        
-            'phone_number.required' => 'Nomor telepon harus diisi',
-            'phone_number.string' => 'Nomor telepon harus berupa teks.',
-            'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 15 karakter.',        
+            'password.min' => 'Password minimal 8 karakter.',
+            'password.confirmed' => 'Konfirmasi password tidak cocok.',
+            'phone_number.required' => 'Nomor telepon harus diisi.',
         ]);
-
-        // Validasi tambahan jika role adalah mentor
-        if ($request->role === 'mentor') {
+    
+        // Validasi tambahan untuk mentor, KECUALI jika ditambahkan oleh admin
+        if ($request->role === 'mentor' && !$request->has('added_by_admin')) {
             $request->validate([
                 'experience' => 'required|string|max:255',
             ], [
@@ -63,48 +51,41 @@ class RegisterController extends Controller
                 'experience.max' => 'Pengalaman tidak boleh lebih dari 255 karakter.',
             ]);
         }
-
-        // Atur status berdasarkan role
-        $status = $request->role === 'mentor' ? 'pending' : 'active';
-
-        // Buat pengguna baru dengan data dari request
+    
+        // Jika ditambahkan oleh admin, maka status langsung aktif dan email dianggap terverifikasi
+        $isAddedByAdmin = $request->has('added_by_admin');
+        $status = ($request->role === 'mentor' && !$isAddedByAdmin) ? 'pending' : 'active';
+    
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Hash password langsung dari request
+            'email_verified_at' => $isAddedByAdmin ? now() : null, // dianggap verifikasi jika ditambahkan oleh admin
+            'password' => Hash::make($request->password),
             'phone_number' => $request->phone_number,
             'role' => $request->role,
             'status' => $status,
             'experience' => $request->experience ?? null,
         ]);
-
-        // Kirim email verifikasi hanya untuk peserta
+    
+        // Jika bukan ditambahkan oleh admin, kirim event verifikasi email
+        if (!$isAddedByAdmin && $request->role === 'student') {
+            event(new Registered($user));
+        }
+    
+        // Redirect sesuai konteks
+        if ($isAddedByAdmin) {
+            if ($request->role === 'student') {
+                return redirect()->route('datapeserta-admin')->with('success', 'Peserta berhasil ditambahkan oleh admin!');
+            } else {
+                return redirect()->route('datamentor-admin')->with('success', 'Mentor berhasil ditambahkan oleh admin!');
+            }
+        }        
+    
         if ($request->role === 'student') {
-            $user->sendEmailVerificationNotification();
+            return redirect()->route('login')->with('success', 'Email verifikasi telah dikirim. Silakan periksa inbox Anda.');
+        } else {
+            return redirect()->route('login')->with('success', 'Permintaan Anda akan diproses oleh admin dalam 1x24 jam.');
         }
-
-        event(new Registered($user));
-
-        // Tambahkan notifikasi ke database jika mentor
-        if ($request->role === 'mentor') {
-            NotifikasiMentorDaftar::create([
-                'user_id' => $user->id,
-                'message' => "{$user->name} berhasil melakukan daftar di Eduflix",
-            ]);
-        }
-
-        // Redirect dan tampilkan notifikasi khusus mentor
-        $message = $request->role === 'mentor'
-            ? 'Permintaan Anda akan disetujui oleh admin dalam 1x24 jam, tunggu notifikasi dari email anda agar bisa menjadi mentor.'
-            : 'Pendaftaran berhasil. Silakan login.';
-
-        // Cek apakah admin yang menambahkan
-        if ($request->has('added_by_admin')) {
-            return redirect()->route('datamentor-admin')->with('success', 'Mentor berhasil ditambahkan!');
-        }
-
-        // Redirect ke halaman login dengan pesan sukses
-        return redirect()->route('login')->with('success', $message);
-    }
+    }    
 
 }

@@ -20,6 +20,9 @@ use Illuminate\Http\Request;
 use App\Mail\HelloMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserImport;
+
 
 class DashboardAdminController extends Controller
 {
@@ -53,6 +56,17 @@ class DashboardAdminController extends Controller
         $user->save();
 
         return response()->json(['success' => 'Status mentor diperbarui', 'status' => $user->status]);
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xls,xlsx'
+        ]);
+
+        Excel::import(new UserImport, $request->file('file'));
+
+        return redirect()->back()->with('success', 'Data user berhasil diimport.');
     }
 
     public function publish($id, $name)
@@ -282,76 +296,69 @@ class DashboardAdminController extends Controller
     public function laporan(Request $request)
     {
         $year = $request->input('year', date('Y'));
+        $selectedCourseId = $request->input('course_id'); // dari filter dropdown
     
-        // Ambil data pendapatan admin (2% dari harga kursus) per kursus per bulan
-        $revenues = DB::table('purchases')
-            ->join('courses', 'purchases.course_id', '=', 'courses.id')
-            ->selectRaw('
-                courses.id as course_id, 
-                courses.title, 
-                MONTH(purchases.created_at) as month, 
-                SUM(courses.price * 0.02) as admin_revenue
-            ')
-            ->where('purchases.status', 'success')
-            ->whereYear('purchases.created_at', $year)
-            ->groupBy('course_id', 'month', 'courses.title')
-            ->orderBy('month', 'asc')
-            ->get();
+        // Ambil data pembayaran sukses + relasi ke purchases dan courses
+        $paymentsQuery = Payment::with(['user', 'purchase.course'])
+            ->where('transaction_status', 'settlement') // status sukses
+            ->whereYear('created_at', $year);
     
-        // Siapkan nama bulan (1 s.d 12)
-        $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        if ($selectedCourseId) {
+            $paymentsQuery->whereHas('purchase', function ($q) use ($selectedCourseId) {
+                $q->where('course_id', $selectedCourseId);
+            });
+        }
     
-        // Untuk keperluan grafik, kita bisa mengelompokkan data revenue per kursus.
+        $payments = $paymentsQuery->get();
+    
+        // Siapkan array grafik pendapatan per kursus per bulan
         $coursesRevenue = [];
-        $totalRevenue = 0; // 🆕 Variabel total pendapatan admin
-
-        foreach ($revenues as $rev) {
-            // Inisialisasi jika belum ada
-            if (!isset($coursesRevenue[$rev->course_id])) {
-                $coursesRevenue[$rev->course_id] = [
-                    'title' => $rev->title,
+        $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $totalRevenue = 0;
+    
+        foreach ($payments as $payment) {
+            $course = $payment->purchase->course ?? null;
+            if (!$course) continue;
+    
+            $month = (int) $payment->created_at->format('n'); // bulan 1-12
+            $courseId = $course->id;
+            $amount = (float) $payment->amount;
+    
+            if (!isset($coursesRevenue[$courseId])) {
+                $coursesRevenue[$courseId] = [
+                    'title' => $course->title,
                     'monthly' => array_fill(1, 12, 0)
                 ];
             }
-            // Set nilai revenue untuk bulan tertentu
-            $coursesRevenue[$rev->course_id]['monthly'][(int)$rev->month] = (float)$rev->admin_revenue;
-            // 🆕 Tambahkan pendapatan ke total
-            $totalRevenue += (float)$rev->admin_revenue;
+    
+            $coursesRevenue[$courseId]['monthly'][$month] += $amount;
+            $totalRevenue += $amount;
         }
-
-        //mengurutkan data
-        uasort($coursesRevenue, function ($a, $b) {
-            $totalA = array_sum($a['monthly']);
-            $totalB = array_sum($b['monthly']);
-            return $totalB <=> $totalA;
-        });
-        
-        // 🔧 Reindex array agar key numerik dari 0
-        $reindexedCourses = array_values($coursesRevenue);
-        
-        // Konversi ke koleksi agar bisa dipaginate
-        $collection = collect($reindexedCourses);
-        
-        // Pagination
-        $perPage = 5;
-        $page = request()->get('page', 1);
-        $paginatedCourses = new LengthAwarePaginator(
-            $collection->forPage($page, $perPage),
-            $collection->count(),
-            $perPage,
-            $page,
-            ['path' => request()->url(), 'query' => request()->query()]
-        );
     
-        // Ambil daftar tahun yang tersedia dari data purchases (opsional)
-        $years = DB::table('purchases')
-            ->select(DB::raw('YEAR(created_at) as year'))
-            ->distinct()
-            ->orderBy('year', 'asc')
-            ->pluck('year');
+        // Ambil semua pembelian (untuk tabel)
+        $revenues = Purchase::with(['user', 'course', 'payment'])
+            ->whereHas('payment', function ($q) {
+                $q->where('transaction_status', 'settlement');
+            })
+            ->when($selectedCourseId, function ($q) use ($selectedCourseId) {
+                $q->where('course_id', $selectedCourseId);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
     
-        return view('dashboard-admin.laporan', compact('coursesRevenue', 'monthNames', 'years', 'year', 'totalRevenue', 'paginatedCourses'));
-    }    
+        // Data dropdown semua kursus
+        $allCourses = Course::all();
+    
+        return view('dashboard-admin.laporan', [
+            'coursesRevenue' => $coursesRevenue,
+            'monthNames' => $monthNames,
+            'totalRevenue' => $totalRevenue,
+            'revenues' => $revenues,
+            'selectedCourseId' => $selectedCourseId,
+            'year' => $year,
+            'courses' => $allCourses,
+        ]);
+    }
     
     // menampilkan halaman form tambah mentor
     public function tambahmentor()
@@ -363,55 +370,6 @@ class DashboardAdminController extends Controller
     public function tambahpeserta()
     {
         return view('dashboard-admin.tambah-peserta');
-    }
-
-    public function registerMentorByAdmin(Request $request)
-    {
-        // Validasi input pendaftaran mentor
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'phone_number' => 'required|string|max:15',
-            'profesi' => 'required|string|max:255',
-            'experience' => 'required|string|max:255',
-            'linkedin' => 'nullable|string|max:255',
-            'company' => 'nullable|string|max:255',
-            'years_of_experience' => 'nullable|integer',
-        ], [
-            'name.required' => 'Nama lengkap harus diisi.',
-            'email.required' => 'Email harus diisi.',
-            'email.unique' => 'Email sudah terdaftar, gunakan email lain.',
-            'password.required' => 'Password harus diisi.',
-            'password.confirmed' => 'Konfirmasi password tidak cocok.',
-            'phone_number.required' => 'Nomor telepon harus diisi.',
-            'profesi.required' => 'Profesi harus diisi.',
-            'experience.required' => 'Pengalaman harus diisi.',
-        ]);
-
-        // Buat user baru dengan role mentor
-        $mentor = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'phone_number' => $request->phone_number,
-            'role' => 'mentor', // Role dipastikan selalu mentor
-            'status' => 'pending', // Status default mentor pending
-            'email_verified_at' => now(),
-            'profesi' => $request->profesi,
-            'experience' => $request->experience,
-            'linkedin' => $request->linkedin,
-            'company' => $request->company,
-            'years_of_experience' => $request->years_of_experience,
-        ]);
-
-        // Tambahkan notifikasi ke database
-        NotifikasiMentorDaftar::create([
-            'user_id' => $mentor->id,
-            'message' => "{$mentor->name} berhasil melakukan daftar di Eduflix",
-        ]);
-
-        return redirect()->route('datamentor-admin')->with('success', 'Mentor berhasil ditambahkan!');
     }
 
     public function destroy($id)

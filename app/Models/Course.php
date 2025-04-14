@@ -20,6 +20,7 @@ class Course extends Model
         'end_date',
         'image_path',
         'mentor_id',
+        'status'
     ];
 
     public function students()

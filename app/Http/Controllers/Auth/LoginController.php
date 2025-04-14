@@ -6,28 +6,39 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Models\Keranjang;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Auth\Events\Verified;
 
 class LoginController extends Controller
 {
 
-    //verifikasi email
-    public function verifyNotice()
-    {
-        return view('mail.email-verify');
-    }
-
-     //verifikasi email
-     public function verifyEmail(EmailVerificationRequest $request)
+     // verifikasi email
+     public function verify(Request $request, $id, $hash)
      {
-        $request->fulfill();
-
-         return redirect()->route('welcome-peserta');
+         $user = User::findOrFail($id);
+     
+         // Cek apakah hash cocok
+         if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+             return redirect()->route('login')->with('error', 'Link verifikasi tidak valid.');
+         }
+     
+         // Cek apakah sudah diverifikasi
+         if ($user->hasVerifiedEmail()) {
+             return redirect()->route('login')->with('info', 'Email sudah diverifikasi sebelumnya.');
+         }
+     
+         // Tandai email sebagai terverifikasi
+         $user->markEmailAsVerified();
+     
+         event(new Verified($user));
+     
+         return redirect()->route('login')->with('success', 'Email berhasil diverifikasi. Silakan login.');
      }
 
     //Untuk mengirim email nya
@@ -109,97 +120,84 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // Validasi input login
-        $request->validate([
+        // Validasi input termasuk reCAPTCHA
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string',
+            'g-recaptcha-response' => 'required|recaptcha',
         ], [
             'email.required' => 'Email harus diisi.',
             'email.email' => 'Format email tidak valid.',
-            'password.required' => 'Password harus diisi.'
+            'password.required' => 'Password harus diisi.',
+            'g-recaptcha-response.required' => 'Verifikasi bahwa anda bukan robot.',
+            'g-recaptcha-response.recaptcha' => 'Verifikasi reCAPTCHA gagal.',
         ]);
     
-        // Cek pengguna berdasarkan email
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput($request->except('password'));
+        }
+    
         $user = User::where('email', $request->email)->first();
     
-        // Jika pengguna tidak ditemukan
         if (!$user) {
-            return back()->withErrors([
-                'email' => 'Email tidak ditemukan.',
-            ])->withInput($request->except('password'));
+            return back()->withErrors(['email' => 'Email tidak ditemukan.'])
+                ->withInput($request->except('password'));
         }
     
-        // Cek apakah password cocok dengan hash yang ada di database
         if (!Hash::check($request->password, $user->password)) {
-            return back()->withErrors([
-                'password' => 'Password salah.',
-            ])->withInput($request->except('password'));
+            return back()->withErrors(['password' => 'Password salah.'])
+                ->withInput($request->except('password'));
         }
     
-        // Cek apakah email sudah terverifikasi
         if (is_null($user->email_verified_at) && in_array($user->role, ['student'])) {
-            return redirect()->route('login')->withErrors([
-                'email' => 'Email Anda belum diverifikasi.',
-            ]);
+            return redirect()->route('login')->withErrors(['email' => 'Email Anda belum diverifikasi.']);
         }
-
-        // Cek apakah status pengguna aktif
+    
         if ($user->status !== 'active') {
             return back()->withErrors(['email' => 'Akun Anda tidak aktif.']);
         }
-
-        // Cek apakah akun dalam status inactive
-        if ($user->status === 'inactive') {
-            return back()->withErrors(['email' => 'Akun Anda tidak aktif.']);
-        }
-
-        // Login pengguna dan amankan sesi baru
+    
         $request->session()->regenerate();
     
-        // Redirect berdasarkan role
         switch ($user->role) {
             case 'admin':
-                Auth::guard('admin')->login($user); 
+                Auth::guard('admin')->login($user);
                 return redirect()->route('welcome-admin');
-            
+    
             case 'mentor':
-                Auth::guard('mentor')->login($user); 
+                Auth::guard('mentor')->login($user);
                 return redirect()->route('welcome-mentor');
-            
+    
             case 'student':
-                Auth::guard('student')->login($user); 
-                
-                // Cek apakah sebelumnya ada permintaan beli kursus
+                Auth::guard('student')->login($user);
+    
                 if (Session::has('kursus_id_pending')) {
-                    $courseId = Session::pull('kursus_id_pending'); // ambil dan hapus dari session
-
-                    // Cek apakah kursus sudah dibeli
+                    $courseId = Session::pull('kursus_id_pending');
+    
                     $hasPurchased = Purchase::where('user_id', $user->id)
                         ->where('course_id', $courseId)
                         ->where('status', 'success')
                         ->exists();
-
+    
                     if ($hasPurchased) {
                         return redirect()->route('welcome-peserta')->with('error', 'Kursus ini sudah Anda beli.');
                     }
-
-                    // Tambahkan ke keranjang hanya jika belum dibeli
+    
                     Keranjang::firstOrCreate([
                         'user_id' => $user->id,
                         'course_id' => $courseId,
                     ]);
-
+    
                     return redirect()->route('cart.index')->with('success', 'Kursus berhasil ditambahkan ke keranjang.');
                 }
-
+    
                 return redirect()->route('welcome-peserta');
-
+    
             default:
-                // Jika role tidak dikenal, logout dan tolak akses
                 Auth::logout();
                 return redirect('login')->withErrors(['email' => 'Role tidak dikenal.']);
         }
-    }    
+    }
 
     // Proses logout
     public function logout(Request $request)

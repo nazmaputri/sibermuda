@@ -3,15 +3,10 @@
 @section('content')
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-        <!-- Total Pendapatan -->
-        <div class="font-semibold">
-            <p class="text-gray-700 font-semibold">Total Pendapatan Admin: <span class="text-red-500 font-semibold">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</span></p>
-        </div>
-
         <div class="flex flex-col items-center mb-4">
             <div class="flex items-center space-x-4">
                 <h2 class="text-xl font-semibold inline-block pb-1 text-gray-700">
-                    Laporan Pendapatan Mentor (2% Komisi)
+                    Laporan Pendapatan
                 </h2>
                 @php
                     $years = range(2023, 2025);
@@ -36,41 +31,59 @@
 
     <!-- Pendapatan Per Kursus -->
     <div class="bg-white shadow-md rounded-lg p-6">
-        <h3 class="text-lg font-semibold text-gray-700 mb-2">Detail Pendapatan per Kursus</h3>
+        <h3 class="text-lg font-semibold text-gray-700 mb-4">Detail Pembelian Kursus</h3>
+    
+        <!-- Filter -->
+        <form method="GET" class="mb-4">
+            <label for="course_id" class="text-sm text-gray-600 mr-2">Filter Kursus:</label>
+            <select name="course_id" id="course_id" onchange="this.form.submit()" class="border rounded px-2 py-1 text-sm">
+                <option value="">Semua Kursus</option>
+                @foreach ($coursesRevenue as $course)
+                    <option value="{{ $course->id }}" {{ $selectedCourseId == $course->id ? 'selected' : '' }}>
+                        {{ $course->title }}
+                    </option>
+                @endforeach
+            </select>
+        </form>
+    
+        <!-- Tabel -->
         <div class="overflow-x-auto">
-           <div class="min-w-full w-64">
-           @if (count($coursesRevenue) > 0)
-                <table class="min-w-full divide-y divide-gray-200 text-sm">
-                    <thead class="bg-sky-100 text-gray-700">
-                        <tr>
-                            <th class="px-4 py-2 border-l border-t text-center">No</th>
-                            <th class="px-4 py-2 text-left border-t">Judul Kursus</th>
-                            <th class="px-4 py-2 text-right border-t">Total Pendapatan</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                    @foreach ($paginatedCourses as $course)
+            <table class="min-w-full text-sm divide-y divide-gray-200">
+                <thead class="bg-sky-100 text-gray-700">
+                    <tr>
+                        <th class="px-4 py-2 border-t text-center">No</th>
+                        <th class="px-4 py-2 border-t text-left">Nama User</th>
+                        <th class="px-4 py-2 border-t text-left">Judul Kursus</th>
+                        <th class="px-4 py-2 border-t text-right">Harga</th>
+                        <th class="px-4 py-2 border-t text-center">Tanggal</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    @forelse ($revenues as $index => $purchase)
                         <tr class="hover:bg-sky-50">
-                            <td class="px-4 py-2 text-gray-700 text-sm border-l border-b text-center">
-                                {{ $loop->iteration }}
+                            <td class="px-4 py-2 text-center">{{ $index + 1 }}</td>
+                            <td class="px-4 py-2">{{ $purchase->user->name ?? '-' }}</td>
+                            <td class="px-4 py-2">{{ $purchase->course->title ?? '-' }}</td>
+                            <td class="px-4 py-2 text-right text-green-600">
+                                Rp. {{ number_format($purchase->price, 0, ',', '.') }}
                             </td>
-                            <td class="px-4 py-2 text-gray-700 border-b">{{ $course['title'] }}</td>
-                            <td class="px-4 py-2 text-right text-red-500 border-r border-b">
-                                Rp. {{ number_format(array_sum($course['monthly']), 0, ',', '.') }}
-                            </td>
+                            <td class="px-4 py-2 text-center">{{ $purchase->created_at->format('d M Y') }}</td>
                         </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            @else
-                <p class="text-gray-500 text-sm">Belum ada pendapatan</p>
-            @endif
-           </div>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-4 py-4 text-center text-gray-500">Tidak ada data pembelian</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-        <div class="mt-4">
-            {{ $paginatedCourses->links() }}
+    
+        <!-- Total -->
+        <div class="mt-4 text-right text-lg text-gray-700 font-semibold">
+            Total Pendapatan: <span class="text-red-500">Rp. {{ number_format($totalRevenue, 0, ',', '.') }}</span>
         </div>
     </div>
+    
 </div>
 
 <script>

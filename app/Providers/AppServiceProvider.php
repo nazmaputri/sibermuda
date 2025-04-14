@@ -3,6 +3,8 @@
 namespace App\Providers;
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Validator;
+use Biscolab\ReCaptcha\Rules\ReCaptchaRule;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
