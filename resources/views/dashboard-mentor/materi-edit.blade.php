@@ -11,7 +11,6 @@
             @csrf
             @method('PUT')
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                
                 <!-- Kiri: Input Judul dan Deskripsi -->
                 <div>
                     <!-- Input untuk Judul Materi -->
@@ -22,65 +21,6 @@
                             <div class="text-red-400">{{ $message }}</div>
                         @enderror
                     </div>
-
-                    <!-- Video Materi -->
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-semibold mb-2">Video Materi</label>
-                        <div id="video-upload">
-                            @foreach($materi->videos as $video)
-                                <div class="mb-4" id="video-{{ $video->id }}">
-                                    <!-- Video Player -->
-                                    <video controls class="w-full rounded border mb-2">
-                                        <source src="{{ asset('storage/' . $video->video_url) }}" type="video/mp4">
-                                        Browser Anda tidak mendukung pemutar video.
-                                    </video>
-
-                                    <!-- Input Judul Video -->
-                                    <input type="text" name="video_titles[{{ $video->id }}]" value="{{ basename($video->judul) }}" class="w-full p-2 text-sm text-gray-700 border rounded bg-gray-100 mb-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan judul video">
-
-                                    <div class="flex mt-1 justify-end">
-                                        <a href="{{ asset('storage/' . $video->video_url) }}" target="_blank" class="flex items-center space-x-2 text-sm font-semibold bg-blue-400 hover:bg-blue-300 text-white p-1.5 rounded-md">
-                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="currentColor" stroke="currentColor" viewBox="0 0 512 512">
-                                                 <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
-                                             </svg>
-                                             <span>Unduh</span>
-                                         </a>
-                                         
-                                        <!-- Tombol Hapus Video -->
-                                        <button type="button" class="flex items-center space-x-2 font-semibold ml-2 bg-red-400 hover:bg-red-300 text-white p-2 rounded-md" onclick="removeVideo({{ $video->id }}, '{{ $video->video_url }}')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                            </svg>
-                                            {{-- <span>Hapus</span> --}}
-                                        </button>
-
-                                    </div>
-                                </div>
-                            @endforeach
-
-                            <!-- Form Input untuk Video Baru -->
-                            <div class="mt-4">
-                                <div class="items-center space-x-2">
-                                    <label class="block text-gray-700 font-semibold mb-2">Unggah Video Materi</label>
-                                    <input type="text" name="video_titles[]" class="w-full p-2 text-sm text-gray-700 border rounded mb-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan judul video">
-                                    <input type="file" name="videos[]" class="w-full p-2 text-sm text-gray-700 border rounded">
-                                    <button type="button" onclick="addVideoInput()" class="font-semibold text-sm mt-2 bg-green-400 text-white p-2 rounded">Tambah Video</button>
-                                    <small class="text-gray-600">Format video yang diperbolehkan: mp4, avi, mkv</small>
-                                    @error('videos')
-                                        <div class="text-red-600">{{ $message }}</div>
-                                    @enderror
-                                    @error('video_titles')
-                                        <div class="text-red-600">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Kanan: Input Deskripsi dan File PDF -->
-                <div>
                     <div class="mb-4">
                         <label for="deskripsi" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
                         <textarea name="deskripsi" id="deskripsi" rows="4" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan deskripsi materi">{{ old('deskripsi', $materi->deskripsi) }}</textarea>
@@ -88,57 +28,79 @@
                             <div class="text-red-400">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
 
-                    <!-- File Materi PDF -->
-                    <div class="mb-4">
-                        <label class="block text-gray-700 font-semibold mb-2">File Materi</label>
-                        <div id="pdf-upload">
-                            @foreach($materi->pdfs as $pdf)
-                                <div class="mb-4" id="pdf-{{ $pdf->id }}">
-                                    <!-- Menampilkan PDF -->
-                                    <iframe src="{{ asset('storage/' . $pdf->pdf_file) }}" class="w-full h-96 border rounded mb-2"></iframe>
+            <!-- Form Kanan Edit Materi -->
+            <div x-data="{
+                    videos: [
+                        @foreach ($materi->videos as $video)
+                            {
+                                title: @js($video->title),
+                                description: @js($video->description),
+                                link: @js($video->link)
+                            },
+                        @endforeach
+                    ],
+                    addVideo() {
+                        this.videos.push({ title: '', description: '', link: '' });
+                    },
+                    removeVideo(index) {
+                        this.videos.splice(index, 1);
+                    }
+                }">
+                
+                <!-- Hidden input untuk courses_id -->
+                <input type="hidden" name="courses_id" value="{{ $course->id }}">
 
-                                    <!-- Input untuk Judul PDF -->
-                                    <input type="text" id="material_titles[]" name="material_titles[{{ $pdf->id }}]" value="{{ basename($pdf->judul) }}" class="w-full p-2 text-sm text-gray-700 border rounded bg-gray-100 mb-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan judul PDF">
+                <template x-for="(video, index) in videos" :key="index">
+                    <div class="border p-4 mb-4 rounded-md bg-gray-50">
+                        <!-- Judul -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-semibold mb-2">Judul Link Materi</label>
+                            <input type="text" :name="'videos[' + index + '][title]'" x-model="video.title"
+                                class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+                                placeholder="Masukkan judul materi video">
+                        </div>
 
-                                    <div class="flex mt-1 justify-end">
-                                        <a href="{{ asset('storage/' . $pdf->pdf_file) }}" target="_blank" class="flex items-center space-x-2 text-sm font-semibold bg-blue-400 hover:bg-blue-300 text-white p-1.5 rounded-md">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-white" fill="currentColor" stroke="currentColor" viewBox="0 0 512 512">
-                                                <path d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 242.7-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7 288 32zM64 352c-35.3 0-64 28.7-64 64l0 32c0 35.3 28.7 64 64 64l384 0c35.3 0 64-28.7 64-64l0-32c0-35.3-28.7-64-64-64l-101.5 0-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352 64 352zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/>
-                                            </svg>
-                                            <span>Unduh</span>
-                                        </a>
-                                        <!-- Tombol Hapus PDF -->
-                                        <button type="button" class="font-semibold ml-2 bg-red-400 hover:bg-red-300 text-white p-2 rounded-md" onclick="removePdf({{ $pdf->id }}, '{{ $pdf->pdf_file }}')">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            @endforeach
+                        <!-- Deskripsi -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-semibold mb-2">Deskripsi Link Materi</label>
+                            <textarea :name="'videos[' + index + '][description]'" x-model="video.description"
+                                class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+                                placeholder="Masukkan deskripsi materi" rows="3"></textarea>
+                        </div>
 
-                            <!-- Form Input untuk PDF Baru -->
-                            <div class="mt-4">
-                                <!-- Kontainer Flex untuk Input Judul dan File dengan Tombol -->
-                                <div class="items-center space-x-2">
-                                    <label class="block text-gray-700 font-semibold mb-2">Unggah File Materi</label>
-                                    <input type="text" name="material_titles[]" class="w-full p-2 text-sm text-gray-700 border rounded mb-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan judul PDF">
-                                    <input type="file" name="material_files[]" class="w-full p-2 text-sm text-gray-700 border rounded">
-                                    <button type="button" onclick="addPdfInput()" class="font-semibold text-sm mt-2 bg-green-400 text-white p-2 rounded">Tambah PDF</button>
-                                    <small class="text-gray-600">Format file yang diperbolehkan: PDF, DOC, PPT</small>
-                                    @error('material_files')
-                                        <div class="text-red-600">{{ $message }}</div>
-                                    @enderror
-                                    @error('material_titles')
-                                        <div class="text-red-600">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
+                        <!-- Link -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-semibold mb-2">Link Materi</label>
+                            <input type="text" :name="'videos[' + index + '][link]'" x-model="video.link"
+                                class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+                                placeholder="Masukkan link materi">
+                        </div>
+
+                        <!-- Tombol Hapus -->
+                        <div class="text-right">
+                            <button type="button" @click="removeVideo(index)"
+                                class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-400 text-white text-sm shadow hover:bg-red-300 mt-2 transition">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                                Hapus
+                            </button>
                         </div>
                     </div>
+                </template>
 
-                </div>
+                <!-- Tombol Tambah -->
+                <button type="button" @click="addVideo"
+                    class="inline-flex items-center gap-2 px-4 py-2 mt-2 bg-green-400 text-white rounded-md text-sm shadow hover:bg-green-300 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"> 
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Tambah Materi
+                </button>
+            </div>
+
             </div>
 
             <!-- Tombol Submit -->
@@ -154,86 +116,4 @@
     </div>
 </div>
 
-<script>
-    function removeVideo(videoId, videoUrl) {
-        if (confirm("Apakah Anda yakin ingin menghapus video ini?")) {
-            fetch("{{ url('video') }}/" + videoId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    video_url: videoUrl
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('video-' + videoId).remove();
-                    alert('Video berhasil dihapus!');
-                } else {
-                    alert('Gagal menghapus video!');
-                }
-            })
-            .catch(error => alert('Terjadi kesalahan: ' + error));
-        }
-    }
-
-    function removePdf(pdfId, pdfFile) {
-        if (confirm("Apakah Anda yakin ingin menghapus PDF ini?")) {
-            fetch("{{ url('pdf') }}/" + pdfId, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({
-                    pdf_file: pdfFile
-                })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('pdf-' + pdfId).remove();
-                    alert('PDF berhasil dihapus!');
-                } else {
-                    alert('Gagal menghapus PDF!');
-                }
-            })
-            .catch(error => alert('Terjadi kesalahan: ' + error));
-        }
-    }
-
-     // Menambahkan input video baru
-     function addVideoInput() {
-        const videoInput = document.createElement('div');
-        videoInput.classList.add('mt-2');
-        videoInput.innerHTML = ` 
-            <label class="block text-gray-700 font-semibold mb-2">Unggah Video</label>
-            <input type="text" name="video_titles[]" class="w-full p-2 text-sm text-gray-700 border rounded mb-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan judul video">
-            <input type="file" name="videos[]" class="w-full p-2 text-sm border rounded">
-            <button type="button" onclick="removeInput(this)" class="mt-2 text-sm font-semibold hover:bg-red-300 bg-red-400 text-white p-2 rounded">Hapus</button>
-        `;
-        document.getElementById('video-upload').appendChild(videoInput);
-    }
-
-     // Menambahkan input PDF baru
-     function addPdfInput() {
-        const pdfInput = document.createElement('div');
-        pdfInput.classList.add('mt-2');
-        pdfInput.innerHTML = ` 
-            <label class="block text-gray-700 font-semibold mb-2">Unggah PDF</label>
-            <input type="text" name="material_titles[]" class="w-full p-2 text-sm text-gray-700 border rounded mb-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan judul PDF">
-            <input type="file" name="material_files[]" class="w-full p-2 text-sm border rounded">
-            <button type="button" onclick="removeInput(this)" class="mt-2 bg-red-400 font-semibold hover:bg-red-300 text-white p-2 rounded">Hapus</button>
-        `;
-        document.getElementById('pdf-upload').appendChild(pdfInput);
-    }
-
-    // Menghapus input
-    function removeInput(button) {
-        button.parentElement.remove();
-    }
-</script>
 @endsection

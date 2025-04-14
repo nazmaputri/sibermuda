@@ -127,7 +127,7 @@ class CourseController extends Controller
         $quizzes = Quiz::where('course_id', $id)->paginate(5);
         
         $finalQuizzes = Quiz::where('course_id', $id)
-                    ->whereNull('materi_id')
+                    // ->whereNull('materi_id')
                     ->get();
 
         // Ambil peserta yang pembayaran kursusnya lunas beserta data user-nya
@@ -152,7 +152,7 @@ class CourseController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric',
-            'category' => 'required|string|exists:categories,name', 
+            'category_id' => 'required|integer|exists:categories,id', 
             'capacity' => 'nullable|integer',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
             'start_date' => 'nullable|date|before_or_equal:end_date',
@@ -162,7 +162,8 @@ class CourseController extends Controller
             'title.required' => 'Judul kursus wajib diisi.',
             'description.required' => 'Deskripsi kursus wajib diisi.',
             'price.required' => 'Harga kursus wajib diisi.',
-            'category.required' => 'Kategori kursus wajib dipilih.',
+            'category_id.required' => 'Kategori kursus wajib dipilih.',
+            'category_id.exists' => 'Kategori yang dipilih tidak valid.',
             'image.required' => 'Gambar kursus wajib diupload.',
             'start_date.required' => 'Tanggal mulai kursus wajib diisi.',
             'end_date.required' => 'Tanggal selesai kursus wajib diisi.',
@@ -175,7 +176,7 @@ class CourseController extends Controller
         $course->title = $validated['title'];
         $course->description = $validated['description'];
         $course->price = $validated['price'];
-        $course->category = $validated['category']; // Simpan nama kategori langsung
+        $course->category_id = $validated['category_id']; // Simpan ID kategori, bukan nama
         $course->capacity = $validated['capacity'] ?? null;
         $course->start_date = $validated['start_date']; // Update start_date
         $course->end_date = $validated['end_date']; // Update end_date
@@ -209,46 +210,16 @@ class CourseController extends Controller
             Storage::disk('public')->delete($course->image_path);
         }
     
-        // Memeriksa apakah ada materi terkait dengan kursus
+        // Menghapus semua materi terkait dengan kursus
         if ($course->materi) {
-            // Menghapus semua materi terkait dengan kursus
             foreach ($course->materi as $materi) {
-                // Menghapus file video terkait jika ada
+                // Menghapus semua materi video terkait (hanya dari database)
                 if ($materi->videos) {
                     foreach ($materi->videos as $video) {
-                        if (Storage::disk('public')->exists($video->video_url)) {
-                            Storage::disk('public')->delete($video->video_url);
-                        }
                         $video->delete();
                     }
                 }
-                
-                // Hapus PDF terkait jika ada
-                if ($materi->pdfs) {
-                    foreach ($materi->pdfs as $pdf) {
-                        if (Storage::disk('public')->exists($pdf->pdf_file)) {
-                            Storage::disk('public')->delete($pdf->pdf_file);
-                        }
-                        $pdf->delete();
-                    }
-                }
-                
-                // Memeriksa apakah ada kuis yang terkait dengan materi
-                if ($materi->quizzes) {
-                    foreach ($materi->quizzes as $quiz) {
-                        // Menghapus soal dan jawaban kuis
-                        $quiz->questions->each(function($question) {
-                            // Hapus jawaban soal jika ada
-                            $question->answers->each(function($answer) {
-                                $answer->delete();
-                            });
-                            $question->delete();
-                        });
-    
-                        $quiz->delete();  // Menghapus kuis itu sendiri
-                    }
-                }
-    
+
                 // Menghapus materi
                 $materi->delete();
             }
@@ -259,7 +230,5 @@ class CourseController extends Controller
     
         return redirect()->route('courses.index')->with('success', 'Kursus beserta materi dan kuis berhasil dihapus!');
     }
-    
-    
     
 }

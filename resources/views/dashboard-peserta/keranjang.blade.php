@@ -123,7 +123,7 @@
     <!-- Modal Box -->
     <div class="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6 relative">
         <!-- Tombol Close -->
-        <button id="close-modal" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-xl font-bold">&times;</button>
+        <button id="close-modal" class="px-2 py-0.5 bg-red-100 hover:bg-red-50 rounded-md absolute top-2 right-2 text-red-500 hover:text-red-400 text-xl font-bold">&times;</button>
         
         <h3 class="text-xl font-semibold mb-4 text-gray-700 text-center">Formulir Pendaftaran</h3>
         <form id="wa-form">
@@ -144,8 +144,8 @@
             <input type="hidden" id="nama-kursus" value="Kursus Pemrograman Laravel">
             <input type="hidden" id="total-harga" value="Rp 150.000">
 
-            <p class="pb-2 text-gray-700">Kursus Yang Dibeli</p>
-            <p class="pb-2 text-gray-700">Total harga</p>
+            <p class="pb-2 text-gray-700">Kursus Yang Dibeli :</p>
+            <p class="pb-2 text-gray-700">Total harga :</p>
             <p class="pb-2 text-gray-700">No Rekening Admin : 0895365544316</p>
 
             <button type="submit" class="bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-400 w-full">
