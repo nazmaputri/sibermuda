@@ -1,10 +1,8 @@
 @extends('layouts.dashboard-admin')  
-
+@section('title', 'Penilaian')
 @section('content')
     <div class="container mx-auto">
-        <div class="bg-white rounded-lg shadow-md p-5">
-            <h1 class="text-xl font-semibold mb-6 border-b-2 pb-2 text-gray-700 text-center">Daftar Penilaian EduFlix</h1>
-
+        <div class="bg-white rounded-lg shadow-md p-5 border border-gray-200">
             <!-- Wrapper for responsiveness -->
             <div class="overflow-x-auto">
                <div class="min-w-full w-64">

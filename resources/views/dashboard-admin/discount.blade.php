@@ -1,10 +1,9 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Diskon')
 @section('content')
-<div class="container mx-auto bg-white rounded-lg p-5">
+<div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
     <!-- Wrapper div dengan background putih dan padding -->
     <div class="">
-        <h2 class="text-xl font-semibold mb-6 border-b-2 pb-2 text-gray-700 text-center">Diskon</h2>
         <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
             <!-- searchbar -->
             <form action="{{ route('discount') }}" method="GET" class="w-full md:max-w-xs">

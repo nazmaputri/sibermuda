@@ -2,7 +2,7 @@
 @section('content')
 
     <!-- Card Informasi -->
-    <div class="bg-white rounded-lg shadow-md p-5 w-full flex flex-col md:flex-row h-auto items-center">
+    <div class="bg-white rounded-lg border border-gray-200 shadow-md p-5 w-full flex flex-col md:flex-row h-auto items-center">
         <!-- Text Content -->
         <div class="w-full text-center md:text-left mb-4 md:mb-0">
             <h1 class="text-xl font-semibold mb-4 text-gray-700">Selamat datang, {{ Auth::user()->name }}!</h1>
@@ -18,7 +18,7 @@
     </div>
 
     <!-- Cards Statistik -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
         <!-- Card Jumlah Mentor -->
         <div class="bg-red-100 rounded-lg shadow-md p-5 flex items-center">
             <div class="p-2 bg-red-500 rounded-full">
@@ -58,7 +58,7 @@
     </div>
 
     <!-- Grafik Perkembangan Pengguna Bulanan -->
-    <div class="bg-white shadow-md rounded-lg p-6 mb-6 mt-10">
+    <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6 mb-6 mt-10">
         <div class="flex flex-col items-center mb-4">
             <div class="flex items-center space-x-4">
                 <h2 class="text-xl font-semibold inline-block pb-1 text-gray-700">

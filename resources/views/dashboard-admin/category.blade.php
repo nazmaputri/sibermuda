@@ -1,9 +1,7 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Daftar Kategori')
 @section('content')
-<div class="container mx-auto bg-white rounded-lg p-5">
-    <h2 class="text-xl font-semibold mb-6 border-b-2 pb-2 text-gray-700 text-center">Daftar Kategori</h2>
-
+<div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
     <!-- Tombol Tambah Kategori -->
     <div class="mb-6 p-1 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
         <!-- Tombol untuk menampilkan kursus -->

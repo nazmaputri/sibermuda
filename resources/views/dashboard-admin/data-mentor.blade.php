@@ -1,12 +1,8 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Data Mentor')
 @section('content')
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 pb-2">Data Mentor</h2>
-    </div> 
-
         <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
             <form action="{{ route('datamentor-admin') }}" method="GET" class="w-full md:max-w-xs">
                 <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
@@ -113,9 +109,9 @@
                 </tbody>
             </table>
            </div>
-            <div class="pagination mt-4">
-                {{ $users->links('pagination::tailwind') }}
-            </div>
+        </div>
+        <div class="pagination mt-4">
+            {{ $users->links('pagination::tailwind') }}
         </div>
     </div>
 </div>

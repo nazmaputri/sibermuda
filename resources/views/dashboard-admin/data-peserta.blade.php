@@ -1,10 +1,8 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Data Peserta')
 @section('content')
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-        <h2 class="text-xl font-semibold mb-5 border-b-2 pb-2 text-gray-700 text-center">Data Peserta</h2>
-
         <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
             <!-- Search Bar -->
             <form action="{{ route('datapeserta-admin') }}" method="GET" class="w-full max-w-xs">
@@ -46,7 +44,6 @@
                 </a>
             </div>
         </div>
-        
 
         <!-- Tabel data peserta -->
         <div class="overflow-x-auto">
