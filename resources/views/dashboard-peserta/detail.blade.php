@@ -1,12 +1,16 @@
 @extends('layouts.dashboard-peserta')
-
+@section('title', 'Detail Kursus')
 @section('content')
-<!-- <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script> -->
+
+<div class="mb-3 flex justify-start">
+    <a href="{{ route('kategori-peserta') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+    </svg>
+    </a>           
+</div>
 
 <div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
-    <h2 class="text-md text-gray-700 font-semibold mb-6 border-b-2 border-gray-300 pb-2 text-center">Detail Kursus</h2>
-    
     <!-- container detail kursus -->
     <div class="flex flex-col sm:flex-row mb-4 space-y-4 sm:space-y-0 sm:space-x-4">
         <div class="w-full sm:w-1/4 md:w-1/5">
@@ -75,8 +79,9 @@
                 </div>
             @else
             @foreach($course->materi as $materi)
-                <div class="bg-neutral-50 p-4 rounded-lg shadow-md">
-                    <div x-data="{ open: false }">
+                <div x-data="{ open: false }" 
+                :class="open ? 'border-gray-700' : 'border-gray-200'" class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+                    <div>
                         <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
                             <span class="text-gray-700 font-semibold mr-2 text-sm">{{ sprintf('%02d', $loop->iteration) }}.</span>
                             <h4 class="text-sm font-semibold text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
@@ -196,11 +201,7 @@
     @endif
     </div>
 
-    <div class="mt-6 flex justify-end">
-        <a href="{{ route('kategori-peserta') }}" class="bg-sky-400 text-white font-semibold py-1.5 px-5 rounded-lg hover:bg-sky-300"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
-            Kembali
-        </a>           
-    </div>
+    
 
 </div>
 @endsection

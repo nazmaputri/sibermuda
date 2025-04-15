@@ -1,8 +1,7 @@
 @extends('layouts.dashboard-peserta')
+@section('title', 'Keranjang Saya')
 @section('content')
-    <div class="bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-xl text-gray-700 font-semibold mb-6 border-b-2 border-gray-300 pb-2 text-center">Keranjang Saya</h2>
-
+    <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-md">
         <!-- <div id="flash-container"></div> -->
 
         <!-- Pemberitahuan Diskon (Tetap Ada di Atas Keranjang) -->
@@ -52,14 +51,14 @@
         @else
         <div class="flex flex-col lg:flex-row gap-6">
         <!-- kontainer untuk kursus yang ada di keranjang -->
-        <div class="flex flex-col bg-white p-3 rounded-lg shadow lg:w-2/3 md:min-h-40">
+        <div class="flex flex-col bg-white border border-gray-200 p-3 rounded-lg shadow lg:w-2/3 md:min-h-40">
             @foreach ($carts as $cart)
                 <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
                     <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md"/>
         
                     <!-- Informasi Produk -->
                     <div class="flex-1 space-y-1">
-                        <h2 class="text-lg font-semibold text-gray-700">{{ $cart->course->title }}</h2>
+                        <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
                         <p class="text-sm font-semibold text-red-400">Rp. <span class="">{{ number_format($cart->course->price, 0, ',', '.') }}</span></p>
                         <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
                             @csrf
@@ -74,35 +73,35 @@
         </div>
 
         <!-- kontainer untuk apply kupon, total harga dan beli -->
-        <div class="bg-white p-3 rounded-lg shadow flex-1 max-h-40">
+        <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
             <!-- Input Kupon -->
             <div class="flex space-x-2 items-center mt-1">
-                <input type="text" id="coupon-code" class="border border-gray-300 text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
-                <button id="apply-coupon" class="bg-sky-400 flex text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-sky-300">Gunakan</button>
+                <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
+                <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
             </div>
 
             <!-- Total Harga -->
             <div class="mt-3">
                 <div class="flex justify-between items-center flex-wrap gap-2">
-                    <h3 class="font-semibold text-gray-700">
+                    <h3 class="font-semibold text-gray-700 text-sm">
                         Total:
                     </h3>
                     <div class="flex items-center space-x-2">
                         @if ($couponCode)
-                            <span class="text-gray-500 line-through">
+                            <span class="text-gray-500 line-through text-sm">
                                 Rp {{ number_format($totalPrice, 0, ',', '.') }}
                             </span>
                         @endif
-                        <span id="total-price" class="text-red-500 font-semibold">
+                        <span id="total-price" class="text-red-500 font-semibold text-sm">
                             Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}
                         </span>
                     </div>
                 </div>
                 <button 
-                    class="bg-sky-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-sky-300 w-full mt-3" 
+                    class="bg-green-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-green-300 w-full mt-3 text-sm" 
                     id="pay-now" 
                     data-total-price="{{ $totalPriceAfterDiscount }}">
-                    Beli
+                    Beli Sekarang
                 </button>
             </div>
 
@@ -116,7 +115,7 @@
     <!-- Modal Box -->
     <div class="bg-white w-full max-w-md mx-auto rounded-2xl shadow-2xl p-8 relative animate__animated animate__fadeInDown">
         <!-- Tombol Close -->
-        <button id="close-modal" class="absolute top-4 right-4 text-red-500 hover:text-red-600 text-2xl font-bold">
+        <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-600 text-2xl font-bold">
             &times;
         </button>
 
@@ -126,17 +125,17 @@
             <div class="space-y-4">
                 <label class="block">
                     <span class="text-gray-700 font-medium">Nama Lengkap</span>
-                    <input id="nama" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    <input id="nama" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         value="{{ Auth::user()->name }}" readonly>
                 </label>
                 <label class="block">
                     <span class="text-gray-700 font-medium">Email</span>
-                    <input id="email" type="email" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    <input id="email" type="email" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         value="{{ Auth::user()->email }}" readonly>
                 </label>
                 <label class="block">
                     <span class="text-gray-700 font-medium">No Telepon</span>
-                    <input id="telepon" type="telp" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                    <input id="telepon" type="telp" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
                         value="{{ Auth::user()->phone_number }}" readonly>
                 </label>
             </div>
@@ -160,7 +159,7 @@
             <a id="kirim-wa"
                href="#"
                target="_blank"
-               class="mt-6 block text-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg w-full transition-all duration-200">
+               class="mt-6 block text-center bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded-lg w-full transition-all duration-200">
                 Kirim Bukti Pembayaran via WhatsApp
             </a>
         </form>

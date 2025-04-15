@@ -20,7 +20,7 @@
                 </svg>
             </div> -->
             <div class="ml-4">
-                <h2 class="text-md font-semibold text-gray-700">Total Modul Diselesaikan</h2>
+                <h2 class="text-md font-semibold text-gray-700">Total Materi Diselesaikan</h2>
                 <p class="text-2xl font-bold text-midnight">0</p>
             </div>
         </div>

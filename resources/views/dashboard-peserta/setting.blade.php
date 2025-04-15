@@ -1,16 +1,15 @@
 @extends('layouts.dashboard-peserta')
-
+@section('title', 'Pengaturan Akun')
 @section('content')
 
 <div class="max-w-2xl border border-gray-200 mx-auto bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-md font-semibold text-gray-700 border-b-2 pb-2 mb-4 text-center">Pengaturan Akun</h2>
     <form action="{{ url('/update-peserta') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
        <div class="mb-4">
             <label for="photo" class="block text-sm font-medium text-gray-700"></label>
             @if($user->photo)
-                <img src="{{ Storage::url($user->photo) }}" alt="Foto Profil" class="w-28 h-28 rounded-full mt-2">
+                <img src="{{ Storage::url($user->photo) }}" alt="Foto Profil" class="w-28 h-28 rounded-full mx-auto">
             @endif
             <input type="file" name="photo" id="photo" class="p-1.5 mt-2 block w-full border border-gray-200 rounded-md shadow-sm text-gray-700">
             @error('photo')

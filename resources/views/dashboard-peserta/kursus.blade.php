@@ -1,8 +1,8 @@
 @extends('layouts.dashboard-peserta')
+@section('title', 'Kursus Saya')
 @section('content')
 <div class="container mx-auto">
-    <div class="bg-white border border-gray-300 rounded-lg shadow-md p-6 mb-6">
-        <h1 class="text-md font-semibold mb-6 border-b-2 pb-2 text-gray-700 text-center">Kursus Saya</h1>
+    <div class="bg-white border border-gray-300 rounded-lg shadow-md p-6 mb-3">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @forelse($courses as $course)
                 <div class="border rounded-lg p-4 shadow-md bg-white flex flex-col">

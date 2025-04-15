@@ -56,7 +56,7 @@
             @endif
         </div>
         
-        <div id="openRatingBtn" class="mb-6 text-center"  data-aos="zoom-in-up">
+        <div id="openRatingBtn" class="mb-6 text-center" data-aos="zoom-in-up">
             <button class="text-md px-6 py-2 rounded-full bg-white border border-gray-700 hover:bg-[#08072a] hover:text-white mt-2 text-midnight font-semibold shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
                 Berikan Rating Sibermuda
             </button>

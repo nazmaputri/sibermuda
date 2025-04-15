@@ -1,15 +1,14 @@
 @extends('layouts.dashboard-peserta')
+@section('title', 'Kursus')
 
 @section('content')
-    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 mb-6">
-        <h2 class="text-md font-semibold mb-6 text-center border-b-2 border-gray-200 text-gray-700 pb-2">Daftar Kursus</h2>
-        
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 mb-3">
         <!-- Form untuk memilih kategori -->
         <form action="{{ route('kategori-peserta') }}" method="GET">
-            <label for="kategori" class="block text-gray-700 mb-2">Pilih Kategori</label>
-            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 mb-3">
+            <label for="kategori" class="block text-sm text-gray-700 mb-2">Pilih Kategori</label>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 mb-3 md:mb-5">
                 <select id="kategori" name="kategori"
-                    class="w-full sm:w-80 mb-2 sm:mb-0 p-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-midnight focus:border-midnight text-sm">
+                    class="w-full sm:w-80 mb-2 sm:mb-0 p-1.5 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-midnight focus:border-midnight text-sm capitalize text-gray-600">
                     <option value="" disabled selected>Pilih kategori</option>
                     @foreach($categories as $kategori)
                         <option value="{{ $kategori->id }}" {{ request('kategori') == $kategori->id ? 'selected' : '' }}>
@@ -19,7 +18,7 @@
                 </select>
 
                 <button type="submit"
-                    class="bg-midnight text-white px-4 py-2 rounded-md text-sm hover:bg-opacity-90 w-full sm:w-auto sm:mx-0 mx-auto">
+                    class="bg-midnight text-white px-4 py-1.5 text-sm rounded-md text-sm hover:bg-opacity-90 w-full sm:w-auto sm:mx-0 mx-auto">
                     Tampilkan Kursus
                 </button>
             </div>
