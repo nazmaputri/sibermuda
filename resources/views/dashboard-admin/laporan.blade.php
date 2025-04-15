@@ -161,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('yearFilter').addEventListener('change', function () {
         const selectedYear = this.value;
-        window.location.href = `?year=${selectedYear}`;
+        window.location.href = ?year=${selectedYear};
     });
 });
 </script>

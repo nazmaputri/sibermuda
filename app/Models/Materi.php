@@ -23,6 +23,7 @@ class Materi extends Model
         return $this->hasMany(MateriVideo::class);
     }
 
+<<<<<<< HEAD
     // public function pdfs()
     // {
     //     return $this->hasMany(MateriPdf::class);
@@ -38,6 +39,8 @@ class Materi extends Model
     //     return $this->hasMany(Quiz::class);
     // }
 
+=======
+>>>>>>> a510269a50966eb25cf1a838a0f878c07d9c3565
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');

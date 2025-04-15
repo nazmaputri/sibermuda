@@ -26,13 +26,13 @@ use App\Imports\UserImport;
 
 class DashboardAdminController extends Controller
 {
-    public function approve($id, $name)
+    public function approve($categoryId, $courseId)
     {
-        $course = Course::findOrFail($id);
+        $course = Course::findOrFail($courseId);
         $course->status = 'approved';
         $course->save();
     
-        return redirect()->route('categories.show', $name)->with('success', 'Kursus disetujui!');
+        return redirect()->route('categories.show', $categoryId)->with('success', 'Kursus disetujui!');
     }    
 
     public function toggleActive(Request $request)
@@ -69,22 +69,23 @@ class DashboardAdminController extends Controller
         return redirect()->back()->with('success', 'Data user berhasil diimport.');
     }
 
-    public function publish($id, $name)
+    public function publish($categoryId, $courseId)
     {
-        $course = Course::findOrFail($id);
+        $course = Course::findOrFail($courseId);
         $course->status = 'published';
         $course->save();
 
-        return redirect()->route('categories.show', $name)->with('success', 'Kursus dipublikasikan!');
+        return redirect()->route('categories.show', $categoryId)->with('success', 'Kursus dipublikasikan!');
     }
+ 
 
-    public function hiddencourse($id, $name)
+    public function hiddencourse($categoryId, $courseId)
     {
-        $course = Course::findOrFail($id);
+        $course = Course::findOrFail($courseId);
         $course->status = 'nopublished';
         $course->save();
 
-        return redirect()->route('categories.show', $name)->with('success', 'Kursus batal dipublikasikan!');
+        return redirect()->route('categories.show', $categoryId)->with('success', 'Kursus batal dipublikasikan!');
     }
 
     public function rating()
@@ -153,12 +154,10 @@ class DashboardAdminController extends Controller
     {
         $user = User::findOrFail($id);
     
-        // Ambil kursus yang telah dibeli peserta berdasarkan pembayaran sukses
+        // Ambil semua kursus yang dibeli peserta yang memiliki relasi payment
         $purchasedCourses = Purchase::where('user_id', $id)
-            ->whereHas('payment', function ($query) {
-                $query->where('transaction_status', 'success');
-            })
-            ->with('course.category')
+            ->whereHas('payment') // hanya yang punya data pembayaran, apapun statusnya
+            ->with(['course.category', 'payment']) // pastikan relasi payment juga dibawa
             ->paginate(5);
     
         return view('dashboard-admin.detail-peserta', compact('user', 'purchasedCourses'));
@@ -230,14 +229,14 @@ class DashboardAdminController extends Controller
         ]);
     }    
 
-    public function detailkursus($id, $name = null) 
+    public function detailkursus($courseId, $id = null) 
     {
         // Jika $name diberikan, maka ambil kategori berdasarkan nama tersebut
-        if ($name) {
-            $category = Category::with('courses')->where('name', $name)->firstOrFail();
+        if ($id) {
+            $category = Category::with('courses')->where('id', $id)->firstOrFail();
         } else {
             // Jika tidak ada $name, ambil kategori kursus berdasarkan kursus ID
-            $course = Course::findOrFail($id);
+            $course = Course::findOrFail($courseId);
             $category = $course->category; // Ambil kategori dari relasi di model Course
         }
 
@@ -296,69 +295,76 @@ class DashboardAdminController extends Controller
     public function laporan(Request $request)
     {
         $year = $request->input('year', date('Y'));
-        $selectedCourseId = $request->input('course_id'); // dari filter dropdown
     
-        // Ambil data pembayaran sukses + relasi ke purchases dan courses
-        $paymentsQuery = Payment::with(['user', 'purchase.course'])
-            ->where('transaction_status', 'settlement') // status sukses
-            ->whereYear('created_at', $year);
+        // Ambil data pendapatan admin (2% dari harga kursus) per kursus per bulan
+        $revenues = DB::table('purchases')
+            ->join('courses', 'purchases.course_id', '=', 'courses.id')
+            ->selectRaw('
+                courses.id as course_id, 
+                courses.title, 
+                MONTH(purchases.created_at) as month, 
+                SUM(courses.price * 0.02) as admin_revenue
+            ')
+            ->where('purchases.status', 'success')
+            ->whereYear('purchases.created_at', $year)
+            ->groupBy('course_id', 'month', 'courses.title')
+            ->orderBy('month', 'asc')
+            ->get();
     
-        if ($selectedCourseId) {
-            $paymentsQuery->whereHas('purchase', function ($q) use ($selectedCourseId) {
-                $q->where('course_id', $selectedCourseId);
-            });
-        }
-    
-        $payments = $paymentsQuery->get();
-    
-        // Siapkan array grafik pendapatan per kursus per bulan
-        $coursesRevenue = [];
+        // Siapkan nama bulan (1 s.d 12)
         $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        $totalRevenue = 0;
     
-        foreach ($payments as $payment) {
-            $course = $payment->purchase->course ?? null;
-            if (!$course) continue;
-    
-            $month = (int) $payment->created_at->format('n'); // bulan 1-12
-            $courseId = $course->id;
-            $amount = (float) $payment->amount;
-    
-            if (!isset($coursesRevenue[$courseId])) {
-                $coursesRevenue[$courseId] = [
-                    'title' => $course->title,
+        // Untuk keperluan grafik, kita bisa mengelompokkan data revenue per kursus.
+        $coursesRevenue = [];
+        $totalRevenue = 0; // 🆕 Variabel total pendapatan admin
+
+        foreach ($revenues as $rev) {
+            // Inisialisasi jika belum ada
+            if (!isset($coursesRevenue[$rev->course_id])) {
+                $coursesRevenue[$rev->course_id] = [
+                    'title' => $rev->title,
                     'monthly' => array_fill(1, 12, 0)
                 ];
             }
-    
-            $coursesRevenue[$courseId]['monthly'][$month] += $amount;
-            $totalRevenue += $amount;
+            // Set nilai revenue untuk bulan tertentu
+            $coursesRevenue[$rev->course_id]['monthly'][(int)$rev->month] = (float)$rev->admin_revenue;
+            // 🆕 Tambahkan pendapatan ke total
+            $totalRevenue += (float)$rev->admin_revenue;
         }
+
+        //mengurutkan data
+        uasort($coursesRevenue, function ($a, $b) {
+            $totalA = array_sum($a['monthly']);
+            $totalB = array_sum($b['monthly']);
+            return $totalB <=> $totalA;
+        });
+        
+        // 🔧 Reindex array agar key numerik dari 0
+        $reindexedCourses = array_values($coursesRevenue);
+        
+        // Konversi ke koleksi agar bisa dipaginate
+        $collection = collect($reindexedCourses);
+        
+        // Pagination
+        $perPage = 5;
+        $page = request()->get('page', 1);
+        $paginatedCourses = new LengthAwarePaginator(
+            $collection->forPage($page, $perPage),
+            $collection->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
     
-        // Ambil semua pembelian (untuk tabel)
-        $revenues = Purchase::with(['user', 'course', 'payment'])
-            ->whereHas('payment', function ($q) {
-                $q->where('transaction_status', 'settlement');
-            })
-            ->when($selectedCourseId, function ($q) use ($selectedCourseId) {
-                $q->where('course_id', $selectedCourseId);
-            })
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Ambil daftar tahun yang tersedia dari data purchases (opsional)
+        $years = DB::table('purchases')
+            ->select(DB::raw('YEAR(created_at) as year'))
+            ->distinct()
+            ->orderBy('year', 'asc')
+            ->pluck('year');
     
-        // Data dropdown semua kursus
-        $allCourses = Course::all();
-    
-        return view('dashboard-admin.laporan', [
-            'coursesRevenue' => $coursesRevenue,
-            'monthNames' => $monthNames,
-            'totalRevenue' => $totalRevenue,
-            'revenues' => $revenues,
-            'selectedCourseId' => $selectedCourseId,
-            'year' => $year,
-            'courses' => $allCourses,
-        ]);
-    }
+        return view('dashboard-admin.laporan', compact('coursesRevenue', 'monthNames', 'years', 'year', 'totalRevenue', 'paginatedCourses'));
+    } 
     
     // menampilkan halaman form tambah mentor
     public function tambahmentor()

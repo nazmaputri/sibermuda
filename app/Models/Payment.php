@@ -15,8 +15,6 @@ class Payment extends Model
         'transaction_status', 
         'transaction_id', 
         'amount',
-        'payment_url',
-        'purchase_id'
     ];
 
     // Relasi ke User
