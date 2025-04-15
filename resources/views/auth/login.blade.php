@@ -11,6 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- import sweetalert untuk popup -->
+    @vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
      <!-- Custom Style -->
      <style>
         body {
@@ -62,13 +64,6 @@
                     <h1 class="text-xl font-semibold text-gray-700">Masuk</h1>
                 </div>
             </div>
-
-            {{-- Flash Message --}}
-            @if (session('success'))
-                <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3">
-                    {{ session('success') }}
-                </div>
-            @endif
 
             {{-- Form Login --}}
             <form action="{{ route('login') }}" method="POST" class="space-y-4" id="form">
@@ -217,5 +212,14 @@
         }, 100); // delay sedikit agar smooth
     });
 </script>
+
+<!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
+@if(session('success') || session('error') || session('info') || session('warning'))
+    <div id="sweetalert-data"
+         data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
+         data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">
+    </div>
+@endif
+
 </body>
 </html>

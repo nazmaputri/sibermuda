@@ -3,9 +3,9 @@
 @section('content')
 
 <div class="container mx-auto">
-    <div class="bg-white border border-gray-300 rounded-lg shadow-md p-6 mb-6">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 mb-6">
         <!-- Detail Kategori -->
-        <h2 class="text-xl text-gray-700 font-semibold mb-6 text-center border-b-2 border-gray-300 pb-2 capitalize">
+        <h2 class="text-md text-gray-700 font-semibold mb-6 text-center border-b-2 border-gray-300 pb-2 capitalize">
             Daftar Kursus : {{ $category->name }}
         </h2>
         

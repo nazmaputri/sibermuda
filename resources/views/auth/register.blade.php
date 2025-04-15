@@ -79,7 +79,7 @@
 
                 <!-- Password Field -->
                 <div class="relative">
-                    <label for="password" class="block text-sm font-medium text-gray-700 pb-2">Kata Sandi</label>
+                    <label for="password" class="block text-sm font-medium text-gray-700 md:pb-1 pb-2">Kata Sandi</label>
                     <input type="password" name="password" id="password" class="p-2 mt-1 block text-sm w-full border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror" placeholder="Masukkan kata sandi">
                     <span class="absolute top-1/2 right-3 mt-2 cursor-pointer text-gray-500" id="togglePassword">
                         <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">

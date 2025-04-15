@@ -4,8 +4,8 @@
 <!-- <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script> -->
 
-<div class="bg-white p-8 rounded-lg shadow-md">
-    <h2 class="text-xl text-gray-700 font-semibold mb-6 border-b-2 border-gray-300 pb-2 text-center">Detail Kursus</h2>
+<div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
+    <h2 class="text-md text-gray-700 font-semibold mb-6 border-b-2 border-gray-300 pb-2 text-center">Detail Kursus</h2>
     
     <!-- container detail kursus -->
     <div class="flex flex-col sm:flex-row mb-4 space-y-4 sm:space-y-0 sm:space-x-4">
@@ -14,7 +14,7 @@
         </div>
         <div class="w-full sm:w-2/3 space-y-1">
             @if(!empty($course->title))
-                <h2 class="text-xl font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
+                <h2 class="text-md font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
             @endif
         
             @if(!empty($course->description))
@@ -35,7 +35,7 @@
 
             @if(!empty($course->price))
                 <div class="flex space-x-4">   
-                    <p class="text-red-500 inline-flex items-center text-sm rounded-xl font-semibold">
+                    <p class="text-red-500 inline-flex items-center text-sm rounded-md font-semibold">
                         Rp. {{ number_format($course->price, 0, ',', '.') }}
                     </p>
                     <div class="flex space-x-2 items-center text-center">
@@ -64,10 +64,15 @@
     
     <!-- container materi kursus -->
     <div class="mt-10">
-        <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
+        <h3 class="text-md font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
         <div class="space-y-6">
             @if($course->materi->isEmpty())
-                <p class="text-gray-600 text-center text-sm">Belum ada materi</p>
+                <div class="col-span-full text-center items-center justify-center flex flex-col">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mb-1 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                    </svg>
+                    <p class="text-gray-600 text-center text-sm">Belum ada materi.</p>
+                </div>
             @else
             @foreach($course->materi as $materi)
                 <div class="bg-neutral-50 p-4 rounded-lg shadow-md">
@@ -154,13 +159,18 @@
 </div>
 
 <!-- Section Ulasan Pengguna -->
-<div class="bg-white p-8 rounded-lg shadow-md mt-10">
-    <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Ulasan Pengguna</h3>
+<div class="bg-white p-8 rounded-lg shadow-md mt-10 border border-gray-200">
+    <h3 class="text-md font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Ulasan Pengguna</h3>
     <!-- card rating -->
     <div class="space-y-6">
     <!-- Jika tidak ada ulasan -->
     @if($rating->isEmpty())
-        <p class="text-gray-500 text-center text-sm">Belum ada ulasan</p>
+        <div class="col-span-full text-center items-center justify-center flex flex-col">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mb-1 text-gray-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+            </svg>
+            <p class="text-gray-600 text-center text-sm">Belum ada rating.</p>
+        </div>
     @else
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($rating as $rating)
@@ -185,11 +195,12 @@
         </div>
     @endif
     </div>
-</div>
 
     <div class="mt-6 flex justify-end">
-        <a href="{{ route('categories-detail', ['id' => $category->id]) }}" class="bg-sky-400 text-white font-semibold py-1.5 px-5 rounded-lg hover:bg-sky-300">
+        <a href="{{ route('kategori-peserta') }}" class="bg-sky-400 text-white font-semibold py-1.5 px-5 rounded-lg hover:bg-sky-300"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
             Kembali
         </a>           
     </div>
+
+</div>
 @endsection
