@@ -1,7 +1,5 @@
 @extends('layouts.dashboard-peserta')
 @section('content')
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
-
     <div class="bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-xl text-gray-700 font-semibold mb-6 border-b-2 border-gray-300 pb-2 text-center">Keranjang Saya</h2>
 
@@ -55,29 +53,25 @@
         <div class="flex flex-col lg:flex-row gap-6">
         <!-- kontainer untuk kursus yang ada di keranjang -->
         <div class="flex flex-col bg-white p-3 rounded-lg shadow lg:w-2/3 md:min-h-40">
-        @foreach ($carts as $cart)
-            <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
-                <img 
-                    src="{{ asset('storage/' . $cart->course->image_path) }}" 
-                    alt="Course Image" 
-                    class="w-24 h-24 object-cover rounded-md"
-                />
-                
-                <!-- Informasi Produk -->
-                <div class="flex-1 space-y-1">
-                    <h2 class="text-lg font-semibold text-gray-700">{{ $cart->course->title }}</h2>
-                    <p class="text-sm font-semibold text-red-400">Rp. <span class="">{{ number_format($cart->course->price, 0, ',', '.') }}</span></p>
-                    <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button class="flex text-center items-center justify-center rounded-md text-red text-xs" type="submit">
-                            <span class="text-sm text-red-400">Hapus</span>
-                        </button>
-                    </form>
+            @foreach ($carts as $cart)
+                <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
+                    <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md"/>
+        
+                    <!-- Informasi Produk -->
+                    <div class="flex-1 space-y-1">
+                        <h2 class="text-lg font-semibold text-gray-700">{{ $cart->course->title }}</h2>
+                        <p class="text-sm font-semibold text-red-400">Rp. <span class="">{{ number_format($cart->course->price, 0, ',', '.') }}</span></p>
+                        <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button class="flex text-center items-center justify-center rounded-md text-red text-xs" type="submit">
+                                <span class="text-sm text-red-400">Hapus</span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
-            </div>
-        @endforeach
-         </div>
+            @endforeach
+        </div>
 
         <!-- kontainer untuk apply kupon, total harga dan beli -->
         <div class="bg-white p-3 rounded-lg shadow flex-1 max-h-40">
@@ -172,7 +166,6 @@
         </form>
     </div>
 </div>
-
 
 <script>
     const payNowBtn = document.getElementById('pay-now');

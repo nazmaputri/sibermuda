@@ -35,6 +35,15 @@
             @enderror
         </div>
 
+        <!-- No Telepon -->
+         <div class="mb-4">
+            <label for="phone_number" class="block font-semibold text-gray-700">No Telepon</label>
+            <input type="number" name="phone_number" id="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" required>
+            @error('phone_number')
+                <p class="text-red-500 text-xs">{{ $message }}</p>
+            @enderror
+        </div>
+
         <!-- Password -->
         <div class="mb-4 relative">
             <label for="password" class="block font-semibold text-gray-700">Masukkan Kata Sandi Baru</label>

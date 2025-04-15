@@ -45,6 +45,7 @@ class SettingController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'password' => 'nullable|confirmed|min:8',
+            'phone_number' => 'nullable|string|max:15',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ]);
 
@@ -53,6 +54,7 @@ class SettingController extends Controller
 
         // Update data user
         $user->name = $request->name;
+        $user->phone_number = $request->phone_number;
         $user->email = $request->email;
 
         // Jika password diisi, update password
