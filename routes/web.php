@@ -50,7 +50,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('dashboard-admin/tambah-mentor', [DashboardAdminController::class, 'tambahmentor'])->name('tambah-mentor');
     Route::get('dashboard-admin/tambah-peserta', [DashboardAdminController::class, 'tambahpeserta'])->name('tambah-peserta');
     Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'peserta'])->name('datapeserta-admin');
-    Route::get('/kursus/{id}/{name}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
+    Route::get('/kursus/{courseId}/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
     Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus');
     Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan'])->name('laporan-admin');
     Route::get('dashboard-admin/rating', [DashboardAdminController::class, 'rating'])->name('rating-admin');
@@ -72,6 +72,9 @@ Route::middleware(['auth:admin'])->group(function () {
     //Import Peserta dari Excel
     Route::post('import-excel', [DashboardAdminController::class, 'importExcel'])->name('import.excel');
 
+    //Update status pembayaran
+    Route::put('/admin/update-status/{id}', [PaymentController::class, 'updateStatus'])->name('admin.update-status');
+
     //Discount 
     Route::get('discount', [DiscountController::class, 'index'])->name('discount');
     Route::get('discount-tambah', [DiscountController::class, 'create'])->name('discount-tambah');
@@ -81,11 +84,11 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::delete('discount/{id}', [DiscountController::class, 'destroy'])->name('discount.destroy');
 
     // Kategori
-    Route::patch('/courses/{id}/{name}/approve', [DashboardAdminController::class, 'approve'])->name('courses.approve');
-    Route::patch('/courses/{id}/{name}/publish', [DashboardAdminController::class, 'publish'])->name('courses.publish');
-    Route::patch('/courses/{id}/{name}/hiddencourse', [DashboardAdminController::class, 'hiddencourse'])->name('hiddencourse');
+    Route::patch('/courses/{categoryId}/{courseId}/approve', [DashboardAdminController::class, 'approve'])->name('courses.approve');
+    Route::patch('/courses/{categoryId}/{courseId}/publish', [DashboardAdminController::class, 'publish'])->name('courses.publish');
+    Route::patch('/courses/{categoryId}/{courseId}/hiddencourse', [DashboardAdminController::class, 'hiddencourse'])->name('hiddencourse');
     Route::resource('categories', CategoryController::class);
-    Route::get('/categories/{name}', [CategoryController::class, 'show'])->name('categories.show');
+    Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 });
 
 Route::middleware(['auth:student'])->group(function () {
@@ -118,7 +121,7 @@ Route::middleware(['auth:student'])->group(function () {
 
     Route::get('/certificate-detail/{courseId}', [CertificateController::class, 'certificate'])->name('certificate-detail');
     Route::get('/certificate/download/{courseId}', [CertificateController::class, 'downloadCertificate'])->name('certificate.download');
-    Route::post('/create-payment', [PaymentController::class, 'createPayment']);
+    Route::post('/create-payment', [PaymentController::class, 'createPayment'])->name('create-payment');
     Route::post('/update-payment-status', [PaymentController::class, 'updatePaymentStatus']);
 });
 

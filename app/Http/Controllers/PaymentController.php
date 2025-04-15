@@ -18,92 +18,50 @@ class PaymentController extends Controller
     
     public function createPayment(Request $request)
     {
-        $user = Auth::user(); // Ambil user yang sedang login
-        if (!$user) {
-            return response()->json(['error' => 'User tidak ditemukan'], 401);
-        }
-    
-        // Ambil semua item di keranjang berdasarkan user_id
-        $keranjangItems = Keranjang::where('user_id', $user->id)->with('course')->get();
-    
-        if ($keranjangItems->isEmpty()) {
-            return response()->json(['error' => 'Keranjang kosong'], 400);
-        }
-    
-        // Cek apakah ada kode kupon yang dikirim dan valid
-        $couponCode = $request->input('coupon_code');
-        $discount = null;
-        if ($couponCode) {
-            $discount = Discount::where('coupon_code', $couponCode)
-                ->where('start_date', '<=', now())
-                ->where('end_date', '>=', now())
-                ->first();
-        }
-    
-        $totalAmount = 0;
-        $itemDetails = [];
-    
-        // Iterasi tiap item di keranjang untuk menghitung harga diskon (jika ada)
-        foreach ($keranjangItems as $item) {
-            $originalPrice = $item->course->price;
-            $price = $originalPrice;
-    
-            // Jika ada diskon dan berlaku untuk item ini
-            if ($discount) {
-                if ($discount->apply_to_all || $discount->courses->contains($item->course->id)) {
+        try {
+            $user = Auth::guard('student')->user();
+            if (!$user) {
+                return response()->json(['success' => false, 'message' => 'User tidak ditemukan'], 401);
+            }
+        
+            $keranjangItems = Keranjang::where('user_id', $user->id)->with('course')->get();
+            if ($keranjangItems->isEmpty()) {
+                return response()->json(['success' => false, 'message' => 'Keranjang kosong'], 400);
+            }
+        
+            $couponCode = $request->input('coupon_code');
+            $discount = null;
+        
+            if ($couponCode) {
+                $discount = Discount::where('coupon_code', $couponCode)
+                    ->where('start_date', '<=', now())
+                    ->where('end_date', '>=', now())
+                    ->first();
+            }
+        
+            $totalAmount = 0;
+            foreach ($keranjangItems as $item) {
+                $originalPrice = $item->course->price;
+                $price = $originalPrice;
+        
+                if ($discount && ($discount->apply_to_all || $discount->courses->contains($item->course->id))) {
                     $price = $originalPrice - ($originalPrice * $discount->discount_percentage / 100);
                 }
+        
+                $totalAmount += $price;
             }
-    
-            $totalAmount += $price;
-    
-            $itemDetails[] = [
-                'id'       => 'COURSE-' . $item->course_id,
-                'price'    => $price,
-                'quantity' => 1,
-                'name'     => $item->course->title,
-            ];
-        }
-    
-        // Buat Order ID unik yang akan digunakan sebagai transaction_id
-        $orderId = 'ORDER-' . time();
-    
-        // Konfigurasi Midtrans
-        Config::$serverKey    = env('MIDTRANS_SERVER_KEY');
-        Config::$clientKey    = env('MIDTRANS_CLIENT_KEY'); // Pastikan clientKey diambil dari .env
-        Config::$isProduction = false;
-        Config::$isSanitized  = true;
-        Config::$is3ds        = true;
-    
-        // Data transaksi Midtrans dengan harga total yang sudah didiskon (jika ada)
-        $transactionData = [
-            'transaction_details' => [
-                'order_id'     => $orderId,
-                'gross_amount' => $totalAmount,
-            ],
-            'item_details' => $itemDetails,
-            'customer_details' => [
-                'first_name' => $user->name,
-                'email'      => $user->email,
-                'phone'      => $user->phone ?? '08123456789',
-            ],
-        ];
-    
-        try {
-            // Ambil Snap Token dari Midtrans dengan data transaksi yang sudah diperbarui
-            $snapToken = Snap::getSnapToken($transactionData);
-    
-            // Simpan transaksi ke tabel `payments`
+        
+            $orderId = 'ORDER-' . time();
+        
+            // Pastikan hanya field yang valid yang dikirim ke Payment::create()
             $payment = Payment::create([
                 'user_id'            => $user->id,
                 'transaction_id'     => $orderId,
-                'payment_type'       => 'midtrans',
-                'transaction_status' => 'pending', // status awal pending
-                'amount'             => $totalAmount,
-                'payment_url'        => null,
+                'payment_type'       => 'whatsapp',
+                'transaction_status' => 'pending',
+                'amount'             => $totalAmount
             ]);
-    
-            // Simpan setiap item keranjang ke tabel `purchases` dengan transaction_id yang sama
+        
             foreach ($keranjangItems as $item) {
                 Purchase::create([
                     'user_id'        => $user->id,
@@ -112,24 +70,41 @@ class PaymentController extends Controller
                     'status'         => 'pending'
                 ]);
             }
-    
-            // Data keranjang tidak dihapus di sini karena status awalnya pending.
-            // Penghapusan data keranjang akan dilakukan pada notifikasi Midtrans ketika status transaksi sudah success.
-    
+        
             return response()->json([
-                'snapToken' => $snapToken,
-                'payment'   => $payment,
-                'order_id'  => $orderId,
+                'success'   => true,
+                'message'   => 'Transaksi berhasil dicatat.',
+                'order_id'  => $orderId
             ]);
         } catch (\Exception $e) {
+            \Log::error('Gagal menyimpan payment: ' . $e->getMessage());
             return response()->json([
-                'error'   => 'Gagal mendapatkan token pembayaran',
-                'message' => $e->getMessage()
-            ], 500);
+                'success' => false,
+                'message' => 'Gagal menyimpan data.',
+                'error' => $e->getMessage(), // tambahkan baris ini untuk debug cepat
+            ]);
         }
     }
+     
+    public function updateStatus($id)
+    {
+        $payment = Payment::findOrFail($id);
+
+        // Update status pembayaran
+        $payment->transaction_status = 'success';
+        $payment->save();
+
+        // Update status pembelian berdasarkan transaction_id yang sama
+        $purchase = Purchase::where('transaction_id', $payment->transaction_id)->first();
+
+        if ($purchase) {
+            $purchase->status = 'success';
+            $purchase->save();
+        }
+
+        return redirect()->back()->with('success', 'Status pembayaran dan pembelian berhasil diubah.');
+    }
         
-    
     public function updatePaymentStatus(Request $request)
     {
         $orderId = $request->input('order_id');
@@ -159,7 +134,7 @@ class PaymentController extends Controller
             'message' => 'Status pembayaran berhasil diperbarui.',
         ]);
     }
-    
+ 
     
 }
 

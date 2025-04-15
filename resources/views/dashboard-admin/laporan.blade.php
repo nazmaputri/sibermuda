@@ -2,25 +2,6 @@
 
 @section('content')
 <div class="container mx-auto">
-<<<<<<< HEAD
-    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
-        <div class="flex flex-col items-center mb-4">
-            <div class="flex items-center space-x-4">
-                <h2 class="text-xl font-semibold inline-block pb-1 text-gray-700">
-                    Laporan Pendapatan
-                </h2>
-                @php
-                    $years = range(2023, 2025);
-                    $currentYear = isset($year) ? $year : date('Y');
-                @endphp
-                <select id="yearFilter" class="p-1 border rounded-md focus:outline-none focus:ring focus:ring-sky-200">
-                    @foreach ($years as $availableYear)
-                        <option value="{{ $availableYear }}" {{ $availableYear == $currentYear ? 'selected' : '' }}>
-                            {{ $availableYear }}
-                        </option>
-                    @endforeach
-                </select>
-=======
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow-md p-5 flex items-center">
             <div class="p-2 bg-red-500 rounded-full">
@@ -31,7 +12,6 @@
             <div class="ml-4">
                 <h2 class="text-xl font-semibold text-red-700">Rp.100.000.000</h2>
                 <p class="text-md font-semibold text-red-600">Pendapatan Keseluruhan</p>
->>>>>>> 9229acf410835896412f9dd9fb7287a290e7b1f1
             </div>
         </div>
 
@@ -181,7 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('yearFilter').addEventListener('change', function () {
         const selectedYear = this.value;
-        window.location.href = `?year=${selectedYear}`;
+        window.location.href = ?year=${selectedYear};
     });
 });
 </script>

@@ -51,7 +51,7 @@
                         <td class="py-3 px-4 text-center border-b border-t border-r border-gray-200">
                             <div class="flex justify-center items-center space-x-4">
                                 <!-- Tombol Lihat Detail -->
-                                <a href="{{ route('detail-kursusadmin', [$course->id, $category->name]) }}" 
+                                <a href="{{ route('detail-kursusadmin', [$course->id, $category->id]) }}" 
                                     class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200 flex items-center" title="Lihat">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -63,7 +63,7 @@
                                 </a>
 
                                 <!-- Tombol Setujui Kursus -->
-                                <form action="{{ route('courses.approve', ['id' => $course->id, 'name' => $category->name]) }}" 
+                                <form action="{{ route('courses.approve', ['categoryId' => $category->id, 'courseId' => $course->id]) }}" 
                                     method="POST" 
                                     class="flex items-center" 
                                     title="Setujui Kursus">
@@ -88,9 +88,9 @@
                                 <form 
                                     action="{{ 
                                         $course->status == 'published' 
-                                            ? route('hiddencourse', ['id' => $course->id, 'name' => $category->name]) 
+                                            ? route('hiddencourse', ['categoryId' => $category->id, 'courseId' => $course->id]) 
                                             : ($course->status == 'approved' || $course->status == 'nopublished'
-                                                ? route('courses.publish', ['id' => $course->id, 'name' => $category->name]) 
+                                                ? route('courses.publish', ['categoryId' => $category->id, 'courseId' => $course->id]) 
                                                 : '#') 
                                     }}" 
                                     method="POST" class="toggle-form">

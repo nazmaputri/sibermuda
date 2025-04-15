@@ -1,5 +1,4 @@
 @extends('layouts.dashboard-peserta')
-
 @section('content')
 <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
 
@@ -121,39 +120,59 @@
 <!-- Modal Overlay -->
 <div id="registration-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
     <!-- Modal Box -->
-    <div class="bg-white w-full max-w-md mx-auto rounded-lg shadow-lg p-6 relative">
+    <div class="bg-white w-full max-w-md mx-auto rounded-2xl shadow-2xl p-8 relative animate__animated animate__fadeInDown">
         <!-- Tombol Close -->
-        <button id="close-modal" class="px-2 py-0.5 bg-red-100 hover:bg-red-50 rounded-md absolute top-2 right-2 text-red-500 hover:text-red-400 text-xl font-bold">&times;</button>
-        
-        <h3 class="text-xl font-semibold mb-4 text-gray-700 text-center">Formulir Pendaftaran</h3>
+        <button id="close-modal" class="absolute top-4 right-4 text-red-500 hover:text-red-600 text-2xl font-bold">
+            &times;
+        </button>
+
+        <h3 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Formulir Pendaftaran</h3>
+
         <form id="wa-form">
-            <label class="block mb-3">
-                <span class="text-gray-700">Nama Lengkap</span>
-                <input id="nama" type="text" class="mt-1 block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" value="{{ Auth::user()->name }}" {{ Auth::user()->name ? 'readonly' : '' }} >
-            </label>
-            <label class="block mb-3">
-                <span class="text-gray-700">Email</span>
-                <input id="email" type="email"  class="mt-1 block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" value="{{ Auth::user()->email }}" {{ Auth::user()->email ? 'readonly' : '' }}>
-            </label>
-            <label class="block mb-4">
-                <span class="text-gray-700">No Telepon</span>
-                <input id="telepon" type="tel"  class="mt-1 block w-full border border-gray-300 rounded p-2 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" value="{{ Auth::user()->phone_number }}" {{ Auth::user()->phone_number ? 'readonly' : '' }}>
-            </label>
+            <div class="space-y-4">
+                <label class="block">
+                    <span class="text-gray-700 font-medium">Nama Lengkap</span>
+                    <input id="nama" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        value="{{ Auth::user()->name }}" readonly>
+                </label>
+                <label class="block">
+                    <span class="text-gray-700 font-medium">Email</span>
+                    <input id="email" type="email" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        value="{{ Auth::user()->email }}" readonly>
+                </label>
+                <label class="block">
+                    <span class="text-gray-700 font-medium">No Telepon</span>
+                    <input id="telepon" type="telp" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                        value="{{ Auth::user()->phone_number }}" readonly>
+                </label>
+            </div>
 
-            <!-- Tambahkan data kursus dan total harga sebagai <input hidden> jika ingin dikirim -->
-            <input type="hidden" id="nama-kursus" value="Kursus Pemrograman Laravel">
-            <input type="hidden" id="total-harga" value="Rp 150.000">
+            <!-- Kursus dari keranjang -->
+            @php
+                $courseTitles = $carts->pluck('course.title')->toArray();
+                $courseList = implode(', ', $courseTitles);
+            @endphp
 
-            <p class="pb-2 text-gray-700">Kursus Yang Dibeli :</p>
-            <p class="pb-2 text-gray-700">Total harga :</p>
-            <p class="pb-2 text-gray-700">No Rekening Admin : 0895365544316</p>
+            <input type="hidden" id="nama-kursus" value="{{ $courseList }}">
+            <input type="hidden" id="total-harga" value="Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}">
 
-            <button type="submit" class="bg-sky-500 text-white px-4 py-2 rounded hover:bg-sky-400 w-full">
-                Kirim Bukti Pembayaran
-            </button>
+            <div class="mt-6 text-gray-700 space-y-1 text-sm">
+                <p><strong>Kursus:</strong> {{ $courseList }}</p>
+                <p><strong>Total Harga:</strong> Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}</p>
+                <p><strong>No Rekening Admin:</strong> 0895365544316 (Dana/Bank)</p>
+            </div>
+
+            <!-- Tombol WhatsApp -->
+            <a id="kirim-wa"
+               href="#"
+               target="_blank"
+               class="mt-6 block text-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg w-full transition-all duration-200">
+                Kirim Bukti Pembayaran via WhatsApp
+            </a>
         </form>
     </div>
 </div>
+
 
 <script>
     const payNowBtn = document.getElementById('pay-now');
@@ -178,22 +197,52 @@
         }
     });
 
-     // WA Form Submit Handler
-     document.getElementById('wa-form').addEventListener('submit', function (e) {
+    document.getElementById('kirim-wa').addEventListener('click', function (e) {
         e.preventDefault();
 
-        const nama = document.getElementById('nama').value;
-        const email = document.getElementById('email').value;
-        const telepon = document.getElementById('telepon').value;
+        const nama = document.getElementById('nama')?.value || 'Tidak Ada';
+        const email = document.getElementById('email')?.value || 'Tidak Ada';
+        const telepon = document.getElementById('telepon')?.value || 'Tidak Ada';
+        const kursus = document.getElementById('nama-kursus')?.value || 'Tidak Ada';
+        const harga = document.getElementById('total-harga')?.value || '{{ $totalPriceAfterDiscount }}';
 
-        const pesan = `Halo Admin, saya ingin mengkonfirmasi pembayaran:\n\nNama: ${nama}\nEmail: ${email}\nNo Telepon: ${telepon}\n\nSaya telah melakukan pembayaran untuk kursus. Terima kasih.`;
+        const nomorAdmin = '62895365544316';
+        const pesan = `Halo Admin, saya ingin mengkonfirmasi pembayaran untuk:\n\n` +
+            `👤 Nama: ${nama}\n📧 Email: ${email}\n📱 Telepon: ${telepon}\n\n` +
+            `💻 Kursus: ${kursus}\n💰 Total: Rp ${harga}\n\n` +
+            `Saya sudah melakukan pembayaran, berikut bukti transfernya.`;
 
-        const nomor = "62895365544316"; // Gunakan format internasional (62 untuk Indonesia)
-        const url = `https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`;
+        const whatsappUrl = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesan)}`;
 
-        window.open(url, '_blank'); // Buka link di tab baru
-    });
+        fetch(`{{ route('create-payment') }}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            },
+            body: JSON.stringify({
+                whatsapp_url: whatsappUrl,
+                coupon_code: '{{ $couponCode ?? '' }}',
+            }),
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('Gagal menyimpan data.');
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                window.open(whatsappUrl, '_blank');
+            } else {
+                alert(data.message || 'Gagal menyimpan data ke server.');
+            }
+        })
         
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat mengirim data.');
+        });
+    });
+     
     document.getElementById('apply-coupon').addEventListener('click', function() {
         let couponCode = document.getElementById('coupon-code').value;
         if (couponCode) {
