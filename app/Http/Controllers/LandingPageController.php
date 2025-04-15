@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\MateriVideo;
-use App\Models\MateriPdf;
+use App\Models\Materi;
 use App\Models\Rating;
 use App\Models\RatingKursus;
 use App\Models\Quiz;
@@ -47,9 +47,12 @@ class LandingPageController extends Controller
 
         // Menghitung rating rata-rata untuk setiap kursus dari tabel rating_kursus
         foreach ($courses as $course) {
-            $course->video_count = $course->videos()->count();
+            $course->video_count = MateriVideo::whereIn('materi_id', 
+            Materi::where('course_id', $course->id)->pluck('id')
+        )->count();
+        
             $course->quiz_count = $course->quizzes()->count();
-            $course->pdf_count = $course->pdfMaterials()->count();
+            // $course->pdf_count = $course->pdfMaterials()->count();
             
             // Menghitung rata-rata rating dan membatasi maksimal 5
             $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');

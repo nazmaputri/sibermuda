@@ -10,11 +10,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
 
      <!-- Custom Style -->
      <style>
         body {
-            font-family: "Quicksand", sans-serif !important;
+            font-family: "Nunito", sans-serif !important;
         }
         @layer utilities {
             @keyframes zoom-in {
@@ -38,29 +39,27 @@
 <!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
 <x-loading-screen />
 
-    <div class="flex justify-center items-center min-h-screen p-6">
-        <div class="w-full max-w-md p-5 space-y-6 bg-white rounded-lg shadow-lg">
-            <!-- Logo and Website Name -->
-            <div class="flex flex-col items-center justify-center space-y-2">
-                <div class="flex items-center space-x-3">
-                    <img src="{{ asset('storage/eduflix-1.png') }}" alt="Logo" class="w-18 h-16">
-                    <h1 class="text-xl font-bold text-sky-600">Daftar</h1>
-                </div>
-                <h4 class="text-center text-sky-600">
-                    Klik disini untuk daftar sebagai mentor! 
-                    <a href="register-mentor" class="text-blue-900 underline">Daftar</a>
-                </h4>
-            </div>  
+    <div class="flex justify-center items-center min-h-screen px-4 py-2">
+        <div class="flex flex-col md:flex-row justify-center items-center p-6 w-full max-w-4xl space-y-6 bg-white rounded-lg shadow-lg">
 
+        <!-- Gambar di sebelah kiri, hanya tampil di md ke atas -->
+        <div class="hidden md:block">
+            <img src="{{ asset('storage/belajar-with-laptop.jpg') }}" alt="Login Image" class="h-full w-full object-contain">
+        </div>
+
+        <div class="w-full space-y-2">
+            <h1 class="text-xl font-bold text-gray-700 text-center">Daftar</h1>
+            <h4 class="text-center text-gray-700">Klik disini untuk daftar sebagai mentor!<a href="register-mentor" class="text-gray-700 underline">Daftar</a></h4>
             <!-- Form -->
             <form action="{{ route('register') }}" method="POST" class="space-y-4" id="form">
                 @csrf
 
-                <!-- Name Field -->
-                <div>
-                    <label for="name" class="block text-sm font-medium text-sky-600 pb-2">Nama Lengkap</label>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <!-- Name Field -->
+                <div class="md:col-span-2">
+                    <label for="name" class="block text-sm font-medium text-gray-700 pb-2">Nama Lengkap</label>
                     <input type="text" name="name" id="name" value="{{ old('name') }}" 
-                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 
+                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
                         @error('name') border-red-500 @enderror" placeholder="Masukkan nama lengkap">
                     @error('name')
                         <p class="text-red-500 text-sm mt-1" id="name-error">{{ $message }}</p>
@@ -69,9 +68,9 @@
 
                 <!-- Email Field -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-sky-600 pb-2">Email</label>
+                    <label for="email" class="block text-sm font-medium text-gray-700 pb-2">Email</label>
                     <input type="email" name="email" id="email" value="{{ old('email') }}" 
-                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 
+                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
                         @error('email') border-red-500 @enderror" placeholder="Masukkan email">
                     @error('email')
                         <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
@@ -80,8 +79,8 @@
 
                 <!-- Password Field -->
                 <div class="relative">
-                    <label for="password" class="block text-sm font-medium text-sky-600 pb-2">Kata Sandi</label>
-                    <input type="password" name="password" id="password" class="p-2 mt-1 block w-full border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('password') border-red-500 @enderror" placeholder="Masukkan kata sandi">
+                    <label for="password" class="block text-sm font-medium text-gray-700 pb-2">Kata Sandi</label>
+                    <input type="password" name="password" id="password" class="p-2 mt-1 block text-sm w-full border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror" placeholder="Masukkan kata sandi">
                     <span class="absolute top-1/2 right-3 mt-2 cursor-pointer text-gray-500" id="togglePassword">
                         <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                             <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -95,8 +94,8 @@
 
                 <!-- Confirm Password Field -->
                 <div class="relative">
-                    <label for="password_confirmation" class="block text-sm font-medium text-sky-600 pb-2">Konfirmasi Kata Sandi</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" class="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('password_confirmation') border-red-500 @enderror" placeholder="Masukkan ulang kata sandi">
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 pb-2">Konfirmasi Kata Sandi</label>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password_confirmation') border-red-500 @enderror" placeholder="Masukkan ulang kata sandi">
                     <span class="absolute mt-2 right-3 cursor-pointer text-gray-500" id="toggleConfirmPassword">
                         <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                             <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -110,13 +109,14 @@
 
                 <!-- Phone Number Field -->
                 <div>
-                    <label for="phone_number" class="block text-sm font-medium text-sky-600 pb-2">Nomor Telepon</label>
+                    <label for="phone_number" class="block text-sm font-medium text-gray-700 pb-2">Nomor Telepon</label>
                     <input type="number" name="phone_number" id="phone_number" value="{{ old('phone_number') }}" 
-                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 
+                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
                         @error('phone_number') border-red-500 @enderror" placeholder="Masukkan nomor telepon">
                     @error('phone_number')
                         <p class="text-red-500 text-sm mt-1" id="phone_number-error">{{ $message }}</p>
                     @enderror
+                </div>
                 </div>
 
                 <!-- Hidden Role Field -->
@@ -124,16 +124,17 @@
 
                 <!-- Submit Button -->
                 <div>
-                    <button type="submit" id="btn-submit" class="inline-flex justify-center items-center w-full px-4 py-2 bg-sky-600 text-white font-semibold rounded-md hover:bg-sky-500 focus:outline-none">
+                    <button type="submit" id="btn-submit" class="inline-flex justify-center items-center w-full px-4 py-2 bg-[#08072a] text-white font-semibold rounded-md hover:bg-opacity-90 focus:outline-none">
                         Daftar
                     </button>
                 </div>
 
-                <h4 class="text-center text-sky-600">
+                <h4 class="text-center text-gray-700">
                     Sudah punya akun? 
                     <a href="/login" class="text-blue-900 underline">Login</a>
                 </h4>
             </form>
+        </div>
         </div>
     </div>
 
@@ -151,8 +152,8 @@
         buttonSubmit.setAttribute('disabled', true);
         
         // Tambahkan kelas untuk menonaktifkan hover dan pointer
-        buttonSubmit.classList.add('cursor-not-allowed', 'bg-sky-500');
-        buttonSubmit.classList.remove('hover:bg-sky-500');
+        buttonSubmit.classList.add('cursor-not-allowed', 'bg-[#08072a]');
+        buttonSubmit.classList.remove('hover:bg-[#08072a]');
     });
 
     // Fungsi untuk menghapus class error dan menyembunyikan pesan error validasi (form line 149 to 168)

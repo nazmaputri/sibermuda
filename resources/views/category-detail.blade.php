@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
 
     <!-- AOS CSS -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -20,7 +21,7 @@
     <!-- Custom Style -->
     <style>
         body {
-            font-family: "Quicksand", sans-serif !important;
+            font-family: "Nunito", sans-serif !important;
         }
     </style>
 </head>
@@ -30,7 +31,7 @@
     <!-- Bagian Materi Kursus -->
     <section id="course" class="py-12 bg-white p-6">
         <div class="mb-4 mt-8">
-            <h3 class="md:text-3xl text-2xl font-bold text-center text-sky-400" data-aos="fade-up">
+            <h3 class="text-xl font-bold text-center text-[#08072a]" data-aos="fade-up">
                 Daftar Kursus Yang Tersedia
             </h3>
         </div>

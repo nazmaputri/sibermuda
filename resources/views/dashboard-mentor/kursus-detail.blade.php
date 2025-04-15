@@ -174,7 +174,7 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg>
                                 </a>
-                                <button type="button" class="text-white bg-red-400 p-1 rounded-md hover:bg-red-300" onclick="openDeleteModal('{{ route('final-destroy', [$course, $quiz->id]) }}')" title="Hapus">
+                                <button type="button" class="text-white bg-red-400 p-1 rounded-md hover:bg-red-300" onclick="openDeleteModalTask('{{ route('final-destroy', [$course, $quiz->id]) }}')" title="Hapus">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                                     </svg>
@@ -367,6 +367,26 @@
     </div>
 </div>
 
+<!-- Modal Konfirmasi Hapus Tugas Akhir -->
+<div id="deleteModalTask" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden z-[1000]">
+    <div class="bg-white p-5 rounded-md w-96 justify-center mx-4">
+        <div class="flex justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-gray-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
+            </svg>
+        </div>
+        <p class="text-gray-600 text-center">Apakah Anda yakin ingin menghapus tugas akhir ini?</p>
+        <div class="flex justify-center space-x-4">
+            <button onclick="closeDeleteModalTask()" class="bg-red-400 font-semibold px-4 py-2 rounded-md hover:bg-red-300 text-white mt-4">Batal</button>
+            <form id="confirmDeleteFormTask" action="" method="POST" class="inline">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="bg-green-400 font-semibold text-white px-4 py-2 rounded-md hover:bg-green-300 mt-4">Hapus</button>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
     let deleteUrl = '';  // Variabel untuk menyimpan URL hapus materi
         // Fungsi untuk membuka modal dan mengatur URL hapus
@@ -393,6 +413,18 @@
     // Fungsi untuk menutup popup konfirmasi hapus rating kursus
     function closePopup() {
         document.getElementById('confirm-popup').classList.add('hidden');
+    }
+
+    function openDeleteModalTask(deleteUrl) {
+        const modal = document.getElementById('deleteModalTask');
+        const form = document.getElementById('confirmDeleteFormTask');
+        form.action = deleteUrl;
+        modal.classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+        const modal = document.getElementById('deleteModalTask');
+        modal.classList.add('hidden');
     }
 
     // Menambahkan event listener untuk toggle

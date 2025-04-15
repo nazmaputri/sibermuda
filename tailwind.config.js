@@ -8,6 +8,7 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
+        './resources/views/components/*.blade.php'
     ],
     theme: {
         extend: {
@@ -18,6 +19,7 @@ export default {
                 primary: '#01236B',
                 'primary-sidebar': '#338DEB',
                 'primary-sidebar-hover': '#85afdb',
+                'midnight' : '#08072a',
             },
         },
     },

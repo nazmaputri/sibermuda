@@ -1,12 +1,22 @@
+<style>
+    /* Animasi hover untuk card testimoni */
+    .hover\:shadow-lg:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- import sweetalert untuk popup -->
+@vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
+
 <!-- Testimoni Section -->
-<section id="rating" class="bg-sky-50 py-16">
+<section id="rating" class="bg-white py-16">
     <div class="container mx-auto px-2 md:px-12">
         <div class="mb-6 text-center">
-            <h3 class="md:text-3xl text-2xl font-bold text-sky-400" data-aos="fade-down">
-                Testimoni Pengguna
+            <h3 class="text-xl font-bold text-[#08072a]" data-aos="fade-down">
+                Kata Mereka Tentang Sibermuda
             </h3>
             <p class="text-md text-gray-700 mt-2" data-aos="fade-down">
-                Apa kata pengguna kami setelah mengikuti kursus di Eduflix?
+                Kami percaya, mereka yang telah lulus dari Sibermuda punya cerita sukses yang menginspirasi.
             </p>
         </div>
         <div class="overflow-x-auto hide-scrollbar">
@@ -22,13 +32,13 @@
                             <div class="flex items-center mb-1 w-[300px]">
                                 <!-- Gambar avatar (ikon user) -->
                                 <div class="w-14 h-14 rounded-full flex items-center justify-center">
-                                    <img width="48" height="48" src="https://img.icons8.com/pulsar-color/48/user-male-circle.png" alt="user-male-circle"/>
+                                    <img width="44" height="44" src="{{ asset('storage/default-profile.jpg') }}" alt="Default Profile"/>
                                 </div>
         
                                 <!-- Nama dan Rating -->
                                 <div class="ml-4">
                                     <!-- Nama User -->
-                                    <h4 class="text-xl font-semibold text-sky-400">{{ $rating->nama }}</h4>
+                                    <h4 class="text-md font-semibold text-midnight">{{ $rating->nama }}</h4>
                                     <div class="flex items-center">
                                         <!-- Menampilkan bintang berdasarkan rating -->
                                         @for ($i = 0; $i < 5; $i++)
@@ -46,163 +56,154 @@
             @endif
         </div>
         
-    </div>
+        <div id="openRatingBtn" class="mb-6 text-center"  data-aos="zoom-in-up">
+            <button class="text-md px-6 py-2 rounded-full bg-white border border-gray-700 hover:bg-[#08072a] hover:text-white mt-2 text-midnight font-semibold shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
+                Berikan Rating Sibermuda
+            </button>
+        </div>
 
-    <style>
-        /* Animasi hover untuk card testimoni */
-        .hover\:shadow-lg:hover {
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-    </style>
-</section>
+    </div>
 
 <!-- Rating Section -->
-<section id="rating" class="bg-sky-50 py-16">
-    <div class="container mx-auto px-2">
-        <div class="flex flex-col lg:flex-row lg:space-x-12 items-center">
-            <!-- Image Section -->
-            <div class="lg:w-1/3 order-1 lg:order-2 lg:mb-0 flex justify-center" data-aos="fade-left">
-                <img src="{{ asset('storage/eduflix-1.png') }}" alt="Gambar" class="w-4/4 h-auto">
-            </div>
+<section id="ratingform" class="fixed inset-0 w-full h-full bg-black bg-opacity-50 items-center justify-center p-4 hidden z-[1000] flex">
+    <div class="container mx-auto md:mx-16 my-10 rounded rounded-md px-2 bg-white max-w-xl w-full">
+        <div class="flex flex-col items-center space-y-6 p-6">
+            <!-- Close Button with Icon -->
+            <button id="closeRatingBtn" class="flex items-center text-sm text-red-500 hover:text-red-600 gap-1 self-end">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="red">
+                    <path fill-rule="evenodd" d="M10 8.586L15.95 2.636a1 1 0 111.414 1.414L11.414 10l5.95 5.95a1 1 0 01-1.414 1.414L10 11.414l-5.95 5.95a1 1 0 01-1.414-1.414L8.586 10 2.636 4.05a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
+                </svg>
+            </button>
 
-            <!-- Text Content -->
-            <div class="lg:w-7/12 space-y-6 order-2 lg:order-1" data-aos="fade-right">
-                <!-- Title -->
-                <div class="mb-6">
-                    <h3 class="md:text-3xl text-2xl font-bold text-sky-400">
-                        Berikan Penilaian Anda untuk Eduflix
-                    </h3>
+            <!-- Rating Form -->
+            <form class="space-y-4 w-full" method="POST" action="{{ route('rating.store') }}">
+                @csrf
+
+                <!-- Nama -->
+                <div>
+                    <label for="nama" class="block text-md text-gray-700">Nama :</label>
+                    <input type="text" id="nama" name="nama" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:border-[#08072a] @error('nama') border-red-500 @enderror" placeholder="Masukkan nama Anda"/>
+                    @error('nama')
+                        <span class="text-red-500 text-sm block mt-1" id="error-nama">{{ $message }}</span>
+                    @enderror
                 </div>
 
-                <!-- Rating Form -->
-                <form class="space-y-4" method="POST" action="{{ route('rating.store') }}">
-                    @csrf
-                    <!-- label for name -->
-                    <div>
-                        <label for="nama" class="block text-md text-gray-700">Nama :</label>
-                        <input type="nama" id="nama" name="nama" class="text-gray-600 border border-gray-300 rounded-md p-2 w-full max-w-xs focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 @error('nama') border-red-500 @enderror" placeholder="Masukkan nama Anda"/>
-                        @error('nama')
-                            <span class="text-red-500 text-sm block mt-1" id="error-nama">{{ $message }}</span>
-                        @enderror
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-md text-gray-700">Email :</label>
+                    <input type="email" id="email" name="email" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:border-[#08072a] @error('email') border-red-500 @enderror" placeholder="Masukkan email Anda"/>
+                    @error('email')
+                        <span class="text-red-500 text-sm block mt-1" id="error-email">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Rating -->
+                <div>
+                    <label for="rating" class="block text-md text-gray-700">Rating :</label>
+                    <div id="rating" class="flex space-x-1 border rounded-md p-2.5 bg-white w-full">
+                        @for ($i = 1; $i <= 5; $i++)
+                            <svg data-value="{{ $i }}" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 cursor-pointer transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 .587l3.668 7.451 8.332 1.151-6.064 5.865 1.486 8.246L12 18.897l-7.422 4.403 1.486-8.246L.667 9.189l8.332-1.151z" />
+                            </svg>
+                        @endfor
                     </div>
+                    <input type="hidden" name="rating" id="rating-input" class="@error('rating') border-red-500 @enderror">
+                    @error('rating')
+                        <span class="text-red-500 text-sm block mt-1" id="error-rating">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <!-- label for input email -->
-                    <div>
-                        <label for="email" class="block text-md text-gray-700">Email :</label>
-                        <input type="email" id="email" name="email" class="text-gray-600 border border-gray-300 rounded-md p-2 w-full max-w-xs focus:outline-none  focus:ring-1 focus:ring-sky-400 focus:border-sky-400 @error('email') border-red-500 @enderror" placeholder="Masukkan email Anda"/>
-                        @error('email')
-                            <span class="text-red-500 text-sm block mt-1" id="error-email">{{ $message }}</span>
-                        @enderror
-                    </div>
+                <!-- Komentar -->
+                <div>
+                    <label for="comment" class="block text-md text-gray-700">Komentar :</label>
+                    <textarea id="comment" name="comment" rows="4" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:border-[#08072a] @error('comment') border-red-500 @enderror" placeholder="Tulis ulasan Anda di sini..."></textarea>
+                    @error('comment')
+                        <span class="text-red-500 text-sm block mt-1" id="error-comment">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <!-- label for rating star -->
-                    <div>
-                        <label for="rating" class="block text-md text-gray-700">Rating :</label>
-                        <div id="rating" class="flex space-x-1 text-gray-600 border border-gray-300 rounded-md p-2.5 w-full max-w-xs bg-white focus:outline-none  focus:ring-1 focus:ring-sky-400 focus:border-sky-400">
-                            @for ($i = 1; $i <= 5; $i++)
-                                <svg data-value="{{ $i }}" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 cursor-pointer transition-colors duration-200" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 .587l3.668 7.451 8.332 1.151-6.064 5.865 1.486 8.246L12 18.897l-7.422 4.403 1.486-8.246L.667 9.189l8.332-1.151z" />
-                                </svg>
-                            @endfor
-                        </div>
-                        <input type="hidden" name="rating" id="rating-input" class=" @error('rating') border-red-500 @enderror">
-                        @error('rating')
-                            <span class="text-red-500 text-sm block mt-1" id="error-rating">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <!-- js for rating star -->
-                    <script>
-                        const stars = document.querySelectorAll('#rating svg');
-                        const ratingInput = document.getElementById('rating-input');
-
-                        function updateStars(value) {
-                            stars.forEach((star, index) => {
-                                if (index < value) {
-                                    star.classList.add('text-yellow-500');
-                                    star.classList.remove('text-gray-400');
-                                } else {
-                                    star.classList.add('text-gray-400');
-                                    star.classList.remove('text-yellow-500');
-                                }
-                            });
-                        }
-
-                        stars.forEach(star => {
-                            star.addEventListener('click', () => {
-                                const value = parseInt(star.getAttribute('data-value'));
-                                ratingInput.value = value;
-                                updateStars(value);
-                            });
-
-                            star.addEventListener('mouseover', () => {
-                                updateStars(parseInt(star.getAttribute('data-value')));
-                            });
-
-                            star.addEventListener('mouseleave', () => {
-                                updateStars(parseInt(ratingInput.value) || 0);
-                            });
-                        });
-
-                        document.addEventListener('DOMContentLoaded', function () {
-                        const inputs = document.querySelectorAll('input, textarea, select');
-
-                        inputs.forEach(input => {
-                            input.addEventListener('input', function () {
-                                const errorSpan = document.getElementById('error-' + input.id);
-                                if (errorSpan) {
-                                    errorSpan.style.display = 'none';
-                                }
-                                input.classList.remove('border-red-500');
-                            });
-                        });
-                    });
-                    </script>
-
-                    <div>
-                        <label for="comment" class="block text-md text-gray-700">Komentar :</label>
-                        <textarea id="comment" name="comment" rows="4" class="text-gray-600 border border-gray-300 rounded-md p-2 w-full md:max-w-xs focus:outline-none  focus:ring-1 focus:ring-sky-400 focus:border-sky-400 @error('comment') border-red-500 @enderror" placeholder="Tulis ulasan Anda di sini..."></textarea>
-                        @error('comment')
-                            <span class="text-red-500 text-sm block mt-1" id="error-comment">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <button type="submit" class="bg-sky-400 text-white px-4 py-2 rounded-md hover:bg-sky-300 focus:outline-none flex items-center gap-2">
-                        Kirim
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="w-5 h-5" viewBox="0 0 50 50" fill="currentColor">
-                            <path d="M46.137,6.552c-0.75-0.636-1.928-0.727-3.146-0.238l-0.002,0C41.708,6.828,6.728,21.832,5.304,22.445c-0.259,0.09-2.521,0.934-2.288,2.814c0.208,1.695,2.026,2.397,2.248,2.478l8.893,3.045c0.59,1.964,2.765,9.21,3.246,10.758c0.3,0.965,0.789,2.233,1.646,2.494c0.752,0.29,1.5,0.025,1.984-0.355l5.437-5.043l8.777,6.845l0.209,0.125c0.596,0.264,1.167,0.396,1.712,0.396c0.421,0,0.825-0.079,1.211-0.237c1.315-0.54,1.841-1.793,1.896-1.935l6.556-34.077C47.231,7.933,46.675,7.007,46.137,6.552z M22,32l-3,8l-3-10l23-17L22,32z"></path>
-                        </svg>
-                    </button>
-                </form>
-            </div>
+                <!-- Submit Button -->
+                <button type="submit" class="bg-[#08072a] text-white px-4 py-2 rounded-md hover:bg-opacity-90 focus:outline-none flex items-center gap-2 transition-transform duration-300 ease-in-out transform hover:scale-105">
+                    Kirim
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="white" viewBox="0 0 50 50">
+                        <path d="M46.137,6.552c-0.75-0.636-1.928-0.727-3.146-0.238l-0.002,0C41.708,6.828,6.728,21.832,5.304,22.445c-0.259,0.09-2.521,0.934-2.288,2.814c0.208,1.695,2.026,2.397,2.248,2.478l8.893,3.045c0.59,1.964,2.765,9.21,3.246,10.758c0.3,0.965,0.789,2.233,1.646,2.494c0.752,0.29,1.5,0.025,1.984-0.355l5.437-5.043l8.777,6.845l0.209,0.125c0.596,0.264,1.167,0.396,1.712,0.396c0.421,0,0.825-0.079,1.211-0.237c1.315-0.54,1.841-1.793,1.896-1.935l6.556-34.077C47.231,7.933,46.675,7.007,46.137,6.552z M22,32l-3,8l-3-10l23-17L22,32z"></path>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 </section>
 
-<!-- Modal Pop-up Notifikasi -->
-@if (session('success'))
-    <div id="successModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
-            <h3 class="text-xl font-semibold text-center text-green-400">{{ session('success') }}</h3>
-            <div class="flex justify-center mt-4">
-                <button id="closeModal" class="bg-green-400 text-white px-6 py-2 rounded-md hover:bg-green-500 focus:outline-none">
-                    OK
-                </button>
-            </div>
-        </div>
-    </div>
-
+<!-- Script -->
 <script>
-    // js for modal
     document.addEventListener('DOMContentLoaded', function () {
-    // Menampilkan modal pop-up jika ada pesan sukses
-    const modal = document.getElementById('successModal');
-    const closeModal = document.getElementById('closeModal');
+        const stars = document.querySelectorAll('#rating svg');
+        const ratingInput = document.getElementById('rating-input');
 
-    // Menutup modal ketika tombol OK diklik
-    closeModal.addEventListener('click', function () {
-        modal.style.display = 'none';
+        function updateStars(value) {
+            stars.forEach((star, index) => {
+                if (index < value) {
+                    star.classList.add('text-yellow-500');
+                    star.classList.remove('text-gray-400');
+                } else {
+                    star.classList.add('text-gray-400');
+                    star.classList.remove('text-yellow-500');
+                }
+            });
+        }
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const value = parseInt(star.getAttribute('data-value'));
+                ratingInput.value = value;
+                updateStars(value);
+            });
+
+            star.addEventListener('mouseover', () => {
+                updateStars(parseInt(star.getAttribute('data-value')));
+            });
+
+            star.addEventListener('mouseleave', () => {
+                updateStars(parseInt(ratingInput.value) || 0);
+            });
         });
+
+        // Remove error styling on input
+        const inputs = document.querySelectorAll('input, textarea, select');
+        inputs.forEach(input => {
+            input.addEventListener('input', function () {
+                const errorSpan = document.getElementById('error-' + input.id);
+                if (errorSpan) errorSpan.style.display = 'none';
+                input.classList.remove('border-red-500');
+            });
+        });
+
+        // Handle open popup (optional if you have a trigger button)
+        const openRatingBtn = document.getElementById('openRatingBtn');
+        const ratingSection = document.getElementById('ratingform');
+
+        if (openRatingBtn) {
+            openRatingBtn.addEventListener('click', function () {
+                ratingSection.classList.remove('hidden');
+                ratingSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        }
+
+        // Handle close popup
+        const closeRatingBtn = document.getElementById('closeRatingBtn');
+        if (closeRatingBtn) {
+            closeRatingBtn.addEventListener('click', function () {
+                ratingSection.classList.add('hidden');
+            });
+        }
     });
 </script>
-@endif
+
+    <!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
+    @if(session('success') || session('error') || session('info') || session('warning'))
+        <div id="sweetalert-data"
+            data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
+            data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">
+        </div>
+    @endif
+</section>

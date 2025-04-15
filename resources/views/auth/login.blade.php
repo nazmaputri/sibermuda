@@ -7,15 +7,14 @@
     <title>Login</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
      <!-- Custom Style -->
      <style>
         body {
-            font-family: "Quicksand", sans-serif !important;
+            font-family: "Nunito", sans-serif !important;
         }
         @layer utilities {
             @keyframes zoom-in {
@@ -41,48 +40,56 @@
 <!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
 <x-loading-screen />
 
-    <div class="flex justify-center items-center min-h-screen px-4">
-        <div id="login-container" class="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-lg opacity-0 scale-90">
-            <!-- Logo and Website Name -->
+<div class="flex justify-center items-center min-h-screen px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+        
+        <!-- Gambar di sebelah kiri, hanya tampil di md ke atas -->
+        <div class="hidden md:block">
+            <img src="{{ asset('storage/belajar-with-laptop.jpg') }}" alt="Login Image" class="h-full w-full object-contain">
+        </div>
+
+        <!-- Form Login di sebelah kanan -->
+        <div id="login-container" class="w-full p-8 space-y-6 opacity-0 scale-90">
+            <!-- Logo dan judul -->
             <div class="flex flex-col items-center justify-center space-y-2">   
                 <div class="flex items-center space-x-3">
                     <a href="{{ route('landingpage') }}" class="flex items-center space-x-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-sky-600 transition-all duration-300 hover:translate-y-[-2px]">
-                            <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-5 h-5 text-gray-700 hover:translate-y-[-2px] transition-all duration-300" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"/>
                         </svg>
-                        <img src="{{ asset('storage/eduflix-1.png') }}" alt="Logo" class="w-[72px] h-16">
+                        <!-- <img src="{{ asset('storage/eduflix-1.png') }}" alt="Logo" class="w-[72px] h-16"> -->
                     </a>
-                    <h1 class="text-xl font-semibold text-sky-600">Masuk</h1>
+                    <h1 class="text-xl font-semibold text-gray-700">Masuk</h1>
                 </div>
-            </div>         
-            
+            </div>
+
+            {{-- Flash Message --}}
             @if (session('success'))
                 <div id="flash-message" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-3">
                     {{ session('success') }}
                 </div>
             @endif
-        
-            <!-- Form -->
+
+            {{-- Form Login --}}
             <form action="{{ route('login') }}" method="POST" class="space-y-4" id="form">
                 @csrf
-
-               <!-- Email Field -->
+                <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-sky-600 pb-2">Email</label>
-                    <input type="email" name="email" id="email" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('email') border-red-500 @enderror" placeholder="Masukkan email">
+                    <label for="email" class="block text-sm font-medium text-gray-700 pb-2">Email</label>
+                    <input type="email" name="email" id="email" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('email') border-red-500 @enderror" placeholder="Masukkan email">
                     @error('email')
-                        <p class="text-red-500 text-sm mt-1"  id="email-error">{{ $message }}</p>
+                        <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
                     @enderror
                 </div>
 
-                <!-- Password Field -->
+                <!-- Password -->
                 <div class="pb-4 relative">
-                    <label for="password" class="block text-sm font-medium text-sky-600 pb-2">Kata Sandi</label>
-                    <input type="password" name="password" id="password" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('password') border-red-500 @enderror" placeholder="Masukkan kata sandi">
+                    <label for="password" class="block text-sm font-medium text-gray-700 pb-2">Kata Sandi</label>
+                    <input type="password" name="password" id="password" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror" placeholder="Masukkan kata sandi">
                     <button type="button" onclick="toggleVisibility()" class="absolute right-3 mt-2 text-gray-500">
                         <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-                            <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                            <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd"/>
                         </svg>
                     </button>
                     @error('password')
@@ -96,28 +103,35 @@
                 @error('g-recaptcha-response')
                     <p class="text-red-500 text-sm mt-1 text-center">{{ $message }}</p>
                 @enderror
-                
-                <!-- Submit Button -->
+
+                <!-- Submit -->
                 <div>
-                    <button type="submit" id="btn-submit" class="inline-flex justify-center items-center w-full px-4 py-2 bg-sky-600 text-white font-semibold rounded-md hover:bg-sky-500 focus:outline-none">
+                    <button type="submit" id="btn-submit" class="inline-flex justify-center items-center w-full px-4 py-2 bg-[#08072a] text-white font-semibold rounded-md hover:bg-opacity-90 focus:outline-none">
                         Masuk
                     </button>
                 </div>
             </form>
 
-            <h4 class="text-center text-sky-600">
+            <div class="flex items-center justify-center my-4">
+                <div class="border-t border-gray-300 flex-grow mr-4"></div>
+                <p class="text-gray-700 text-center">Atau</p>
+                <div class="border-t border-gray-300 flex-grow ml-4"></div>
+            </div>
+
+            <div class="flex justify-center mt-6">
+                <a href="{{ route('login.google') }}" 
+                   class="flex w-full items-center justify-center border border-gray-300 rounded-md px-4 py-2 hover:bg-gray-100 transition duration-200">
+                    <img width="24" height="24" 
+                         src="https://img.icons8.com/color/48/google-logo.png" 
+                         alt="google-logo" 
+                         class="mr-2" />
+                    <span class="text-sm text-gray-700 font-medium">Login dengan Google</span>
+                </a>
+            </div>
+
+            <h4 class="text-center text-gray-700">
                 Belum punya akun? 
                 <a href="{{ route('register') }}" class="text-blue-900 underline">Daftar</a>
-                <div class="flex justify-center mt-6">
-                    <a href="{{ route('login.google') }}" 
-                       class="flex items-center justify-center border border-gray-300 rounded-md px-4 py-2 hover:bg-gray-100 transition duration-200">
-                        <img width="24" height="24" 
-                             src="https://img.icons8.com/color/48/google-logo.png" 
-                             alt="google-logo" 
-                             class="mr-2" />
-                        <span class="text-sm text-gray-700 font-medium">Login dengan Google</span>
-                    </a>
-                </div>                
             </h4>
 
             @if(session('resent_time'))
@@ -128,16 +142,15 @@
                 @if($timeDiff < 60)
                     <p class="text-gray-500 text-sm">Please wait {{ 60 - $timeDiff }} seconds before sending again.</p>
                 @else
-                    <!-- Tampilkan tombol kirim ulang email jika lebih dari 60 detik -->
                     <form action="{{ route('verification.send') }}" method="post">
                         @csrf
                         <button class="btn">Send Again</button>
                     </form>
                 @endif
             @endif
-        
         </div>
     </div>
+</div>
 
 <script>
     //untuk mengatur flash message dari backend
@@ -183,8 +196,8 @@
         buttonSubmit.setAttribute('disabled', true);
         
         // Tambahkan kelas untuk menonaktifkan hover dan pointer
-        buttonSubmit.classList.add('cursor-not-allowed', 'bg-sky-500');
-        buttonSubmit.classList.remove('hover:bg-sky-500');
+        buttonSubmit.classList.add('cursor-not-allowed', 'bg-[#08072a]');
+        buttonSubmit.classList.remove('hover:bg-[#08072a]');
     });
 
     // function untuk menampilkan animasi saat halaman sedang loading (component sudah di include di paling atas layout)

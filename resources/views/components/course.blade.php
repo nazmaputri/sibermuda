@@ -1,9 +1,9 @@
 <!-- Courses Section -->
-<section id="category" class="bg-sky-50 py-16">
+<section id="category" class="bg-white py-16">
     <div class="container mx-auto px-6">
         <div class="mb-6 text-center">
-            <h3 class="md:text-3xl text-2xl font-bold text-sky-400" data-aos="fade-up">
-                Kategori yang Tersedia di Eduflix
+            <h3 class="text-xl font-bold text-[#08072a]" data-aos="fade-up">
+                 Eksplorasi Kategori Kursus di Sibermuda
             </h3>
             <p class="text-md text-gray-700 mt-2" data-aos="fade-up">
                 Temukan berbagai kategori menarik dengan kursus berkualitas untuk meningkatkan keterampilan Anda.
@@ -21,7 +21,7 @@
                             <h4 class="text-xl font-semibold text-gray-800 text-center">{{ $category->name }}</h4>
                             <p class="text-gray-600 mt-2 flex-grow text-center text-sm">{{ Str::limit($category->description, 100) }}</p>
                             <div class="mt-4">
-                                <a href="{{ route('category.detail',  $category->name) }}" class="inline-block w-full bg-sky-400 text-white px-4 py-2 rounded-xl shadow-md shadow-sky-200 hover:bg-sky-300 text-center">
+                                <a href="{{ route('category.detail',  $category->name) }}" class="inline-block w-full bg-[#08072a] hover:bg-opacity-90 text-white px-4 py-2 rounded-xl shadow-md shadow-sky-200 text-center">
                                     Lihat Kursus
                                 </a>
                             </div>

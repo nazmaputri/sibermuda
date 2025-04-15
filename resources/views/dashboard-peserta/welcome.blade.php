@@ -1,19 +1,43 @@
 @extends('layouts.dashboard-peserta')
 @section('content')
-<div class="bg-white rounded-lg shadow-md p-5 w-full flex flex-col md:flex-row h-auto items-center">
-    <div class="w-full text-center md:text-left mb-4 md:mb-0">
-        <h1 class="text-xl font-semibold mb-4 text-gray-700">Selamat datang, {{ Auth::user()->name }}!</h1>
-        <p class="mb-6 text-gray-600">
-            Kami sangat senang Anda di sini. Di tempat ini, Anda dapat belajar, berbagi, dan terhubung dengan orang-orang yang memiliki minat yang sama.
-            <br> Mari kita mulai perjalanan ini bersama-sama!
-        </p>
-    </div>
-    <div class="md:w-1/4 flex justify-center md:justify-end">
-        <img src="{{ asset('storage/buku.png') }}" alt="Welcome Image" class="w-full h-auto md:w-54"/>
-    </div>
-</div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">
+            <!-- <div class="p-2 bg-red-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 640 512" stroke="currentColor" fill="white">
+                    <path d="M160 64c0-35.3 28.7-64 64-64L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-239.2 0c-11.8-25.5-29.9-47.5-52.4-64l99.6 0 0-32c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 32 64 0 0-288L224 64l0 49.1C205.2 102.2 183.3 96 160 96l0-32zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352l53.3 0C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7L26.7 512C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/>
+                </svg>
+            </div> -->
+            <div class="ml-4">
+                <h2 class="text-md font-semibold text-gray-700">Total Kursus Yang Diikuti</h2>
+                <p class="text-2xl font-bold text-midnight">0</p>
+            </div>
+        </div>
 
-<div class="bg-white rounded-lg shadow-md p-6 mt-7">
+        <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">
+            <!-- <div class="p-2 bg-red-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 640 512" stroke="currentColor" fill="white">
+                    <path d="M160 64c0-35.3 28.7-64 64-64L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-239.2 0c-11.8-25.5-29.9-47.5-52.4-64l99.6 0 0-32c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 32 64 0 0-288L224 64l0 49.1C205.2 102.2 183.3 96 160 96l0-32zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352l53.3 0C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7L26.7 512C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/>
+                </svg>
+            </div> -->
+            <div class="ml-4">
+                <h2 class="text-md font-semibold text-gray-700">Total Modul Diselesaikan</h2>
+                <p class="text-2xl font-bold text-midnight">0</p>
+            </div>
+        </div>
+        <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">
+            <!-- <div class="p-2 bg-red-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 640 512" stroke="currentColor" fill="white">
+                    <path d="M160 64c0-35.3 28.7-64 64-64L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-239.2 0c-11.8-25.5-29.9-47.5-52.4-64l99.6 0 0-32c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 32 64 0 0-288L224 64l0 49.1C205.2 102.2 183.3 96 160 96l0-32zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352l53.3 0C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7L26.7 512C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/>
+                </svg>
+            </div> -->
+            <div class="ml-4">
+                <h2 class="text-md font-semibold text-gray-700">Total Sertifikat</h2>
+                <p class="text-2xl font-bold text-midnight">0</p>
+            </div>
+        </div>
+    </div>
+
+<div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 mt-7">
     <h2 class="text-xl font-semibold mb-5 text-gray-700 border-b-2 pb-2">Kursus Saya</h2>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -1,32 +1,32 @@
 <!-- About Section -->
 <section id="about" class="bg-white py-12">
     <div class="container mx-auto px-2">
-        <div class="flex flex-col lg:flex-row lg:space-x-12 items-center">
+        <div class="flex lg:space-x-12 items-center">
 
             <!-- Image Section -->
-            <div class="md:w-1/3 order-1 lg:order-1 mb-6 lg:mb-0 flex justify-center" data-aos="fade-left">
+            <!-- <div class="md:w-1/3 order-1 lg:order-1 mb-6 lg:mb-0 flex justify-center" data-aos="fade-left">
                 <img src="{{ asset('storage/online-course.png') }}" alt="Gambar" class="md:w-1/2 w-1/3 h-auto">
-            </div>            
+            </div>             -->
 
             <!-- Text Content -->
-            <div class="lg:w-7/12 space-y-6 order-2 lg:order-2" data-aos="fade-right">
+            <div class="md:px-12 space-y-6" data-aos="fade-right">
                 <!-- Title -->
                 <div class="mb-6">
-                    <h3 class="md:text-3xl text-2xl font-bold text-sky-400">
-                        Keunggulan-keunggulan Eduflix
+                    <h3 class="text-xl text-center font-bold text-[#08072a] text-opacity-90">
+                       Tentang Kami
                     </h3>
                 </div>
 
                 <!-- Description -->
-                <p class="text-md text-gray-700">
-                    Eduflix menawarkan berbagai keunggulan yang dapat membantu Anda dalam proses pembelajaran dan pengelolaan pendidikan. Dengan platform kami, Anda dapat mengakses materi pembelajaran yang berkualitas dan fitur-fitur inovatif yang mendukung kemajuan belajar Anda.
+                <p class="text-md text-gray-700 text-center">
+                    Sibermuda adalah platform pembelajaran digital yang dirancang untuk mempermudah proses belajar di bidang teknologi dan digital. Kami menawarkan berbagai kursus yang dapat mendukung pengembangan keterampilan dan kemampuan digitalmu.
                 </p>
 
                 <!-- Accordion -->
-                <div class="space-y-4" id="accordion">
+                <div class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4" id="accordion">
                     <!-- Card 1 -->
                     <div class="card bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
-                        <button class="flex justify-between w-full px-4 py-1 mt-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
+                        <button class="flex justify-between w-full px-4 py-0.5 mt-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
                             <span>01. Akses Materi Pembelajaran Terlengkap</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-transform duration-300 transform rotate-0">
@@ -35,7 +35,7 @@
                         </button>
                         <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out p-2 bg-white rounded-lg opacity-0">
                             <p class="text-gray-600">
-                                Eduflix menyediakan akses ke berbagai materi pembelajaran dari berbagai bidang studi yang memungkinkan siswa untuk belajar dengan cara yang lebih terstruktur dan efektif. Anda bisa menemukan video, kuis, dan bahan bacaan yang relevan untuk mendukung proses belajar.
+                                Sibermuda.Idn menyediakan akses ke berbagai materi pembelajaran dari berbagai bidang studi yang memungkinkan siswa untuk belajar dengan cara yang lebih terstruktur dan efektif.
                             </p>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                         </button>
                         <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out p-2 bg-white rounded-lg opacity-0">
                             <p class="text-gray-600">
-                                Dengan fitur pembelajaran interaktif, Eduflix menjadikan proses belajar lebih menyenangkan dan tidak membosankan. Siswa dapat berinteraksi dengan materi melalui kuis yang membuat mereka lebih terlibat dalam proses belajar.
+                                Dengan fitur pembelajaran interaktif, Sibermuda menjadikan proses belajar lebih menyenangkan dan tidak membosankan. Siswa dapat berinteraksi dengan materi melalui tugas akhir yang membuat mereka lebih terlibat dalam proses belajar.
                             </p>
                         </div>
                     </div>
@@ -67,11 +67,28 @@
                         </button>
                         <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out p-2 bg-white rounded-lg opacity-0">
                             <p class="text-gray-600">
-                                Eduflix tidak hanya menyediakan fasilitas untuk siswa, tetapi juga untuk guru. Guru dapat menggunakan platform ini untuk membuat materi ajar, melacak kemajuan siswa, dan memberikan umpan balik secara real-time, sehingga menciptakan pengalaman belajar yang lebih efektif.
+                                Sibermuda.Idn tidak hanya menyediakan fasilitas untuk siswa, tetapi juga untuk guru. Guru dapat menggunakan platform ini untuk membuat materi ajar, melacak kemajuan siswa, dan memberikan umpan balik secara real-time, sehingga menciptakan pengalaman belajar yang lebih efektif.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="card bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+                        <button class="flex justify-between w-full px-4 py-1 mt-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
+                            onclick="toggleFeature(this)">
+                            <span>04. Sertifikat Digital Setelah Selesai Kursus</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-transform duration-300 transform rotate-0">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </button>
+                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out p-2 bg-white rounded-lg opacity-0">
+                            <p class="text-gray-600">
+                                Setelah menyelesaikan kursus, siswa akan mendapatkan sertifikat digital yang dapat digunakan sebagai bukti kompetensi mereka. Sertifikat ini dapat menjadi nilai tambah untuk karier di dunia digital.
                             </p>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
@@ -90,14 +107,14 @@
                 
     // Hapus border-sky-400 dari semua card
     document.querySelectorAll('.card').forEach(c => {
-        c.classList.remove('border-sky-400');
+        c.classList.remove('border-[#08072a]');
     });
                 
     // Jika belum terbuka, buka konten yang diklik
     if (!isOpen) {
         content.classList.remove('max-h-0', 'opacity-0');
         content.classList.add('max-h-[200px]', 'opacity-100'); // Sesuaikan max-height dengan tinggi konten
-        card.classList.add('border-sky-400');
+        card.classList.add('border-[#08072a]');
         svg.classList.add('rotate-180');
     } else {
         svg.classList.remove('rotate-180');

@@ -10,11 +10,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
 
      <!-- Custom Style -->
      <style>
         body {
-            font-family: "Quicksand", sans-serif !important;
+            font-family: "Nunito", sans-serif !important;
         }
         @layer utilities {
             @keyframes zoom-in {
@@ -43,10 +44,10 @@
             <!-- Logo and Website Name -->
             <div class="flex flex-col items-center justify-center space-y-2">
                 <div class="flex flex-col md:flex-row items-center space-x-3">
-                    <img src="{{ asset('storage/eduflix-1.png') }}" alt="Logo" class="w-18 h-16">
-                    <h1 class="text-xl font-semibold text-sky-600">Daftar</h1>
+                    <!-- <img src="{{ asset('storage/eduflix-1.png') }}" alt="Logo" class="w-18 h-16"> -->
+                    <h1 class="text-xl font-semibold text-gray-700">Daftar Mentor</h1>
                 </div>
-                <h4 class="text-center text-sky-600">
+                <h4 class="text-center text-gray-700">
                     Ayo daftar dan menjadi bagian mentor di EduFlix!
                 </h4>
             </div>  
@@ -65,8 +66,8 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <!-- Name Field -->
                     <div>
-                        <label for="name" class="block text-sm font-medium text-sky-600 pb-2">Nama Lengkap</label>
-                        <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('name') border-red-500 @enderror">
+                        <label for="name" class="block text-sm font-medium text-gray-700 pb-2">Nama Lengkap</label>
+                        <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('name') border-red-500 @enderror">
                         @error('name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -74,8 +75,8 @@
     
                     <!-- Email Field -->
                     <div>
-                        <label for="email" class="block text-sm font-medium text-sky-600 pb-2">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Masukkan email" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('email') border-red-500 @enderror" value="{{ old('email') }}">
+                        <label for="email" class="block text-sm font-medium text-gray-700 pb-2">Email</label>
+                        <input type="email" name="email" id="email" placeholder="Masukkan email" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('email') border-red-500 @enderror" value="{{ old('email') }}">
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -83,8 +84,8 @@
                 
                     <!-- Password Field -->
                     <div class="relative">
-                        <label for="password" class="block text-sm font-medium text-sky-600 pb-2">Kata Sandi</label>
-                        <input type="password" name="password" id="password" placeholder="Masukkan kata sandi" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('password') border-red-500 @enderror">
+                        <label for="password" class="block text-sm font-medium text-gray-700 pb-2">Kata Sandi</label>
+                        <input type="password" name="password" id="password" placeholder="Masukkan kata sandi" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror">
                         <span class="absolute right-3 mt-2 transform cursor-pointer text-gray-500" id="togglePassword">
                             <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                                 <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -98,8 +99,8 @@
                 
                     <!-- Confirm Password Field -->
                     <div class="relative">
-                        <label for="password_confirmation" class="block text-sm font-medium text-sky-600 pb-2">Konfirmasi Kata Sandi</label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Masukkan ulang kata sandi" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('password_confirmation') border-red-500 @enderror">
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 pb-2">Konfirmasi Kata Sandi</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Masukkan ulang kata sandi" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password_confirmation') border-red-500 @enderror">
                         <span class="absolute mt-2 right-1 transform -translate-x-1/2 cursor-pointer text-gray-500" id="toggleConfirmPassword">
                             <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                                 <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -113,8 +114,8 @@
                 
                     <!-- Phone Number Field -->
                     <div>
-                        <label for="phone_number" class="block text-sm font-medium text-sky-600 pb-2">Nomor Telepon</label>
-                        <input type="text" name="phone_number" id="phone_number" placeholder="Masukkan nomor telepon" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('phone_number') border-red-500 @enderror" value="{{ old('phone_number') }}">
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700 pb-2">Nomor Telepon</label>
+                        <input type="text" name="phone_number" id="phone_number" placeholder="Masukkan nomor telepon" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('phone_number') border-red-500 @enderror" value="{{ old('phone_number') }}">
                         @error('phone_number')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -122,8 +123,8 @@
                 
                     <!-- Deskripsi Pengalaman -->
                     <div>
-                        <label for="experience" class="block text-sm font-medium text-sky-600 pb-2">Deskripsi Pengalaman</label>
-                        <textarea name="experience" id="experience" rows="5" placeholder="Deskripsikan pengalaman saat bekerja atau mengajar" class="text-sm w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('experience') border-red-500 @enderror">{{ old('experience') }}</textarea>
+                        <label for="experience" class="block text-sm font-medium text-gray-700 pb-2">Deskripsi Pengalaman</label>
+                        <textarea name="experience" id="experience" rows="5" placeholder="Deskripsikan pengalaman saat bekerja atau mengajar" class="text-sm w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('experience') border-red-500 @enderror">{{ old('experience') }}</textarea>
                         @error('experience')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -137,13 +138,13 @@
                     <!-- Submit Button -->
                     <div class="flex justify-center">
                         <button type="submit" id="btn-submit"
-                            class="inline-flex justify-center items-center md:w-1/2 w-full px-4 py-2 bg-sky-600 text-white font-semibold rounded-md hover:bg-sky-500 focus:outline-none">
+                            class="inline-flex justify-center items-center md:w-1/2 w-full px-4 py-2 bg-[#08072a] text-white font-semibold rounded-md hover:bg-opacity-90 focus:outline-none">
                             Daftar
                         </button>
                     </div>
                 
                     <!-- Login Link -->
-                    <h4 class="text-center text-sky-600">
+                    <h4 class="text-center text-gray-700">
                         Sudah punya akun?
                         <a href="/login" class="text-blue-900 underline">Login</a>
                     </h4>
@@ -208,8 +209,8 @@
         buttonSubmit.setAttribute('disabled', true);
         
         // Tambahkan kelas untuk menonaktifkan hover dan pointer
-        buttonSubmit.classList.add('cursor-not-allowed', 'bg-sky-500');
-        buttonSubmit.classList.remove('hover:bg-sky-500');
+        buttonSubmit.classList.add('cursor-not-allowed', 'bg-[#08072a]');
+        buttonSubmit.classList.remove('hover:bg-[#08072a]');
     });
 
     // function untuk menampilkan animasi saat halaman sedang loading (component sudah di include di paling atas layout)
