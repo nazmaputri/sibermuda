@@ -15,19 +15,33 @@ class KeranjangController extends Controller
     // Menampilkan halaman keranjang
     public function index(Request $request)
     {
-        // Ambil data keranjang user
-        $carts = Keranjang::where('user_id', Auth::id())->with('course')->get();
+        // Hapus keranjang jika kursusnya sudah dibeli
+        Keranjang::where('user_id', Auth::id())->get()->each(function ($cart) {
+            $purchased = Purchase::where('user_id', Auth::id())
+                ->where('course_id', $cart->course_id)
+                ->where('status', 'success')
+                ->exists();
+    
+            if ($purchased) {
+                $cart->delete();
+            }
+        });
+    
+        // Ambil data keranjang user yang belum dibeli
+        $carts = Keranjang::where('user_id', Auth::id())
+            ->with('course')
+            ->get();
     
         // Hitung total harga sebelum diskon
         $totalPrice = $carts->sum(fn($cart) => $cart->course->price);
     
-        // Ambil diskon yang berlaku untuk semua kursus atau kursus tertentu
+        // Ambil diskon yang aktif
         $activeDiscount = Discount::where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->first();
     
         $totalPriceAfterDiscount = $totalPrice;
-        $couponCode = $request->query('coupon'); // Ambil kode kupon dari query string
+        $couponCode = $request->query('coupon');
     
         if ($couponCode) {
             $discount = Discount::where('coupon_code', $couponCode)

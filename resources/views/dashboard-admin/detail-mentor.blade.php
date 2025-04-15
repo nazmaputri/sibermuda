@@ -80,7 +80,7 @@
                             <th class="px-4 py-2 text-center border-b border-gray-200 border-t">Harga</th>
                             <th class="px-4 py-2 text-center border-b border-gray-200 border-t">Tanggal dibuat</th>
                             <th class="px-4 py-2 text-center border-b border-gray-200 border-t">Rating</th>
-                            <th class="px-4 py-2 text-center border-b border-r border-gray-200 border-t">Aksi</th>
+                            {{-- <th class="px-4 py-2 text-center border-b border-r border-gray-200 border-t">Aksi</th> --}}
                         </tr>
                     </thead>
                 
@@ -98,7 +98,7 @@
                                         Belum ada rating
                                     @endif
                                 </td>
-                                <td class="py-3 px-6 text-center border-b border-r border-gray-200">
+                                {{-- <td class="py-3 px-6 text-center border-b border-r border-gray-200">
                                     <div class="flex items-center justify-center space-x-8">
                                         <!-- Tombol Lihat Detail -->
                                         <a href="{{ route('detailkursus', [$course->id]) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
@@ -108,7 +108,7 @@
                                             </svg>
                                         </a>
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                         @empty
                             <tr>

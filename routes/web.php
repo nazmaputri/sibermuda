@@ -66,7 +66,7 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::post('toggle/displayadmin/{id}', [RatingController::class, 'toggleDisplayAdmin'])->name('toggle.displayadmin');
     Route::delete('/ratings/{id}', [RatingController::class, 'destroy'])->name('ratings.destroy');
 
-    Route::delete('/dashboard/mentor/{id}', [DashboardAdminController::class, 'deleteMentor']);
+    Route::delete('/dashboard/mentor/{id}', [DashboardAdminController::class, 'destroy'])->name('datamentor-admin.delete');
     Route::delete('/dashboard/peserta/{id}', [DashboardAdminController::class, 'deletePeserta'])->name('datapeserta-admin.delete');
 
     //Import Peserta dari Excel
