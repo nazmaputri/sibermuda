@@ -55,69 +55,70 @@
                 @csrf
 
                 <div class="grid md:grid-cols-2 gap-4">
-                    <!-- Name Field -->
-                <div class="md:col-span-2">
-                    <label for="name" class="block text-sm font-medium text-gray-700 pb-2">Nama Lengkap</label>
-                    <input type="text" name="name" id="name" value="{{ old('name') }}" 
-                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
-                        @error('name') border-red-500 @enderror" placeholder="Masukkan nama lengkap">
-                    @error('name')
-                        <p class="text-red-500 text-sm mt-1" id="name-error">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Email Field -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 pb-2">Email</label>
-                    <input type="email" name="email" id="email" value="{{ old('email') }}" 
-                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
-                        @error('email') border-red-500 @enderror" placeholder="Masukkan email">
-                    @error('email')
-                        <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Password Field -->
-                <div class="relative">
-                    <label for="password" class="block text-sm font-medium text-gray-700 md:pb-1 pb-2">Kata Sandi</label>
-                    <input type="password" name="password" id="password" class="p-2 mt-1 block text-sm w-full border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror" placeholder="Masukkan kata sandi">
-                    <span class="absolute top-1/2 right-3 mt-2 cursor-pointer text-gray-500" id="togglePassword">
-                        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+                    <!-- Name Field (Tetap di urutan pertama) -->
+                    <div class="md:col-span-2 order-1">
+                        <label for="name" class="block text-sm font-medium text-gray-700 pb-2">Nama Lengkap</label>
+                        <input type="text" name="name" id="name" value="{{ old('name') }}" 
+                            class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
+                            @error('name') border-red-500 @enderror" placeholder="Masukkan nama lengkap">
+                        @error('name')
+                            <p class="text-red-500 text-sm mt-1" id="name-error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                
+                    <!-- Email Field -->
+                    <div class="order-2 md:order-2">
+                        <label for="email" class="block text-sm font-medium text-gray-700 pb-2">Email</label>
+                        <input type="email" name="email" id="email" value="{{ old('email') }}" 
+                            class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
+                            @error('email') border-red-500 @enderror" placeholder="Masukkan email">
+                        @error('email')
+                            <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                
+                    <!-- Phone Number Field -->
+                    <div class="order-3 md:order-4">
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700 pb-2">Nomor Telepon</label>
+                        <input type="number" name="phone_number" id="phone_number" value="{{ old('phone_number') }}" 
+                            class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
+                            @error('phone_number') border-red-500 @enderror" placeholder="Masukkan nomor telepon">
+                        @error('phone_number')
+                            <p class="text-red-500 text-sm mt-1" id="phone_number-error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                
+                    <!-- Password Field -->
+                    <div class="relative order-4 md:order-3">
+                        <label for="password" class="block text-sm font-medium text-gray-700 md:pb-1 pb-2">Kata Sandi</label>
+                        <input type="password" name="password" id="password" class="p-2 mt-1 block text-sm w-full border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror" placeholder="Masukkan kata sandi">
+                        <span class="absolute top-1/2 -translate-y-1/2 right-3 cursor-pointer text-gray-500" id="togglePassword">
+                            <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+                                <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                                <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                            </svg>
+                        </span>                                              
+                        @error('password')
+                            <p class="text-red-500 text-sm mt-1" id="password-error">{{ $message }}</p>
+                        @enderror
+                    </div>
+                
+                    <!-- Confirm Password Field -->
+                    <div class="relative order-5 md:order-5">
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 pb-2">Konfirmasi Kata Sandi</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" class="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password_confirmation') border-red-500 @enderror" placeholder="Masukkan ulang kata sandi">
+                        <span class="absolute mt-2 right-3 cursor-pointer text-gray-500" id="toggleConfirmPassword">
+                            <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                             <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
                             <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
                         </svg>
-                    </span>
-                    @error('password')
-                        <p class="text-red-500 text-sm mt-1" id="password-error">{{ $message }}</p>
-                    @enderror
+                        </span>
+                        @error('password_confirmation')
+                            <p class="text-red-500 text-sm mt-1" id="password_confirmation-error">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
-
-                <!-- Confirm Password Field -->
-                <div class="relative">
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 pb-2">Konfirmasi Kata Sandi</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation" class="w-full p-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password_confirmation') border-red-500 @enderror" placeholder="Masukkan ulang kata sandi">
-                    <span class="absolute mt-2 right-3 cursor-pointer text-gray-500" id="toggleConfirmPassword">
-                        <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-                            <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
-                        </svg>
-                    </span>
-                    @error('password_confirmation')
-                        <p class="text-red-500 text-sm mt-1" id="password_confirmation-error">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Phone Number Field -->
-                <div>
-                    <label for="phone_number" class="block text-sm font-medium text-gray-700 pb-2">Nomor Telepon</label>
-                    <input type="number" name="phone_number" id="phone_number" value="{{ old('phone_number') }}" 
-                        class="w-full px-4 py-2 border rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 
-                        @error('phone_number') border-red-500 @enderror" placeholder="Masukkan nomor telepon">
-                    @error('phone_number')
-                        <p class="text-red-500 text-sm mt-1" id="phone_number-error">{{ $message }}</p>
-                    @enderror
-                </div>
-                </div>
+                
 
                 <!-- Hidden Role Field -->
                 <input type="hidden" name="role" value="student">
