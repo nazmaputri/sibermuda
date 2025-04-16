@@ -1,9 +1,9 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Edit Kuis')
 @section('content')
 <div class="container mx-auto">
     <!-- Card Wrapper -->
-    <div class="bg-white p-6 rounded-lg shadow-lg">
+    <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
         <h1 class="text-xl font-semibold text-gray-700 mb-6 text-center border-b-2 pb-2">Edit Kuis</h1>
 
         <!-- Form Edit Quiz -->

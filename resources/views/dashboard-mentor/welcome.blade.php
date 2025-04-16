@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-mentor')
 @section('content')
 
-    <div class="bg-white rounded-lg shadow-md p-8 w-full flex flex-col md:flex-row h-auto items-center">
+    <div class="bg-white rounded-lg shadow-md p-8 w-full flex flex-col md:flex-row h-auto items-center border border-gray-200">
         <div class="w-full text-center md:text-left mb-4 md:mb-0">
             <h1 class="text-xl font-semibold mb-4 text-gray-700">Selamat datang, {{ Auth::user()->name }}!</h1>
             <p class="mb-6 text-gray-600">

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Detail Kursus')
 @section('content')
-<div class="bg-white p-6 rounded-lg shadow-md">
+<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
     <h2 class="text-xl font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Detail Kursus</h2>
     <!-- Card Informasi Kursus -->
     <div class="flex flex-col lg:flex-row mb-4">
@@ -130,7 +130,7 @@
 </div>
 
 <!-- Section Tugas Akhir -->
-<div class="bg-white p-6 rounded-lg shadow-md mt-6">
+<div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
     <div class="mb-2 flex items-center justify-between p-1 border-b-2">
         <h2 class="text-xl font-semibold text-gray-700 pt-2">Tugas Akhir dari Keseluruhan Materi</h2>                                                     
     </div>
@@ -195,7 +195,7 @@
 </div>
 
 <!-- Tabel Peserta Terdaftar -->
-<div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+<div class="mt-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
     <h3 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Peserta Terdaftar</h3>
     <div class="overflow-x-auto">
         <div class="min-w-full w-64">
@@ -233,7 +233,7 @@
 </div>
 
 <!-- Tabel Rating -->
-<div class="bg-white mt-6 p-6 rounded-lg shadow-md">
+<div class="bg-white mt-6 p-6 rounded-lg shadow-md border border-gray-200">
     <h2 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Rating Kursus</h2>
     <!-- Tabel rating kursus -->
     <div class="overflow-x-auto">

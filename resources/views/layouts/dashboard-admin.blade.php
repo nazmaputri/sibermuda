@@ -300,8 +300,8 @@
         <div class="flex-1 flex flex-col">
             <!-- Navbar -->
             <header class="bg-white shadow p-2 flex items-center justify-start">
-                <!-- button ☰ membuka sidebar -->
-                <button 
+            <!-- button ☰ membuka sidebar -->
+            <button 
                 @click="sidebarExpanded = !sidebarExpanded" 
                 class="lg:hidden p-0.5 border border-gray-300 text-gray-700 rounded-md">
                 <!-- Icon ☰ -->
@@ -313,9 +313,8 @@
             <h5 class="text-sm md:text-lg md:pl-4 font-semibold pl-1 text-gray-700">@yield('title')</h5>
 
                 <div class="ml-auto flex mr-4 space-x-4">
-
                 <!-- Ikon Notifikasi -->
-                <div class=" flex items-center cursor-pointer" id="notification-container">
+                <div class="flex items-center cursor-pointer" id="notification-container">
                     <button id="notification-button" class="p-1 rounded-full border border-gray-500 bg-white">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
@@ -352,7 +351,9 @@
                     @endif
                     <!-- Icon Dropdown -->
                     <button id="dropdown-button-profile" class="text-gray-600 focus:outline-none ml-2 transition-transform duration-300">
-                        <img width="22" height="22" src="https://img.icons8.com/windows/32/circled-chevron-down.png" alt="circled-chevron-down" fill="currentColor"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 text-gray-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                        </svg>
                     </button>
                 </div>
 
@@ -360,16 +361,16 @@
                 <div id="dropdown" class="hidden absolute right-6 mt-12 w-48 bg-white border rounded-lg shadow-lg z-10">
                     <ul class="py-1 space-y-1">
                         <li>
-                            <a href="{{ route('settings.admin') }}" class="group block flex items-center p-1 text-sm text-gray-700 hover:bg-gray-200 rounded-xl mx-2">
+                            <a href="{{ route('settings.admin') }}" class="group group-hover:text-white block flex items-center p-1 text-sm text-gray-700 hover:bg-midnight rounded-md mx-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" 
-                                    class="w-4 h-4 ml-1 m-2 fill-current group-hover:text-gray-700">
+                                    class="w-4 h-4 ml-1 m-2 fill-current group-hover:text-white">
                                     <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>
                                 </svg>
-                                <span class="group-hover:text-gray-700">Profile</span>
+                                <span class="group-hover:text-white">Profile</span>
                             </a>
                         </li>
                         <li>
-                            <a class="group block flex items-center p-1 text-sm text-red-600 hover:bg-red-600 hover:text-white rounded-xl mx-2">
+                            <a class="group block flex items-center p-1 text-sm text-red-600 hover:bg-red-600 hover:text-white rounded-md mx-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" 
                                     class="w-4 h-4 ml-1 m-2 fill-current group-hover:text-white">
                                     <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
