@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto">
-    <div class="bg-white shadow-md rounded-lg p-6">
+    <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
         <h2 class="text-xl font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Edit Kategori</h2>
         
         <!-- Form untuk edit kategori -->

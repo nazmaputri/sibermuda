@@ -1,24 +1,66 @@
 @extends('layouts.dashboard-peserta')
 @section('title', 'Kursus')
-
 @section('content')
     <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 mb-3">
         <!-- Form untuk memilih kategori -->
         <form action="{{ route('kategori-peserta') }}" method="GET">
             <label for="kategori" class="block text-sm text-gray-700 mb-2">Pilih Kategori</label>
+            
             <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 mb-3 md:mb-5">
-                <select id="kategori" name="kategori"
-                    class="w-full sm:w-80 mb-2 sm:mb-0 p-1.5 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-midnight focus:border-midnight text-sm capitalize text-gray-600">
-                    <option value="" disabled selected>Pilih kategori</option>
-                    @foreach($categories as $kategori)
-                        <option value="{{ $kategori->id }}" {{ request('kategori') == $kategori->id ? 'selected' : '' }}>
-                            {{ $kategori->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <div 
+                    x-data="{
+                        open: false,
+                        selectedName: '{{ request('kategori') ? ($categories->firstWhere('id', request('kategori'))?->name ?? 'Pilih kategori') : 'Pilih kategori' }}',
+                        selectedId: '{{ request('kategori') ?? '' }}'
+                    }" 
+                    class="relative w-full sm:w-80 mb-2 sm:mb-0"
+                >
+                    <!-- Input tersembunyi -->
+                    <input type="hidden" name="kategori" :value="selectedId">
 
-                <button type="submit"
-                    class="bg-midnight text-white px-4 py-1.5 text-sm rounded-md text-sm hover:bg-opacity-90 w-full sm:w-auto sm:mx-0 mx-auto">
+                    <!-- Tombol utama dropdown -->
+                    <div 
+                        @click="open = !open"
+                        class="p-2 bg-white border border-gray-300 rounded-md shadow-sm cursor-pointer flex justify-between items-center text-sm text-gray-600 capitalize w-full"
+                    >
+                        <span class="truncate w-full" x-text="selectedName || 'Pilih kategori'"></span>
+                        <svg :class="{ 'rotate-180': open }" class="w-4 h-4 ml-2 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+
+                    <!-- Dropdown options -->
+                    <ul 
+                        x-show="open"
+                        @click.away="open = false"
+                        x-transition
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-40 overflow-y-auto text-sm scrollbar-hide"
+                    >
+                        <li 
+                            @click="selectedId = ''; selectedName = 'Pilih kategori'; open = false"
+                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-500 italic truncate"
+                        >
+                            Pilih kategori
+                        </li>
+
+                        @foreach($categories as $kategori)
+                            <li 
+                                @click="selectedId = '{{ $kategori->id }}'; selectedName = '{{ $kategori->name }}'; open = false"
+                                class="px-4 py-2 hover:bg-gray-100 cursor-pointer capitalize text-gray-700 truncate"
+                                :class="{ 'bg-gray-100': selectedId === '{{ $kategori->id }}' }"
+                                title="{{ $kategori->name }}"
+                            >
+                                {{ $kategori->name }}
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <!-- Tombol Submit -->
+                <button 
+                    type="submit"
+                    class="bg-midnight text-white px-4 py-2 text-sm rounded-md hover:bg-opacity-90 w-full sm:w-auto sm:mx-0 mx-auto"
+                >
                     Tampilkan Kursus
                 </button>
             </div>
@@ -30,7 +72,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mb-1 text-gray-600">
                     <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                 </svg>
-                <p class="text-gray-600 text-center text-sm">Belum ada kursus yang diikuti.</p>
+                <p class="text-gray-600 text-center text-sm">Tidak ada kursus yang ditemukan.</p>
             </div>
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -22,6 +22,9 @@
 </head>
 <body class="bg-white">
 
+<!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
+<x-loading-screen />
+
     <!-- Wrapper -->
     <div class="flex h-screen" x-data="{ sidebarExpanded: true }">
 
@@ -433,6 +436,15 @@
             dropdownArrow.classList.add('rotate-180');
         }
     }
+
+    // function untuk menampilkan animasi saat halaman sedang loading (component sudah di include di paling atas layout)
+    window.addEventListener('load', () => {
+        const loader = document.getElementById('loading-screen');
+        if (loader) {
+            loader.classList.add('opacity-0', 'transition-opacity', 'duration-500');
+            setTimeout(() => loader.remove(), 500); // hilangkan dari DOM
+        }
+    });
 </script>      
 
 <!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->

@@ -2,7 +2,7 @@
 @section('title', 'Data Mentor')
 @section('content')
 <div class="container mx-auto">
-    <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+    <div class="bg-white shadow-md rounded-lg p-6 mb-6 border border-gray-200">
         <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
             <form action="{{ route('datamentor-admin') }}" method="GET" class="w-full md:max-w-xs">
                 <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>

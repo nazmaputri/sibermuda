@@ -8,7 +8,7 @@
         @if ($activeDiscount)
         <div class="bg-yellow-100 text-yellow-700 p-4 mb-4 rounded-lg">
             <h3 class="font-bold text-lg">🎉 Kode kupon: <span class="">{{ $activeDiscount->coupon_code }}</span></h3>
-            <p class="text-sm">Diskon sebesar <strong>{{ $activeDiscount->discount_percentage }}%</strong> berlaku hingga <span id="discount-end">{{ $activeDiscount->end_date }} {{ $activeDiscount->end_time }}</span>.</p>
+            <p class="text-sm">Diskon sebesar <strong>{{ $activeDiscount->discount_percentage }}%</strong> berlaku hingga <span id="discount-end">{{ \Carbon\Carbon::parse($activeDiscount->end_date)->translatedFormat('d F Y') }} {{ $activeDiscount->end_time }}</span>.</p>
             <div class="text-red-600 font-semibold text-sm mt-2" id="countdown-timer"></div>
         </div>
         @endif
@@ -76,7 +76,7 @@
         <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
             <!-- Input Kupon -->
             <div class="flex space-x-2 items-center mt-1">
-                <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
+                <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
                 <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
             </div>
 
@@ -225,13 +225,21 @@
             if (data.success) {
                 window.open(whatsappUrl, '_blank');
             } else {
-                alert(data.message || 'Gagal menyimpan data ke server.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: data.message || 'Gagal menyimpan data ke server.',
+                });
             }
         })
         
         .catch(error => {
             console.error('Error:', error);
-            alert('Terjadi kesalahan saat mengirim data.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Kesalahan',
+                text: 'Terjadi kesalahan saat mengirim data.',
+            });
         });
     });
      
@@ -240,7 +248,11 @@
         if (couponCode) {
             window.location.href = "{{ route('cart.index') }}?coupon=" + couponCode;
         } else {
-            alert("Masukkan kode kupon terlebih dahulu!");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops!',
+                text: 'Masukkan kode kupon terlebih dahulu!',
+            });
         }
     });
 </script>

@@ -129,8 +129,6 @@ class DashboardAdminController extends Controller
         return view('dashboard-admin.detail-mentor', compact('user', 'courses'));
     }    
 
-
-
     public function mentor(Request $request)
     {
         // Ambil query pencarian dari input
@@ -187,6 +185,7 @@ class DashboardAdminController extends Controller
         $jumlahMentor = User::where('role', 'mentor')->count();
         $jumlahPeserta = User::where('role', 'student')->count(); 
         $jumlahKursus = Course::count();
+        $jumlahKategori = Category::count();
     
         // Ambil tahun dari request atau default ke tahun saat ini
         $year = $request->input('year', date('Y'));
@@ -222,6 +221,7 @@ class DashboardAdminController extends Controller
             'jumlahMentor'    => $jumlahMentor,
             'jumlahPeserta'   => $jumlahPeserta,
             'jumlahKursus'    => $jumlahKursus,
+            'jumlahKategori'  => $jumlahKategori,
             'userGrowthData'  => $userGrowthData,
             'monthNames'      => $monthNames,
             'years'           => $years,

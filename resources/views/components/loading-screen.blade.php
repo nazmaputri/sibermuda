@@ -14,7 +14,7 @@
     #loading-screen .dot {
         width: 16px;
         height: 16px;
-        background-color: #3b82f6; /* Tailwind blue-500 */
+        background-color: #08072a; /* Tailwind blue-500 */
         border-radius: 9999px;
         animation: bounce 1s infinite;
         margin: 0 4px;

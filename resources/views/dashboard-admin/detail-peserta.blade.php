@@ -1,6 +1,16 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Detail Peserta')
 @section('content')
+
+<!-- Tombol Kembali -->
+<div class="flex justify-start mb-2">
+    <a href="{{ route('datapeserta-admin') }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
 <div class="container mx-auto">
     <!-- Card Detail User -->
     <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-6 mb-6">
@@ -144,12 +154,6 @@
             <div class="pagination mt-4">
                 {{ $purchasedCourses->links('pagination::tailwind') }}
             </div> 
-        </div>
-        <!-- Tombol Kembali -->
-        <div class="text-right mt-6">
-            <a href="{{ route('datapeserta-admin') }}" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-3 px-4 rounded-lg shadow-md shadow-blue-100 hover:shadow-none">
-                Kembali
-            </a>
         </div>
     </div>
 </div>

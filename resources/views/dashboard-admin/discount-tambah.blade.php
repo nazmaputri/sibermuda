@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Tambah Diskon')
 @section('content')
-<div class="container mx-auto bg-white rounded-lg p-5">
+<div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
     <!-- Wrapper div dengan background putih, padding, dan shadow -->
     <div class="">
         <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Diskon</h2>
@@ -12,7 +12,7 @@
 
             <!-- Kode Kupon -->
             <div class="mb-4">
-                <label class="block text-gray-700 pb-2 font-semibold">Kode Kupon</label>
+                <label class="block text-gray-700 pb-2 font-semibold">Kode Diskond</label>
                 <input type="text" name="coupon_code" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('coupon_code') border-red-500 @enderror" placeholder="Masukkan kode kupon">
                 @error('coupon_code')
                     <p class="text-red-500 text-sm mt-1" id="coupon_code-error">{{ $message }}</p>

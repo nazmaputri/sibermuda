@@ -1,8 +1,16 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Detail Kategori')
 @section('content')
 
-<div class="bg-white p-6 rounded-lg shadow-md">
+<div class="mb-3 flex justify-start">
+    <a href="{{ route('categories.index') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>           
+</div>
+
+<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
     <h2 class="text-xl font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Detail Kategori</h2>
 
     <!-- Detail Kategori -->
@@ -24,9 +32,8 @@
     </div>  
 </div>
 
-<div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+<div class="mt-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
     <h3 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Daftar Kursus</h3>
-
     <!-- Membungkus tabel dengan div untuk pengguliran -->
     <div class="overflow-x-auto">
         <div class="min-w-full w-64">
@@ -127,11 +134,5 @@
     <div class="mt-4">
         {{ $courses->links() }} 
     </div>
-
-    <div class="mt-6 flex justify-end space-x-2">
-        <a href="{{ route('categories.index') }}" class="bg-sky-400 hover:bg-sky-300 text-white font-bold py-2 px-4 rounded">
-            Kembali
-        </a>
-    </div>   
 </div>
 @endsection

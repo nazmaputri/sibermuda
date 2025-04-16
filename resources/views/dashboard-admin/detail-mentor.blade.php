@@ -1,9 +1,19 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Detail Mentor')
 @section('content')
+
+<!-- Tombol Kembali -->
+<div class="flex justify-start mb-2">
+    <a href="{{ route('datamentor-admin') }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
 <div class="container mx-auto">
     <!-- Card Detail Mentor -->
-    <div class="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <div class="bg-white shadow-lg rounded-lg p-6 mb-6 border border-gray-200">
         <!-- Judul Card -->
         <div class="text-center mb-6">
             <h2 class="text-xl font-semibold mb-5 text-gray-700 border-b-2 pb-2">Detail Mentor</h2>
@@ -118,16 +128,10 @@
                     </tbody>
                 </table>
             </div>
-            <!-- Tampilkan Pagination -->
-            <div class="mt-4">
-                {{ $courses->links('pagination::tailwind') }}
-            </div>
         </div>
-        <div class="text-right pt-10">
-        <a href="{{ route('datamentor-admin') }}" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-none">
-            Kembali
-        </a>
+        <!-- Tampilkan Pagination -->
+        <div class="mt-4">
+            {{ $courses->links('pagination::tailwind') }}
         </div>
     </div>
-
 @endsection

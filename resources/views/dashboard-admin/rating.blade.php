@@ -47,7 +47,7 @@
                             </td>
 
                             <!-- Kolom Toggle & Hapus -->
-                            <td class="px-4 py-2 text-center align-middle">
+                            <td class="px-4 py-2 text-center align-middle border-r border-gray-200">
                                 <div class="flex items-center justify-center space-x-4">
                                     <!-- Form Toggle -->
                                     <form action="{{ route('toggle.displayadmin', $rating->id) }}" method="POST">
