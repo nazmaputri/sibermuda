@@ -51,54 +51,54 @@ class DashboardPesertaController extends Controller
                   ->where('status', 'success');
         })->get();
     
-        // Menghitung progress dan rating setiap kursus
-        foreach ($courses as $course) {
-            // Mengambil materi yang terkait dengan kursus ini
-            $totalMateri = $course->materi->count(); // Total materi yang tersedia di kursus ini
+        // // Menghitung progress dan rating setiap kursus
+        // foreach ($courses as $course) {
+        //     // Mengambil materi yang terkait dengan kursus ini
+        //     $totalMateri = $course->materi->count(); // Total materi yang tersedia di kursus ini
         
-            // Menghitung jumlah materi yang sudah diselesaikan oleh user
-            $completedMateri = 0;
-            foreach ($course->materi as $materi) {
-                // Cek jika user sudah menyelesaikan materi ini (ada data completed_at di tabel pivot)
-                $isCompleted = $materi->users()->wherePivot('user_id', $userId)
-                                              ->wherePivot('completed_at', '!=', null)
-                                              ->exists();
-                if ($isCompleted) {
-                    $completedMateri++;
-                }
-            }
+        //     // Menghitung jumlah materi yang sudah diselesaikan oleh user
+        //     $completedMateri = 0;
+        //     foreach ($course->materi as $materi) {
+        //         // Cek jika user sudah menyelesaikan materi ini (ada data completed_at di tabel pivot)
+        //         $isCompleted = $materi->users()->wherePivot('user_id', $userId)
+        //                                       ->wherePivot('completed_at', '!=', null)
+        //                                       ->exists();
+        //         if ($isCompleted) {
+        //             $completedMateri++;
+        //         }
+        //     }
         
-            // Menghitung persentase progres
-            $progress = $totalMateri > 0 ? round(($completedMateri / $totalMateri) * 100, 2) : 0;
+        //     // Menghitung persentase progres
+        //     $progress = $totalMateri > 0 ? round(($completedMateri / $totalMateri) * 100, 2) : 0;
         
-            // Menyimpan progress ke dalam kursus
-            $course->progress = $progress;
+        //     // Menyimpan progress ke dalam kursus
+        //     $course->progress = $progress;
         
-            // Menentukan apakah user sudah menyelesaikan materi untuk tombol sertifikat
-            $isCompletedForCertificate = $completedMateri === $totalMateri; // Jika semua materi diselesaikan
+        //     // Menentukan apakah user sudah menyelesaikan materi untuk tombol sertifikat
+        //     $isCompletedForCertificate = $completedMateri === $totalMateri; // Jika semua materi diselesaikan
         
-            // Menambahkan flag untuk sertifikat
-            $course->isCompletedForCertificate = $isCompletedForCertificate;
+        //     // Menambahkan flag untuk sertifikat
+        //     $course->isCompletedForCertificate = $isCompletedForCertificate;
         
-            // Menghitung rata-rata rating untuk kursus ini
-            $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
+        //     // Menghitung rata-rata rating untuk kursus ini
+        //     $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
             
-            // Membatasi rating maksimal 5
-            $averageRating = min($averageRating, 5);
+        //     // Membatasi rating maksimal 5
+        //     $averageRating = min($averageRating, 5);
         
-            // Menyimpan rata-rata rating untuk kursus
-            $course->average_rating = $averageRating;
+        //     // Menyimpan rata-rata rating untuk kursus
+        //     $course->average_rating = $averageRating;
             
-            // Menghitung jumlah bintang penuh, setengah, dan kosong
-            $fullStars = floor($averageRating); // Bintang penuh
-            $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
-            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
+        //     // Menghitung jumlah bintang penuh, setengah, dan kosong
+        //     $fullStars = floor($averageRating); // Bintang penuh
+        //     $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
+        //     $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
         
-            // Menyimpan jumlah bintang untuk ditampilkan di view
-            $course->rating_full_stars = $fullStars;
-            $course->rating_half_star = $halfStar;
-            $course->rating_empty_stars = $emptyStars;
-        }
+        //     // Menyimpan jumlah bintang untuk ditampilkan di view
+        //     $course->rating_full_stars = $fullStars;
+        //     $course->rating_half_star = $halfStar;
+        //     $course->rating_empty_stars = $emptyStars;
+        // }
         
         // Kirim data kursus dengan progress, rating, dan status penyelesaian ke view
         return view('dashboard-peserta.welcome', compact('courses'));
@@ -145,23 +145,19 @@ class DashboardPesertaController extends Controller
     
     public function study($id)
     {
-        // Mengambil course beserta materi
+        // Ambil course dan materinya
         $course = Course::with('materi')->findOrFail($id);
     
-        // Mengambil ID materi yang sudah diselesaikan oleh user
-        $completedMateriIds = \DB::table('materi_user')
+        // Ambil riwayat kuis user yang terkait course ini
+        $quizHistories = \DB::table('materi_user')
             ->where('user_id', auth()->id())
-            ->whereNotNull('completed_at')
-            ->pluck('materi_id')
-            ->toArray();
+            ->where('courses_id', $id)
+            ->whereNotNull('quiz_id')
+            ->orderBy('completed_at', 'desc')
+            ->get();
     
-        // Mengambil kuis tugas akhir yang tidak memiliki materi_id
-        $finalQuizzes = \App\Models\Quiz::where('course_id', $id)
-                        ->whereNull('materi_id')
-                        ->get();
-    
-        return view('dashboard-peserta.study', compact('course', 'completedMateriIds', 'finalQuizzes'));
-    }    
+        return view('dashboard-peserta.study', compact('course', 'quizHistories'));
+    }     
 
     public function kursusTerdaftar()
     {

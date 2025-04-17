@@ -16,7 +16,7 @@
             </div>
             <!-- Image Content -->
             <div class="w-full lg:w-1/2 flex justify-center">
-                <img src="{{ asset('storage/siber.png') }}" alt="Hero Image" class="w-full h-auto lg:max-w-sm transform hover:scale-105 transition-transform duration-500 animate-smallbounce">
+                <img src="{{ asset('storage/logo-sibermuda.png') }}" alt="Hero Image" class="w-full h-auto lg:max-w-sm transform hover:scale-105 transition-transform duration-500 animate-smallbounce">
             </div>
         </div>
     </div>

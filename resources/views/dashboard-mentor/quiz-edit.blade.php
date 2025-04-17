@@ -7,9 +7,7 @@
         <h1 class="text-xl font-semibold text-gray-700 mb-6 text-center border-b-2 pb-2">Edit Kuis</h1>
 
         <!-- Form Edit Quiz -->
-        <form action="{{ isset($materiId)
-        ? route('quiz.update', ['courseId' => $courseId, 'materiId' => $materiId, $quiz->id])
-        : route('final-update', ['courseId' => $courseId, 'id' => $quiz->id]) }}" method="POST">    
+        <form action="route('quiz.update', ['courseId' => $courseId, $quiz->id])" method="POST">    
     @csrf
     @method('PUT')
 

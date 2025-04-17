@@ -17,7 +17,6 @@ class Quiz extends Model
         'title',
         'description',
         'course_id',
-        // 'materi_id',
         'duration',
     ];
 

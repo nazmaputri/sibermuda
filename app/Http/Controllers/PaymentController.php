@@ -89,21 +89,17 @@ class PaymentController extends Controller
     public function updateStatus($id)
     {
         $payment = Payment::findOrFail($id);
-
+    
         // Update status pembayaran
         $payment->transaction_status = 'success';
         $payment->save();
-
-        // Update status pembelian berdasarkan transaction_id yang sama
-        $purchase = Purchase::where('transaction_id', $payment->transaction_id)->first();
-
-        if ($purchase) {
-            $purchase->status = 'success';
-            $purchase->save();
-        }
-
-        return redirect()->back()->with('success', 'Status pembayaran dan pembelian berhasil diubah.');
-    }
+    
+        // Update semua pembelian dengan transaction_id yang sama
+        Purchase::where('transaction_id', $payment->transaction_id)
+            ->update(['status' => 'success']);
+    
+        return redirect()->back()->with('success', 'Status pembayaran dan semua pembelian terkait berhasil diubah.');
+    }    
         
     public function updatePaymentStatus(Request $request)
     {

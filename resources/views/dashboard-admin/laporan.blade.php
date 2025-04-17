@@ -62,8 +62,13 @@
                 
                 <!-- Batang 3 -->
                 <div class="w-3 h-16 bg-gradient-to-t from-[#08072a] to-[#3e3b7a] hover:h-20 transition-all duration-300 rounded-t"></div>
+            <div class="ml-4">
+                <h2 class="text-xl font-semibold text-yellow-400">
+                    Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
+                </h2>
+                <p class="text-md font-semibold text-gray-600">Pendapatan Bulan ini</p>
             </div>
-        </div>
+        </div>            
     </div>
 
     <!-- Pendapatan Per Kursus -->
@@ -116,7 +121,15 @@
                     Filter
                 </button>
             </div>
-        </form>        
+        </form>  
+        
+        <form method="GET" action="{{ route('purchases.export') }}" class="mb-4">
+            <input type="hidden" name="course_id" value="{{ request('course_id') }}">
+            <input type="hidden" name="month" value="{{ request('month') }}">
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">
+                Ekspor ke Excel
+            </button>
+        </form>
 
         <div class="overflow-x-auto">
            <div class="min-w-full w-64">

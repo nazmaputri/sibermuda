@@ -23,6 +23,11 @@ class Materi extends Model
         return $this->hasMany(MateriVideo::class);
     }
 
+    public function youtube()
+    {
+        return $this->hasMany(YouTube::class);
+    }
+
     public function course()
     {
         return $this->belongsTo(Course::class, 'course_id', 'id');

@@ -26,6 +26,7 @@ use App\Mail\HelloMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel; 
 
 Route::get('/', [LandingPageController::class, 'lp'])->name('landingpage');
 Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kursus.detail');
@@ -72,6 +73,9 @@ Route::middleware(['auth:admin'])->group(function () {
     //Import Peserta dari Excel
     Route::post('import-excel', [DashboardAdminController::class, 'importExcel'])->name('import.excel');
 
+    //Export Data Pendapatan
+    Route::get('/purchases/export', [DashboardAdminController::class, 'export'])->name('purchases.export');
+
     //Update status pembayaran
     Route::put('/admin/update-status/{id}', [PaymentController::class, 'updateStatus'])->name('admin.update-status');
 
@@ -116,6 +120,7 @@ Route::middleware(['auth:student'])->group(function () {
 
     //Quiz Peserta
     Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
+    Route::post('/quiz/{quiz}/retake', [QuizController::class, 'retake'])->name('quiz.retake');
     Route::post('/quiz/{quiz}/submit', [QuizController::class, 'submit'])->name('quiz.submit');
     Route::get('/quiz/{quiz}/result', [QuizController::class, 'result'])->name('quiz.result');
 
@@ -151,20 +156,20 @@ Route::middleware(['auth:mentor'])->group(function () {
     Route::delete('pdf/{pdf}', [PdfController::class, 'destroy'])->name('pdf.destroy');
 
     // Quiz
-    Route::get('/quiz-detail/{course}/{materi}/{quiz}', [QuizController::class, 'detail'])->name('quiz.detail');
-    Route::get('/quiz/{courseId}/{materiId}', [QuizController::class, 'create'])->name('quiz.create');
-    Route::post('/quiz/{courseId}/{materiId}', [QuizController::class, 'store'])->name('quiz.store');
-    Route::get('/quiz-edit/{courseId}/{materiId}/{quiz}', [QuizController::class, 'edit'])->name('quiz-edit');
-    Route::put('/quiz/{courseId}/{materiId}/{quiz}', [QuizController::class, 'update'])->name('quiz.update');
-    Route::delete('/quiz/{courseId}/{materiId}/{quiz}', [QuizController::class, 'destroy'])->name('quiz.destroy');
-
-    //Tugas Akhir
-    Route::get('/final-task/{courseId}', [QuizController::class, 'create'])->name('final-task.create');
-    Route::post('/final-task/{courseId}', [QuizController::class, 'store'])->name('final-task.store');
-    Route::get('/quiz-detail/{course}/{quiz}', [QuizController::class, 'detail'])->name('final-detail');
-    Route::get('/final-edit/{courseId}/{id}', [QuizController::class, 'edit'])->name('final-edit');
-    Route::put('/final-update/{courseId}/{id}', [QuizController::class, 'update'])->name('final-update');
-    Route::delete('/final-destroy/{course}/{quiz}', [QuizController::class, 'destroy'])->name('final-destroy');
+    Route::get('/quiz-detail/{course}/{quiz}', [QuizController::class, 'detail'])->name('quiz-detail');
+    Route::get('/quiz-create/{courseId}', [QuizController::class, 'create'])->name('quiz.create');
+    Route::post('/quiz/{courseId}', [QuizController::class, 'store'])->name('quiz.store');
+    Route::get('/quiz-edit/{courseId}/{quiz}', [QuizController::class, 'edit'])->name('quiz-edit');
+    Route::put('/quiz/{courseId}/{quiz}', [QuizController::class, 'update'])->name('quiz.update');
+    Route::delete('/quiz/{courseId}/{quiz}', [QuizController::class, 'destroy'])->name('quiz.destroy');
+ 
+    // //Tugas Akhir
+    // Route::get('/final-task/{courseId}', [QuizController::class, 'create'])->name('final-task.create');
+    // Route::post('/final-task/{courseId}', [QuizController::class, 'store'])->name('final-task.store');
+    // Route::get('/quiz-detail/{course}/{quiz}', [QuizController::class, 'detail'])->name('final-detail');
+    // Route::get('/final-edit/{courseId}/{id}', [QuizController::class, 'edit'])->name('final-edit');
+    // Route::put('/final-update/{courseId}/{id}', [QuizController::class, 'update'])->name('final-update');
+    // Route::delete('/final-destroy/{course}/{quiz}', [QuizController::class, 'destroy'])->name('final-destroy');
    
 });
 

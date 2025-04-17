@@ -34,13 +34,13 @@
             <div class="min-w-full w-64">
             <table class="min-w-full mt-4 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-gray-100 text-gray-500 text-sm">
-                        <th class="px-4 py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
-                        <th class="px-4 py-2 border-b border-t border-gray-200">Judul</th>
-                        <th class="px-4 py-2 border-b border-t border-gray-200">Kategori</th>
-                        <th class="px-4 py-2 border-b border-t border-gray-200">Harga</th>
-                        <th class="px-4 py-2 border-b border-t border-gray-200">Total Peserta</th>
-                        <th class="px-4 py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
+                    <tr class="bg-sky-200 text-gray-600 text-sm">
+                        <th class="px-4 py-2 border-b border-l border-gray-200">No</th>
+                        <th class="px-4 py-2 border-b border-gray-200">Judul</th>
+                        {{-- <th class="px-4 py-2 border-b border-gray-200">Kategori</th> --}}
+                        <th class="px-4 py-2 border-b border-gray-200">Harga</th>
+                        <th class="px-4 py-2 border-b border-gray-200">Total Peserta</th>
+                        <th class="px-4 py-2 border-b border-r border-gray-200">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm">
@@ -54,9 +54,9 @@
                         <!-- Kolom No -->
                         <td class="px-4 py-2 text-center border-b border-l border-gray-200">{{ $index + 1 + ($courses->currentPage() - 1) * $courses->perPage() }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->title, 40) }}</td>
-                        <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->category->name ?? '-', 40) }}</td>
+                        {{-- <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->category->name ?? '-', 40) }}</td> --}}
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $course->price ? 'Rp. ' . number_format($course->price, 0, ',', '.') : 'Gratis' }}</td>
-                        <td class="px-4 py-2 border-b border-gray-200 text-center capitalize">total Peserta</td>
+                        <td class="px-4 py-2 border-b border-gray-200 capitalize text-center">{{ $course->total_peserta }}</td>
                         <td class="py-2 px-4 text-center border-b  border-r border-gray-200">
                             <div class="flex items-center justify-center space-x-3">
                                 <!-- Tombol Chat -->

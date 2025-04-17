@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UserImport;
-
+use App\Exports\PurchasesExport;
 
 class DashboardAdminController extends Controller
 {
@@ -292,90 +292,14 @@ class DashboardAdminController extends Controller
         return redirect()->back()->with('info', 'User sudah dalam status nonanctive.');
     }
     
-    // public function laporan(Request $request)
-    // {
-    //     $year = $request->input('year', date('Y'));
+    public function export(Request $request)
+    {
+        $courseId = $request->query('course_id');
+        $month    = $request->query('month');
+        $fileName = 'pendapatan_' . now()->format('Ymd_His') . '.xlsx';
     
-    //     // Ambil data pendapatan admin (2% dari harga kursus) per kursus per bulan
-    //     $revenues = DB::table('purchases')
-    //         ->join('courses', 'purchases.course_id', '=', 'courses.id')
-    //         ->selectRaw('
-    //             courses.id as course_id, 
-    //             courses.title, 
-    //             MONTH(purchases.created_at) as month, 
-    //             SUM(courses.price * 0.02) as admin_revenue
-    //         ')
-    //         ->where('purchases.status', 'success')
-    //         ->whereYear('purchases.created_at', $year)
-    //         ->groupBy('course_id', 'month', 'courses.title')
-    //         ->orderBy('month', 'asc')
-    //         ->get();
-    
-    //     // Siapkan nama bulan (1 s.d 12)
-    //     $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    
-    //     // Untuk keperluan grafik, kita bisa mengelompokkan data revenue per kursus.
-    //     $coursesRevenue = [];
-    //     $totalRevenue = 0; // 🆕 Variabel total pendapatan admin
-
-    //     foreach ($revenues as $rev) {
-    //         // Inisialisasi jika belum ada
-    //         if (!isset($coursesRevenue[$rev->course_id])) {
-    //             $coursesRevenue[$rev->course_id] = [
-    //                 'title' => $rev->title,
-    //                 'monthly' => array_fill(1, 12, 0)
-    //             ];
-    //         }
-    //         // Set nilai revenue untuk bulan tertentu
-    //         $coursesRevenue[$rev->course_id]['monthly'][(int)$rev->month] = (float)$rev->admin_revenue;
-    //         // 🆕 Tambahkan pendapatan ke total
-    //         $totalRevenue += (float)$rev->admin_revenue;
-    //     }
-
-    //     //mengurutkan data
-    //     uasort($coursesRevenue, function ($a, $b) {
-    //         $totalA = array_sum($a['monthly']);
-    //         $totalB = array_sum($b['monthly']);
-    //         return $totalB <=> $totalA;
-    //     });
-        
-    //     // 🔧 Reindex array agar key numerik dari 0
-    //     $reindexedCourses = array_values($coursesRevenue);
-        
-    //     // Konversi ke koleksi agar bisa dipaginate
-    //     $collection = collect($reindexedCourses);
-        
-    //     // Pagination
-    //     $perPage = 5;
-    //     $page = request()->get('page', 1);
-    //     $paginatedCourses = new LengthAwarePaginator(
-    //         $collection->forPage($page, $perPage),
-    //         $collection->count(),
-    //         $perPage,
-    //         $page,
-    //         ['path' => request()->url(), 'query' => request()->query()]
-    //     );
-    
-    //     // Ambil daftar tahun yang tersedia dari data purchases (opsional)
-    //     $years = DB::table('purchases')
-    //         ->select(DB::raw('YEAR(created_at) as year'))
-    //         ->distinct()
-    //         ->orderBy('year', 'asc')
-    //         ->pluck('year');
-
-    //     $coursesRevenue = DB::table('purchases')
-    //         ->join('courses', 'purchases.course_id', '=', 'courses.id')
-    //         ->selectRaw('
-    //             courses.id as course_id, 
-    //             courses.title
-    //         ')
-    //         ->where('purchases.status', 'success')
-    //         ->whereYear('purchases.created_at', $year)
-    //         ->distinct()  // Pastikan kursus hanya muncul satu kali
-    //         ->get();
-
-    //     return view('dashboard-admin.laporan', compact('coursesRevenue', 'monthNames', 'years', 'year', 'totalRevenue', 'paginatedCourses'));
-    // } 
+        return Excel::download(new PurchasesExport($courseId, $month), $fileName);
+    }    
 
     public function laporan(Request $request)
     {
@@ -388,6 +312,7 @@ class DashboardAdminController extends Controller
                                 ->with('payment')
                                 ->get();
     
+        // Hitung total pendapatan dari seluruh transaksi
         $totalAllRevenue = $allPurchases->sum(function ($purchase) {
             return optional($purchase->payment)->amount;
         });
@@ -397,21 +322,24 @@ class DashboardAdminController extends Controller
                                     ->with(['course', 'user', 'payment'])
                                     ->orderBy('created_at', 'desc');
     
+        // Filter berdasarkan Course
         if ($selectedCourseId) {
             $purchasesQuery->where('course_id', $selectedCourseId);
         }
     
+        // Filter berdasarkan Bulan
         if ($selectedMonth) {
             $purchasesQuery->whereMonth('created_at', $selectedMonth);
         }
     
         $revenues = $purchasesQuery->get();
     
-        // Hitung total dari yang difilter (kalau perlu juga)
+        // Hitung total pendapatan berdasarkan filter yang diterapkan (bulan dan kursus)
         $totalFilteredRevenue = $revenues->sum(function ($purchase) {
             return optional($purchase->payment)->amount;
         });
     
+        // Ambil data kursus untuk ditampilkan di filter dropdown
         $coursesRevenue = Course::all();
     
         return view('dashboard-admin.laporan', [
@@ -422,7 +350,7 @@ class DashboardAdminController extends Controller
             'selectedMonth' => $selectedMonth,
             'totalAllRevenue' => $totalAllRevenue
         ]);
-    }
+    }    
     
     // menampilkan halaman form tambah mentor
     public function tambahmentor()
