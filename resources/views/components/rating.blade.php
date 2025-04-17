@@ -56,7 +56,7 @@
             @endif
         </div>
         
-        <div id="openRatingBtn" class="mb-6 text-center"  data-aos="zoom-in-up">
+        <div id="openRatingBtn" class="mb-6 text-center" data-aos="zoom-in-up">
             <button class="text-md px-6 py-2 rounded-full bg-white border border-gray-700 hover:bg-[#08072a] hover:text-white mt-2 text-midnight font-semibold shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
                 Berikan Rating Sibermuda
             </button>
@@ -70,7 +70,7 @@
         <div class="flex flex-col items-center space-y-6 p-6">
             <!-- Close Button with Icon -->
             <button id="closeRatingBtn" class="flex items-center text-sm text-red-500 hover:text-red-600 gap-1 self-end">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="red">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="gray-700">
                     <path fill-rule="evenodd" d="M10 8.586L15.95 2.636a1 1 0 111.414 1.414L11.414 10l5.95 5.95a1 1 0 01-1.414 1.414L10 11.414l-5.95 5.95a1 1 0 01-1.414-1.414L8.586 10 2.636 4.05a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
                 </svg>
             </button>

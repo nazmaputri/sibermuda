@@ -194,9 +194,19 @@ class DashboardPesertaController extends Controller
         return view('dashboard-peserta.quiz');
     }
 
-    public function kategori() {
-        $categories = Category::paginate(6);
-        return view('dashboard-peserta.categories', compact('categories'));
+    public function kategori(Request $request) {
+        // Ambil semua kategori untuk dropdown
+        $categories = Category::all();
+        
+        // Jika ada kategori yang dipilih, ambil kursus berdasarkan kategori tersebut
+        if ($request->has('kategori') && $request->kategori != '') {
+            $courses = Course::where('category_id', $request->kategori)->get(); // Ambil kursus berdasarkan kategori yang dipilih
+        } else {
+            // Jika tidak ada kategori yang dipilih, tampilkan semua kursus
+            $courses = Course::all();
+        }
+    
+        return view('dashboard-peserta.categories', compact('categories', 'courses'));
     }
 
     public function showCategoryDetail($categoryId)

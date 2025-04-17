@@ -1,8 +1,8 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Edit Kursus')
 @section('content')
 <div class="container mx-auto">
-    <div class="bg-white rounded-lg shadow-md p-6">
+    <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Edit Kursus</h2>
 
         <!-- Form Edit Kursus -->

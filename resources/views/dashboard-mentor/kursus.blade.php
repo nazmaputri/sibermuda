@@ -1,12 +1,10 @@
 @extends('layouts.dashboard-mentor')
+@section('title', 'Kursus')
 
 @section('content')
 <div class="container mx-auto">
     <!-- Card Wrapper -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <!-- Judul dan Tombol Tambah Kursus -->
-        <h2 class="text-xl font-semibold  text-gray-700 mb-5 text-center border-b-2 border-gray-300 pb-2">Data Kursus</h2>
-
+    <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <!-- container searchbar dan button tambah kursus  -->
         <div class="flex flex-col md:flex-row items-center justify-between">
             <!-- Search Bar -->

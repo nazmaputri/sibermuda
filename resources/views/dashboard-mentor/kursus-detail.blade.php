@@ -1,7 +1,16 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Detail Kursus')
 @section('content')
-<div class="bg-white p-6 rounded-lg shadow-md">
+
+<div class="mb-3 flex justify-start">
+    <a href="{{ route('courses.index') }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
+<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
     <h2 class="text-xl font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Detail Kursus</h2>
     <!-- Card Informasi Kursus -->
     <div class="flex flex-col lg:flex-row mb-4">
@@ -129,8 +138,13 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 <!-- Section Kuis -->
 <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+=======
+<!-- Section Tugas Akhir -->
+<div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
+>>>>>>> 5cf7ac42e2bab9774a36d0a600e74e3ae1e2da25
     <div class="mb-2 flex items-center justify-between p-1 border-b-2">
         <h2 class="text-xl font-semibold text-gray-700 pt-2">Kuis dari Keseluruhan Materi</h2>                                                     
     </div>
@@ -262,7 +276,7 @@
 </div> --}}
 
 <!-- Tabel Peserta Terdaftar -->
-<div class="mt-6 bg-white p-6 rounded-lg shadow-md">
+<div class="mt-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
     <h3 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Peserta Terdaftar</h3>
     <div class="overflow-x-auto">
         <div class="min-w-full w-64">
@@ -300,7 +314,7 @@
 </div>
 
 <!-- Tabel Rating -->
-<div class="bg-white mt-6 p-6 rounded-lg shadow-md">
+<div class="bg-white mt-6 p-6 rounded-lg shadow-md border border-gray-200">
     <h2 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Rating Kursus</h2>
     <!-- Tabel rating kursus -->
     <div class="overflow-x-auto">
@@ -377,11 +391,6 @@
     </div>
     <div class="mt-4">
         {{ $ratings->links() }}
-    </div>
-    <div class="mt-6 flex justify-end">
-        <a href="{{ route('courses.index') }}" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded">
-            Kembali
-        </a>
     </div>
 </div>
 

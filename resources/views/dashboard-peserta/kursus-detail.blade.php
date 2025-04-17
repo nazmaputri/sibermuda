@@ -102,7 +102,7 @@
         </div>
     </div>
 
-<script>
+<script>d
     // Menampilkan modal saat tombol "Beri Rating" diklik
     document.getElementById('ratingButton').addEventListener('click', function () {
         document.getElementById('ratingModal').classList.remove('hidden');

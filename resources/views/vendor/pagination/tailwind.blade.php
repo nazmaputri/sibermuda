@@ -20,7 +20,7 @@
 
         @for ($i = $start; $i <= $end; $i++)
             @if ($i == $currentPage)
-                <li class="px-3 py-1 bg-sky-300 text-white rounded">{{ $i }}</li>
+                <li class="px-3 py-1 bg-midnight bg-opacity-90 text-white rounded">{{ $i }}</li>
             @else
                 <li>
                     <a href="{{ $paginator->url($i) }}" class="px-3 py-1 bg-white border border-gray-300 rounded hover:bg-gray-100 text-gray-700">{{ $i }}</a>

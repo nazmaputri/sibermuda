@@ -1,12 +1,16 @@
 @extends('layouts.dashboard-peserta')
-
+@section('title', 'Detail Kursus')
 @section('content')
-<!-- <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script> -->
 
-<div class="bg-white p-8 rounded-lg shadow-md">
-    <h2 class="text-xl text-gray-700 font-semibold mb-6 border-b-2 border-gray-300 pb-2 text-center">Detail Kursus</h2>
-    
+<div class="mb-3 flex justify-start">
+    <a href="{{ route('kategori-peserta') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+    </svg>
+    </a>           
+</div>
+
+<div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
     <!-- container detail kursus -->
     <div class="flex flex-col sm:flex-row mb-4 space-y-4 sm:space-y-0 sm:space-x-4">
         <div class="w-full sm:w-1/4 md:w-1/5">
@@ -14,7 +18,7 @@
         </div>
         <div class="w-full sm:w-2/3 space-y-1">
             @if(!empty($course->title))
-                <h2 class="text-xl font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
+                <h2 class="text-md font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
             @endif
         
             @if(!empty($course->description))
@@ -35,7 +39,7 @@
 
             @if(!empty($course->price))
                 <div class="flex space-x-4">   
-                    <p class="text-red-500 inline-flex items-center text-sm rounded-xl font-semibold">
+                    <p class="text-red-500 inline-flex items-center text-sm rounded-md font-semibold">
                         Rp. {{ number_format($course->price, 0, ',', '.') }}
                     </p>
                     <div class="flex space-x-2 items-center text-center">
@@ -44,8 +48,8 @@
                         <form action="{{ route('cart.add', ['id' => $course->id]) }}" method="POST" class="">
                             @csrf
                             <button type="submit" class="flex items-center p-1.5 space-x-2 text-white bg-red-400 rounded-md border hover:bg-red-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 576 512" class="w-4 h-4">
-                                    <path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                                 </svg>
                                 <span class="text-sm">Keranjang</span>
                             </button>
@@ -64,14 +68,20 @@
     
     <!-- container materi kursus -->
     <div class="mt-10">
-        <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
+        <h3 class="text-md font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
         <div class="space-y-6">
             @if($course->materi->isEmpty())
-                <p class="text-gray-600 text-center text-sm">Belum ada materi</p>
+                <div class="col-span-full text-center items-center justify-center flex flex-col">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mb-1 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                    </svg>
+                    <p class="text-gray-600 text-center text-sm">Belum ada materi.</p>
+                </div>
             @else
             @foreach($course->materi as $materi)
-                <div class="bg-neutral-50 p-4 rounded-lg shadow-md">
-                    <div x-data="{ open: false }">
+                <div x-data="{ open: false }" 
+                :class="open ? 'border-gray-700' : 'border-gray-200'" class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+                    <div>
                         <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
                             <span class="text-gray-700 font-semibold mr-2 text-sm">{{ sprintf('%02d', $loop->iteration) }}.</span>
                             <h4 class="text-sm font-semibold text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
@@ -154,13 +164,18 @@
 </div>
 
 <!-- Section Ulasan Pengguna -->
-<div class="bg-white p-8 rounded-lg shadow-md mt-10">
-    <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Ulasan Pengguna</h3>
+<div class="bg-white p-8 rounded-lg shadow-md mt-10 border border-gray-200">
+    <h3 class="text-md font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Ulasan Pengguna</h3>
     <!-- card rating -->
     <div class="space-y-6">
     <!-- Jika tidak ada ulasan -->
     @if($rating->isEmpty())
-        <p class="text-gray-500 text-center text-sm">Belum ada ulasan</p>
+        <div class="col-span-full text-center items-center justify-center flex flex-col">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mb-1 text-gray-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+            </svg>
+            <p class="text-gray-600 text-center text-sm">Belum ada rating.</p>
+        </div>
     @else
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($rating as $rating)
@@ -185,11 +200,8 @@
         </div>
     @endif
     </div>
-</div>
 
-    <div class="mt-6 flex justify-end">
-        <a href="{{ route('categories-detail', ['id' => $category->id]) }}" class="bg-sky-400 text-white font-semibold py-1.5 px-5 rounded-lg hover:bg-sky-300">
-            Kembali
-        </a>           
-    </div>
+    
+
+</div>
 @endsection

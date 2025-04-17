@@ -1,10 +1,10 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Materi Detail')
 @section('content')
 <div class="container mx-auto">
 
   <!-- Card Wrapper -->
-    <div class="bg-white p-6 rounded-lg shadow-md">
+    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
 
         <!-- Judul Halaman -->
         <h1 class="text-xl text-center text-gray-700 font-semibold mb-4 border-b-2 pb-2 capitalize">Detail Materi : {{ $materi->judul }}</h1>

@@ -23,72 +23,80 @@
                 </p>
 
                 <!-- Accordion -->
-                <div class="space-y-4 grid grid-cols-1 md:grid-cols-2 gap-4" id="accordion">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="accordion">
                     <!-- Card 1 -->
-                    <div class="card bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
-                        <button class="flex justify-between w-full px-4 py-0.5 mt-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
+                    <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+                        <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
                             <span>01. Akses Materi Pembelajaran Terlengkap</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-transform duration-300 transform rotate-0">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                class="w-5 h-5 transition-transform duration-300 transform rotate-0">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                             </svg>
                         </button>
-                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out p-2 bg-white rounded-lg opacity-0">
+                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
                             <p class="text-gray-600">
                                 Sibermuda.Idn menyediakan akses ke berbagai materi pembelajaran dari berbagai bidang studi yang memungkinkan siswa untuk belajar dengan cara yang lebih terstruktur dan efektif.
                             </p>
                         </div>
                     </div>
-
+                
                     <!-- Card 2 -->
-                    <div class="card bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
-                        <button class="flex justify-between w-full px-4 py-1 mt-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
+                    <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+                        <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
                             <span>02. Pembelajaran Interaktif dan Menyenangkan</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-transform duration-300 transform rotate-0">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                class="w-5 h-5 transition-transform duration-300 transform rotate-0">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                             </svg>
                         </button>
-                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out p-2 bg-white rounded-lg opacity-0">
+                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
                             <p class="text-gray-600">
                                 Dengan fitur pembelajaran interaktif, Sibermuda menjadikan proses belajar lebih menyenangkan dan tidak membosankan. Siswa dapat berinteraksi dengan materi melalui tugas akhir yang membuat mereka lebih terlibat dalam proses belajar.
                             </p>
                         </div>
                     </div>
-
+                
                     <!-- Card 3 -->
-                    <div class="card bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
-                        <button class="flex justify-between w-full px-4 py-1 mt-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
+                    <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+                        <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
                             <span>03. Fasilitas untuk Guru dan Siswa</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-transform duration-300 transform rotate-0">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                class="w-5 h-5 transition-transform duration-300 transform rotate-0">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                             </svg>
                         </button>
-                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out p-2 bg-white rounded-lg opacity-0">
+                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
                             <p class="text-gray-600">
-                                Sibermuda.Idn tidak hanya menyediakan fasilitas untuk siswa, tetapi juga untuk guru. Guru dapat menggunakan platform ini untuk membuat materi ajar, melacak kemajuan siswa, dan memberikan umpan balik secara real-time, sehingga menciptakan pengalaman belajar yang lebih efektif.
+                                Sibermuda.Idn tidak hanya menyediakan fasilitas untuk siswa, tetapi juga untuk guru. Guru dapat menggunakan platform ini untuk membuat materi ajar, melacak kemajuan siswa, dan memberikan umpan balik secara real-time.
                             </p>
                         </div>
                     </div>
-
+                
                     <!-- Card 4 -->
-                    <div class="card bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
-                        <button class="flex justify-between w-full px-4 py-1 mt-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
+                    <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+                        <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
                             <span>04. Sertifikat Digital Setelah Selesai Kursus</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 transition-transform duration-300 transform rotate-0">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                class="w-5 h-5 transition-transform duration-300 transform rotate-0">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                             </svg>
                         </button>
-                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out p-2 bg-white rounded-lg opacity-0">
+                        <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
                             <p class="text-gray-600">
                                 Setelah menyelesaikan kursus, siswa akan mendapatkan sertifikat digital yang dapat digunakan sebagai bukti kompetensi mereka. Sertifikat ini dapat menjadi nilai tambah untuk karier di dunia digital.
                             </p>
                         </div>
                     </div>
                 </div>
-
+                
             </div>
         </div>
     </div>

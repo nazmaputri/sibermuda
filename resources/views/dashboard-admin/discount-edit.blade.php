@@ -1,7 +1,7 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Edit Diskon')
 @section('content')
-<div class="container mx-auto bg-white rounded-lg p-5">
+<div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
     <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Edit Diskon</h2>
 
     <form action="{{ route('discount.update', $discount->id) }}" method="POST" class="mt-4 grid grid-col-1 md:grid-cols-2 space-x-3">
@@ -10,7 +10,7 @@
 
         <!-- Kode Kupon -->
         <div class="mb-4">
-            <label class="block text-gray-600 font-semibold">Kode Kupon</label>
+            <label class="block text-gray-600 font-semibold">Kode Diskon</label>
             <input type="text" name="coupon_code" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('coupon_code') border-red-500 @enderror">
             @error('coupon_code')
                 <p class="text-red-500 text-sm mt-1" id="coupon_code-error">{{ $message }}</p>
