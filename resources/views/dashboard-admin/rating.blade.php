@@ -6,15 +6,15 @@
             <!-- Wrapper for responsiveness -->
             <div class="overflow-x-auto">
                <div class="min-w-full w-64">
-               <table class="min-w-full mt-1 border-collapse">
+               <table class="min-w-full mt-1 border-separate border-spacing-0">
                     <thead>
-                        <tr class="bg-sky-100 text-gray-700 text-sm">
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-l border-gray-200 border-t">No</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200 border-t">Nama</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200 border-t">Rating</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200 border-t">Komentar</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-gray-200 border-t">Status</th>
-                            <th class="px-4 py-2 text-center text-gray-700 border-b border-r border-gray-200 border-t">Aksi</th>
+                        <tr class="bg-gray-100 text-gray-600 text-sm">
+                            <th class="px-4 py-2 text-center text-gray-600 border-b border-l border-gray-200 border-t rounded-tl-lg">No</th>
+                            <th class="px-4 py-2 text-center text-gray-600 border-b border-gray-200 border-t">Nama</th>
+                            <th class="px-4 py-2 text-center text-gray-600 border-b border-gray-200 border-t">Rating</th>
+                            <th class="px-4 py-2 text-center text-gray-600 border-b border-gray-200 border-t">Komentar</th>
+                            <th class="px-4 py-2 text-center text-gray-600 border-b border-gray-200 border-t">Status</th>
+                            <th class="px-4 py-2 text-center text-gray-600 border-b border-r border-gray-200 border-t rounded-tr-lg">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -22,19 +22,19 @@
                         $startNumber = ($ratings->currentPage() - 1) * $ratings->perPage() + 1;
                     @endphp
                         @forelse ($ratings as $index => $rating)
-                        <tr class="bg-white border-b hover:bg-sky-50 user-row text-sm text-gray-600">
-                            <td class="text-center px-4 py-2 text-sm  border-b border-l  border-gray-200">{{ $startNumber + $index }}</td>
-                            <td class="px-4 py-2 text-sm capitalize">{{ $rating->nama }}</td>
-                            <td class="px-4 py-2 text-center">
+                        <tr class="bg-white border-b hover:bg-gray-50 user-row text-sm text-gray-600">
+                            <td class="text-center px-4 py-2 text-sm border-b border-l  border-gray-200">{{ $startNumber + $index }}</td>
+                            <td class="px-4 py-2 text-sm border-b border-gray-200 capitalize">{{ $rating->nama }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200 text-center">
                                 @for ($i = 1; $i <= 5; $i++)
                                     <span class="{{ $i <= $rating->rating ? 'text-yellow-400' : 'text-gray-300' }}">★</span>
                                 @endfor
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-4 py-2 border-b border-gray-200">
                                 <span>{{ $rating->comment }}</span>
                             </td>
                             <!-- Kolom Status -->
-                            <td class="px-4 py-2 text-center align-middle">
+                            <td class="px-4 py-2 text-center border-b border-gray-200 align-middle">
                                 @php
                                     $displayStatus = $rating->display
                                         ? ['label' => 'ditampilkan', 'bg' => 'bg-green-200/50', 'border' => 'border-green-300', 'text' => 'text-green-500']
@@ -47,7 +47,7 @@
                             </td>
 
                             <!-- Kolom Toggle & Hapus -->
-                            <td class="px-4 py-2 text-center align-middle border-r border-gray-200">
+                            <td class="px-4 py-2 text-center align-middle border-r border-b border-gray-200">
                                 <div class="flex items-center justify-center space-x-4">
                                     <!-- Form Toggle -->
                                     <form action="{{ route('toggle.displayadmin', $rating->id) }}" method="POST">
@@ -79,10 +79,10 @@
                     </tbody>
                 </table>
                </div>
-                <div class="mt-4">
-                    {{ $ratings->links() }}
-                </div>
             </div> 
+            <div class="mt-4">
+                {{ $ratings->links() }}
+            </div>
         </div>
     </div>
 

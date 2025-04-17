@@ -11,7 +11,7 @@
 </div>
 
 <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
-    <h2 class="text-xl font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Detail Kursus</h2>
+    <h2 class="text-lg font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Detail Kursus</h2>
     <!-- Card Informasi Kursus -->
     <div class="flex flex-col lg:flex-row mb-4">
         <div class="w-full sm:w-1/4 md:w-1/5 mb-4 lg:mb-0">
@@ -41,35 +41,35 @@
      </div>          
                 
     <div class="mb-2 flex items-center justify-between p-1 border-b-2">
-        <h2 class="text-xl font-semibold text-gray-700 pt-2">
+        <h2 class="text-lg font-semibold text-gray-700 pt-2">
             Materi Kursus
         </h2>                                                     
     </div>
                     
     <div class="text-right">
-        <a href="{{ route('materi.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-200 font-semibold py-2 px-4 rounded-md">
+        <a href="{{ route('materi.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
             <!-- Ikon muncul pada semua ukuran layar -->
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             <!-- Teks hanya muncul pada mode desktop (sm dan lebih besar) -->
-            <span class="ml-2">Tambah Materi</span>
+            <span class="ml-2 text-sm">Tambah Materi</span>
         </a> 
     </div>
         
     <!-- Tabel Materi -->
     <div class="overflow-hidden overflow-x-auto w-full">
         <div class="min-w-full w-64">
-            <table class="min-w-full mt-4 border-collapse">
+            <table class="min-w-full mt-4 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-sky-200 text-gray-600 text-sm">
-                        <th class="px-4 py-2 border-b border-t border-l border-gray-200">No</th>
+                    <tr class="bg-gray-100 text-sm text-gray-500">
+                        <th class="px-4 py-2 border-b border-t border-l border-gray-200 rounded-tl-lg">No</th>
                         <th class="px-4 py-2  border-b border-t border-gray-200">Judul</th>
                         <th class="px-4 py-2  border-b border-t border-gray-200">Kursus</th>
-                        <th class="px-4 py-2  border-b border-t border-r border-gray-200">Aksi</th>
+                        <th class="px-4 py-2  border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 text-sm font-light">
+                <tbody class="text-gray-600 text-sm">
                 @php
                 $startNumber = ($materi->currentPage() - 1) * $materi->perPage() + 1;
                 @endphp
@@ -80,7 +80,7 @@
                     </tr>
                 @else
                     @foreach ($materi as $index => $materiItem)
-                        <tr class="bg-white hover:bg-sky-50 user-row text-sm text-gray-600">
+                        <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500">
                             <td class="px-4 py-2 text-center border-b border-l  border-gray-200">{{ $startNumber + $index }}</td>
                             <td class="px-4 py-2 border-b border-gray-200">{{ $materiItem->judul }}</td>
                             <td class="px-4 py-2 border-b border-gray-200">{{ $materiItem->course->title ?? 'Kursus tidak ditemukan' }}</td>
@@ -141,32 +141,32 @@
 <!-- Section Tugas Akhir -->
 <div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
     <div class="mb-2 flex items-center justify-between p-1 border-b-2">
-        <h2 class="text-xl font-semibold text-gray-700 pt-2">Tugas Akhir dari Keseluruhan Materi</h2>                                                     
+        <h2 class="text-lg font-semibold text-gray-700 pt-2">Tugas Akhir dari Keseluruhan Materi</h2>                                                     
     </div>
     <div class="text-right">
-        <a href="{{ route('final-task.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-200 font-semibold py-2 px-4 rounded-md">
+        <a href="{{ route('final-task.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
             <!-- Ikon muncul pada semua ukuran layar -->
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             <!-- Teks hanya muncul pada mode desktop (sm dan lebih besar) -->
-            <span class="ml-2">Tugas Akhir</span>
+            <span class="ml-2 text-sm">Tugas Akhir</span>
         </a> 
     </div>
     <div class="overflow-hidden overflow-x-auto w-full">
         <div class="min-w-full w-64">
-            <table class="min-w-full mt-4 border-collapse">
+            <table class="min-w-full mt-4 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-sky-200 text-gray-600 text-sm">
-                        <th class="px-2 py-2 border-b border-l border-gray-200">No</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Judul</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Durasi</th>
-                        <th class="px-4 py-2 border-b border-r border-gray-200">Aksi</th>
+                    <tr class="bg-gray-100 text-gray-500 text-sm">
+                        <th class="px-2 py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Judul</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Durasi</th>
+                        <th class="px-4 py-2 border-b border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($finalQuizzes as $index => $quiz)
-                    <tr class="bg-white hover:bg-sky-50 user-row text-sm text-gray-600">
+                    <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500">
                         <td class="px-2 py-2 text-center border-b border-l  border-gray-200">{{ $startNumber + $index }}</td>
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $quiz->title }}</td>
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $quiz->duration }} menit</td>
@@ -194,7 +194,7 @@
                     @endforeach
                     @if ($finalQuizzes->isEmpty())
                     <tr>
-                        <td colspan="4" class="text-center py-2 text-sm text-gray-600 border-b border-l border-r border-gray-200">Belum ada tugas akhir untuk kursus ini.</td>
+                        <td colspan="4" class="text-center py-2 text-sm text-gray-500 border-b border-l border-r border-gray-200">Belum ada tugas akhir untuk kursus ini.</td>
                     </tr>
                     @endif
                 </tbody>
@@ -205,26 +205,26 @@
 
 <!-- Tabel Peserta Terdaftar -->
 <div class="mt-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
-    <h3 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Peserta Terdaftar</h3>
+    <h3 class="text-lg font-semibold mb-4 border-b-2 pb-2 text-gray-700">Peserta Terdaftar</h3>
     <div class="overflow-x-auto">
         <div class="min-w-full w-64">
-            <table class="min-w-full mt-2 border-collapse" id="courseTable">
+            <table class="min-w-full mt-2 border-separate border-spacing-0" id="courseTable">
                 <thead>
-                    <tr class="bg-sky-200 text-gray-600 text-sm">
-                        <th class="py-2 px-2 border-b border-t border-l border-gray-200">No</th>
+                    <tr class="bg-gray-100 text-gray-500 text-sm">
+                        <th class="py-2 px-2 border-b border-t border-l border-gray-200 rounded-tl-lg">No</th>
                         <th class="py-2 px-4 border-b border-t border-gray-200">Nama Peserta</th>
                         <th class="py-2 px-4 border-b border-t border-gray-200">Email</th>
-                        <th class="py-2 border-b border-r border-t border-gray-200">Status Pembayaran</th>
+                        <th class="py-2 border-b border-r border-t border-gray-200 rounded-tr-lg">Status Pembayaran</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($participants as $index => $participant)
-                    <tr class="bg-white hover:bg-sky-50 user-row text-sm text-gray-600">
+                    <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500">
                         <td class="py-2 px-4 text-center border-b border-l border-gray-200">{{ $index + 1 }}</td>
                         <td class="py-2 px-4 border-b border-gray-200">{{ $participant->user->name }}</td>
                         <td class="py-2 px-4 border-b border-gray-200">{{ $participant->user->email }}</td>
                         <td class="py-2 text-center border-b  border-r border-gray-200">
-                            <span class="bg-green-200/50 border border-2 border-green-300 text-green-500 px-2 py-0.5 rounded-xl">{{ $participant->status }}</span>
+                            <span class="bg-green-200/50 border border-2 border-green-300 text-green-500 px-2 py-0.5 rounded-lg">{{ $participant->status }}</span>
                         </td>
                     </tr>
                     @empty
@@ -243,24 +243,24 @@
 
 <!-- Tabel Rating -->
 <div class="bg-white mt-6 p-6 rounded-lg shadow-md border border-gray-200">
-    <h2 class="text-xl font-semibold mb-4 border-b-2 pb-2 text-gray-700">Rating Kursus</h2>
+    <h2 class="text-lg font-semibold mb-4 border-b-2 pb-2 text-gray-700">Rating Kursus</h2>
     <!-- Tabel rating kursus -->
     <div class="overflow-x-auto">
         <div class="min-w-full w-64">
-            <table class="min-w-full text-sm mt-2 border-collapse">
+            <table class="min-w-full text-sm mt-2 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-sky-200 text-gray-700">
-                        <th class="px-2 py-2 border-b border-l border-t border-gray-200">No</th>
+                    <tr class="bg-gray-100 text-gray-500">
+                        <th class="px-2 py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
                         <th class="px-4 py-2 border-b border-t border-gray-200">Nama</th>
                         <th class="px-4 py-2 border-b border-t border-gray-200">Rating</th>
                         <th class="px-4 py-2 border-b border-t border-gray-200">Komentar</th>
                         <th class="px-4 py-2 border-b border-t border-gray-200">Status</th>
-                        <th class="px-4 py-2 border-b border-t border-r border-gray-200">Aksi</th>
+                        <th class="px-4 py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($ratings as $index => $rating)
-                    <tr class="bg-white hover:bg-sky-50 user-row text-sm text-gray-600">
+                    <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500">
                         <td class="text-center px-4 py-2 border-b border-l border-gray-200">{{ $index + 1 }}</td>
                         <td class="px-4 py-2 border-b border-gray-200">{{ $rating->user->name }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 text-center">

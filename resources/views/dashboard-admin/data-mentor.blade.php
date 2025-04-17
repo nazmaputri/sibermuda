@@ -16,24 +16,24 @@
                     </div>
             </form>
 
-            <a href="{{ route('tambah-mentor') }}"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md bg-sky-300 hover:bg-sky-200 focus:outline-none flex items-center">
-                <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+            <a href="{{ route('tambah-mentor') }}"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md shadow-blue-100 bg-blue-400 hover:bg-blue-300 focus:outline-none flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                Tambah Mentor
+                <span class="text-sm">Tambah</span>
             </a>
         </div>
 
         <!-- Tabel data user -->
         <div class="overflow-x-auto">
            <div class="min-w-full w-64">
-           <table class="min-w-full border-collapse" id="userTable">
+           <table class="min-w-full border-separate border-spacing-0" id="userTable">
                 <thead>
-                    <tr class="bg-sky-100 text-gray-700 text-sm">
-                        <th class="py-2 border-b border-l border-t border-gray-200">No</th>
+                    <tr class="bg-gray-100 text-gray-600 text-sm">
+                        <th class="py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
                         <th class="py-2 border-b border-t border-gray-200">Nama</th>
                         <th class="py-2 border-b border-t border-gray-200">Status</th>
-                        <th class="py-2 border-b border-r border-t border-gray-200">Aksi</th>
+                        <th class="py-2 border-b border-r border-t border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,7 +46,7 @@
                     $startNumber = ($users->currentPage() - 1) * $users->perPage() + 1;
                 @endphp
                     @foreach ($users as $index => $user)
-                        <tr class="bg-white hover:bg-sky-50 user-row" data-role="{{ $user->role }}">
+                        <tr class="bg-white hover:bg-gray-50 user-row" data-role="{{ $user->role }}">
                             <td class="px-4 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $startNumber + $index }}</td>
                             <td class="px-4 text-gray-600 text-sm border-b border-gray-200">{{ $user->name }}</td>
                             <td class="px-4 text-center text-gray-600 text-sm border-b border-gray-200">

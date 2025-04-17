@@ -14,16 +14,11 @@
 <div class="container mx-auto">
     <!-- Card Detail User -->
     <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-6 mb-6">
-        <!-- Judul Card -->
-        <div class="text-left mb-6">
-            <h2 class="text-xl font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Detail Peserta</h2>
-        </div>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Kolom Kiri: Foto Profil, Nama, Role -->
             <div class="flex flex-col items-center space-y-3">
                 <!-- Foto Profil -->
-                <div class="w-32 h-32 rounded-full overflow-hidden flex justify-center items-center bg-gray-100">
+                <div class="w-20 h-20 rounded-full overflow-hidden flex justify-center items-center bg-gray-100">
                     <img src="{{ $user->photo ? asset('storage/' . $user->photo) :  asset('storage/default-profile.jpg') }}" alt="Foto Profil" class="object-cover w-full h-full">
                 </div>
 
@@ -75,19 +70,19 @@
         </div>
         <div class="overflow-x-auto">
             <div class="min-w-full w-64">
-                <table class="min-w-full text-sm border-collapse">
+                <table class="min-w-full text-sm border-separate border-spacing-0">
                     <thead>
-                        <tr class="bg-sky-100 text-gray-700 text-sm">
-                            <th class="px-2 py-2 text-center border-b border-t border-l border-gray-200">No</th>
+                        <tr class="bg-gray-100 text-gray-600 text-sm">
+                            <th class="px-2 py-2 text-center border-b border-t border-l border-gray-200 rounded-tl-lg">No</th>
                             <th class="px-4 py-2 text-center border-b border-t border-gray-200">Judul</th>
                             {{-- <th class="px-4 py-2 text-center border-b border-t border-gray-200">Kategori</th> --}}
                             <th class="px-4 py-2 text-center border-b border-t border-r border-gray-200">Status Pembayaran</th>
-                            <th class="px-4 py-2 text-center border-b border-t border-gray-200">Aksi</th>
+                            <th class="px-4 py-2 text-center border-b border-t border-gray-200 rounded-tr-lg">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 text-sm">
                         @forelse($purchasedCourses as $index => $purchase)
-                            <tr class="bg-white hover:bg-sky-50 border-b text-sm">
+                            <tr class="bg-white hover:bg-gray-50 border-b text-sm">
                                 <td class="px-2 py-2 text-center border-b border-l border-gray-200">{{ $index + 1 }}</td>
                                 <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($purchase->course->title ?? '-', 70) }}</td>
                                 {{-- <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($purchase->course->category ?? '-', 40) }}</td> --}}

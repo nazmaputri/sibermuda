@@ -1,6 +1,15 @@
 @extends('layouts.dashboard-mentor')
 @section('title', 'Materi Detail')
 @section('content')
+
+<div class="mb-3 flex justify-start">
+    <a href="{{ route('courses.show', $course->id) }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
 <div class="container mx-auto">
 
   <!-- Card Wrapper -->
@@ -37,12 +46,6 @@
       
     </div>
 
-    <div class="mt-6 flex justify-end space-x-2">
-        <a href="{{ route('courses.show', $course->id) }}" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded">
-            Kembali
-        </a>
-    </div>   
-    
 </div>
 
 <!-- Modal Popup -->

@@ -43,7 +43,7 @@
             <!-- Logo dan Teks -->
             <div class="flex items-center space-x-2">
             <p 
-                class="font-semibold transition-opacity duration-300 text-gray-700" 
+                class="font-semibold transition-opacity duration-300 text-gray-700 md:text-lg" 
                 x-show="sidebarExpanded"
                 x-transition
                 x-cloak
@@ -125,16 +125,13 @@
 
                             <!-- Teks Data User -->
                             <span x-show="sidebarExpanded" x-transition x-cloak
-                                class="ml-4 whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1">
+                                class="ml-4 pr-14 whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1">
                                 Data User
                             </span>
 
-                            <!-- Panah dropdown -->
-                            <svg x-show="sidebarExpanded" x-transition x-cloak
-                                class="ml-auto w-4 h-4 transition-transform duration-200
-                                    {{ Request::routeIs('datamentor-admin', 'datapeserta-admin', 'detaildata-mentor', 'detaildata-peserta') ? 'rotate-180' : '' }}"
-                                id="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                                <path d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/>
+                           <!-- Panah dropdown -->
+                            <svg x-show="sidebarExpanded" x-transition x-cloak  id="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-auto w-4 h-4 transition-transform duration-200 {{ Request::routeIs('datamentor-admin', 'datapeserta-admin', 'detaildata-mentor', 'detaildata-peserta') ? 'rotate-180' : '' }}">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
                             </svg>
                         </button>
                     </div>
@@ -149,29 +146,39 @@
 
                         <!-- Data Mentor -->
                         <li class="rounded-md {{ Request::routeIs('datamentor-admin', 'detaildata-mentor') ? 'bg-midnight' : 'hover:bg-gray-200' }}">
-                            <a href="{{ route('datamentor-admin') }}" class="flex items-center gap-2 p-2 rounded-sm
+                            <a href="{{ route('datamentor-admin') }}" class="flex items-center gap-2 p-2 rounded-sm group
                                 {{ Request::routeIs('datamentor-admin', 'detaildata-mentor') ? 'text-white' : 'text-gray-700' }}">
+                                
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
-                                    class="w-5 h-5 {{ Request::routeIs('datamentor-admin', 'detaildata-mentor') ? 'text-white' : 'text-gray-700' }}">
+                                    class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
+                                    {{ Request::routeIs('datamentor-admin', 'detaildata-mentor') ? 'text-white' : 'text-gray-700' }}">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                 </svg>
-                                Data Mentor
+
+                                <span class="transform transition-all duration-300 ease-in-out group-hover:translate-x-1">
+                                    Data Mentor
+                                </span>
                             </a>
                         </li>
 
                         <!-- Data Peserta -->
                         <li class="rounded-md {{ Request::routeIs('datapeserta-admin', 'detaildata-peserta') ? 'bg-midnight' : 'hover:bg-gray-200' }}">
-                            <a href="{{ route('datapeserta-admin') }}" class="flex items-center gap-2 p-2 rounded-sm
+                            <a href="{{ route('datapeserta-admin') }}" class="flex items-center gap-2 p-2 rounded-sm group
                                 {{ Request::routeIs('datapeserta-admin', 'detaildata-peserta') ? 'text-white' : 'text-gray-700' }}">
+                                
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
-                                    class="w-5 h-5 {{ Request::routeIs('datapeserta-admin', 'detaildata-peserta') ? 'text-white' : 'text-gray-700' }}">
+                                    class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
+                                    {{ Request::routeIs('datapeserta-admin', 'detaildata-peserta') ? 'text-white' : 'text-gray-700' }}">
                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                                        d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                 </svg>
-                                Data Peserta
+
+                                <span class="transform transition-all duration-300 ease-in-out group-hover:translate-x-1">
+                                    Data Peserta
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -313,7 +320,7 @@
                 </svg>
             </button>
 
-            <h5 class="text-sm md:text-lg md:pl-4 font-semibold pl-1 text-gray-700">@yield('title')</h5>
+            <h5 class="text-sm md:text-lg md:pl-4 font-semibold pl-2 text-gray-700">@yield('title')</h5>
 
                 <div class="ml-auto flex mr-4 space-x-4">
                 <!-- Ikon Notifikasi -->

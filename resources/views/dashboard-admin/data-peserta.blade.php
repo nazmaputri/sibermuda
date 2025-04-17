@@ -21,21 +21,21 @@
                 <!-- button tambah peserta -->
                 <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data" class="inline-block ml-4">
                     @csrf
-                    <label for="importExcel" class="cursor-pointer text-white px-4 py-2 font-semibold rounded-md bg-sky-300 hover:bg-sky-200 focus:outline-none flex items-center">
-                        <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                            <path d="M128 64c0-35.3 28.7-64 64-64L352 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64l-256 0c-35.3 0-64-28.7-64-64l0-112 174.1 0-39 39c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l80-80c9.4-9.4 9.4-24.6 0-33.9l-80-80c-9.4-9.4-24.6-9.4-33.9 0s-9.4 24.6 0 33.9l39 39L128 288l0-224zm0 224l0 48L24 336c-13.3 0-24-10.7-24-24s10.7-24 24-24l104 0zM512 128l-128 0L384 0 512 128z"/>
+                    <label for="importExcel" class="cursor-pointer text-white px-4 py-2 font-semibold rounded-md shadow-blue-100 bg-blue-400 hover:bg-blue-300 focus:outline-none flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
                         </svg>
-                        Import
+                        <span class="text-sm">Import</span>
                     </label>
                     <input type="file" name="file" id="importExcel" accept=".xls,.xlsx" class="hidden" onchange="this.form.submit()">
                 </form>                
 
                 <!-- button tambah peserta -->
-                <a href="{{ route('tambah-peserta') }}"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md bg-sky-300 hover:bg-sky-200 focus:outline-none flex items-center">
-                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+                <a href="{{ route('tambah-peserta') }}"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md shadow-blue-100 bg-blue-400 hover:bg-blue-300 focus:outline-none flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
-                    Tambah
+                    <span class="text-sm">Tambah</span>
                 </a>
             </div>
         </div>
@@ -43,13 +43,13 @@
         <!-- Tabel data peserta -->
         <div class="overflow-x-auto">
             <div class="min-w-full w-64">
-            <table class="min-w-full border-collapse" id="userTable">
+            <table class="min-w-full border-separate border-spacing-0" id="userTable">
                 <thead>
-                    <tr class="bg-sky-100 text-gray-700 text-sm">
-                        <th class="py-2 border-b border-l border-t border-gray-200">No</th>
+                    <tr class="bg-gray-100 text-gray-600 text-sm">
+                        <th class="py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
                         <th class="py-2 border-b border-t border-gray-200">Nama</th>
                         <th class="py-2 border-b border-t border-gray-200">Email</th>
-                        <th class="py-2 border-b border-t border-r border-gray-200">Aksi</th>
+                        <th class="py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,7 +57,7 @@
                     $startNumber = ($users->currentPage() - 1) * $users->perPage() + 1;
                 @endphp
                     @foreach ($users as $index => $user)
-                        <tr class="bg-white hover:bg-sky-50 user-row" data-role="{{ $user->role }}">
+                        <tr class="bg-white hover:bg-gray-50 user-row" data-role="{{ $user->role }}">
                             <td class="px-4 py-1 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $startNumber + $index }}</td>
                             <td class="px-4 py-1 text-gray-600 text-sm border-b border-gray-200">{{ $user->name }}</td>
                             <td class="px-4 py-1 text-gray-600 text-sm border-b border-gray-200">{{ $user->email }}</td>

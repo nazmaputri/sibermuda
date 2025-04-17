@@ -1,11 +1,17 @@
 @extends('layouts.dashboard-admin')
-
+@section('title', 'Detail Kursus')
 @section('content')
-<!-- Tambahkan Alpine.js -->
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
 
-<div class="bg-white p-6 rounded-lg shadow-md">
-    <h2 class="text-xl font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Detail Kursus</h2>
+<!-- Tombol Kembali -->
+<div class="flex justify-start mb-2">
+    <a href="{{ route('categories.show', $category->id) }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
+<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
     <!-- Card Informasi Kursus -->
     <div class="flex flex-col lg:flex-row mb-4">
         <div class="w-full lg:w-1/3 mb-4 lg:mb-0">
@@ -25,13 +31,13 @@
 
     <!-- Silabus -->
     <div class="mt-10">
-        <h3 class="text-xl font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
+        <h3 class="text-lg font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
         <div class="space-y-6">
             @if($course->materi->isEmpty())
                 <p class="text-gray-600 text-center mt-1 text-sm">Kursus ini belum ada materi apapun.</p>
             @else
             @foreach($course->materi as $materi)
-            <div class="bg-neutral-50 p-4 rounded-lg shadow-md">
+            <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
                 <div x-data="{ open: false }">
                     <!-- Judul Materi dengan Toggle Dropdown -->
                     <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
@@ -43,7 +49,7 @@
                         <h4 class="text-md font-semibold text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
                                                 
                         <!-- Tombol Toggle -->
-                        <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 text-gray-600 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </div>
@@ -80,33 +86,6 @@
                         @endif
                     </div>
 
-                    <!-- Materi PDF -->
-                    <div x-show="open" x-transition>
-                        @if($materi->pdfs->count())
-                            <div class="mt-10">
-                                <h5 class="text-md font-semibold text-gray-700 flex items-center space-x-2 mb-2">
-                                    <!-- Icon -->
-                                    <img width="30" height="30" src="https://img.icons8.com/pastel-glyph/128/file.png" alt="file" class="w-5 h-5"/>
-                                    <span>PDF</span>
-                                </h5>
-                                <ul class="grid grid-cols-1 sm:grid-cols-2 gap-4 list-none p-0">
-                                @foreach($materi->pdfs as $file)
-                                    <li class="text-gray-700">
-                                        <p>{{ $file->judul }}</p>
-                                        <iframe 
-                                            src="{{ asset('storage/' . $file->pdf_file) }}" 
-                                            class="w-full h-96 rounded-md mt-2" 
-                                            frameborder="0">
-                                        </iframe>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @else
-                            <p class="text-gray-600 mt-4">Belum ada materi PDF untuk materi ini.</p>
-                        @endif
-                    </div>
-
                     <!-- Kuis -->
                     <div x-show="open" x-transition>
                         {{-- @if($materi->quizzes->count())
@@ -134,23 +113,23 @@
     </div>
 </div>
 
-<!-- Tabel Peserta Terdaftar -->
-    <div class="bg-white mt-6 p-6 rounded-lg shadow-md">
-        <h3 class="text-xl font-semibold mb-4 inline-block pb-1 text-gray-700">Peserta Terdaftar</h3>
+    <!-- Tabel Peserta Terdaftar -->
+    <div class="bg-white mt-6 p-6 rounded-lg shadow-md border border-gray-200">
+        <h3 class="text-lg font-semibold mb-4 inline-block pb-1 text-gray-700">Peserta Terdaftar</h3>
             <div class="overflow-x-auto">
                 <div class="min-w-full w-64">
-                <table class="min-w-full border-collapse" id="courseTable">
+                <table class="min-w-full border-separate border-spacing-0" id="courseTable">
                     <thead>
-                        <tr class="bg-sky-100 text-gray-700 text-sm">
-                            <th class="py-2 px-2 border-b border-l border-t border-gray-200">No</th>
+                        <tr class="bg-gray-100 text-gray-600 text-sm">
+                            <th class="py-2 px-2 border-b border-l border-t border-gray-200  rounded-tl-lg">No</th>
                             <th class="py-2 px-4 border-b border-t border-gray-200">Nama</th>
                             <th class="py-2 px-4 border-b border-t border-gray-200">Email</th>
-                            <th class="py-2 border-b border-r border-t border-gray-200">Status Pembayaran</th>
+                            <th class="py-2 border-b border-r border-t border-gray-200  rounded-tr-lg">Status Pembayaran</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($participants as $index => $participant)
-                        <tr class="bg-white hover:bg-sky-50 user-row text-sm">
+                        <tr class="bg-white hover:bg-gray-50 user-row text-sm">
                             <td class="py-2 px-4 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $index + 1 }}</td>
                             <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ $participant->user->name }}</td>
                             <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ $participant->user->email }}</td>
@@ -167,11 +146,6 @@
                 <div class="mt-4">
                     {{ $participants->links() }}
                 </div>
-            </div>
-        <div class="mt-6 flex justify-end">
-            <a href="{{ route('categories.show', $category->id) }}" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded">
-                Kembali
-            </a>
-        </div> 
+            </div> 
     </div>
 @endsection

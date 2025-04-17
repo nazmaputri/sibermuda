@@ -20,11 +20,11 @@
             <!-- button tambah kursus -->
             <div class="text-right p-1 md:text-right md:p-1 mt-4 md:mt-0 flex justify-center md:justify-end">
                 <a href="{{ route('courses.create') }}" 
-                class="inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-200 font-semibold py-2 px-4 rounded-md">
-                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                        <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                class="inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                     </svg>
-                    <span>Tambah Kursus</span>
+                    <span class="text-sm">Tambah Kursus</span>
                 </a>
             </div>  
         </div>      
@@ -32,31 +32,31 @@
         <!-- Tabel Kursus -->
         <div class="overflow-hidden overflow-x-auto w-full">
             <div class="min-w-full w-64">
-            <table class="min-w-full mt-4 border-collapse">
+            <table class="min-w-full mt-4 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-sky-200 text-gray-600 text-sm">
-                        <th class="px-4 py-2 border-b border-l border-gray-200">No</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Judul</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Kategori</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Harga</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Total Peserta</th>
-                        <th class="px-4 py-2 border-b border-r border-gray-200">Aksi</th>
+                    <tr class="bg-gray-100 text-gray-500 text-sm">
+                        <th class="px-4 py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Judul</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Kategori</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Harga</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Total Peserta</th>
+                        <th class="px-4 py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 text-sm font-light">
+                <tbody class="text-gray-600 text-sm">
                     @if($courses->isEmpty())
                         <tr>
                             <td colspan="6" class="text-center py-2 text-sm text-gray-600 border-b border-l border-r border-gray-200">Data tidak tersedia</td>
                         </tr>
                     @endif
                     @foreach ($courses as $index => $course)
-                    <tr class="bg-white hover:bg-sky-50 user-row">
+                    <tr class="bg-white hover:bg-gray-50 text-sm">
                         <!-- Kolom No -->
-                        <td class="px-4 py-2 text-center border-b border-l  border-gray-200">{{ $index + 1 + ($courses->currentPage() - 1) * $courses->perPage() }}</td>
+                        <td class="px-4 py-2 text-center border-b border-l border-gray-200">{{ $index + 1 + ($courses->currentPage() - 1) * $courses->perPage() }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->title, 40) }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 capitalize">{{ Str::limit($course->category->name ?? '-', 40) }}</td>
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $course->price ? 'Rp. ' . number_format($course->price, 0, ',', '.') : 'Gratis' }}</td>
-                        <td class="px-4 py-2 border-b border-gray-200 capitalize">total Peserta</td>
+                        <td class="px-4 py-2 border-b border-gray-200 text-center capitalize">total Peserta</td>
                         <td class="py-2 px-4 text-center border-b  border-r border-gray-200">
                             <div class="flex items-center justify-center space-x-3">
                                 <!-- Tombol Chat -->

@@ -24,23 +24,23 @@
         </form>
     
         <!-- Tambah Kategori -->
-        <a id="addCategoryButton" href="{{ route('categories.create') }}" class="inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-200 font-semibold py-2 px-4 rounded-md">
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+        <a id="addCategoryButton" href="{{ route('categories.create') }}" class="inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
-            <span>Tambah Kategori</span>
+            <span class="text-sm">Tambah Kategori</span>
         </a>
     </div>    
 
     <!-- Tabel Kategori -->
     <div id="categoriesTable" class="overflow-hidden overflow-x-auto w-full">
         <div class="min-w-full w-64">
-        <table class="min-w-full border-collapse">
+        <table class="min-w-full border-separate border-spacing-0">
             <thead>
-                <tr class="bg-sky-100 text-gray-700 text-sm">
-                    <th class="py-2 px-2 text-center text-gray-700 border-b border-l border-t border-gray-200">No</th>
-                    <th class="py-2 px-2 text-center text-gray-700 border-b border-t border-gray-200">Nama Kategori</th>
-                    <th class="py-2 px-2 text-center text-gray-700 border-b border-t border-r border-gray-200">Aksi</th>
+                <tr class="bg-gray-100 text-gray-600 text-sm">
+                    <th class="py-2 px-2 text-center text-gray-600 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
+                    <th class="py-2 px-2 text-center text-gray-600 border-b border-t border-gray-200">Nama Kategori</th>
+                    <th class="py-2 px-2 text-center text-gray-600 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,10 +48,10 @@
                 $startNumber = ($categories->currentPage() - 1) * $categories->perPage() + 1;
             @endphp
                     @foreach($categories as $index => $category)
-                        <tr class="bg-white hover:bg-sky-50 user-row border-b">
+                        <tr class="bg-white hover:bg-gray-50 user-row border-b">
                             <td class="px-2 py-3 text-center text-gray-600  border-b border-l border-gray-200 text-sm">{{ $startNumber + $index }}</td>
                             <td class="py-3 px-2 text-gray-600 text-sm border-b border-gray-200">{{ $category->name }}</td>
-                            <td class="py-3 px-2 flex justify-center space-x-6 border-r border-gray-200">
+                            <td class="py-3 px-2 flex justify-center space-x-6 border-r border-b border-gray-200">
                                 <!-- Tombol Lihat Detail -->
                                 <a href="{{ route('categories.show', $category->id) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

@@ -19,25 +19,25 @@
             </form>
             
             <!-- button tambah -->
-            <div class="inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-200 font-semibold py-2 px-4 rounded-md">
-                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z" />
+            <div class="inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                <a href="{{ route('discount-tambah') }}" class=" text-white rounded transition duration-300">Tambah Diskon</a>
+                <a href="{{ route('discount-tambah') }}" class="text-sm text-white rounded transition duration-300">Tambah Diskon</a>
             </div>
         </div>
 
         <!-- Tabel dengan responsivitas -->
         <div class="overflow-x-auto mt-6">
             <div class="min-w-full w-64">
-            <table class="min-w-full border-collapse">
+            <table class="min-w-full border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-sky-100 text-gray-700 text-sm border-b border-l border-r">
-                    <th class="py-2 px-2 text-center text-gray-700 border-b border-l border-t border-gray-200">No</th>
+                    <tr class="bg-gray-100 text-gray-600 text-sm">
+                    <th class="py-2 px-2 text-center text-gray-700 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
                         <th class="py-2 px-2 text-center text-gray-700 border-b border-t border-gray-200">Kode Kupon</th>
                         <th class="py-2 px-2 text-center text-gray-700 border-b border-t border-gray-200">Diskon (%)</th>
                         <th class="py-2 px-2 text-center text-gray-700 border-b border-t border-gray-200">Tanggal</th>
-                        <th class="py-2 px-2 text-center text-gray-700 border-b border-t border-r border-gray-200">Aksi</th>
+                        <th class="py-2 px-2 text-center text-gray-700 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -49,12 +49,12 @@
                     </tr>
                 @else
                     @foreach($discounts as $discount)
-                        <tr class="hover:bg-sky-50 border-b border-l border-r">
-                        <td class="py-3 px-2 text-center text-gray-600 text-sm border-b border=l border-gray-200">{{ $loop->iteration }}</td>
+                        <tr class="hover:bg-gray-50">
+                        <td class="py-3 px-2 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $loop->iteration }}</td>
                             <td class="py-3 px-2 text-center text-gray-600 text-sm border-b border-gray-200">{{ $discount->coupon_code }}</td>
                             <td class="py-3 px-2 text-center text-gray-600 text-sm border-b border-gray-200">{{ $discount->discount_percentage }}%</td>
                             <td class="py-3 px-2 text-center text-gray-600 text-sm border-b border-gray-200">{{ \Carbon\Carbon::parse($discount->start_date)->translatedFormat('d F Y') }} - {{ \Carbon\Carbon::parse($discount->end_date)->translatedFormat('d F Y') }}</td>
-                            <td class="py-3 px-2 text-center border-b border=r border-gray-200">
+                            <td class="py-3 px-2 text-center border-b border-r border-gray-200">
                                 <div class="flex justify-center space-x-6">
                                 <!-- Tombol Lihat Detail -->
                                 <a href="#" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat"
@@ -130,11 +130,11 @@
 <div id="discountModal" class="fixed inset-0 flex items-center text-left justify-center bg-black bg-opacity-50 hidden z-[1000]">
     <div class="bg-white p-4 rounded-md mx-4 w-full md:w-[700px]">
     <div class="flex items-center justify-between w-full mb-4">
-        <h2 class="text-gray-700 font-semibold w-full text-center text-lg">Detail Discount</h2>
+        <h2 class="text-gray-700 font-semibold w-full text-center text-lg">Detail Diskon</h2>
         <button class="bg-red-400 hover:bg-red-300 text-white px-2 py-0.5 rounded-md" onclick="closeDiscountModal()">x</button>
     </div>
-        <p class="text-gray-700 font-semibold">Kode Kupon:<span id="modalCouponCode"></span></p>
-        <p class="text-gray-700 font-semibold">Apply To All: <span id="modalApplyToAll"></span></p>
+        <p class="text-gray-700 font-semibold">Kode Diskon : <span id="modalCouponCode"></span></p>
+        <p class="text-gray-700 font-semibold">Terapkan pada semua kursus : <span id="modalApplyToAll"></span></p>
         <!-- Tabel dengan border bottom dashed -->
         <div class="overflow-x-auto">
             <table class="w-full border-collapse mt-4">
