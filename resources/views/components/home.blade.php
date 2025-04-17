@@ -6,7 +6,7 @@
             <div class="w-full lg:w-1/2 flex flex-col justify-center space-y-6 pt-8 lg:pt-0">
                 <h1 class="text-3xl font-bold leading-tight text-white">Sibermuda.Idn</h1>
                 <h2 class="text-md md:text-xl text-white">
-                    Membangun generasi muda dengan literasi pendidikan dan pendidikan
+                    Membangun generasi muda dengan literasi pendidikan 
                 </h2>
                 <div class="flex space-x-4 mt-4">
                     <a href="/login" class="px-6 py-2 bg-white border border-[#08072a] text-[#08072a] font-bold rounded-full hover:bg-white hover:scale-[0.95] transform transition-all duration-300 ease-in-out z-20">
@@ -16,7 +16,7 @@
             </div>
             <!-- Image Content -->
             <div class="w-full lg:w-1/2 flex justify-center">
-                <img src="{{ asset('storage/siber.png') }}" alt="Hero Image" class="w-full h-auto lg:max-w-sm transform hover:scale-105 transition-transform duration-500 animate-smallbounce">
+                <img src="{{ asset('storage/logo-sibermuda.png') }}" alt="Hero Image" class="w-full h-auto lg:max-w-sm transform hover:scale-105 transition-transform duration-500 animate-smallbounce">
             </div>
         </div>
     </div>

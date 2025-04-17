@@ -42,7 +42,7 @@
                 <img 
                     id="logo" 
                     :class="sidebarExpanded ? 'h-16' : 'h-16'" 
-                    src="{{ asset('storage/logo-sibermuda-bgremov.png') }}" 
+                    src="{{ asset('storage/logo-sibermuda.png') }}" 
                     alt="Sibermuda Logo"
                 />
             </div>

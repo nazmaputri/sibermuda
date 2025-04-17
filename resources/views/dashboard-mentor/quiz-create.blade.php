@@ -17,7 +17,7 @@
         @endif --}}
 
         <!-- Form Tambah Kuis -->
-        <form action="{{ isset($materiId) ? route('quiz.store', ['courseId' => $courseId, 'materiId' => $materiId]): route('final-task.store', ['courseId' => $courseId]) }}" method="POST" class="space-y-6">    
+        <form action="{{ route('quiz.store', ['courseId' => $courseId]) }}" method="POST" class="space-y-6">    
     @csrf
     <!-- Input untuk Judul Kuis -->
      <div>

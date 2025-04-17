@@ -20,26 +20,25 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        // Ambil ID mentor yang sedang login
         $mentorId = Auth::id();
-
-        // Ambil query pencarian dari input
         $search = $request->input('search');
-
-        $courses = Course::with('category') // Tambahkan eager loading
-    ->where('mentor_id', $mentorId)
-    ->when($search, function ($query) use ($search) {
-        $query->where(function ($q) use ($search) {
-            $q->where('title', 'LIKE', "%{$search}%")
-              ->orWhere('price', 'LIKE', "%{$search}%")
-              ->orWhereHas('category', function ($q2) use ($search) {
-                  $q2->where('name', 'LIKE', "%{$search}%");
-              });
-        });
-    })
-    ->paginate(10);
-
-        // Kirim data ke view
+    
+        $courses = Course::with('category')
+            ->where('mentor_id', $mentorId)
+            ->withCount(['purchases as total_peserta' => function ($query) {
+                $query->where('status', 'success');
+            }])
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('title', 'LIKE', "%{$search}%")
+                        ->orWhere('price', 'LIKE', "%{$search}%")
+                        ->orWhereHas('category', function ($q2) use ($search) {
+                            $q2->where('name', 'LIKE', "%{$search}%");
+                        });
+                });
+            })
+            ->paginate(10);
+    
         return view('dashboard-mentor.kursus', compact('courses', 'search'));
     }
 

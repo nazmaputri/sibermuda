@@ -47,15 +47,28 @@ class MateriController extends Controller
     {
         // Ambil data course
         $course = Course::findOrFail($courseId);
-
-        // Ambil data materi yang terkait dengan course tersebut
+    
+        // Ambil data materi yang terkait dengan course tersebut, termasuk video yang terkait
         $materi = Materi::with(['videos', 'course'])
                     ->where('course_id', $courseId)
                     ->findOrFail($materiId);
-
-        return view('dashboard-mentor.materi-detail', compact('materi', 'courseId', 'materiId', 'course'));
-    }
-
+    
+        // Ambil video terkait dengan materi
+        $videos = $materi->videos;
+    
+        // Ekstrak ID video dari link Google Drive
+        foreach ($videos as $video) {
+            // Ekstrak ID dari link Google Drive
+            if (preg_match('/\/d\/(.*?)\//', $video->link, $matches)) {
+                $video->video_id = $matches[1];  // Menyimpan ID video ke properti sementara
+            } else {
+                $video->video_id = null;  // Jika ID tidak ditemukan
+            }
+        }
+    
+        // Kirim data ke view
+        return view('dashboard-mentor.materi-detail', compact('materi', 'courseId', 'materiId', 'course', 'videos'));
+    }    
     
     public function store(Request $request, $courseId)
     {

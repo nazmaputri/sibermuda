@@ -32,18 +32,14 @@ class QuizController extends Controller
         return view('dashboard-peserta.quiz', compact('quiz'));
     }
 
-    public function detail($courseId, $materiId = null, $quizId = null)
+    public function detail($courseId, $quizId = null)
     {
-        if ($quizId === null) {
-            $quizId = $materiId;
-            $materiId = null;
-        }
-
+        $materi = null;
+    
         $quiz = Quiz::findOrFail($quizId);
         $course = Course::findOrFail($courseId);
-        $materi = $materiId ? Materi::findOrFail($materiId) : null;
-
-        return view('dashboard-mentor.quiz-detail', compact('quiz', 'course', 'courseId', 'materiId', 'materi'));
+    
+        return view('dashboard-mentor.quiz-detail', compact('quiz', 'course', 'courseId', 'materi'));
     }
 
     public function result($quizId)
@@ -136,19 +132,14 @@ class QuizController extends Controller
         ]);
     }    
     
-    public function create($courseId, $materiId = null)
+    public function create($courseId)
     {
         $course = Course::findOrFail($courseId);
-
-        if ($materiId) {
-            $materi = Materi::findOrFail($materiId);
-            return view('dashboard-mentor.quiz-create', compact('course', 'courseId', 'materiId', 'materi'));
-        }
 
         return view('dashboard-mentor.quiz-create', compact('course', 'courseId'));
     }
 
-    public function store(Request $request, $courseId, $materiId = null)
+    public function store(Request $request, $courseId)
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -180,11 +171,6 @@ class QuizController extends Controller
                 'duration' => $request->duration,
             ];
 
-            if ($materiId) {
-                $materi = Materi::findOrFail($materiId);
-                $quizData['materi_id'] = $materi->id;
-            }
-
             $quiz = Quiz::create($quizData);
 
             // Simpan soal dan jawaban
@@ -201,31 +187,20 @@ class QuizController extends Controller
                 }
             }
 
-            // Redirect sesuai jenisnya
-            if ($materiId) {
-                return redirect()->route('materi.show', ['courseId' => $courseId, 'materiId' => $materiId])
-                                ->with('success', 'Kuis berhasil ditambahkan');
-            } else {
-                return redirect()->route('courses.show', $course)
-                                ->with('success', 'Tugas akhir berhasil ditambahkan');
-            }
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors('Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil diupdate');
         }
     }
     
-    public function edit($courseId, $id, $materiId = null)
+    public function edit($courseId, $quiz)
     {
         $course = Course::findOrFail($courseId);
-        $quiz = Quiz::findOrFail($id);
+        $quiz = Quiz::findOrFail($quiz);
 
-        // Kalau ada materiId, ambil materinya
-        $materi = $materiId ? Materi::findOrFail($materiId) : null;
-
-        return view('dashboard-mentor.quiz-edit', compact('quiz', 'course', 'courseId', 'materiId', 'materi'));
+        return view('dashboard-mentor.quiz-edit', compact('quiz', 'course', 'courseId'));
     }
 
-    public function update(Request $request, $courseId, $materiId, $id)
+    public function update(Request $request, $courseId, $id)
     {
         // Validasi input dengan pesan kustom
         $request->validate([
@@ -253,7 +228,6 @@ class QuizController extends Controller
         try {
             // Validasi course_id dan materi_id
             $course = Course::findOrFail($courseId);
-            $materi = Materi::findOrFail($materiId);
 
             // Temukan kuis yang ingin diperbarui
             $quiz = Quiz::findOrFail($id);
@@ -293,42 +267,20 @@ class QuizController extends Controller
                 }
             }
 
-            // Redirect sesuai jenis kuis
-            if ($materiId) {
-                return redirect()->route('materi.show', [
-                    'courseId' => $courseId,
-                    'materiId' => $materiId,
-                ])->with('success', 'Kuis berhasil diperbarui.');
-            } else {
-                return redirect()->route('courses.show', [
-                    'course' => $course,
-                ])->with('success', 'Tugas akhir berhasil diperbarui.');
-            }
-
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors('Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil ditambahkan');
         }
     }
 
-    public function destroy($courseId, $id, $materiId = null)
+    public function destroy($courseId, $id)
     {
         try {
             // Temukan dan hapus kuis
             $quiz = Quiz::findOrFail($id);
             $quiz->delete();
     
-            // Redirect berdasarkan tipe kuis
-            if ($materiId) {
-                return redirect()->route('materi.show', [
-                    'courseId' => $courseId,
-                    'materiId' => $materiId,
-                ])->with('success', 'Kuis berhasil dihapus.');
-            } else {
-                return redirect()->route('courses.show', ['course' => $course])
-                                 ->with('success', 'Tugas akhir berhasil dihapus.');
-            }
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors('Gagal menghapus kuis: ' . $e->getMessage());
+            return redirect()->route('courses.show', ['course' => $courseId->id])->with('success', 'Kuis berhasil dihapus');
         }
     }
     

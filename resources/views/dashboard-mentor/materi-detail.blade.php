@@ -26,9 +26,22 @@
             <ul class="mt-4 space-y-4">
             @foreach ($materi->videos as $video)
                 <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                <h3 class="font-semibold text-gray-800">{{ $video->title }}</h3>
-                <p class="text-gray-600">{{ $video->description ?? 'Tidak ada deskripsi video' }}</p>
-                <a href="{{ $video->link }}" class="text-blue-500 hover:underline" target="_blank">Tonton Video</a>
+                    <h3 class="font-semibold text-gray-800">{{ $video->title }}</h3>
+                    <p class="text-gray-600">{{ $video->description ?? 'Tidak ada deskripsi video' }}</p>
+                    @if ($video->link)
+                        <iframe 
+                            src="https://drive.google.com/file/d/{{ $video->link }}/preview" 
+                            width="100%" 
+                            height="480" 
+                            allow="autoplay" 
+                            allowfullscreen 
+                            class="rounded-lg shadow-md">
+                        </iframe>
+                    @else
+                        <p class="text-red-500">Video tidak tersedia.</p>
+                    @endif 
+                    
+                    <iframe src="https://drive.google.com/file/d/1Q1W4M7ccEoKk6FqxrAa4wCLJqzevfMsx/preview" width="640" height="480" allow="autoplay"></iframe>
                 </li>
             @endforeach
             </ul>
