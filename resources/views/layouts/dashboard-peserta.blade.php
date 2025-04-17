@@ -117,12 +117,6 @@
                             {{ Request::routeIs('kategori-peserta', 'categories-detail', 'kursus-peserta') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
                     >
-<<<<<<< HEAD
-                        <svg class="w-5 h-5 shrink-0 text-gray-700 {{ Request::routeIs('kategori-peserta', 'categories-detail', 'kursus-peserta') ? 'text-white' : 'text-gray-700' }}" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                            <path d="M40 48C26.7 48 16 58.7 16 72l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24L40 48zM192 64c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L192 64zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zm0 160c-17.7 0-32 14.3-32 32s14.3 32 32 32l288 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-288 0zM16 232l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0c-13.3 0-24 10.7-24 24zM40 368c-13.3 0-24 10.7-24 24l0 48c0 13.3 10.7 24 24 24l48 0c13.3 0 24-10.7 24-24l0-48c0-13.3-10.7-24-24-24l-48 0z"/>
-                        </svg>
-                        <span x-show="sidebarExpanded" x-transition x-cloak class="whitespace-nowrap text-gray-700 {{ Request::routeIs('kategori-peserta', 'categories-detail', 'kursus-peserta') ? 'text-white' : 'text-gray-700' }}">Kategori</span>
-=======
                         <!-- Icon geser ke kanan saat hover -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
@@ -141,7 +135,6 @@
                                 {{ Request::routeIs('kategori-peserta', 'categories-detail', 'kursus-peserta') ? 'text-white' : 'text-gray-700' }}">
                             Kursus
                         </span>
->>>>>>> 5cf7ac42e2bab9774a36d0a600e74e3ae1e2da25
                     </li>
                 </a>
 

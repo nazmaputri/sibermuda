@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/jpg" href="storage/logo.png">
     <title>{{ $course->judul ?? 'Kursus' }}</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,35 +33,72 @@
 <body>
     @include('components.navbar') 
     
-    <section id="promo" class="bg-red-600 text-white px-4 py-2 text-center pt-[90px] fixed w-full z-40">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 pb-3 mx-14">
-            <!-- Promo text -->
-            <div class="text-sm sm:text-base font-semibold">
-            APRIL SMART DEALS DISKON 30%! <br class="md:hidden" />
-            <span class="font-normal">Cuma Sampai 11 April 2025!</span>
-            </div>
+    @if($discount && now()->lt($end_datetime))
+        <section id="promo" class="bg-red-600 text-white px-4 py-2 text-center pt-[90px] fixed w-full z-40">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 pb-3 mx-14">
+                <!-- Promo text -->
+                <div class="text-sm sm:text-base font-semibold">
+                    Promo Diskon {{ $discount->discount_percentage }}%! <br class="md:hidden" />
+                    <span class="font-normal">Berlaku sampai {{ \Carbon\Carbon::parse($discount->end_date)->format('d F Y') }}!</span>
+                </div>
 
-            <!-- Countdown -->
-            <div class="flex items-center gap-2 text-sm sm:text-base font-bold">
-            <span>03<span class="text-xs font-normal ml-1">Hari</span></span>
-            <span>09<span class="text-xs font-normal ml-1">Jam</span></span>
-            <span>45<span class="text-xs font-normal ml-1">Menit</span></span>
-            <span>02<span class="text-xs font-normal ml-1">Detik</span></span>
-            </div>
+                <!-- Countdown -->
+                <div class="flex items-center gap-2 text-sm sm:text-base font-bold" id="countdown">
+                    <span><span id="days">00</span><span class="text-xs font-normal ml-1">Hari</span></span>
+                    <span><span id="hours">00</span><span class="text-xs font-normal ml-1">Jam</span></span>
+                    <span><span id="minutes">00</span><span class="text-xs font-normal ml-1">Menit</span></span>
+                    <span><span id="seconds">00</span><span class="text-xs font-normal ml-1">Detik</span></span>
+                </div>
 
-            <!-- Kode Promo -->
-            <div class="flex items-center gap-2">
-            <button class="bg-white text-red-600 font-bold px-3 py-1 rounded hover:bg-gray-100 text-sm">
-                APRILDEALS
-            </button>
-            <button class="bg-sky-500 text-white font-semibold px-3 py-1 rounded hover:bg-sky-400 text-sm">
-                SALIN
-            </button>
+                <!-- Kode Promo -->
+                <div class="flex items-center gap-2">
+                    <button class="bg-white text-red-600 font-bold px-3 py-1 rounded hover:bg-gray-100 text-sm">
+                        {{ $discount->coupon_code }}
+                    </button>
+                    <button class="bg-sky-500 text-white font-semibold px-3 py-1 rounded hover:bg-sky-400 text-sm"
+                        onclick="copyToClipboard('{{ $discount->coupon_code }}')">
+                        SALIN
+                    </button>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- NANTI TAMBAHKAN LOGIKA UNTUK MT SECTION COURSE (engechekan kondisi dimana jika section promo ada/tidak agar mt nya pass)-->
+        <!-- JavaScript: Countdown & Hide Section When Done -->
+        <script>
+            const endDateTime = new Date("{{ $end_datetime->format('Y-m-d H:i:s') }}").getTime();
+
+            const countdownInterval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = endDateTime - now;
+
+                if (distance < 0) {
+                    clearInterval(countdownInterval);
+                    const promoSection = document.getElementById("promo");
+                    if (promoSection) {
+                        promoSection.style.display = "none"; // Hilangkan section
+                    }
+                    return;
+                }
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("days").textContent = String(days).padStart(2, '0');
+                document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+                document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+                document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+            }, 1000);
+
+            function copyToClipboard(text) {
+                navigator.clipboard.writeText(text).then(function () {
+                    alert('Kode promo berhasil disalin: ' + text);
+                });
+            }
+        </script>
+    @endif
+    
     <!-- Bagian Materi Kursus -->
     <section id="course" class="py-12 bg-sky-50">
         <div class="container mx-auto px-6 lg:px-8 md:mt-32 mt-64">
@@ -100,38 +138,82 @@
                     <!-- Cuplikan Video Pembelajaran -->
                     <div>
                         <h3 class="text-lg font-semibold text-gray-700 mb-4">Cuplikan Video Pembelajaran</h3>
+                    
                         @foreach ($course->materi as $materi)
-                            @php
-                                $firstVideo = $materi->videos->first();
-                            @endphp
-
-                            @if ($materi->is_preview && $firstVideo)
+                            @if($materi->is_preview)
+                                @php
+                                    // Coba ambil video Google Drive (MateriVideo)
+                                    $driveVid = $materi->videos->first();
+                                    // Kalau gak ada, ambil video YouTube
+                                    $ytVid    = $materi->youtube->first();
+                                @endphp
+                    
                                 <div class="mb-6">
-                                    <video controls class="w-full rounded-lg shadow">
-                                        <source src="{{ asset('storage/' . $firstVideo->video_url) }}" type="video/mp4">
-                                        Browser tidak mendukung pemutar video.
-                                    </video>
+                                    @if($driveVid && $driveVid->link)
+                                        {{-- Embed Google Drive --}}
+                                        <iframe
+                                            src="https://drive.google.com/file/d/{{ $driveVid->link }}/preview"
+                                            width="100%" height="480"
+                                            allow="autoplay"
+                                            allowfullscreen
+                                            class="rounded-lg shadow-md">
+                                        </iframe>
+                    
+                                    @elseif($ytVid && $ytVid->link)
+                                        {{-- Embed YouTube --}}
+                                        <iframe
+                                            width="100%" height="480"
+                                            src="https://www.youtube.com/embed/{{ $ytVid->link }}"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen
+                                            class="rounded-lg shadow-md">
+                                        </iframe>
+                    
+                                    @else
+                                        <p class="text-gray-500">Tidak ada video preview untuk materi ini.</p>
+                                    @endif
                                 </div>
                             @endif
                         @endforeach
-                    </div>
+                    </div>                    
 
                     <!-- Header 3 Teks Sejajar -->
                     <div class="flex space-x-1 items-center mb-4">
-                        <span class="font-semibold text-2xl text-gray-700">Rp.99.000</span>
-                        <span class="text-sm font-medium text-gray-600 line-through">Rp. 250.000</span>
-                        <span class="text-sm font-medium text-gray-600">Potongan 85%!</span>
+                        @if($discount && $discountPercentage > 0 && now()->lt($end_datetime))
+                            <span class="font-semibold text-2xl text-gray-700">
+                                Rp.{{ number_format($discountedPrice, 0, ',', '.') }}
+                            </span>
+                            <span class="text-sm font-medium text-gray-600 line-through">
+                                Rp.{{ number_format($originalPrice, 0, ',', '.') }}
+                            </span>
+                            <span class="text-sm font-medium text-gray-600">
+                                Potongan {{ $discountPercentage }}%!
+                            </span>
+                        @else
+                            <span class="font-semibold text-2xl text-gray-700">
+                                Rp.{{ number_format($originalPrice, 0, ',', '.') }}
+                            </span>
+                        @endif
                     </div>
-
-                    <!-- Deskripsi atau Teks di bawah 3 baris -->
-                    <div class="flex items-center space-x-1 text-red-500 text-sm mb-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-                        <span>
-                            Diskon berlaku <span class="font-semibold">4 Hari lagi!</span>
-                        </span>
-                    </div>
+                    <!-- Countdown Diskon -->
+                    @if($discount && $end_datetime && now()->lt($end_datetime))
+                        @php
+                            $remaining = \Carbon\Carbon::now()->diff($end_datetime);
+                        @endphp
+                        <div class="flex items-center space-x-1 text-red-500 text-sm mb-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                            <span>
+                                Diskon berlaku <span class="font-semibold">
+                                    {{ $remaining->d }} Hari {{ $remaining->h }} Jam {{ $remaining->i }} Menit lagi!
+                                </span>
+                            </span>
+                        </div>
+                    @endif
 
                     <!-- Dua Tombol Vertikal -->
                     <div class="flex flex-col gap-3">

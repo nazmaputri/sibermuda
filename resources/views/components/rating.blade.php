@@ -79,6 +79,7 @@
             <form class="space-y-4 w-full" method="POST" action="{{ route('rating.store') }}">
                 @csrf
 
+                <h1>Form Penilaian Sibermuda</h1>
                 <!-- Nama -->
                 <div>
                     <label for="nama" class="block text-md text-gray-700">Nama :</label>
@@ -107,7 +108,7 @@
                             </svg>
                         @endfor
                     </div>
-                    <input type="hidden" name="rating" id="rating-input" class="@error('rating') border-red-500 @enderror">
+                    <input type="hidden" name="rating" id="rating-input" value="0" class="@error('rating') border-red-500 @enderror">
                     @error('rating')
                         <span class="text-red-500 text-sm block mt-1" id="error-rating">{{ $message }}</span>
                     @enderror

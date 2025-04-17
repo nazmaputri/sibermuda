@@ -145,23 +145,19 @@ class DashboardPesertaController extends Controller
     
     public function study($id)
     {
-        // Mengambil course beserta materi
+        // Ambil course dan materinya
         $course = Course::with('materi')->findOrFail($id);
     
-        // Mengambil ID materi yang sudah diselesaikan oleh user
-        $completedMateriIds = \DB::table('materi_user')
+        // Ambil riwayat kuis user yang terkait course ini
+        $quizHistories = \DB::table('materi_user')
             ->where('user_id', auth()->id())
-            ->whereNotNull('completed_at')
-            ->pluck('materi_id')
-            ->toArray();
+            ->where('courses_id', $id)
+            ->whereNotNull('quiz_id')
+            ->orderBy('completed_at', 'desc')
+            ->get();
     
-        // Mengambil kuis tugas akhir yang tidak memiliki materi_id
-        $finalQuizzes = \App\Models\Quiz::where('course_id', $id)
-                        ->whereNull('materi_id')
-                        ->get();
-    
-        return view('dashboard-peserta.study', compact('course', 'completedMateriIds', 'finalQuizzes'));
-    }    
+        return view('dashboard-peserta.study', compact('course', 'quizHistories'));
+    }     
 
     public function kursusTerdaftar()
     {

@@ -34,7 +34,7 @@ class MateriController extends Controller
         $materi = Materi::findOrFail($id);
 
         // Reset semua preview di kursus yang sama
-        Materi::where('courses_id', $materi->courses_id)->update(['is_preview' => false]);
+        Materi::where('course_id', $materi->course_id)->update(['is_preview' => false]);
 
         // Set yang ini jadi preview
         $materi->is_preview = true;
@@ -72,54 +72,95 @@ class MateriController extends Controller
     
     public function store(Request $request, $courseId)
     {
+        // 1. Validasi
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'title' => 'required|array',
-            'title.*' => 'required|string|max:255',
-            'description' => 'required|array',
-            'description.*' => 'required|string|max:500',
-            'link' => 'required|array',
-            'link.*' => 'required|url',
-        ], [
-            'judul.required' => 'Judul materi wajib diisi.',
-            'judul.string' => 'Judul harus berupa teks.',
-            'judul.max' => 'Judul tidak boleh lebih dari 255 karakter.',
-        
-            'deskripsi.string' => 'Deskripsi harus berupa teks.',
-        
-            'title.required' => 'Judul video wajib diisi.',
-            'title.string' => 'Judul video harus berupa teks.',
-            'title.max' => 'Judul video tidak boleh lebih dari 255 karakter.',
-        
-            'description.string' => 'Deskripsi video harus berupa teks.',
-        
-            'link.required' => 'Link video wajib diisi.',
-            'link.url' => 'Link harus berupa URL yang valid.',
-        ]);        
-
-        // Simpan data ke tabel `materis`
-        $materi = Materi::create([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-            'course_id' => $courseId,
-            'is_preview' => false, // atau sesuai kebutuhanmu
+            'judul'               => 'required|string|max:255',
+            'deskripsi'           => 'nullable|string',
+            // Google Drive
+            'title'               => 'required|array',
+            'title.*'             => 'required|string|max:255',
+            'description'         => 'required|array',
+            'description.*'       => 'required|string|max:500',
+            'link'                => 'required|array',
+            'link.*'              => 'required|url',
+            // YouTube (opsional)
+            'youtube_title'       => 'nullable|array',
+            'youtube_title.*'     => 'required_with:youtube_link|string|max:255',
+            'youtube_description' => 'nullable|array',
+            'youtube_description.*'=> 'required_with:youtube_link|string|max:500',
+            'youtube_link'        => 'nullable|array',
+            'youtube_link.*'      => 'required_with:youtube_title|url',
+        ],[
+            'judul.required'      => 'Judul materi wajib diisi.',
+            'title.*.required'    => 'Judul file Google Drive wajib diisi.',
+            'link.*.url'          => 'Link harus berupa URL yang valid.',
         ]);
 
-       // Loop untuk menyimpan data materi video
-        foreach ($request->title as $index => $title) {
-            MateriVideo::create([
-                'title' => $title,
-                'description' => $request->description[$index],
-                'link' => $request->link[$index],
-                'materi_id' => $materi->id,  // Pastikan $materi->id sudah di-set sebelumnya
-            ]);
+        // 2. Buat Materi
+        $materi = Materi::create([
+            'judul'     => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'course_id' => $courseId,
+            'is_preview'=> false,
+        ]);
+
+        // 3. Simpan Google Drive ke materi_video (hanya ID)
+        foreach ($request->link as $i => $driveLink) {
+            $driveId = $this->extractDriveFileId($driveLink);
+            if ($driveId) {
+                MateriVideo::create([
+                    'materi_id'  => $materi->id,
+                    'title'      => $request->title[$i],
+                    'description'=> $request->description[$i],
+                    'link'       => $driveId,       // simpan hanya ID
+                ]);
+            }
         }
-    
-        // Kembali ke halaman kursus dengan pesan sukses
-        return redirect()->route('courses.show', ['course' => $courseId])
-                         ->with('success', 'Materi berhasil ditambahkan');
-    }    
+
+        // 4. Simpan YouTube ke youtube (hanya ID)
+        if ($request->filled('youtube_link')) {
+            foreach ($request->youtube_link as $i => $ytLink) {
+                $youtubeId = $this->extractYoutubeVideoId($ytLink);
+                if ($youtubeId) {
+                    Youtube::create([
+                        'materi_id'  => $materi->id,
+                        'title'      => $request->youtube_title[$i],
+                        'description'=> $request->youtube_description[$i],
+                        'link'       => $youtubeId,    // simpan hanya ID
+                    ]);
+                }
+            }
+        }
+        
+        return redirect()
+               ->route('courses.show', $courseId)
+               ->with('success', 'Materi & video berhasil ditambahkan');
+    }
+
+    /**
+     * Ekstrak ID video YouTube dari URL
+     */
+    private function extractYoutubeVideoId(string $url): ?string
+    {
+        // akan menangkap 11 karakter ID video
+        preg_match(
+            '/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/.*v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
+            $url, $m
+        );
+        return $m[1] ?? null;
+    }
+
+    /**
+     * Ekstrak ID file Google Drive dari URL
+     */
+    private function extractDriveFileId(string $url): ?string
+    {
+        preg_match(
+            '/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/',
+            $url, $m
+        );
+        return $m[1] ?? null;
+    }
     
     public function edit($courseId, $materiId)
     {

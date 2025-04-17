@@ -12,8 +12,10 @@ class MateriUser extends Model
     protected $table = 'materi_user';
 
     protected $fillable = [
+        'nilai',
         'user_id', 
-        'materi_id', 
+        'courses_id',
+        'quiz_id', 
         'completed_at'
     ];
 
@@ -22,9 +24,10 @@ class MateriUser extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function materi()
+    public function course()
     {
-        return $this->belongsTo(Materi::class);
+        return $this->belongsTo(Course::class);
     }
+
 }
 

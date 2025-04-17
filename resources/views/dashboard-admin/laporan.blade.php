@@ -36,10 +36,12 @@
                 </svg>
             </div>
             <div class="ml-4">
-                <h2 class="text-xl font-semibold text-yellow-400">Rp.1.000.000</h2>
+                <h2 class="text-xl font-semibold text-yellow-400">
+                    Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
+                </h2>
                 <p class="text-md font-semibold text-gray-600">Pendapatan Bulan ini</p>
             </div>
-        </div>
+        </div>            
     </div>
 
     <!-- Pendapatan Per Kursus -->
@@ -79,7 +81,15 @@
                     Filter
                 </button>
             </div>
-        </form>        
+        </form>  
+        
+        <form method="GET" action="{{ route('purchases.export') }}" class="mb-4">
+            <input type="hidden" name="course_id" value="{{ request('course_id') }}">
+            <input type="hidden" name="month" value="{{ request('month') }}">
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">
+                Ekspor ke Excel
+            </button>
+        </form>
 
         <div class="overflow-x-auto">
             <table class="min-w-full text-sm divide-y divide-gray-200">

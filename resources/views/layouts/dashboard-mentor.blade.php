@@ -40,14 +40,6 @@
             <div class="flex items-center justify-center space-x-5 md:justify-center mx-2 mt-6">
             <!-- Logo dan Teks -->
             <div class="flex items-center space-x-2">
-<<<<<<< HEAD
-                <img 
-                    id="logo" 
-                    :class="sidebarExpanded ? 'h-16' : 'h-16'" 
-                    src="{{ asset('storage/logo-sibermuda.png') }}" 
-                    alt="Sibermuda Logo"
-                />
-=======
             <p 
                 class="font-semibold transition-opacity duration-300 text-gray-700" 
                 x-show="sidebarExpanded"
@@ -85,7 +77,6 @@
                     </template>
                 </button>
             </div>
->>>>>>> 5cf7ac42e2bab9774a36d0a600e74e3ae1e2da25
             </div>
         </div>
 

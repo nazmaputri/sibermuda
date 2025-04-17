@@ -9,15 +9,13 @@ class YouTube extends Model
 {
     use HasFactory;
 
-    // Tentukan nama tabel jika berbeda dengan plural dari nama model
     protected $table = 'youtube';
 
-    // Tentukan kolom yang bisa diisi (fillable)
     protected $fillable = [
-        'judul', 
-        'link_youtube', 
-        'materi_id', 
-        'course_id'
+        'title',
+        'materi_id',
+        'description',
+        'link',
     ];
 
     // Relasi ke model Materi

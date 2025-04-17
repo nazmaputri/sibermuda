@@ -138,13 +138,10 @@
     </div>
 </div>
 
-<<<<<<< HEAD
 <!-- Section Kuis -->
 <div class="bg-white p-6 rounded-lg shadow-md mt-6">
-=======
 <!-- Section Tugas Akhir -->
 <div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
->>>>>>> 5cf7ac42e2bab9774a36d0a600e74e3ae1e2da25
     <div class="mb-2 flex items-center justify-between p-1 border-b-2">
         <h2 class="text-xl font-semibold text-gray-700 pt-2">Kuis dari Keseluruhan Materi</h2>                                                     
     </div>

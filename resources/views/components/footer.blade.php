@@ -5,7 +5,7 @@
             <div class="flex flex-col items-center sm:items-start">
                 <a href="#" class="flex items-center space-x-3">
                     <div class="w-14 h-14 flex items-center justify-center">
-                        <img src="{{ asset('storage/siber.png') }}" alt="EduFlix Logo" class="object-cover w-full h-full">
+                        <img src="{{ asset('storage/logo-sibermuda.png') }}" alt="EduFlix Logo" class="object-cover w-full h-full">
                     </div>
                     <span class="text-xl font-semibold text-white">Sibermuda</span>
                 </a>
@@ -26,7 +26,6 @@
                     <li><a href="/login" class="hover:text-sky-200 transition">Masuk</a></li>
                 </ul>
             </div>
-
             <!-- Kontak & Sosial Media -->
             <div class="flex flex-col items-center sm:items-start">
                 <h4 class="font-semibold mb-4">Kontak Kami</h4>
