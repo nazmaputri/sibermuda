@@ -138,38 +138,36 @@
     </div>
 </div>
 
-<!-- Section Kuis -->
-<div class="bg-white p-6 rounded-lg shadow-md mt-6">
 <!-- Section Tugas Akhir -->
 <div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
     <div class="mb-2 flex items-center justify-between p-1 border-b-2">
-        <h2 class="text-xl font-semibold text-gray-700 pt-2">Kuis dari Keseluruhan Materi</h2>                                                     
+        <h2 class="text-lg font-semibold text-gray-700 pt-2">Kuis dari Keseluruhan Materi</h2>                                                     
     </div>
     <div class="text-right">
-        <a href="{{ route('quiz.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-sky-100 hover:shadow-none items-center space-x-2 text-white bg-sky-300 hover:bg-sky-200 font-semibold py-2 px-4 rounded-md">
+        <a href="{{ route('quiz.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
             <!-- Ikon muncul pada semua ukuran layar -->
-            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor">
-                <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             <!-- Teks hanya muncul pada mode desktop (sm dan lebih besar) -->
-            <span class="ml-2">Kuis</span>
+            <span class="ml-2 text-sm">Tambah Kuis</span>
         </a> 
     </div>
      <!-- Kuis -->
     <div class="overflow-hidden overflow-x-auto w-full">
         <div class="min-w-full w-64">
-            <table class="min-w-full mt-4 border-collapse">
+            <table class="min-w-full mt-4 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-sky-200 text-gray-600 text-sm">
-                        <th class="px-2 py-2 border-b border-l border-gray-200">No</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Judul</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Durasi</th>
-                        <th class="px-4 py-2 border-b border-r border-gray-200">Aksi</th>
+                    <tr class="bg-gray-100 text-gray-600 text-sm">
+                        <th class="px-2 py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Judul</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Durasi</th>
+                        <th class="px-4 py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($quizzes as $index => $quiz)
-                    <tr class="bg-white hover:bg-sky-50 user-row text-sm text-gray-600">
+                    <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-600">
                         <td class="px-2 py-2 text-center border-b border-l  border-gray-200">{{ $startNumber + $index }}</td>
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $quiz->title }}</td>
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $quiz->duration }} menit</td>

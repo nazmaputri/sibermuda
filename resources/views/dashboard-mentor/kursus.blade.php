@@ -34,19 +34,19 @@
             <div class="min-w-full w-64">
             <table class="min-w-full mt-4 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-sky-200 text-gray-600 text-sm">
-                        <th class="px-4 py-2 border-b border-l border-gray-200">No</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Judul</th>
-                        {{-- <th class="px-4 py-2 border-b border-gray-200">Kategori</th> --}}
-                        <th class="px-4 py-2 border-b border-gray-200">Harga</th>
-                        <th class="px-4 py-2 border-b border-gray-200">Total Peserta</th>
-                        <th class="px-4 py-2 border-b border-r border-gray-200">Aksi</th>
+                    <tr class="bg-gray-100 text-gray-600 text-sm">
+                        <th class="px-4 py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Judul</th>
+                        {{-- <th class="px-4 py-2 border-b border-t border-gray-200">Kategori</th> --}}
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Harga</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Total Peserta</th>
+                        <th class="px-4 py-2 border-b border border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm">
                     @if($courses->isEmpty())
                         <tr>
-                            <td colspan="6" class="text-center py-2 text-sm text-gray-600 border-b border-l border-r border-gray-200">Data tidak tersedia</td>
+                            <td colspan="5" class="text-center py-2 text-sm text-gray-600 border-b border-l border-r border-gray-200">Data tidak tersedia</td>
                         </tr>
                     @endif
                     @foreach ($courses as $index => $course)
