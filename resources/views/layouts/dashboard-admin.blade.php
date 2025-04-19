@@ -323,20 +323,94 @@
             <h5 class="text-sm md:text-lg md:pl-4 font-semibold pl-2 text-gray-700">@yield('title')</h5>
 
                 <div class="ml-auto flex mr-4 space-x-4">
-                <!-- Ikon Notifikasi -->
-                <div class="flex items-center cursor-pointer" id="notification-container">
-                    <button id="notification-button" class="p-1 rounded-full border border-gray-500 bg-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+               <!-- Notifikasi -->
+                <div class="relative flex items-center cursor-pointer" id="notification-container">
+                    <button id="notification-button" class="p-1 rounded-full border border-gray-500 bg-white relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 
+                                9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 
+                                3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 
+                                0m5.714 0a3 3 0 1 1-5.714 0"/>
                         </svg>
+
+                        <!-- Badge notifikasi -->
+                        <span id="notification-badge"
+                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">
+                            <span id="notification-count">0</span>
+                        </span>
                     </button>
 
-                    <!-- Badge notifikasi (jika ada notifikasi baru) -->
-                    <span class="absolute top-0 right-0 inline-block w-3 h-3 bg-red-500 rounded-full hidden flex items-center justify-center" id="notification-badge">
-                        <span id="notification-count" class="text-[10px] text-white font-bold"></span>
-                    </span>
+                    <!-- Dropdown notifikasi -->
+                    <div id="notification-dropdown"
+                        class="absolute right-0 top-10 bg-white shadow-lg rounded-md w-72 z-50 hidden">
+                        <div id="notification-list" class="max-h-60 overflow-y-auto p-2">
+                            <!-- Notifikasi akan dimuat di sini -->
+                        </div>
+                    </div>
                 </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const button = document.getElementById('notification-button');
+                        const dropdown = document.getElementById('notification-dropdown');
+                        const badge = document.getElementById('notification-badge');
+                        const countSpan = document.getElementById('notification-count');
+                        const notificationList = document.getElementById('notification-list');
+                        const markAsReadBtn = document.getElementById('mark-as-read');
+                    
+                        // Toggle dropdown & ambil notifikasi saat dibuka
+                        button.addEventListener('click', function () {
+                            dropdown.classList.toggle('hidden');
+                            if (!dropdown.classList.contains('hidden')) {
+                                fetchNotifications();
+                            }
+                        });
+                    
+                        // Fungsi ambil notifikasi dari route
+                        function fetchNotifications() {
+                            const url = "{{ route('admin.notifications') }}";
+                            console.log("Fetching notifications from:", url);
+                    
+                            fetch(url)
+                                .then(response => response.json())
+                                .then(data => {
+                                    console.log("Data notifikasi:", data);
+                                    notificationList.innerHTML = '';
+                                    let unreadCount = data.notifications.length;
+                    
+                                    if (unreadCount > 0) {
+                                        badge.classList.remove('hidden');
+                                        badge.classList.add('block');
+                                        countSpan.textContent = unreadCount;
+                                    } else {
+                                        badge.classList.add('hidden');
+                                    }
+                    
+                                    data.notifications.forEach(notif => {
+                                        const div = document.createElement('div');
+                                        div.classList.add('p-2', 'border-b', 'text-sm', 'text-gray-700', 'hover:bg-gray-100');
 
+                                        // Buat elemen link agar bisa diklik dan diarahkan
+                                        const link = document.createElement('a');
+                                        link.href = notif.url; // Ambil dari controller
+                                        link.innerHTML = notif.message;
+                                        link.classList.add('block', 'w-full');
+
+                                        div.appendChild(link);
+                                        notificationList.appendChild(div);
+                                    });
+
+                                })
+                                .catch(error => {
+                                    console.error("Gagal mengambil notifikasi:", error);
+                                });
+                        }
+                    
+                        // Opsional: Muat awal saat halaman dimuat 
+                        fetchNotifications();
+                    });
+                </script>
                 <!-- Wrapper yang bisa diklik untuk membuka dropdown -->
                 <div id="profile-dropdown-toggle" class="flex items-center space-x-3 cursor-pointer">
                     <div>

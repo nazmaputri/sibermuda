@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardMentor\PdfController;
 use App\Http\Controllers\DashboardMentor\QuizController;
 use App\Http\Controllers\DashboardAdmin\CategoryController;
 use App\Http\Controllers\DashboardMentor\RatingKursusController;
+use App\Http\Controllers\DashboardMentor\FinalTaskController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ChatController;
@@ -20,64 +21,69 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CertificateController;
-use App\Http\Controllers\DashboardAdmin\NotifikasiMentorDaftarController;
-use App\Models\Course;
-use App\Mail\HelloMail;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel; 
 
+//LandingPage
 Route::get('/', [LandingPageController::class, 'lp'])->name('landingpage');
 Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kursus.detail');
 Route::get('/category/{name}', [LandingPageController::class, 'category'])->name('category.detail');
 Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
 Route::get('/beli-kursus/{id}', [KeranjangController::class, 'handlePurchase'])->name('beli.kursus');
-// Route::get('/email/verify', [LoginController::class, 'verifyNotice'])->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verify'])
-    ->middleware(['signed', 'throttle:6,1'])
-    ->name('verification.verify');
 
-//Verifikasi Email untuk peserta
+//Verifikasi Email
+Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
 Route::post('/email/verification-notification', [LoginController::class, 'verifyHandler'])->middleware('throttle:6,1')->name('verification.send');
 
 
 // Route berdasarkan role
 
 Route::middleware(['auth:admin'])->group(function () {
-    //Dashboard Admin
+    //Beranda
     Route::get('dashboard-admin/welcome', [DashboardAdminController::class, 'show'])->name('welcome-admin');
-    Route::get('dashboard-admin/data-mentor', [DashboardAdminController::class, 'mentor'])->name('datamentor-admin');
-    Route::get('dashboard-admin/tambah-mentor', [DashboardAdminController::class, 'tambahmentor'])->name('tambah-mentor');
-    Route::get('dashboard-admin/tambah-peserta', [DashboardAdminController::class, 'tambahpeserta'])->name('tambah-peserta');
-    Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'peserta'])->name('datapeserta-admin');
+
+    //Kursus
     Route::get('/kursus/{courseId}/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
     Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus');
+
+    //Laporan
     Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan'])->name('laporan-admin');
+
+    //Penilaian
     Route::get('dashboard-admin/rating', [DashboardAdminController::class, 'rating'])->name('rating-admin');
-    Route::post('/admin/users/{id}/status', [DashboardAdminController::class, 'updateStatus'])->name('admin.users.updateStatus'); //this method is patch before edited
-    Route::post('/admin/users/{id}/status/inactive', [DashboardAdminController::class, 'updateStatusToInactive'])->name('updateStatusToInactive'); // (untuk menonaktifkan mentor, sebenarnya statusnya pending sih)
-    Route::get('/mentor/user/{id}', [DashboardAdminController::class, 'detailmentor'])->name('detaildata-mentor');
-    Route::post('/mentor/toggle/status', [DashboardAdminController::class, 'toggleActive'])->name('mentors.toggle');
-    Route::get('/peserta/user/{id}', [DashboardAdminController::class, 'detailpeserta'])->name('detaildata-peserta');
+
+    //Pengaturan Akun
     Route::get('/settings-admin', [SettingController::class, 'admin'])->name('settings.admin');
     Route::post('/settings', [SettingController::class, 'update']);
 
+    //Notifikasi 
+    Route::get('/admin/notifications', [DashboardAdminController::class, 'getNotifications'])->name('admin.notifications');
+    
     //Rating
     Route::post('toggle/displayadmin/{id}', [RatingController::class, 'toggleDisplayAdmin'])->name('toggle.displayadmin');
     Route::delete('/ratings/{id}', [RatingController::class, 'destroy'])->name('ratings.destroy');
 
+    //Mentor
+    Route::get('/mentor/detail/{id}', [DashboardAdminController::class, 'detailmentor'])->name('detaildata-mentor');
+    Route::get('dashboard-admin/data-mentor', [DashboardAdminController::class, 'mentor'])->name('datamentor-admin');
+    Route::get('dashboard-admin/tambah-mentor', [DashboardAdminController::class, 'tambahmentor'])->name('tambah-mentor');
+    Route::post('/admin/users/{id}/status/inactive', [DashboardAdminController::class, 'updateStatusToInactive'])->name('updateStatusToInactive'); 
+    Route::post('/mentor/toggle/status', [DashboardAdminController::class, 'toggleActive'])->name('mentors.toggle');
+    Route::post('/admin/users/{id}/status', [DashboardAdminController::class, 'updateStatus'])->name('admin.users.updateStatus'); 
     Route::delete('/dashboard/mentor/{id}', [DashboardAdminController::class, 'destroy'])->name('datamentor-admin.delete');
-    Route::delete('/dashboard/peserta/{id}', [DashboardAdminController::class, 'deletePeserta'])->name('datapeserta-admin.delete');
 
+    //Peserta
+    Route::get('/peserta/detail/{id}', [DashboardAdminController::class, 'detailpeserta'])->name('detaildata-peserta');
+    Route::get('dashboard-admin/tambah-peserta', [DashboardAdminController::class, 'tambahpeserta'])->name('tambah-peserta');
+    Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'peserta'])->name('datapeserta-admin');
+    Route::delete('/dashboard/peserta/{id}', [DashboardAdminController::class, 'deletePeserta'])->name('datapeserta-admin.delete');
+    //Update status pembayaran
+    Route::put('/admin/update-status/{id}', [PaymentController::class, 'updateStatus'])->name('admin.update-status');
+   
     //Import Peserta dari Excel
     Route::post('import-excel', [DashboardAdminController::class, 'importExcel'])->name('import.excel');
 
-    //Export Data Pendapatan
+    //Export Data Pendapatan ke Excel
     Route::get('/purchases/export', [DashboardAdminController::class, 'export'])->name('purchases.export');
-
-    //Update status pembayaran
-    Route::put('/admin/update-status/{id}', [PaymentController::class, 'updateStatus'])->name('admin.update-status');
 
     //Discount 
     Route::get('discount', [DiscountController::class, 'index'])->name('discount');
@@ -88,10 +94,10 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::delete('discount/{id}', [DiscountController::class, 'destroy'])->name('discount.destroy');
 
     // Kategori
+    Route::resource('categories', CategoryController::class);
     Route::patch('/courses/{categoryId}/{courseId}/approve', [DashboardAdminController::class, 'approve'])->name('courses.approve');
     Route::patch('/courses/{categoryId}/{courseId}/publish', [DashboardAdminController::class, 'publish'])->name('courses.publish');
     Route::patch('/courses/{categoryId}/{courseId}/hiddencourse', [DashboardAdminController::class, 'hiddencourse'])->name('hiddencourse');
-    Route::resource('categories', CategoryController::class);
     Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
 });
 
@@ -162,15 +168,15 @@ Route::middleware(['auth:mentor'])->group(function () {
     Route::get('/quiz-edit/{courseId}/{quiz}', [QuizController::class, 'edit'])->name('quiz-edit');
     Route::put('/quiz/{courseId}/{quiz}', [QuizController::class, 'update'])->name('quiz.update');
     Route::delete('/quiz/{courseId}/{quiz}', [QuizController::class, 'destroy'])->name('quiz.destroy');
- 
-    // //Tugas Akhir
-    // Route::get('/final-task/{courseId}', [QuizController::class, 'create'])->name('final-task.create');
-    // Route::post('/final-task/{courseId}', [QuizController::class, 'store'])->name('final-task.store');
-    // Route::get('/quiz-detail/{course}/{quiz}', [QuizController::class, 'detail'])->name('final-detail');
-    // Route::get('/final-edit/{courseId}/{id}', [QuizController::class, 'edit'])->name('final-edit');
-    // Route::put('/final-update/{courseId}/{id}', [QuizController::class, 'update'])->name('final-update');
-    // Route::delete('/final-destroy/{course}/{quiz}', [QuizController::class, 'destroy'])->name('final-destroy');
-   
+
+    //Tugas Akhir
+    Route::get('/finaltask-detail/{course}/{id}', [FinalTaskController::class, 'detail'])->name('finaltask.detail');
+    Route::get('/finaltask-create/{courseId}', [FinalTaskController::class, 'create'])->name('finaltask.create');
+    Route::post('/finaltask/{courseId}', [FinalTaskController::class, 'store'])->name('finaltask.store');
+    Route::get('/finaltask-edit/{course}/{id}', [FinalTaskController::class, 'edit'])->name('finaltask.edit');
+    Route::put('/finaltask-update/{course}/{id}', [FinalTaskController::class, 'update'])->name('finaltask.update');
+    Route::delete('/finaltask/{course}/{id}', [FinalTaskController::class, 'destroy'])->name('finaltask.destroy');
+
 });
 
 //Umum
@@ -180,7 +186,7 @@ Route::get('/certificate/{courseId}', [CertificateController::class, 'showCertif
 Route::middleware('auth:mentor,student')->group(function () {
     Route::get('chat/mentor/{courseId}/{chatId?}', [ChatController::class, 'chatMentor'])->name('chat.mentor');
     Route::get('chat/student/{courseId}/{chatId?}', [ChatController::class, 'chatStudent'])->name('chat.student');
-    Route::post('chat/{chatId}/send', [ChatController::class, 'sendMessage'])->name('chat.send');
+    Route::post('chat-send/{chatId}', [ChatController::class, 'sendMessage'])->name('chat.send');
     Route::get('chat/start/{studentId}', [ChatController::class, 'startChat'])->name('chat.start');
 });
 

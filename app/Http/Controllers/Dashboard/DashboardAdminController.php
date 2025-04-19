@@ -26,6 +26,59 @@ use App\Exports\PurchasesExport;
 
 class DashboardAdminController extends Controller
 {
+    public function getNotifications()
+    {
+        // Notifikasi: Pembayaran kursus yang belum dicek admin (status pending)
+        $payments = Payment::with('purchase.course', 'purchase.user')
+        ->where('transaction_status', 'pending')
+        ->get();
+    
+        // Notifikasi: Mentor yang mendaftar dan statusnya masih pending (belum diverifikasi)
+        $mentors = User::where('role', 'mentor')
+                        ->where('status', 'pending') // Pastikan kolom status ini ada
+                        ->get();
+    
+        // Notifikasi: Kursus baru oleh mentor yang statusnya masih pending
+        $courses = Course::where('status', 'pending')->get(); // Gunakan kolom status
+    
+        $notifications = [];
+    
+        foreach ($payments as $payment) {
+            $purchase = $payment->purchase;
+        
+            if ($purchase && $purchase->user && $purchase->course) {
+                $notifications[] = [
+                    'type' => 'pembelian',
+                    'message' => "User <b>{$purchase->user->name}</b> membeli kursus <b>{$purchase->course->title}</b>",
+                    'id' => 'payment_' . $payment->id,
+                    'url' => route('detaildata-peserta', ['id' => $purchase->user->id]),
+                ];
+            }
+        }
+        
+        foreach ($mentors as $mentor) {
+            $notifications[] = [
+                'type' => 'mentor',
+                'message' => "Mentor baru mendaftar : {$mentor->name}",
+                'id' => 'mentor_' . $mentor->id,
+                'url' => route('datamentor-admin'),
+            ];
+        }
+        
+        foreach ($courses as $course) {
+            $notifications[] = [
+                'type' => 'kursus',
+                'message' => "Kursus baru ditambahkan oleh {$course->mentor->name} : {$course->title}",
+                'id' => 'course_' . $course->id,
+                'url' => route('categories.show', ['id' => $course->category->id]),
+            ];
+        }         
+    
+        return response()->json([
+            'notifications' => $notifications,
+        ]);
+    }    
+
     public function approve($categoryId, $courseId)
     {
         $course = Course::findOrFail($courseId);

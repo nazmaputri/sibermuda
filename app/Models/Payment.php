@@ -29,4 +29,9 @@ class Payment extends Model
         return $this->belongsTo(Course::class, 'course_id');
     }
 
+    public function purchase()
+    {
+        return $this->hasOne(Purchase::class, 'transaction_id', 'transaction_id');
+    }
+
 }

@@ -67,6 +67,7 @@
     
         <!-- Chat Messages -->
         <div class="bg-[url('{{ asset('storage/wp-chat.jpg') }}')] bg-repeat flex-1 overflow-y-auto p-4">
+            <!-- Menampilkan pesan -->
             @if (count($messages))
                 @foreach ($messages as $message)
                     <div class="flex items-start mb-4 {{ $message->sender_id == auth()->id() ? 'justify-end' : 'justify-start' }}">
@@ -80,7 +81,7 @@
                 <div class="flex items-center justify-center p-4">
                     <p class="text-gray-500">Belum ada pesan. Mari mulai chat!</p>
                 </div>
-            @endif
+            @endif        
         </div>        
     
         <!-- Chat Input -->
@@ -88,7 +89,7 @@
             <form action="{{ route('chat.send', $activeChat->id) }}" method="POST" class="flex items-center">
                 @csrf
                 <!-- Menambahkan hidden input untuk course_id -->
-                <input type="hidden" name="course_id" value="{{ $activeChat->course_id }}"> <!-- Menambahkan course_id -->
+                <input type="hidden" name="courses_id" value="{{ $activeChat->courses_id }}"> <!-- Menambahkan course_id -->
                 <input type="text" name="message" placeholder="Type a message..." 
                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500" required>
                 <button type="submit" class="ml-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-400">

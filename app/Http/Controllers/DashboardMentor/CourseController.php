@@ -7,7 +7,7 @@ use App\Models\Course;
 use App\Models\Category;
 use App\Models\Materi;
 use App\Models\MateriVideo;
-use App\Models\MateriPdf;
+use App\Models\FinalTask;
 use App\Models\Quiz;
 use App\Models\RatingKursus;
 use App\Models\NotifikasiMentorDaftar;
@@ -125,9 +125,13 @@ class CourseController extends Controller
         // Ambil quiz berdasarkan course_id
         $quizzes = Quiz::where('course_id', $id)->paginate(5);
         
+        //Ambil Quiz
         $finalQuizzes = Quiz::where('course_id', $id)
                     // ->whereNull('materi_id')
                     ->get();
+        
+        //Ambil Tugas Akhir
+        $finalTasks = FinalTask::where('course_id', $id)->paginate(5); // atau ->get()
 
         // Ambil peserta yang pembayaran kursusnya lunas beserta data user-nya
         $participants = Purchase::where('course_id', $id)
@@ -136,7 +140,7 @@ class CourseController extends Controller
                             ->paginate(5);
     
         // Kembalikan data ke view
-        return view('dashboard-mentor.kursus-detail', compact('course', 'quizzes', 'finalQuizzes', 'materi', 'participants', 'ratings'));
+        return view('dashboard-mentor.kursus-detail', compact('course', 'quizzes', 'finalQuizzes', 'finalTasks', 'materi', 'participants', 'ratings'));
     }
     
     public function edit(Course $course)

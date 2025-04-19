@@ -82,7 +82,19 @@
 
             function copyToClipboard(text) {
                 navigator.clipboard.writeText(text).then(function () {
-                    alert('Kode promo berhasil disalin: ' + text);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Disalin!',
+                        text: 'Kode promo berhasil disalin: ' + text,
+                        showConfirmButton: false,
+                        timer: 2000
+                    });
+                }).catch(function (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal menyalin kode promo.',
+                    });
                 });
             }
         </script>

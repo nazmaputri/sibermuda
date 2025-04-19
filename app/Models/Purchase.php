@@ -9,6 +9,7 @@ class Purchase extends Model
     protected $fillable = [
         'user_id', 
         'course_id', 
+        'harga_course',
         'transaction_id', 
         'status'
     ];

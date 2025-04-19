@@ -76,7 +76,7 @@
             </div>
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($courses as $course)
+                @foreach($courses->whereIn('status', ['approved', 'published']) as $course)
                     @php
                         $isPurchased = $course->purchases()
                             ->where('user_id', auth()->id())

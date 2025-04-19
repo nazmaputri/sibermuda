@@ -9,7 +9,7 @@ class Message extends Model
     protected $fillable = [
         'chat_id', 
         'sender_id', 
-        'course_id',
+        'courses_id',
         'message', 
         'is_read'
     ];
