@@ -77,7 +77,7 @@
                             <th class="px-4 py-2 text-center border-b border-t border-gray-200">Judul</th>
                             {{-- <th class="px-4 py-2 text-center border-b border-t border-gray-200">Kategori</th> --}}
                             <th class="px-4 py-2 text-center border-b border-t border-r border-gray-200">Status Pembayaran</th>
-                            <th class="px-4 py-2 text-center border-b border-t border-gray-200 rounded-tr-lg">Aksi</th>
+                            <!-- <th class="px-4 py-2 text-center border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th> -->
                         </tr>
                     </thead>
                     <tbody class="text-gray-600 text-sm">
@@ -107,40 +107,20 @@
                                         </span>
                                     @endif
                                 </td>
-                                
-                                <!-- Modal Popup -->
-                                <div id="confirmModal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
-                                    <div class="bg-white p-6 rounded-xl shadow-xl text-center max-w-sm w-full">
-                                        <h2 class="text-xl font-semibold mb-4">Ubah Status Pembayaran?</h2>
-                                        <p class="text-gray-600 mb-6">Apakah kamu yakin ingin mengubah status menjadi <strong>success</strong>?</p>
-                                        <form id="updateStatusForm" method="POST" action="">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded mr-2">Ya, Ubah</button>
-                                            <button type="button" onclick="closeModal()" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded">Batal</button>
-                                        </form>
+                                <!-- <td class="px-4 py-2 border-b border-gray-200 border-r capitalize text-center">
+                                    <div class="flex justify-center items-center">
+                                        <button class="flex items-center justify-center gap-1 bg-green-400 text-white p-1 rounded-md hover:bg-green-300 transition" title="Setujui">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                            </svg>
+                                        </button>
                                     </div>
-                                </div>
-                                      
-                                <script>
-                                    function confirmUpdate(url) {
-                                        const form = document.getElementById('updateStatusForm');
-                                        form.action = url;
-                                        document.getElementById('confirmModal').classList.remove('hidden');
-                                        document.getElementById('confirmModal').classList.add('flex');
-                                    }
-                                
-                                    function closeModal() {
-                                        document.getElementById('confirmModal').classList.add('hidden');
-                                        document.getElementById('confirmModal').classList.remove('flex');
-                                    }
-                                </script>
-                                
-                                <td class="px-4 py-2 border-b border-gray-200 capitalize">button aksi</td>
+                                </td> -->
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-2 px-2 text-gray-400 border-l border-b border-r">Belum ada kursus yang dibeli</td>
+                                <td colspan="3" class="text-center py-2 px-2 text-gray-400 border-l border-b border-r">Belum ada kursus yang dibeli</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -152,4 +132,34 @@
         </div>
     </div>
 </div>
+
+<form id="statusUpdateForm" method="POST" style="display: none;">
+    @csrf
+    @method('PUT')
+</form>
+
+<script>
+     function confirmUpdate(route) {
+        Swal.fire({
+            title: 'Apakah Anda yakin?',
+            text: 'Anda akan mengubah status pembayaran.',
+            icon: 'warning',
+            customClass: {
+                popup: 'text-sm',
+                confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-md px-4 py-2 mx-2',
+                cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-md px-4 py-2 mx-2'
+            },
+            buttonsStyling: false,
+            showCancelButton: true,
+            confirmButtonText: 'Ya, ubah status!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const form = document.getElementById('statusUpdateForm');
+                form.action = route;
+                form.submit();
+            }
+        });
+    }
+</script>
 @endsection

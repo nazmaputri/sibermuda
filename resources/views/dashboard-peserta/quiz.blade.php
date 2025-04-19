@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto">
-    <div class="bg-white shadow-lg rounded-lg overflow-hidden p-6">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
         <div class="flex flex-wrap justify-between items-center">
             <div>
                 <h1 class="text-xl font-semibold text-gray-700">{{ $quiz->title }}</h1>
@@ -72,18 +72,6 @@
             </div>
         </div>        
 
-        <!-- Pop-up Validasi -->
-        <div id="confirmation-popup" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
-            <div class="absolute inset-0 flex justify-center items-center">
-                <div class="bg-white p-6 rounded shadow-lg">
-                    <h3 class="text-lg font-semibold text-gray-700">Yakin ingin mengirim kuis ini?</h3>
-                    <div class="flex justify-center space-x-4 mt-4">
-                        <button id="cancel-submit" class="bg-red-400 hover:bg-red-300 text-white px-4 py-2 rounded-lg">Tidak</button>
-                        <button id="confirm-submit" class="bg-sky-400 hover:bg-sky-300 text-white px-4 py-2 rounded-lg">Ya</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -96,9 +84,6 @@
                 const nextBtn = document.getElementById('next-btn');
                 const submitBtn = document.getElementById('submit-btn');
                 const timerElement = document.getElementById('timer');
-                const popup = document.getElementById('confirmation-popup');
-                const confirmSubmit = document.getElementById('confirm-submit');
-                const cancelSubmit = document.getElementById('cancel-submit');
         
                 const questionNumbers = document.querySelectorAll('.question-number');
         
@@ -200,21 +185,6 @@
                     }
                 });
         
-                // **Navigasi: Tombol Kirim**
-                submitBtn.addEventListener('click', function () {
-                    popup.classList.remove('hidden'); // Tampilkan pop-up konfirmasi
-                });
-        
-                // **Konfirmasi: Kirim kuis**
-                confirmSubmit.addEventListener('click', function () {
-                    document.getElementById('quiz-form').submit();
-                });
-        
-                // **Batal Kirim**
-                cancelSubmit.addEventListener('click', function () {
-                    popup.classList.add('hidden'); // Sembunyikan pop-up konfirmasi
-                });
-        
                 // **Tandai soal terjawab saat input berubah**
                 questions.forEach((question, i) => {
                     const inputs = question.querySelectorAll('input[type="radio"]');
@@ -237,8 +207,22 @@
                 // **Inisialisasi awal**
                 updateAnsweredStatus(); // Periksa status soal yang sudah dijawab
                 showQuestion(currentQuestion); // Tampilkan soal pertama
+
+                submitBtn.addEventListener('click', function () {
+                    Swal.fire({
+                        title: 'Yakin ingin mengirim kuis ini?',
+                        icon: 'question',
+                        showCancelButton: true,
+                        confirmButtonText: 'Ya, Kirim',
+                        cancelButtonText: 'Batal',
+                        reverseButtons: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            document.getElementById('quiz-form').submit();
+                        }
+                    });
+                });
             });
         </script>        
     </div>
-
 @endsection

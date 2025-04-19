@@ -14,6 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- import sweetalert untuk popup -->
     @vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
+    @vite('resources/js/delete-confirm.js') <!-- tambah ini agar bisa menggunakan popup konfirmasi penghapusan data menggunakan sweetalert yang ada di folder js>delete-confirm.js -->
     <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -404,8 +405,8 @@
             </main>
 
             <!-- Footer -->
-            <footer class="bg-white text-left text-gray-600 text-sm p-3 shadow-lg"> 
-               Copyright © 2025 <span class="text-midnight">Sibermuda.Idn</span> All Rights Reserved.
+            <footer class="bg-white text-left text-gray-600 text-sm p-3 shadow-lg border-t border-gray-200"> 
+               Copyright © 2025 <span class="text-midnight">Sibermuda.Idn</span> All Rights Reserved. Powered by PPLG SMKN 1 Ciomas
             </footer>
 
         </div>

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mx-auto">
-        <div class="bg-white shadow-lg rounded-lg overflow-hidden p-6">
+        <div class="bg-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
             <h1 class="text-xl font-semibold text-gray-700 border-b-2 mb-1 flex justify-between items-center">
                 <span>Hasil Kuis : {{ $quiz->title }}</span>
                 <div class="px-1 mb-1 rounded-md bg-red-200 hover:bg-red-100">

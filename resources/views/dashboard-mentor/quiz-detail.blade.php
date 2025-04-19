@@ -1,10 +1,18 @@
 @extends('layouts.dashboard-mentor')
 
 @section('content')
-<div class="container mx-auto">
 
+<div class="mb-3 flex justify-start">
+    <a href="{{ route('courses.show', ['course' => $course->id]) }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
+<div class="container mx-auto">
     <!-- Card Wrapper untuk Kuis -->
-    <div class="bg-white p-6 rounded-lg shadow-lg">
+    <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
         <!-- Judul Kuis -->
         <h1 class="text-xl text-gray-700 text-center font-semibold mb-3 border-b-2 pb-2 capitalize">{{ $quiz->title }}</h1>
 
@@ -51,7 +59,7 @@
         @endif
 
         <!-- Tombol Kembali -->
-        <div class="mt-6 justify-end flex">
+        <!-- <div class="mt-6 justify-end flex">
             @if(isset($materiId))
                 {{-- Jika sedang membuat kuis biasa --}}
                 <a href="{{ route('materi.show', ['courseId' => $course->id, 'materiId' => $materi->id]) }}"
@@ -65,8 +73,7 @@
                     Kembali
                 </a>
             @endif
-        </div>
+        </div> -->
     </div>
-
 </div>
 @endsection
