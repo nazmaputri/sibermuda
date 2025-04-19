@@ -273,13 +273,16 @@ class QuizController extends Controller
     public function destroy($courseId, $id)
     {
         try {
-            // Temukan dan hapus kuis
             $quiz = Quiz::findOrFail($id);
             $quiz->delete();
-    
+
+            // redirect balik ke halaman course setelah sukses hapus
+            return redirect()->route('courses.show', ['course' => $courseId])
+                            ->with('success', 'Kuis berhasil dihapus');
         } catch (\Exception $e) {
-            return redirect()->route('courses.show', ['course' => $courseId->id])->with('success', 'Kuis berhasil dihapus');
+            // kalau gagal, juga arahkan balik (bisa ganti pesan jika perlu)
+            return redirect()->route('courses.show', ['course' => $courseId])
+                            ->with('error', 'Terjadi kesalahan saat menghapus kuis');
         }
     }
-    
 }

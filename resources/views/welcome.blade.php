@@ -44,13 +44,23 @@
                     <button class="bg-white text-red-600 font-bold px-3 py-1 rounded hover:bg-gray-100 text-sm">
                         {{ $discount->coupon_code }}
                     </button>
-                    <button class="bg-sky-500 text-white font-semibold px-3 py-1 rounded hover:bg-sky-400 text-sm"
-                        onclick="copyToClipboard('{{ $discount->coupon_code }}')">
-                        SALIN
-                    </button>
+                    <div class="relative inline-block">
+                        <button
+                            class="bg-sky-500 text-white font-semibold px-3 py-1 rounded hover:bg-sky-400 text-sm"
+                            onclick="copyToClipboard(this, '{{ $discount->coupon_code }}')">
+                            SALIN
+                        </button>
+
+                        <div
+                            class="absolute left-1/2 translate-x-[-50%] mt-2 px-3 py-1 bg-black text-white text-xs rounded shadow-md opacity-0 pointer-events-none transition-opacity duration-300"
+                            id="copy-toast">
+                            Disalin!
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
+<<<<<<< HEAD
 
         <!-- JavaScript: Countdown & Hide Section When Done -->
         <script>
@@ -98,35 +108,83 @@
                 });
             }
         </script>
+=======
+>>>>>>> 3ba417b1a3e740e1b6bf9c5f23298bd5ac2ec94c
     @endif
+
+    <!-- kode untuk menjalankan script jika end_time diskon nya ada dan tidak akan dijalankan bila end_time nya null/tidak ada promo -->
+    @if ($end_datetime)
+    <script>
+        const endDateTime = new Date("{{ $end_datetime->format('Y-m-d H:i:s') }}").getTime();
+
+        const countdownInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = endDateTime - now;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                const promoSection = document.getElementById("promo");
+                if (promoSection) {
+                    promoSection.style.display = "none";
+                }
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").textContent = String(days).padStart(2, '0');
+            document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+            document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+            document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+        }, 1000);
+    </script>
+    @endif
+
     @include('components.home')
     @include('components.about')
     @include('components.course')
     @include('components.price')
     @include('components.rating')
     @include('components.footer')
-    <!-- AOS JS -->
-    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-    <script>
-        // Initialize AOS animation
-        AOS.init({
-            duration: 1000,   // Durasi animasi dalam milidetik
-            once: false,      // Animasi dapat dipicu ulang setiap kali elemen terlihat
-            mirror: true,     // Animasi juga dipicu saat menggulir ke atas
-        });
 
-        // Reinitialize AOS on window resize (optional, untuk memastikan animasi tetap responsif)
-        window.addEventListener('resize', () => {
-            AOS.refresh();
-        });
-    </script>
+<!-- AOS JS -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    // Initialize AOS animation
+    AOS.init({
+        duration: 1000,   // Durasi animasi dalam milidetik
+        once: false,      // Animasi dapat dipicu ulang setiap kali elemen terlihat
+        mirror: true,     // Animasi juga dipicu saat menggulir ke atas
+    });
 
-    <!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
-    @if(session('success') || session('error') || session('info') || session('warning'))
-        <div id="sweetalert-data"
-            data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
-            data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">
-        </div>
-    @endif
+    // Reinitialize AOS on window resize (optional, untuk memastikan animasi tetap responsif)
+    window.addEventListener('resize', () => {
+        AOS.refresh();
+    });
+
+    function copyToClipboard(button, text) {
+        navigator.clipboard.writeText(text).then(() => {
+        const toast = button.parentElement.querySelector('#copy-toast');
+        toast.classList.remove('opacity-0');
+        toast.classList.add('opacity-100');
+
+        setTimeout(() => {
+            toast.classList.remove('opacity-100');
+            toast.classList.add('opacity-0');
+        }, 3000);
+    });
+    }
+</script>
+
+<!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
+@if(session('success') || session('error') || session('info') || session('warning'))
+    <div id="sweetalert-data"
+        data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
+        data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">
+    </div>
+@endif
 </body>
 </html>

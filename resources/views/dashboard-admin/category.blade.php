@@ -51,7 +51,7 @@
                         <tr class="bg-white hover:bg-gray-50 user-row border-b">
                             <td class="px-2 py-3 text-center text-gray-600  border-b border-l border-gray-200 text-sm">{{ $startNumber + $index }}</td>
                             <td class="py-3 px-2 text-gray-600 text-sm border-b border-gray-200">{{ $category->name }}</td>
-                            <td class="py-3 px-2 flex justify-center space-x-6 border-r border-b border-gray-200">
+                            <td class="py-3 px-2 flex items-center justify-center space-x-6 border-r border-b border-gray-200">
                                 <!-- Tombol Lihat Detail -->
                                 <a href="{{ route('categories.show', $category->id) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -66,27 +66,15 @@
                                     </svg>
                                 </a>
                                 <!-- Tombol Hapus -->
-                                <button type="button" class="text-white bg-red-400 p-1 rounded-md hover:bg-red-300" onclick="openDeleteModal('{{ route('categories.destroy', $category->id) }}')"  title="Hapus">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                                    </svg>
-                                </button>
-
-                                <!-- JavaScript untuk Modal -->
-                                <script>
-                                    function openDeleteModal(url) {
-                                        // Set the action URL of the form to the delete route
-                                        document.getElementById('deleteForm').action = url;
-                                        // Show the modal
-                                        document.getElementById('deleteModal').classList.remove('hidden');
-                                    }
-
-                                    function closeDeleteModal() {
-                                        // Hide the modal
-                                        document.getElementById('deleteModal').classList.add('hidden');
-                                    }
-                                </script>
-
+                                <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-delete text-white bg-red-400 p-1 mt-1 rounded-md hover:bg-red-300" title="Hapus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                        </svg>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -133,30 +121,6 @@
             {{ $courses->links() }} 
         </div>
         </div>
-</div>
-
- <!-- Modal Konfirmasi -->
- <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden z-[1000]">
-    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-        <div class="flex justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-gray-600">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z" />
-            </svg>
-        </div>
-        <p class="text-md font-medium text-gray-600 text-center">Apakah Anda yakin ingin menghapus kategori ini?</p>
-        <div class="mt-4 flex justify-center space-x-3">
-            <button onclick="closeDeleteModal()" class="bg-red-400 hover:bg-red-300 text-white py-2 px-4 rounded-md">
-                Batal
-            </button>
-            <form id="deleteForm" method="POST" action="" class="inline">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="bg-green-400 hover:bg-green-300 text-white py-2 px-4 rounded-md">
-                    Hapus
-                </button>
-            </form>
-        </div>
-    </div>
 </div>
 
 <script>
