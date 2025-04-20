@@ -28,53 +28,53 @@
         <div class="mt-6">
         <h2 class="text-lg font-semibold text-gray-700">Video Materi</h2>
 
-      <!-- Cek apakah ada video sama sekali -->
-    @if($materi->videos->isEmpty() && $materi->youtube->isEmpty())
-    <p class="text-gray-700">Tidak ada video untuk materi ini.</p>
-    @else
-        <ul class="mt-4 space-y-4">
-            {{-- Google Drive Videos --}}
-            @foreach ($materi->videos as $video)
-                <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                    <h3 class="font-semibold text-gray-800">{{ $video->title }}</h3>
-                    <p class="text-gray-600">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
+        <!-- Cek apakah ada video sama sekali -->
+        @if($materi->videos->isEmpty() && $materi->youtube->isEmpty())
+            <p class="text-gray-700">Tidak ada video untuk materi ini.</p>
+            @else
+                <ul class="mt-4 space-y-4">
+                    {{-- Google Drive Videos --}}
+                    @foreach ($materi->videos as $video)
+                        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                            <h3 class="font-semibold text-gray-800">{{ $video->title }}</h3>
+                            <p class="text-gray-600">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
 
-                    @if ($video->link)
-                        <iframe
-                            src="https://drive.google.com/file/d/{{ $video->link }}/preview"
-                            width="100%" height="480"
-                            allow="autoplay"
-                            allowfullscreen
-                            class="rounded-lg shadow-md">
-                        </iframe>
-                    @else
-                        <p class="text-red-500">Video Google Drive tidak tersedia.</p>
-                    @endif
-                </li>
-            @endforeach
+                            @if ($video->link)
+                                <iframe
+                                    src="https://drive.google.com/file/d/{{ $video->link }}/preview"
+                                    width="100%" height="480"
+                                    allow="autoplay"
+                                    allowfullscreen
+                                    class="rounded-lg shadow-md">
+                                </iframe>
+                            @else
+                                <p class="text-red-500">Video Google Drive tidak tersedia.</p>
+                            @endif
+                        </li>
+                    @endforeach
 
-            {{-- YouTube Videos --}}
-            @foreach ($materi->youtube as $yt)
-                <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                    <h3 class="font-semibold text-gray-800">{{ $yt->title }}</h3>
-                    <p class="text-gray-600">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
+                    {{-- YouTube Videos --}}
+                    @foreach ($materi->youtube as $yt)
+                        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                            <h3 class="font-semibold text-gray-800">{{ $yt->title }}</h3>
+                            <p class="text-gray-600">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
 
-                    @if ($yt->link)
-                        <iframe
-                            width="100%" height="480"
-                            src="https://www.youtube.com/embed/{{ $yt->link }}"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                            class="rounded-lg shadow-md">
-                        </iframe>
-                    @else
-                        <p class="text-red-500">Video YouTube tidak tersedia.</p>
-                    @endif
-                </li>
-            @endforeach
-        </ul>
-    @endif
+                            @if ($yt->link)
+                                <iframe
+                                    width="100%" height="480"
+                                    src="https://www.youtube.com/embed/{{ $yt->link }}"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen
+                                    class="rounded-lg shadow-md">
+                                </iframe>
+                            @else
+                                <p class="text-red-500">Video YouTube tidak tersedia.</p>
+                            @endif
+                        </li>
+                    @endforeach
+                </ul>
+        @endif
     </div>
 
 </div>

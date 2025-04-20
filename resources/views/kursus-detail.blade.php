@@ -242,7 +242,7 @@
                 </h2>
                 <!-- Deskripsi -->
                 <p class="text-gray-700 mb-6 px-6 lg:px-20" data-aos="zoom-in">
-                    Mari belajar di Eduflix dan mulai tingkatkan skillmu! Pilih kursus yang kamu butuhkan, 
+                    Mari belajar di Sibermuda dan mulai tingkatkan skillmu! Pilih kursus yang kamu butuhkan, 
                     pelajari kapan saja, di mana saja. Nikmati video pembelajaran terstruktur dan modul praktik interaktif yang dirancang oleh para ahli di bidangnya.
                 </p>
                 {{-- <!-- Button Beli Sekarang -->
@@ -284,10 +284,10 @@
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/ios-glyphs/30/last-24-hours.png" alt="last-24-hours"/>
                         <span>Akses Materi 24 Jam</span>
                     </button>
-                    <button class="bg-[#08072a] hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    {{-- <button class="bg-[#08072a] hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/material-outlined/24/book.png" alt="book"/>
                         <span>Bahan Bacaan</span>
-                    </button>
+                    </button> --}}
                     <button class="bg-[#08072a] hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/sf-black/64/cinema-.png" alt="cinema-"/>
                         <span>Video Pembelajaran</span>

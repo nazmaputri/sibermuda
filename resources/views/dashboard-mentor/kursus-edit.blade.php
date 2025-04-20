@@ -73,6 +73,18 @@
                 class="relative mb-4"
             >
                 <label for="category_id" class="block text-gray-700 font-semibold mb-2">Kategori Kursus</label>
+                <select name="category_id" id="category_id" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 border rounded @error('category_id') border-red-500 @enderror">
+                    <option value="">Pilih Kategori</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ old('category_id', $course->category_id) == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <span class="text-red-500 text-sm" id="error-category">{{ $message }}</span>
+                @enderror
+            </div>                            
 
                 <!-- Tombol Pilih -->
                 <button 
@@ -110,6 +122,7 @@
                     <span class="text-red-500 text-sm" id="error-category">{{ $message }}</span>
                 @enderror
             </div>
+>>>>>>> cc96f3d2871158cdbe493105343f3e46be96be3e
 
             <!-- Input untuk Kapasitas -->
             <div class="mt-3">

@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('courses_id')->constrained('courses'); 
+            $table->foreignId('course_id')->constrained('courses'); 
             $table->foreignId('chat_id')->constrained('chats')->onDelete('cascade'); // Menyimpan chat terkait
             $table->foreignId('sender_id')->constrained('users')->onDelete('cascade'); // Pengirim pesan
             $table->text('message'); // Isi pesan

@@ -40,7 +40,7 @@ class ChatController extends Controller
     
         // Ambil pesan-pesan yang sesuai dengan chat aktif
         $messages = $activeChat ? $activeChat->messages()
-            ->where('courses_id', $courseId)  // Pastikan pesan hanya diambil untuk course_id yang benar
+            ->where('course_id', $courseId)  // Pastikan pesan hanya diambil untuk course_id yang benar
             ->with('sender') // Menampilkan informasi pengirim
             ->get() : [];
     
@@ -91,10 +91,10 @@ class ChatController extends Controller
     
     public function sendMessage(Request $request, $chatId)
     {
-        // Validasi input pesan
+        // Validasi input pesan dan pastikan course_id disertakan
         $request->validate([
             'message' => 'required|string|max:1000',
-            'courses_id' => 'required|exists:courses,id', // Pastikan course_id valid
+            'course_id' => 'required|exists:courses,id', // Pastikan course_id valid
         ]);
     
         // Periksa apakah chat dengan ID yang diberikan ada
@@ -105,11 +105,11 @@ class ChatController extends Controller
             abort(403, 'Unauthorized action.');
         }
     
-        // Simpan pesan baru dengan chat_id
-        $message = $chat->messages()->create([
+        // Simpan pesan baru dengan course_id
+        $chat->messages()->create([
             'sender_id' => auth()->id(),
             'message' => $request->message,
-            'courses_id' => $request->courses_id, // Menyimpan course_id bersama pesan
+            'course_id' => $request->course_id, // Menyimpan course_id bersama pesan
         ]);
     
         // Tentukan route berdasarkan peran pengguna
@@ -120,7 +120,7 @@ class ChatController extends Controller
             'courseId' => $chat->course_id, // Tambahkan courseId
             'chatId' => $chat->id,         // Chat yang sedang aktif
         ])->with('success', 'Message sent successfully.');
-    }       
+    }
     
     public function startChat(Request $request, $studentId)
     {

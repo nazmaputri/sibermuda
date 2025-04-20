@@ -47,8 +47,8 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::get('dashboard-admin/welcome', [DashboardAdminController::class, 'show'])->name('welcome-admin');
 
     //Kursus
-    Route::get('/kursus/{courseId}/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
-    Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus');
+    Route::get('/kursus/{categoryId}/{courseId}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
+    // Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus');
 
     //Laporan
     Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan'])->name('laporan-admin');
