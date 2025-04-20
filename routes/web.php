@@ -29,6 +29,11 @@ Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kurs
 Route::get('/category/{name}', [LandingPageController::class, 'category'])->name('category.detail');
 Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
 Route::get('/beli-kursus/{id}', [KeranjangController::class, 'handlePurchase'])->name('beli.kursus');
+// Route::get('/home', [LandingPageController::class, 'index'])->name('home');
+// Route::get('/category', [LandingPageController::class, 'categorylp'])->name('category');
+// Route::get('/price', [LandingPageController::class, 'price'])->name('price');
+// Route::get('/about', [LandingPageController::class, 'about'])->name('about');
+// Route::get('/rating', [LandingPageController::class, 'rating'])->name('rating');
 
 //Verifikasi Email
 Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');

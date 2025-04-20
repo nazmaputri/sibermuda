@@ -11,7 +11,7 @@
         </div>
 
         <div class="overflow-x-auto hide-scrollbar"> 
-            <div class="flex space-x-6 m-7">
+            <div class="flex flex-wrap justify-center items-center space-x-10 m-7 space-y-6 sm:space-y-0">
                 @foreach($categories as $category)
                     <div class="course-card bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden flex-none w-72 flex-shrink-0 flex flex-col transition-transform duration-300 ease-in-out" data-aos="zoom-in-down">
                         <div class="w-full">
@@ -28,8 +28,8 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
-        </div>
+            </div>                
+        </div>        
     </div>
     <style>
         /* Tailwind Custom CSS untuk menyembunyikan scrollbar */

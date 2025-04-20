@@ -198,7 +198,7 @@
         const kursus = document.getElementById('nama-kursus')?.value || 'Tidak Ada';
         const harga = document.getElementById('total-harga')?.value || '{{ $totalPriceAfterDiscount }}';
 
-        const nomorAdmin = '62895365544316';
+        const nomorAdmin = @json($nomorAdmin); 
         const pesan = `Halo Admin, saya ingin mengkonfirmasi pembayaran untuk:\n\n` +
             `👤 Nama: ${nama}\n📧 Email: ${email}\n📱 Telepon: ${telepon}\n\n` +
             `💻 Kursus: ${kursus}\n💰 Total: Rp ${harga}\n\n` +
