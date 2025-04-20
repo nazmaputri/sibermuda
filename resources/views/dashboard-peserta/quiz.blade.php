@@ -212,6 +212,9 @@
                     Swal.fire({
                         title: 'Yakin ingin mengirim kuis ini?',
                         icon: 'question',
+                        customClass: {
+                            popup: 'text-sm',
+                        },
                         showCancelButton: true,
                         confirmButtonText: 'Ya, Kirim',
                         cancelButtonText: 'Batal',

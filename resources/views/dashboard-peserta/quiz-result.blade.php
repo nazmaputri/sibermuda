@@ -5,7 +5,7 @@
         <div class="bg-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">
             <h1 class="text-xl font-semibold text-gray-700 border-b-2 mb-1 flex justify-between items-center">
                 <span>Hasil Kuis : {{ $quiz->title }}</span>
-                <div class="px-1 mb-1 rounded-md bg-red-200 hover:bg-red-100">
+                <div class="px-1 rounded-md">
                     <span class="text-3xl cursor-pointer text-red-500 hover:text-red-400" onclick="closeQuizResult()">×</span>
                 </div>
             </h1>

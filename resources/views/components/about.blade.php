@@ -64,7 +64,7 @@
                     <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
                         <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
-                            <span>03. Fasilitas untuk Guru dan Siswa</span>
+                            <span>03. Fasilitas untuk Mentor dan Peserta</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                 class="w-5 h-5 transition-transform duration-300 transform rotate-0">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -73,7 +73,7 @@
                         </button>
                         <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
                             <p class="text-gray-600">
-                                Sibermuda.Idn tidak hanya menyediakan fasilitas untuk siswa, tetapi juga untuk guru. Guru dapat menggunakan platform ini untuk membuat materi ajar, melacak kemajuan siswa, dan memberikan umpan balik secara real-time.
+                                Sibermuda.Idn tidak hanya menyediakan fasilitas untuk peserta, tetapi juga untuk mentor. Mentor dapat menggunakan platform ini untuk membuat materi baik melalui video youtube maupun google drive
                             </p>
                         </div>
                     </div>

@@ -41,19 +41,35 @@
                         <td class="px-4 py-2 text-gray-600 text-sm border-b border-gray-200">{{ Str::limit($submission->description, 50) }}</td>
                         <td class="px-4 py-2 text-gray-600 text-sm border-b border-gray-200">
                             @if($submission->photo)
-                                <img src="{{ Storage::url($submission->photo) }}" alt="Foto Tugas" class="h-16 w-16 object-cover rounded" />
+                                <img 
+                                    src="{{ Storage::url($submission->photo) }}" 
+                                    alt="Foto Tugas" 
+                                    class="h-16 w-16 object-cover rounded cursor-pointer"
+                                    onclick="showImageModal('{{ Storage::url($submission->photo) }}')"
+                                />
                             @else
                                 <span class="text-gray-400 text-sm">-</span>
                             @endif
                         </td>
+
                         <td class="px-4 py-2 text-center border-b border-r border-gray-200">
                             @if($submission->certificate_status == 'pending')
                                 <form action="{{ route('final-task.confirm', $submission->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit">Konfirmasi Sertifikat</button>
+                                    <button type="submit" title="Konfirmasi Sertifikat"  class="p-1 bg-green-100 hover:bg-green-200 text-green-600 rounded">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                                            stroke-width="1.5" stroke="currentColor" class="size-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                        </svg>
+                                    </button>
                                 </form>
                             @elseif($submission->certificate_status == 'approved')
-                                <span class="text-green-600 font-medium">Disetujui</span>
+                                <div title="Sudah Dikonfirmasi"  class="p-1 text-green-600 font-medium cursor-not-allowed inline-flex items-center justify-center bg-gray-200 rounded">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                    </svg>
+                                </div>
                             @else
                                 <span class="text-gray-500">-</span>
                             @endif
@@ -66,4 +82,40 @@
            </div>
         </div>
     </div>
+
+<!-- Modal -->
+<div id="imageModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="relative bg-white rounded-lg w-[90vw] h-[80vh] max-w-3xl p-4">
+        <button onclick="closeImageModal()" 
+                class="absolute top-2 right-2 text-gray-700 hover:text-red-500 text-2xl font-bold">
+            &times;
+        </button>
+        <div class="w-full h-full flex items-center justify-center">
+            <img id="modalImage" src="" alt="Preview Foto" class="max-w-full max-h-full object-contain rounded" />
+        </div>
+    </div>
+</div>
+
+<script>
+    function showImageModal(imageUrl) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        modalImg.src = imageUrl;
+        modal.classList.remove('hidden');
+    }
+
+    function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.add('hidden');
+    }
+
+    // Tambahan: Tutup modal jika klik di luar gambar
+    window.addEventListener('click', function(e) {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        if (e.target === modal) {
+            closeImageModal();
+        }
+    });
+</script>
 @endsection

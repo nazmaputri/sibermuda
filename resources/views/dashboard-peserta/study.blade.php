@@ -151,7 +151,7 @@
 
         <!-- Sidebar Materi (Responsive) -->
         <div 
-            class="lg:col-span-1 lg:block lg:mr-2 lg:my-2 bg-white px-1 border border-gray-200 rounded-md scrollbar-hide lg:max-h-[50vh] lg:overflow-y-auto"
+            class="lg:col-span-1 lg:block lg:mr-2 lg:my-2 pb-2 bg-white px-1 border border-gray-200 rounded-md scrollbar-hide lg:max-h-[50vh] lg:overflow-y-auto"
             :class="{ 'fixed top-20 mt-9 right-0 w-64 max-h-[70vh] shadow-lg z-20 p-4 overflow-y-auto': sidebarOpen && window.innerWidth < 1024 }"
             x-show="sidebarOpen || window.innerWidth >= 1024"
             x-transition>
@@ -192,12 +192,17 @@
             @if (in_array($courseCategory, $allowedCategories))
                 @if ($finalTask)
                     <hr class="my-2">
-                    <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}" 
-                        class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 flex items-center"
-                        :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'upload-task' }"
-                        @click="selected = 'upload-task'; if(window.innerWidth < 1024) sidebarOpen = false">
-                        📤 <span class="text-gray-600 ml-1">Upload Tugas Akhir</span>
-                    </a>
+                    <div class="group">
+                        <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}" 
+                            class="w-full flex text-left px-3 py-2 rounded hover:bg-gray-100 flex items-center"
+                            :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'upload-task' }"
+                            @click="selected = 'upload-task'; if(window.innerWidth < 1024) sidebarOpen = false">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
+                            </svg>
+                            <span class="text-gray-600 ml-1 transform transition-all duration-300 ease-in-out group-hover:translate-x-1">Upload Tugas Akhir</span>
+                        </a>
+                    </div>
                 @else
                 <div class="flex items-center space-x-2 text-gray-600">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
