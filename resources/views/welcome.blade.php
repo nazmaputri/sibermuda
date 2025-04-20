@@ -60,7 +60,6 @@
                 </div>
             </div>
         </section>
-<<<<<<< HEAD
 
         <!-- JavaScript: Countdown & Hide Section When Done -->
         <script>
@@ -108,8 +107,6 @@
                 });
             }
         </script>
-=======
->>>>>>> 3ba417b1a3e740e1b6bf9c5f23298bd5ac2ec94c
     @endif
 
     <!-- kode untuk menjalankan script jika end_time diskon nya ada dan tidak akan dijalankan bila end_time nya null/tidak ada promo -->

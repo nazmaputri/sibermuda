@@ -13,6 +13,31 @@ use Illuminate\Http\Request;
 
 class LandingPageController extends Controller
 {
+    public function index()
+    {
+        return view('components.home');
+    }
+
+    public function categorylp()
+    {
+        return view('components.course');
+    }
+
+    public function price()
+    {
+        return view('components.price');
+    }
+
+    public function about()
+    {
+        return view('components.about');
+    }
+
+    public function rating()
+    {
+        return view('components.rating');
+    }
+    
     public function detail($id)
     {
         $today = Carbon::now();

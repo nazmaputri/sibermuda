@@ -9,6 +9,7 @@ use App\Models\Course;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class KeranjangController extends Controller
 {
@@ -63,9 +64,14 @@ class KeranjangController extends Controller
                 $totalPriceAfterDiscount = $totalPrice - $discountAmount;
             }
         }
+
+         // Ambil nomor telepon admin
+        $nomorAdmin = DB::table('users')
+        ->where('role', 'admin')
+        ->value('phone_number');
     
         return view('dashboard-peserta.keranjang', compact(
-            'carts', 'activeDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode'
+            'carts', 'activeDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin'
         ));
     }
     

@@ -100,7 +100,7 @@
     @endif
     
     <!-- Bagian Materi Kursus -->
-    <section id="course" class="py-12 bg-sky-50">
+    <section id="course" class="py-12 bg-[#08072a]">
         <div class="container mx-auto px-6 lg:px-8 md:mt-32 mt-64">
             <!-- Kontainer Kursus -->
             <div class="flex flex-col lg:flex-row bg-white shadow-lg overflow-hidden border rounded-xl">
@@ -126,15 +126,15 @@
                             @endforeach
                         </ul>
                         <a href="/">
-                            <button class="bg-sky-300 hover:bg-sky-200 text-gray-700 py-2 px-4 rounded-full font-semibold mt-6">
+                            <button class="bg-[#08072a] hover:bg-white hover:text-gray-700 hover:border-2 hover:border-gray-700 text-white py-2 px-4 rounded-full font-semibold mt-6 transition-all">
                                 Kembali
-                            </button>
+                            </button>                            
                         </a>
                     </div>
                 </div>
 
                <!-- Trailer dan keranjang -->
-                <div class="lg:w-1/3 w-full p-6 bg-white border border-gray-300 rounded-lg shadow-md" data-aos="zoom-in">
+                <div class="lg:w-1/3 w-full h-full p-6 bg-white border border-gray-300 rounded-lg shadow-md" data-aos="zoom-in">
                     <!-- Cuplikan Video Pembelajaran -->
                     <div>
                         <h3 class="text-lg font-semibold text-gray-700 mb-4">Cuplikan Video Pembelajaran</h3>
@@ -153,7 +153,7 @@
                                         {{-- Embed Google Drive --}}
                                         <iframe
                                             src="https://drive.google.com/file/d/{{ $driveVid->link }}/preview"
-                                            width="100%" height="480"
+                                            width="100%" height="100%"
                                             allow="autoplay"
                                             allowfullscreen
                                             class="rounded-lg shadow-md">
@@ -162,7 +162,7 @@
                                     @elseif($ytVid && $ytVid->link)
                                         {{-- Embed YouTube --}}
                                         <iframe
-                                            width="100%" height="480"
+                                            width="100%" height="100%"
                                             src="https://www.youtube.com/embed/{{ $ytVid->link }}"
                                             frameborder="0"
                                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -218,16 +218,16 @@
                     <!-- Dua Tombol Vertikal -->
                     <div class="flex flex-col gap-3">
                         <a href="{{ route('beli.kursus', ['id' => $course->id]) }}">
-                            <button class="w-full bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg">
+                            <button class="w-full bg-[#08072a] hover:bg-white hover:text-[#08072a] border hover:border-[#08072a] text-white font-semibold py-2 px-4 rounded-lg">
                                 Tambah Ke Keranjang
                             </button>
                         </a>
-                        <a href="#">
-                            <button class="w-full bg-transparent border border-sky-300 hover:border-sky-200 text-sky-400 hover:bg-sky-100 hover:text-sky-500 font-semibold py-2 px-4 rounded-lg">
+                        <a href="{{ route('beli.kursus', ['id' => $course->id]) }}">
+                            <button class="w-full bg-white border border-[#08072a] hover:bg-[#08072a] hover:text-white text-[#08072a] font-semibold py-2 px-4 rounded-lg transition-all duration-300">
                                 Beli Sekarang
                             </button>
                         </a>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>        
@@ -245,12 +245,12 @@
                     Mari belajar di Eduflix dan mulai tingkatkan skillmu! Pilih kursus yang kamu butuhkan, 
                     pelajari kapan saja, di mana saja. Nikmati video pembelajaran terstruktur dan modul praktik interaktif yang dirancang oleh para ahli di bidangnya.
                 </p>
-                <!-- Button Beli Sekarang -->
+                {{-- <!-- Button Beli Sekarang -->
                 <a href="{{ route('beli.kursus', ['id' => $course->id]) }}">
                     <button class="bg-yellow-300 hover:bg-yellow-200 text-gray-700 font-semibold py-3 px-6 rounded-full text-md shadow-lg shadow-yellow-100 hover:shadow-none" data-aos="zoom-in">
                         Beli Sekarang
                     </button>
-                </a>
+                </a> --}}
 
                 <!-- Pop-up Error jika sudah dibeli -->
                 @if(session('error'))
@@ -276,23 +276,23 @@
                                 
                 <!-- Daftar Button -->
                 <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
-                    <button class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-[#08072a] hover:bg-gray-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/fluency-systems-regular/50/certificate--v1.png" alt="certificate--v1"/>
                         <span>Sertifikat</span>
                     </button>
-                    <button class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-[#08072a] hover:bg-gray-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/ios-glyphs/30/last-24-hours.png" alt="last-24-hours"/>
                         <span>Akses Materi 24 Jam</span>
                     </button>
-                    <button class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-[#08072a] hover:bg-gray-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/material-outlined/24/book.png" alt="book"/>
                         <span>Bahan Bacaan</span>
                     </button>
-                    <button class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-[#08072a] hover:bg-gray-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/sf-black/64/cinema-.png" alt="cinema-"/>
                         <span>Video Pembelajaran</span>
                     </button>
-                    <button class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-[#08072a] hover:bg-gray-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-blue-100 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z" />
                         </svg>
