@@ -27,7 +27,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    {{-- @foreach($submissions as $index => $submission)
+                    @foreach($submissions as $index => $submission)
                     <tr>
                         <td class="px-4 py-2">{{ $index + 1 }}</td>
                         <td class="px-4 py-2">{{ $submission->user->name }}</td>
@@ -42,11 +42,9 @@
                         </td>
                         <td class="px-4 py-2 text-center">
                             @if($submission->certificate_status == 'pending')
-                                <form action="{{ route('final-task.confirm', $submission->id) }}" method="POST" class="inline-block">
+                                <form action="{{ route('final-task.confirm', $submission->id) }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">
-                                        Konfirmasi Sertifikat
-                                    </button>
+                                    <button type="submit">Konfirmasi Sertifikat</button>
                                 </form>
                             @elseif($submission->certificate_status == 'approved')
                                 <span class="text-green-600 font-medium">Disetujui</span>
@@ -55,7 +53,7 @@
                             @endif
                         </td>
                     </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
         </div>

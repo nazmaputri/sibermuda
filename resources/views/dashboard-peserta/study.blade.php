@@ -176,6 +176,26 @@
             </button>
             @endif
 
+            <!-- Tugas Akhir -->
+            @php
+                $allowedCategories = ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber'];
+                $courseCategory = strtolower($course->category->name ?? '');
+            @endphp
+            
+            @if (in_array($courseCategory, $allowedCategories))
+                @if ($finalTask)
+                    <hr class="my-2">
+                    <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}" 
+                        class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 flex items-center"
+                        :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'upload-task' }"
+                        @click="selected = 'upload-task'; if(window.innerWidth < 1024) sidebarOpen = false">
+                        📤 <span class="text-gray-600 ml-1">Upload Tugas Akhir</span>
+                    </a>
+                @else
+                    <p>Tugas akhir belum tersedia untuk course ini.</p>
+                @endif
+            @endif
+        
             <!-- Tombol tutup (mobile) -->
             <!-- <div class="block lg:hidden mt-4">
                 <button @click="sidebarOpen = false" 

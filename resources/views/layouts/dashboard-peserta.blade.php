@@ -18,6 +18,10 @@
             font-family: 'Nunito', sans-serif;
         }
     </style>
+    <!-- meta, title, css utama, dll -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    @stack('styles') <!-- wajib -->
 </head>
 <body class="bg-white">
 
@@ -344,6 +348,11 @@
          data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">
     </div>
 @endif
+
+ <!-- script utama seperti alpine, jquery -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+ @stack('scripts') <!-- wajib -->
 
 </body>
 </html>

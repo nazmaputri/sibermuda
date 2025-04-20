@@ -43,7 +43,6 @@ class Course extends Model
         return $this->belongsTo(User::class, 'mentor_id');
     }
 
-   // app/Models/Course.php
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
@@ -100,6 +99,17 @@ class Course extends Model
 
         return 'Akses Seumur Hidup';
     }
+
+    public function getIsCompletedForCertificateAttribute()
+    {
+        $userId = auth()->id();
+
+        return \App\Models\FinalTaskUser::where('user_id', $userId)
+            ->where('course_id', $this->id)
+            ->where('certificate_status', 'approved')
+            ->exists();
+    }
+
 
 }
 

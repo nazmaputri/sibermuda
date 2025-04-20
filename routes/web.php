@@ -124,6 +124,10 @@ Route::middleware(['auth:student'])->group(function () {
 
     Route::post('/apply-discount', [DiscountController::class, 'applyDiscount'])->name('apply.discount');
 
+    //Tugas Akhir
+    Route::get('/finaltask-user/{course}/{finalTaskId}', [FinalTaskController::class, 'user'])->name('finaltask-user');
+    Route::post('/finaltask-upload', [FinalTaskController::class, 'storeUser'])->name('finaltaskstore-user');
+
     //Quiz Peserta
     Route::get('/quiz/{quiz}', [QuizController::class, 'show'])->name('quiz.show');
     Route::post('/quiz/{quiz}/retake', [QuizController::class, 'retake'])->name('quiz.retake');
@@ -176,6 +180,10 @@ Route::middleware(['auth:mentor'])->group(function () {
     Route::get('/finaltask-edit/{course}/{id}', [FinalTaskController::class, 'edit'])->name('finaltask.edit');
     Route::put('/finaltask-update/{course}/{id}', [FinalTaskController::class, 'update'])->name('finaltask.update');
     Route::delete('/finaltask/{course}/{id}', [FinalTaskController::class, 'destroy'])->name('finaltask.destroy');
+
+    // Konfirmasi Sertifikat
+    Route::post('/final-task/{id}/confirm', [FinalTaskController::class, 'confirm'])->name('final-task.confirm');
+
 
 });
 

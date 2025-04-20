@@ -6,45 +6,45 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Purchase;
 use App\Models\Course;
 use App\Models\MateriUSer;
+use App\Models\FinalTaskUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
+    
     public function certificate($courseId)
-{
-    $userId = auth()->id();
+    {
+        $userId = auth()->id();
+    
+        // Cek apakah user sudah disetujui oleh mentor (certificate_status = 'approved')
+        $finalTask = FinalTaskUser::where('user_id', $userId)
+            ->where('course_id', $courseId)
+            ->where('certificate_status', 'approved')
+            ->first();
+    
+        if (!$finalTask) {
+            return redirect()->back()->with('error', 'Sertifikat belum tersedia. Menunggu persetujuan dari mentor.');
+        }
+    
+        // Ambil data kursus untuk ditampilkan di sertifikat
+        $course = Course::with(['category:id,name','mentor:id,name'])->findOrFail($courseId);
 
-    // Cek apakah user telah menyelesaikan semua materi (kuis)
-    $unfinishedQuizzes = MateriUser::where('user_id', $userId)
-        ->whereIn('materi_id', function ($query) use ($courseId) {
-            $query->select('id')->from('materi');
-        })
-        ->whereNull('completed_at') // Jika ada yang belum selesai
-        ->exists(); // Menggunakan `exists()` agar lebih efisien
-
-    if ($unfinishedQuizzes) {
-        return redirect()->back()->with('error', 'Anda harus menyelesaikan semua kuis sebelum mengakses sertifikat.');
+        $data = [
+            'participant_name'      => auth()->user()->name,
+            'course_title'          => $course->title,
+            'course_category'       => $course->category->name,
+            'course_start_date'     => Carbon::parse($course->start_date)->format('d M Y'),
+            'course_end_date'       => Carbon::parse($course->end_date)->format('d M Y'),
+            'mentor_name'           => $course->mentor->name ?? 'Tidak Diketahui',
+            'signature_title_left'  => 'Direktur Kursus',
+            'signature_title_right' => 'Mentor Kursus',
+            // ← tambahkan ini:
+            'course'                => $course,
+          ];
+    
+        return view('dashboard-peserta.certificate-detail', $data);
     }
-
-    // Ambil data kursus untuk ditampilkan di sertifikat
-    $course = Course::findOrFail($courseId);
-
-    // Data untuk sertifikat
-    $data = [
-        'participant_name'       => auth()->user()->name, 
-        'course_title'           => $course->title,
-        'course_category'        => $course->category,
-        'course_start_date'      => $course->start_date,
-        'course_end_date'        => $course->end_date,
-        'mentor_name'            => $course->mentor->name ?? 'Tidak Diketahui',
-        'signature_title_left'   => 'Direktur Kursus',
-        'signature_title_right'  => 'Mentor Kursus',
-        'course'                 => $course // Pastikan course dikirimkan ke view
-    ];
-
-    return view('dashboard-peserta.certificate-detail', $data);
-}
-
     
     // Menampilkan Sertifikat
     public function showCertificate($courseId)
@@ -58,7 +58,7 @@ class CertificateController extends Controller
         $data = [
             'participant_name'       => $userId ? auth()->user()->name : 'Nama Peserta Tidak Diketahui',  // Nama peserta
             'course_title'           => $course->title,
-            'course_category'        => $course->category,
+            'course_category'        => $course->category->name,
             'course_start_date'      => $course->start_date,
             'course_end_date'        => $course->end_date,
             'mentor_name'            => $course->mentor->name ?? 'Tidak Diketahui',
@@ -87,7 +87,7 @@ class CertificateController extends Controller
         $data = [
             'participant_name'       => $purchase->user->name,
             'course_title'           => $course->title,
-            'course_category'        => $course->category,
+            'course_category'        => $course->category->name,
             'course_start_date'      => $course->start_date,
             'course_end_date'        => $course->end_date,
             'mentor_name'            => $course->mentor->name ?? 'Tidak Diketahui',

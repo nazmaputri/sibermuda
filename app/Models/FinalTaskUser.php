@@ -13,6 +13,7 @@ class FinalTaskUser extends Model
 
     protected $fillable = [
         'final_task_id',
+        'course_id',
         'user_id',
         'title',
         'description',
@@ -34,5 +35,10 @@ class FinalTaskUser extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
     }
 }

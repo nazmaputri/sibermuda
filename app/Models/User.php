@@ -78,5 +78,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(Materi::class, 'materi_user', 'user_id', 'materi_id')
                     ->withTimestamps(); // Memastikan timestamp juga disimpan jika ada
     }
+
+    public function finalTaskUser()
+    {
+        return $this->hasMany(FinalTaskUser::class);
+    }
   
 }

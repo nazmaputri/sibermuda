@@ -8,10 +8,11 @@ use App\Http\Controllers\DashboardAdmin\CategoryController;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\Purchase;
-use App\Models\Payment;
+use App\Models\FinalTask;
 use App\Models\RatingKursus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class DashboardPesertaController extends Controller
 {
@@ -41,67 +42,83 @@ class DashboardPesertaController extends Controller
 
     public function show()
     {
-        $userId = auth()->id(); // Mendapatkan ID user yang sedang login
-        
-        // Mengambil kursus yang sudah dibeli oleh user
+        $userId = auth()->id();
+
         $courses = Course::whereIn('id', function ($query) use ($userId) {
             $query->select('course_id')
-                  ->from('purchases')
-                  ->where('user_id', $userId)
-                  ->where('status', 'success');
+                ->from('purchases')
+                ->where('user_id', $userId)
+                ->where('status', 'success');
         })->get();
-    
-        // // Menghitung progress dan rating setiap kursus
-        // foreach ($courses as $course) {
-        //     // Mengambil materi yang terkait dengan kursus ini
-        //     $totalMateri = $course->materi->count(); // Total materi yang tersedia di kursus ini
-        
-        //     // Menghitung jumlah materi yang sudah diselesaikan oleh user
-        //     $completedMateri = 0;
-        //     foreach ($course->materi as $materi) {
-        //         // Cek jika user sudah menyelesaikan materi ini (ada data completed_at di tabel pivot)
-        //         $isCompleted = $materi->users()->wherePivot('user_id', $userId)
-        //                                       ->wherePivot('completed_at', '!=', null)
-        //                                       ->exists();
-        //         if ($isCompleted) {
-        //             $completedMateri++;
-        //         }
-        //     }
-        
-        //     // Menghitung persentase progres
-        //     $progress = $totalMateri > 0 ? round(($completedMateri / $totalMateri) * 100, 2) : 0;
-        
-        //     // Menyimpan progress ke dalam kursus
-        //     $course->progress = $progress;
-        
-        //     // Menentukan apakah user sudah menyelesaikan materi untuk tombol sertifikat
-        //     $isCompletedForCertificate = $completedMateri === $totalMateri; // Jika semua materi diselesaikan
-        
-        //     // Menambahkan flag untuk sertifikat
-        //     $course->isCompletedForCertificate = $isCompletedForCertificate;
-        
-        //     // Menghitung rata-rata rating untuk kursus ini
-        //     $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
+
+        $totalKursus = $courses->count();
+
+        Carbon::setLocale('id'); 
+        $currentDateTime = Carbon::now();  // Mengambil tanggal dan waktu sekarang
+        $currentDateTimeFormatted = $currentDateTime->format('l, H:i');  // Format: Hari, Jam
+
+        $canDownloadCertificates = [];
+
+        $cyberKeywords = [
+            'cyber security', 'siber', 'cybersecurity', 
+            'cyber', 'Cyber Security', 'CyberSecurity', 
+            'Cybersecurity', 'Cyber'
+        ];
+
+        foreach ($courses as $course) {
+            $isAllowed = false;
+
+            $categoryName = strtolower($course->category->name ?? '');
+
+            // Cek apakah kategori termasuk cybersecurity
+            $isCyberSecurity = collect($cyberKeywords)
+                ->map(fn($item) => strtolower($item))
+                ->contains($categoryName);
+
+            if ($isCyberSecurity) {
+                // Butuh persetujuan mentor
+                $certificateStatus = DB::table('final_task_user')
+                    ->where('user_id', $userId)
+                    ->where('course_id', $course->id)
+                    ->value('certificate_status');
+
+                $isAllowed = $certificateStatus === 'approved';
+            } else {
+                // Non-cybersecurity: cek nilai
+                $nilai = DB::table('materi_user')
+                    ->where('user_id', $userId)
+                    ->where('courses_id', $course->id)
+                    ->value('nilai');
+
+                $isAllowed = $nilai !== null && $nilai >= 75;
+            }
+
+            $canDownloadCertificates[$course->id] = $isAllowed;
+
+            // Menghitung rata-rata rating untuk kursus ini
+                $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
+                
+                // Membatasi rating maksimal 5
+                $averageRating = min($averageRating, 5);
             
-        //     // Membatasi rating maksimal 5
-        //     $averageRating = min($averageRating, 5);
-        
-        //     // Menyimpan rata-rata rating untuk kursus
-        //     $course->average_rating = $averageRating;
+                // Menyimpan rata-rata rating untuk kursus
+                $course->average_rating = $averageRating;
+                
+                // Menghitung jumlah bintang penuh, setengah, dan kosong
+                $fullStars = floor($averageRating); // Bintang penuh
+                $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
+                $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
             
-        //     // Menghitung jumlah bintang penuh, setengah, dan kosong
-        //     $fullStars = floor($averageRating); // Bintang penuh
-        //     $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
-        //     $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
-        
-        //     // Menyimpan jumlah bintang untuk ditampilkan di view
-        //     $course->rating_full_stars = $fullStars;
-        //     $course->rating_half_star = $halfStar;
-        //     $course->rating_empty_stars = $emptyStars;
-        // }
-        
-        // Kirim data kursus dengan progress, rating, dan status penyelesaian ke view
-        return view('dashboard-peserta.welcome', compact('courses'));
+                // Menyimpan jumlah bintang untuk ditampilkan di view
+                $course->rating_full_stars = $fullStars;
+                $course->rating_half_star = $halfStar;
+                $course->rating_empty_stars = $emptyStars;
+        }
+
+        // Hitung total sertifikat yang tersedia
+        $totalSertifikat = collect($canDownloadCertificates)->filter()->count();
+
+        return view('dashboard-peserta.welcome', compact('courses', 'canDownloadCertificates', 'totalKursus', 'totalSertifikat', 'currentDateTimeFormatted'));
     }
     
     public function chat() {
@@ -147,7 +164,7 @@ class DashboardPesertaController extends Controller
     {
         // Ambil course dan materinya
         $course = Course::with('materi')->findOrFail($id);
-    
+
         // Ambil riwayat kuis user yang terkait course ini
         $quizHistories = \DB::table('materi_user')
             ->where('user_id', auth()->id())
@@ -155,9 +172,13 @@ class DashboardPesertaController extends Controller
             ->whereNotNull('quiz_id')
             ->orderBy('completed_at', 'desc')
             ->get();
-    
-        return view('dashboard-peserta.study', compact('course', 'quizHistories'));
-    }     
+
+        // Ambil Final Task terkait course jika perlu
+        $finalTask = FinalTask::where('course_id', $id)->first();  // Ambil final task yang terkait dengan course
+
+        // Kirim data ke view
+        return view('dashboard-peserta.study', compact('course', 'quizHistories', 'finalTask'));
+    }
 
     public function kursusTerdaftar()
     {
@@ -200,6 +221,27 @@ class DashboardPesertaController extends Controller
         } else {
             // Jika tidak ada kategori yang dipilih, tampilkan semua kursus
             $courses = Course::all();
+        }
+
+        foreach ($courses as $course) {
+            // Menghitung rata-rata rating untuk kursus ini
+            $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
+                    
+            // Membatasi rating maksimal 5
+            $averageRating = min($averageRating, 5);
+        
+            // Menyimpan rata-rata rating untuk kursus
+            $course->average_rating = $averageRating;
+            
+            // Menghitung jumlah bintang penuh, setengah, dan kosong
+            $fullStars = floor($averageRating); // Bintang penuh
+            $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
+            $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
+        
+            // Menyimpan jumlah bintang untuk ditampilkan di view
+            $course->rating_full_stars = $fullStars;
+            $course->rating_half_star = $halfStar;
+            $course->rating_empty_stars = $emptyStars;
         }
     
         return view('dashboard-peserta.categories', compact('categories', 'courses'));
