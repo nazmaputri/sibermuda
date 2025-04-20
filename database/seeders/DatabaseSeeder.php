@@ -16,13 +16,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory()->create([
-        //     'name'      => 'Admin',
-        //     'email'     => 'admin@gmail.com',
-        //     'password'  => Hash::make('password'), 
-        //     'role'      => 'admin',
-        //     'status'    => 'active',
-        // ]);
+        User::factory()->create([
+            'name'           => 'Admin',
+            'email'          => 'admin@gmail.com',
+            'password'       => Hash::make('password'), 
+            'role'           => 'admin',
+            'phone_number'   =>'62881025655793',
+            'status'         => 'active',
+        ]);
 
         // User::factory()->create([
         //     'name'      => 'Nazma',
@@ -68,11 +69,11 @@ class DatabaseSeeder extends Seeder
         //     'comment' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.'
         // ]);
 
-        RatingKursus::create([
-            'user_id' => '1',
-            'course_id' => '1',
-            'stars' => '2',
-            'comment' => 'test',
-        ]);
+        // RatingKursus::create([
+        //     'user_id' => '1',
+        //     'course_id' => '1',
+        //     'stars' => '2',
+        //     'comment' => 'test',
+        // ]);
     }
 }

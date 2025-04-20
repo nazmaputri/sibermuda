@@ -13,6 +13,7 @@ class CreateMateriUserTable extends Migration
             $table->string('nilai');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('courses_id')->constrained('courses'); 
+            $table->foreignId('quiz_id')->constrained()->onDelete('cascade');
             $table->timestamp('completed_at')->nullable(); // Menyimpan waktu penyelesaian
             $table->timestamps();
         });

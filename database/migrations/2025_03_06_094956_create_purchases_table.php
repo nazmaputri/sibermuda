@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('course_id')->constrained()->onDelete('cascade');
             $table->string('transaction_id')->nullable();
+            $table->unsignedBigInteger('harga_course');
             $table->string('status')->default('pending'); // pending, paid
             $table->timestamps();
         });

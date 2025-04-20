@@ -15,6 +15,7 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id(); 
             $table->string('name'); 
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('photo')->nullable();
             $table->string('email')->unique(); 
             $table->string('password'); 
@@ -22,7 +23,6 @@ return new class extends Migration
             $table->enum('role', ['student', 'mentor', 'admin'])->default('student'); 
             $table->text('experience')->nullable(); 
             $table->enum('status', ['active', 'inactive', 'pending'])->default('pending'); 
-            $table->timestamp('email_verified_at')->nullable(); 
             $table->rememberToken(); 
             $table->timestamps(); 
         });
