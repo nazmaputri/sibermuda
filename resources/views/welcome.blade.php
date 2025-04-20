@@ -62,7 +62,7 @@
         </section>
 
         <!-- JavaScript: Countdown & Hide Section When Done -->
-        <script>
+        <!-- <script>
             const endDateTime = new Date("{{ $end_datetime->format('Y-m-d H:i:s') }}").getTime();
 
             const countdownInterval = setInterval(() => {
@@ -106,7 +106,7 @@
                     });
                 });
             }
-        </script>
+        </script> -->
     @endif
 
     <!-- kode untuk menjalankan script jika end_time diskon nya ada dan tidak akan dijalankan bila end_time nya null/tidak ada promo -->

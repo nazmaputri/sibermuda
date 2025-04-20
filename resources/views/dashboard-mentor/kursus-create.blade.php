@@ -14,7 +14,7 @@
                     <!-- Input untuk Judul -->
                     <div class="mb-4">
                         <label for="title" class="block font-semibold text-gray-700 pb-2">Judul Kursus</label>
-                        <input type="text" name="title" id="title" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('title') border-red-500 @enderror" placeholder="Masukkan judul kursus" value="{{ old('title') }}">
+                        <input type="text" name="title" id="title" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('title') border-red-500 @enderror" placeholder="Masukkan judul kursus" value="{{ old('title') }}">
                         @error('title')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -23,7 +23,7 @@
                     <!-- Input untuk Start_date -->
                     <div class="mb-4">
                         <label for="start_date" class="block font-semibold text-gray-700 pb-2">Tanggal Mulai</label>
-                        <input type="date" name="start_date" id="start_date" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('start_date') border-red-500 @enderror" placeholder="Masukkan Waktu Mulai" min="{{ \Carbon\Carbon::today()->toDateString() }}">
+                        <input type="date" name="start_date" id="start_date" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror" placeholder="Masukkan Waktu Mulai" min="{{ \Carbon\Carbon::today()->toDateString() }}">
                         <small class="text-gray-600">Jika tidak di isi maka "Akses seumur hidup"</small>
                         @error('start_date')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -33,7 +33,7 @@
                     <!-- Input untuk End_date -->
                     <div class="mb-4">
                         <label for="end_date" class="block font-semibold text-gray-700 pb-2">Tanggal Selesai</label>
-                        <input type="date" name="end_date" id="end_date" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('end_date') border-red-500 @enderror" placeholder="Masukkan Waktu Selesai" min="{{ \Carbon\Carbon::today()->toDateString() }}">
+                        <input type="date" name="end_date" id="end_date" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror" placeholder="Masukkan Waktu Selesai" min="{{ \Carbon\Carbon::today()->toDateString() }}">
                         <small class="text-gray-600">Jika tidak di isi maka "Akses seumur hidup"</small>
                         @error('end_date')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -43,7 +43,7 @@
                     <!-- Input untuk Deskripsi -->
                     <div class="mb-4">
                         <label for="description" class="block font-semibold text-gray-700 pb-2">Deskripsi</label>
-                        <textarea name="description" id="description" rows="4" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description') }}</textarea>
+                        <textarea name="description" id="description" rows="4" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description') }}</textarea>
                         @error('description')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -56,7 +56,7 @@
                     <!-- Input untuk Kategori -->
                     <div class="mb-4">
                         <label for="category_id" class="block font-semibold text-gray-700 pb-2">Kategori Kursus</label>
-                        <select name="category_id" id="category_id" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500">
+                        <select name="category_id" id="category_id" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                             <option value="">Pilih Kategori</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
@@ -72,7 +72,7 @@
                     <!-- Input untuk Harga -->
                     <div class="mb-4">
                         <label for="price" class="block font-semibold text-gray-700 pb-2">Harga</label>
-                        <input type="text" name="price" id="price" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('price') border-red-500 @enderror" placeholder="Masukkan harga kursus.contoh:3000 " value="{{ old('price') }}">
+                        <input type="text" name="price" id="price" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('price') border-red-500 @enderror" placeholder="Masukkan harga kursus.contoh:3000 " value="{{ old('price') }}">
                         @error('price')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                         @enderror
@@ -81,7 +81,7 @@
                     <!-- Input untuk Kapasitas -->
                     <div class="mb-4">
                         <label for="capacity" class="block font-semibold text-gray-700 pb-2">Kapasitas Peserta</label>
-                        <input type="number" name="capacity" id="capacity" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('capacity') border-red-500 @enderror" placeholder="Masukkan kapasitas kursus" value="{{ old('capacity') }}">
+                        <input type="number" name="capacity" id="capacity" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('capacity') border-red-500 @enderror" placeholder="Masukkan kapasitas kursus" value="{{ old('capacity') }}">
                         <small class="text-gray-600">Jika tidak di isi maka kapasitasnya tidak terbatas</small>
                         @error('capacity')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -121,10 +121,10 @@
 
             <!-- Tombol Submit -->
             <div class="mt-6 flex justify-end space-x-2">
-                <a href="{{ route('courses.index') }}" class="bg-red-400 hover:bg-red-300 text-white font-bold py-2 px-4 rounded-lg">
+                <a href="{{ route('courses.index') }}" class="bg-red-400 hover:bg-red-300 text-white font-bold py-2 px-4 rounded-md">
                     Batal
                 </a>
-                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-bold py-2 px-4 rounded-lg">
+                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-bold py-2 px-4 rounded-md">
                     Tambah 
                 </button>
             </div>

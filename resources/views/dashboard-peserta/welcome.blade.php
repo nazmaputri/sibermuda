@@ -8,11 +8,10 @@
                 </svg>
             </div> -->
             <div class="ml-4">
-                <h2 class="text-md font-semibold text-gray-700">Total Kursus Yang Diikuti</h2>
-                <p class="text-2xl font-bold text-midnight">{{ $totalKursus }}</p>
+                <h2 class="text-lg font-semibold text-gray-700">Hari dan Jam Saat Ini</h2>
+                <p id="realtime-clock" class="text-md font-semibold text-gray-700">{{ $currentDateTimeFormatted }}</p>
             </div>
         </div>
-
         <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">
             <!-- <div class="p-2 bg-red-500 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 640 512" stroke="currentColor" fill="white">
@@ -20,8 +19,8 @@
                 </svg>
             </div> -->
             <div class="ml-4">
-                <h2 class="text-md font-semibold text-gray-700">Hari dan Jam Saat Ini</h2>
-                <p class="text-2xl font-bold text-midnight">{{ $currentDateTimeFormatted }}</p>
+                <h2 class="text-md font-semibold text-gray-700">Total Kursus Yang Diikuti</h2>
+                <p class="text-lg font-semibold text-gray-700">{{ $totalKursus }}</p>
             </div>
         </div>
         <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">
@@ -32,7 +31,7 @@
             </div> -->
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Total Sertifikat</h2>
-                <p class="text-2xl font-bold text-midnight">{{ $totalSertifikat }}</p>
+                <p class="text-lg font-semibold text-gray-700">{{ $totalSertifikat }}</p>
             </div>
         </div>
     </div>
@@ -42,7 +41,7 @@
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($courses as $course)
-            <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col">
+            <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-200">
                 <!-- Image -->
                 <img src="{{ asset('storage/' . $course->image_path) }}" alt="Kursus {{ $course->title }}" class="w-full h-40 object-cover rounded-t-lg">
     
@@ -137,4 +136,37 @@
         @endforelse
     </div>    
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ambil waktu dari backend Laravel
+        let serverTime = new Date("{{ $currentDateTimeFormatted }}");
+
+        function updateClock() {
+            // Tambahkan 1 detik ke waktu server
+            serverTime.setSeconds(serverTime.getSeconds() + 1);
+
+            // Format: Senin, 20 April 2025 14:32:45
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+            const day = days[serverTime.getDay()];
+            const date = serverTime.getDate().toString().padStart(2, '0');
+            const month = months[serverTime.getMonth()];
+            const year = serverTime.getFullYear();
+            const hours = serverTime.getHours().toString().padStart(2, '0');
+            const minutes = serverTime.getMinutes().toString().padStart(2, '0');
+            const seconds = serverTime.getSeconds().toString().padStart(2, '0');
+
+            const formattedTime = `${day}, ${date} ${month} ${year} ${hours}:${minutes}:${seconds}`;
+
+            document.getElementById('realtime-clock').textContent = formattedTime;
+        }
+
+        // Jalankan pertama kali dan update tiap detik
+        updateClock();
+        setInterval(updateClock, 1000);
+    });
+</script>
+
 @endsection

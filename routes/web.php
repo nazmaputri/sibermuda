@@ -121,6 +121,7 @@ Route::middleware(['auth:student'])->group(function () {
     Route::get('/settings-student', [SettingController::class, 'student'])->name('settings-student');
     Route::put('/update-peserta', [SettingController::class, 'updatePeserta'])->name('update-peserta');
     Route::post('/kursus/{course_id}/rating', [RatingKursusController::class, 'store'])->name('ratings.store');
+    Route::post('/rating/load-more', [DashboardPesertaController::class, 'loadMoreRating'])->name('rating.loadMore'); // rooute untuk menampilkan lebih banyak rating di halama detail kursus (role peserta)
  
     Route::get('/notifikasi/pembelian', [DashboardPesertaController::class, 'navbarNotifikasi']);
 

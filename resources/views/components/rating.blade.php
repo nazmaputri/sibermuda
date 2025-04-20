@@ -66,8 +66,8 @@
 
 <!-- Rating Section -->
 <section id="ratingform" class="fixed inset-0 w-full h-full bg-black bg-opacity-50 items-center justify-center p-4 hidden z-[1000] flex">
-    <div class="container mx-auto md:mx-16 my-10 rounded rounded-md px-2 bg-white max-w-xl w-full">
-        <div class="flex flex-col items-center space-y-6 p-6">
+    <div class="container mx-auto md:mx-16 my-2 rounded rounded-md px-2 bg-white max-w-xl w-full">
+        <div class="flex flex-col items-center space-y-2 p-3">
             <!-- Close Button with Icon -->
             <button id="closeRatingBtn" class="flex items-center text-sm text-red-500 hover:text-red-600 gap-1 self-end">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="gray-700">
@@ -76,14 +76,13 @@
             </button>
 
             <!-- Rating Form -->
-            <form class="space-y-4 w-full" method="POST" action="{{ route('rating.store') }}">
+            <form class="space-y-2 w-full" method="POST" action="{{ route('rating.store') }}">
                 @csrf
-
-                <h1 class="text-center semibold text-lg ">Form Penilaian Sibermuda</h1>
+                <h1 class="text-center font-semibold text-gray-700 text-lg">Form Penilaian Sibermuda</h1>
                 <!-- Nama -->
                 <div>
                     <label for="nama" class="block text-md text-gray-700">Nama :</label>
-                    <input type="text" id="nama" name="nama" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:border-[#08072a] @error('nama') border-red-500 @enderror" placeholder="Masukkan nama Anda"/>
+                    <input type="text" id="nama" name="nama" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:ring-gray-600 focus:border-gray-600 @error('nama') border-red-500 @enderror" placeholder="Masukkan nama Anda"/>
                     @error('nama')
                         <span class="text-red-500 text-sm block mt-1" id="error-nama">{{ $message }}</span>
                     @enderror
@@ -92,7 +91,7 @@
                 <!-- Email -->
                 <div>
                     <label for="email" class="block text-md text-gray-700">Email :</label>
-                    <input type="email" id="email" name="email" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:border-[#08072a] @error('email') border-red-500 @enderror" placeholder="Masukkan email Anda"/>
+                    <input type="email" id="email" name="email" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:ring-gray-600 focus:border-gray-600 @error('email') border-red-500 @enderror" placeholder="Masukkan email Anda"/>
                     @error('email')
                         <span class="text-red-500 text-sm block mt-1" id="error-email">{{ $message }}</span>
                     @enderror
@@ -117,7 +116,7 @@
                 <!-- Komentar -->
                 <div>
                     <label for="comment" class="block text-md text-gray-700">Komentar :</label>
-                    <textarea id="comment" name="comment" rows="4" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:border-[#08072a] @error('comment') border-red-500 @enderror" placeholder="Tulis ulasan Anda di sini..."></textarea>
+                    <textarea id="comment" name="comment" rows="4" class="text-gray-600 border rounded-md p-2 w-full focus:outline-none focus:ring-1 focus:ring-gray-600 focus:border-gray-600 @error('comment') border-red-500 @enderror" placeholder="Tulis ulasan Anda di sini..."></textarea>
                     @error('comment')
                         <span class="text-red-500 text-sm block mt-1" id="error-comment">{{ $message }}</span>
                     @enderror
@@ -140,34 +139,39 @@
     document.addEventListener('DOMContentLoaded', function () {
         const stars = document.querySelectorAll('#rating svg');
         const ratingInput = document.getElementById('rating-input');
+        let selectedRating = 0;
 
-        function updateStars(value) {
-            stars.forEach((star, index) => {
-                if (index < value) {
-                    star.classList.add('text-yellow-500');
-                    star.classList.remove('text-gray-400');
+        stars.forEach((star, index) => {
+            const value = parseInt(star.getAttribute('data-value'));
+
+            // Hover effect
+            star.addEventListener('mouseenter', () => {
+                highlightStars(value);
+            });
+
+            // Remove hover effect when mouse leaves the container
+            star.parentElement.addEventListener('mouseleave', () => {
+                highlightStars(selectedRating);
+            });
+
+            // Set rating when clicked
+            star.addEventListener('click', () => {
+                selectedRating = value;
+                ratingInput.value = selectedRating;
+                highlightStars(selectedRating);
+            });
+        });
+
+        function highlightStars(rating) {
+            stars.forEach((star) => {
+                const starValue = parseInt(star.getAttribute('data-value'));
+                if (starValue <= rating) {
+                    star.classList.replace('text-gray-400', 'text-yellow-400');
                 } else {
-                    star.classList.add('text-gray-400');
-                    star.classList.remove('text-yellow-500');
+                    star.classList.replace('text-yellow-400', 'text-gray-400');
                 }
             });
         }
-
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                const value = parseInt(star.getAttribute('data-value'));
-                ratingInput.value = value;
-                updateStars(value);
-            });
-
-            star.addEventListener('mouseover', () => {
-                updateStars(parseInt(star.getAttribute('data-value')));
-            });
-
-            star.addEventListener('mouseleave', () => {
-                updateStars(parseInt(ratingInput.value) || 0);
-            });
-        });
 
         // Remove error styling on input
         const inputs = document.querySelectorAll('input, textarea, select');

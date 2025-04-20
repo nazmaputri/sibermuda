@@ -2,7 +2,7 @@
 @section('title', 'Kursus Saya')
 @section('content')
 <div class="container mx-auto">
-    <div class="bg-white border border-gray-300 rounded-lg shadow-md p-6 mb-3">
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-6 mb-3">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @forelse($courses as $course)
                 <div class="border rounded-lg p-4 shadow-md bg-white flex flex-col">

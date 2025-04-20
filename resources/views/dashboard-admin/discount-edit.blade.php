@@ -11,7 +11,7 @@
         <!-- Kode Kupon -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Kode Diskon</label>
-            <input type="text" name="coupon_code" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('coupon_code') border-red-500 @enderror">
+            <input type="text" name="coupon_code" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror">
             @error('coupon_code')
                 <p class="text-red-500 text-sm mt-1" id="coupon_code-error">{{ $message }}</p>
             @enderror
@@ -20,7 +20,7 @@
         <!-- Persen Diskon -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Persen Diskon (%)</label>
-            <input type="number" name="discount_percentage" min="1" max="100" value="{{ old('discount_percentage', $discount->discount_percentage) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('discount_percentage') border-red-500 @enderror">
+            <input type="number" name="discount_percentage" min="1" max="100" value="{{ old('discount_percentage', $discount->discount_percentage) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('discount_percentage') border-red-500 @enderror">
             @error('discount_percentage')
                 <p class="text-red-500 text-sm mt-1" id="discount_percentage-error">{{ $message }}</p>
             @enderror
@@ -29,7 +29,7 @@
         <!-- Tanggal Mulai -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Tanggal Mulai</label>
-            <input type="date" name="start_date" value="{{ old('start_date', $discount->start_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('start_date') border-red-500 @enderror">
+            <input type="date" name="start_date" value="{{ old('start_date', $discount->start_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror">
             @error('start_date')
                 <p class="text-red-500 text-sm mt-1" id="start_date-error">{{ $message }}</p>
             @enderror
@@ -38,7 +38,7 @@
         <!-- Tanggal Berakhir -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Tanggal Berakhir</label>
-            <input type="date" name="end_date" value="{{ old('end_date', $discount->end_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('end_date') border-red-500 @enderror">
+            <input type="date" name="end_date" value="{{ old('end_date', $discount->end_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror">
             @error('end_date')
                 <p class="text-red-500 text-sm mt-1" id="end_date-error">{{ $message }}</p>
             @enderror
@@ -47,7 +47,7 @@
         <!-- Jam Mulai -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Jam Mulai</label>
-            <input type="time" name="start_time" value="{{ old('start_time', $discount->start_time) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('start_time') border-red-500 @enderror">
+            <input type="time" name="start_time" value="{{ old('start_time', $discount->start_time) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_time') border-red-500 @enderror">
             @error('start_time')
                 <p class="text-red-500 text-sm mt-1" id="start_time-error">{{ $message }}</p>
             @enderror
@@ -56,7 +56,7 @@
         <!-- Jam Berakhir -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Jam Berakhir</label>
-            <input type="time" name="end_time" value="{{ old('end_time', $discount->end_time) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('end_time') border-red-500 @enderror">
+            <input type="time" name="end_time" value="{{ old('end_time', $discount->end_time) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_time') border-red-500 @enderror">
             @error('end_time')
                 <p class="text-red-500 text-sm mt-1" id="end_time-error">{{ $message }}</p>
             @enderror
@@ -67,7 +67,7 @@
             <input type="hidden" name="apply_to_all" value="0">
             <label class="flex items-center space-x-2">
                 <input type="checkbox" name="apply_to_all" id="applyToAll" value="1" {{ $discount->apply_to_all ? 'checked' : '' }}
-                    class="rounded border-gray-300 text-blue-600 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500">
+                    class="rounded border-gray-300 text-blue-600 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                 <span class="text-gray-700">Terapkan ke semua kursus</span>
             </label>
         </div>
@@ -77,7 +77,7 @@
             <label class="block text-gray-600 font-semibold">Pilih Kursus</label>
             <div class="relative">
                 <button @click="open = !open" type="button"
-                    class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500">
+                    class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                     <span class="block overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300">
                         <span x-text="selectedCourses.length > 0 ? selectedCourses.join(', ') : 'Pilih Kursus'"></span>
                     </span>

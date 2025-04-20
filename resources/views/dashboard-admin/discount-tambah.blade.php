@@ -12,8 +12,8 @@
 
             <!-- Kode Kupon -->
             <div class="mb-4">
-                <label class="block text-gray-700 pb-2 font-semibold">Kode Diskond</label>
-                <input type="text" name="coupon_code" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('coupon_code') border-red-500 @enderror" placeholder="Masukkan kode kupon">
+                <label class="block text-gray-700 pb-2 font-semibold">Kode Diskon</label>
+                <input type="text" name="coupon_code" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror" placeholder="Masukkan kode kupon">
                 @error('coupon_code')
                     <p class="text-red-500 text-sm mt-1" id="coupon_code-error">{{ $message }}</p>
                 @enderror
@@ -22,7 +22,7 @@
             <!-- Persen Diskon -->
             <div class="mb-4">
                 <label class="block text-gray-700 pb-2 font-semibold">Persen Diskon (%)</label>
-                <input type="number" name="discount_percentage" min="1" max="100" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('discount_percentage') border-red-500 @enderror" placeholder="Masukkan persentase diskon">
+                <input type="number" name="discount_percentage" min="1" max="100" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('discount_percentage') border-red-500 @enderror" placeholder="Masukkan persentase diskon">
                 @error('discount_percentage')
                     <p class="text-red-500 text-sm mt-1" id="discount_percentage-error">{{ $message }}</p>
                 @enderror
@@ -31,7 +31,7 @@
             <!-- Tanggal Mulai -->
             <div class="mb-4">
                 <label class="block text-gray-700 pb-2 font-semibold">Tanggal Mulai</label>
-                <input type="date" name="start_date" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('start_date') border-red-500 @enderror">
+                <input type="date" name="start_date" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror">
                 @error('start_date')
                     <p class="text-red-500 text-sm mt-1" id="start_date-error">{{ $message }}</p>
                 @enderror
@@ -40,7 +40,7 @@
             <!-- Tanggal Berakhir -->
             <div class="mb-4">
                 <label class="block text-gray-700 pb-2 font-semibold">Tanggal Berakhir</label>
-                <input type="date" name="end_date" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('end_date') border-red-500 @enderror">
+                <input type="date" name="end_date" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror">
                 @error('end_date')
                     <p class="text-red-500 text-sm mt-1" id="end_date-error">{{ $message }}</p>
                 @enderror
@@ -49,7 +49,7 @@
             <!-- Jam Mulai -->
             <div class="mb-4">
                 <label class="block text-gray-700 pb-2 font-semibold">Jam Mulai</label>
-                <input type="time" name="start_time" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('start_time') border-red-500 @enderror">
+                <input type="time" name="start_time" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_time') border-red-500 @enderror">
                 @error('start_time')
                     <p class="text-red-500 text-sm mt-1" id="start_time-error">{{ $message }}</p>
                 @enderror
@@ -58,7 +58,7 @@
             <!-- Jam Berakhir -->
             <div class="mb-4">
                 <label class="block text-gray-700 pb-2 font-semibold">Jam Berakhir</label>
-                <input type="time" name="end_time" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 @error('end_time') border-red-500 @enderror">
+                <input type="time" name="end_time" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_time') border-red-500 @enderror">
                 @error('end_time')
                     <p class="text-red-500 text-sm mt-1" id="end_time-error">{{ $message }}</p>
                 @enderror
@@ -69,7 +69,7 @@
                 <input type="hidden" name="apply_to_all" value="0">
                 <label class="flex items-center space-x-2">
                     <input type="checkbox" name="apply_to_all" id="applyToAll" value="1"
-                        class="rounded border-gray-300 text-blue-600 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500">
+                        class="rounded border-gray-300 text-blue-600 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                     <span class="text-gray-700">Terapkan ke semua kursus</span>
                 </label>
             </div>
@@ -81,7 +81,7 @@
                 <div class="relative">
                     <!-- Button untuk membuka dropdown -->
                     <button @click="open = !open" type="button"
-                        class="border px-4 py-2 text-gray-700 w-full rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500">
+                        class="border px-4 py-2 text-gray-700 w-full rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                         <span class="block overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300">
                             <span x-text="selectedCourses.length > 0 ? selectedCourses.join(', ') : 'Pilih Kursus'"></span>
                         </span>
@@ -94,7 +94,7 @@
                     <div x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg">
                         <div class="p-2">
                             <input type="text" placeholder="Cari kursus..." x-model="searchTerm"
-                                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500">
+                                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                         </div>
                         <ul class="max-h-40 overflow-y-auto">
                             @foreach($courses as $course)
@@ -114,10 +114,10 @@
 
             <!-- Tombol -->
             <div class="col-span-1 md:col-span-2 mt-6 flex justify-end space-x-2">
-                <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg">
+                <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-md">
                     Batal
                 </a>
-                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg">
+                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-md">
                     Simpan
                 </button>
             </div>

@@ -151,7 +151,7 @@
 
         <!-- Sidebar Materi (Responsive) -->
         <div 
-            class="lg:col-span-1 lg:block lg:mr-2 lg:my-2 bg-white px-1 border border-gray-200 rounded-md overflow-y-auto"
+            class="lg:col-span-1 lg:block lg:mr-2 lg:my-2 bg-white px-1 border border-gray-200 rounded-md scrollbar-hide lg:max-h-[50vh] lg:overflow-y-auto"
             :class="{ 'fixed top-20 mt-9 right-0 w-64 max-h-[70vh] shadow-lg z-20 p-4 overflow-y-auto': sidebarOpen && window.innerWidth < 1024 }"
             x-show="sidebarOpen || window.innerWidth >= 1024"
             x-transition>
@@ -159,21 +159,28 @@
             <!-- Daftar Materi -->
             <h3 class="text-md font-semibold text-gray-700 mb-2 text-center mt-4">Daftar Materi</h3>
             @foreach ($course->materi as $materi)
-            <button @click="selected = '{{ $materi->id }}'; if(window.innerWidth < 1024) sidebarOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 text-gray-600"
-                    :class="{ 'bg-gray-200 font-semibold text-gray-700': selected === '{{ $materi->id }}' }">
-                📘 {{ $materi->judul }}
-            </button>
+            <div class="group space-y-1"> {{-- Tambahkan wrapper group untuk mengaktifkan efek hover --}}
+                <button @click="selected = '{{ $materi->id }}'; if(window.innerWidth < 1024) sidebarOpen = false" 
+                        class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 text-gray-600 transform transition-all duration-300 ease-in-out group-hover:translate-x-1"
+                        :class="{ 'bg-gray-100 font-semibold text-gray-700': selected === '{{ $materi->id }}' }">
+                        &bull; {{ $materi->judul }}
+                </button>
+            </div>
             @endforeach
 
-            <!-- Kuis -->
+           <!-- Kuis -->
             @if ($course->quizzes->isNotEmpty())
             <hr class="my-2">
-            <button @click="selected = 'quiz'; if(window.innerWidth < 1024) sidebarOpen = false" 
-                    class="w-full text-left px-3 py-2 rounded hover:bg-gray-100"
-                    :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'quiz' }">
-                📝 <span class="text-gray-600">Kuis</span>
-            </button>
+            <div class="group"> {{-- Tambahkan wrapper group --}}
+                <button @click="selected = 'quiz'; if(window.innerWidth < 1024) sidebarOpen = false" 
+                        class="w-full flex text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
+                        :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'quiz' }">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                    </svg>
+                    <span class="text-gray-600 ml-1 transform transition-all duration-300 ease-in-out group-hover:translate-x-1">Kuis</span>
+                </button>
+            </div>
             @endif
 
             <!-- Tugas Akhir -->

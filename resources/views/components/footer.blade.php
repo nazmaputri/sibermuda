@@ -7,7 +7,7 @@
                     <div class="w-14 h-14 flex items-center justify-center">
                         <img src="{{ asset('storage/logo-sibermuda.png') }}" alt="EduFlix Logo" class="object-cover w-full h-full">
                     </div>
-                    <span class="text-xl font-semibold text-white">Sibermuda</span>
+                    <span class="text-xl font-semibold text-white">Sibermuda.Idn</span>
                 </a>
                 <p class="mt-4 text-sm">
                     Sibermuda adalah platform kursus online dengan berbagai topik menarik yang disampaikan melalui video. Tersedia juga fitur konsultasi via chat untuk membantu siswa memahami materi dengan lebih baik.
@@ -36,7 +36,11 @@
 
         <!-- Footer Bawah -->
         <div class="mt-8 border-t border-white pt-4 text-center text-sm">
+<<<<<<< HEAD
             <p>&copy; 2025 Sibermuda. All rights reserved.</p>Powered by PPLG SMKN 1 Ciomas
+=======
+            <p>Copyright &copy; 2025 <span class="text-midnight">Sibermuda.Idn</span> All rights reserved. Powered by PPLG SMKN 1 Ciomas</p>
+>>>>>>> d07dba0b4a6c8e899c926545d59a0baa04711cb2
         </div>
     </div>
 </footer>
