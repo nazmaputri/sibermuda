@@ -14,8 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 icon: "warning",
                 customClass: {
                     popup: 'text-sm',
-                    confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-md px-4 py-2 mx-2',
-                    cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-md px-4 py-2 mx-2'
+                    confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2',
+                    cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2'
                 },
                 buttonsStyling: false,
                 showCancelButton: true,

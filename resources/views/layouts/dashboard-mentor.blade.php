@@ -18,6 +18,13 @@
         body {
             font-family: 'Nunito', sans-serif;
         }
+
+        /* tambah ini agar kolom input tidak memiliki bg blue bawaan browser */
+        input:-webkit-autofill {
+            -webkit-box-shadow: 0 0 0px 1000px white inset !important;
+            box-shadow: 0 0 0px 1000px white inset !important;
+            -webkit-text-fill-color: #4B5563 !important; /* text-gray-600 */
+        }
     </style>
 </head>
 <body class="bg-white">
@@ -50,7 +57,7 @@
                 Sibermuda
                 <span class="flex items-center gap-2 mt-1">
                     <span class="flex-1 h-px bg-gray-400"></span>
-                    <span class="text-sm">Course</span>
+                    <span class="text-sm">Kursus</span>
                     <span class="flex-1 h-px bg-gray-400"></span>
                 </span>
             </p>

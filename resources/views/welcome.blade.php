@@ -60,10 +60,9 @@
                 </div>
             </div>
         </section>
-<<<<<<< HEAD
 
         <!-- JavaScript: Countdown & Hide Section When Done -->
-        <script>
+        <!-- <script>
             const endDateTime = new Date("{{ $end_datetime->format('Y-m-d H:i:s') }}").getTime();
 
             const countdownInterval = setInterval(() => {
@@ -107,9 +106,7 @@
                     });
                 });
             }
-        </script>
-=======
->>>>>>> 3ba417b1a3e740e1b6bf9c5f23298bd5ac2ec94c
+        </script> -->
     @endif
 
     <!-- kode untuk menjalankan script jika end_time diskon nya ada dan tidak akan dijalankan bila end_time nya null/tidak ada promo -->

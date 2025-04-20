@@ -120,7 +120,7 @@
         <form method="GET" action="{{ route('purchases.export') }}" class="mb-4">
             <input type="hidden" name="course_id" value="{{ request('course_id') }}">
             <input type="hidden" name="month" value="{{ request('month') }}">
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">
+            <button type="submit" class="bg-green-400 hover:bg-green-300 text-sm text-white px-4 py-2 rounded">
                 Ekspor ke Excel
             </button>
         </form>
@@ -144,18 +144,18 @@
                         </tr>
                     @else
                     @foreach ($revenues as $index => $purchase)
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-2 text-center border-l border-gray-200">{{ $index + 1 }}</td>
-                            <td class="px-4 py-2 border-gray-200">{{ $purchase->user->name ?? '-' }}</td>
-                            <td class="px-4 py-2 border-gray-200">{{ $purchase->course->title ?? '-' }}</td>
-                            <td class="px-4 py-2 border-gray-200 -center text-green-600">
+                        <tr class="hover:bg-gray-50 text-gray-600 text-sm">
+                            <td class="px-4 py-2 text-center border-l border-b border-gray-200">{{ $index + 1 }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200">{{ $purchase->user->name ?? '-' }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200">{{ $purchase->course->title ?? '-' }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200 -center text-green-600">
                                 @if(optional($purchase->payment)->amount)
                                     Rp. {{ number_format(optional($purchase->payment)->amount, 0, ',', '.') }}
                                 @else
                                     -
                                 @endif
                             </td>                            
-                            <td class="px-4 py-2 text-center border-gray-200 border-r">{{ $purchase->created_at->format('d M Y') }}</td>
+                            <td class="px-4 py-2 text-center border-b border-gray-200 border-r">{{ $purchase->created_at->format('d M Y') }}</td>
                         </tr>
                     @endforeach
                     @endif
@@ -165,7 +165,7 @@
         </div>
     
         <!-- Total -->
-        <div class="mt-4 text-right text-lg text-gray-700 font-semibold">
+        <div class="mt-4 text-right text-md text-gray-700 font-semibold">
             Total Pendapatan: <span class="text-red-500">Rp. {{ number_format($totalRevenue, 0, ',', '.') }}</span>
         </div>
     </div>

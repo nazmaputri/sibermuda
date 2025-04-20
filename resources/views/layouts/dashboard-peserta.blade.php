@@ -55,7 +55,7 @@
                 Sibermuda
                 <span class="flex items-center gap-2 mt-1">
                     <span class="flex-1 h-px bg-gray-400"></span>
-                    <span class="text-sm">Course</span>
+                    <span class="text-sm">Kursus</span>
                     <span class="flex-1 h-px bg-gray-400"></span>
                 </span>
             </p>

@@ -55,7 +55,7 @@ class DashboardPesertaController extends Controller
 
         Carbon::setLocale('id'); 
         $currentDateTime = Carbon::now();  // Mengambil tanggal dan waktu sekarang
-        $currentDateTimeFormatted = $currentDateTime->format('l, H:i');  // Format: Hari, Jam
+        $currentDateTimeFormatted = $currentDateTime->translatedFormat('l, d F Y H:i:s');
 
         $canDownloadCertificates = [];
 
@@ -139,8 +139,14 @@ class DashboardPesertaController extends Controller
                                 ->where('status', 'success')
                                 ->exists();
 
-        // Ambil rating berdasarkan course_id dan mentor_id (untuk menampilkan rating kursus berdasarkan kursus nya)
-        $rating = RatingKursus::where('course_id', $id)->with('user')->get();
+        // untuk membatasi menampilkan 3 rating perkursus, nanti ada button tampilkan lebih banyak untuk menampilkan 3 kursus lagi
+        $initialLimit = 3;
+        $rating = RatingKursus::where('course_id', $id)
+                    ->with('user')
+                    ->take($initialLimit)
+                    ->get();
+
+        $totalCount = RatingKursus::where('course_id', $id)->count();
     
         // Ambil status pembelian dari tabel purchases
         $paymentStatus = null;
@@ -156,9 +162,25 @@ class DashboardPesertaController extends Controller
         }
     
         // Kirim data kursus dan kategori ke view
-        return view('dashboard-peserta.detail', compact('course', 'paymentStatus', 'hasPurchased', 'category', 'rating'));
+        return view('dashboard-peserta.detail', compact('course', 'paymentStatus', 'hasPurchased', 'category', 'rating', 'id', 'totalCount'));
     }
-    
+
+    // Untuk AJAX saat load lebih banyak rating di halaman detail kursus (role peserta)
+    public function loadMoreRating(Request $request)
+    {
+        $offset = $request->input('offset');
+        $courseId = $request->input('course_id');
+
+        $moreRating = RatingKursus::where('course_id', $courseId)
+                        ->with('user')
+                        ->skip($offset)
+                        ->take(3)
+                        ->get();
+
+        $view = view('partials.rating_card', ['rating' => $moreRating])->render();
+
+        return response()->json(['html' => $view]);
+    }
     
     public function study($id)
     {

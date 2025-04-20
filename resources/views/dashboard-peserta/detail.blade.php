@@ -101,18 +101,22 @@
                                 @foreach($materi->videos as $index => $video)
                                     <li class="text-sm text-gray-700">
                                         @if($course->is_purchased || ($loop->first && $materi->is_preview))
-                                            <button onclick="openModal('modal-{{ $materi->id }}-{{ $index }}')" class="text-blue-600 font-semibold hover:underline">
-                                                ▶ {{ $video->judul }}
-                                            </button>
-
-                                            <div id="modal-{{ $materi->id }}-{{ $index }}" class="fixed inset-0 hidden z-50 bg-black bg-opacity-75 flex items-center justify-center">
-                                                <div class="relative w-full max-w-5xl p-4">
-                                                    <video class="w-full h-auto" controls>
-                                                        <source src="{{ asset('storage/' . $video->video_url) }}" type="video/mp4">
-                                                    </video>
-                                                    <button onclick="closeModal('modal-{{ $materi->id }}-{{ $index }}')" class="absolute top-2 right-2 text-white text-xl font-bold">&times;</button>
-                                                </div>
-                                            </div>
+                                        <div class="border p-4 rounded-md shadow-md">
+                                            <h4 class="font-semibold mb-2 text-gray-700">{{ $video->title }}</h4>
+                                            @if ($video->link)
+                                            <iframe 
+                                                src="{{ $video->link }}" 
+                                                width="100%" 
+                                                height="250" 
+                                                allow="autoplay" 
+                                                allowfullscreen 
+                                                class="rounded-lg shadow-md">
+                                            </iframe>
+                                            @else
+                                            <p class="text-red-500">Video tidak tersedia.</p>
+                                            @endif 
+                                            <p class="font-semibold mt-3 text-gray-700">{{ $video->description }}</p>
+                                        </div>
                                         @else
                                             🔒 <span class="text-gray-500">{{ $video->judul }} (Terkunci)</span>
                                         @endif
@@ -177,31 +181,70 @@
             <p class="text-gray-600 text-center text-sm">Belum ada rating.</p>
         </div>
     @else
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            @foreach($rating as $rating)
-                <div class="bg-neutral-50 p-4 rounded-lg shadow-md">
+        <div id="rating-list" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            @foreach($rating as $r)
+                <div class="bg-white border border-gray-200 p-4 rounded-lg">
                     <div class="flex items-center space-x-4">
-                        <img src="{{ $rating->user->profile_photo ? asset('storage/' . $rating->user->profile_photo) : asset('storage/default-profile.jpg') }}" 
+                        <img src="{{ $r->user->profile_photo ? asset('storage/' . $r->user->profile_photo) : asset('storage/default-profile.jpg') }}" 
                             alt="User Profile" class="w-6 h-6 rounded-full object-cover">
                         <div>
-                            <h4 class="text-sm font-semibold text-gray-700">{{ $rating->user->name }}</h4>
-                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($rating->created_at)->format('d F Y') }}</span>
+                            <h4 class="text-sm font-semibold text-gray-700">{{ $r->user->name }}</h4>
+                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($r->created_at)->format('d F Y') }}</span>
                         </div>
                     </div>
-                    <!-- Rating Bintang -->
-                    <div class="flex items-center space-x-1">
+                    <div class="flex items-center space-x-1 mt-2">
                         @for ($i = 0; $i < 5; $i++)
-                            <span class="{{ $i < $rating->stars ? 'text-yellow-500' : 'text-gray-300' }}">&starf;</span>
+                            <span class="{{ $i < $r->stars ? 'text-yellow-500' : 'text-gray-300' }}">&starf;</span>
                         @endfor
                     </div>
-                    <p class="text-gray-600 text-sm">{{ $rating->comment }}</p>
+                    <p class="text-gray-600 text-sm mt-2">{{ $r->comment }}</p>
                 </div>
             @endforeach
         </div>
+
+        @if($totalCount > 3)
+            <div class="text-center mt-4">
+                <button id="load-more-btn"
+                    data-offset="3"
+                    data-course="{{ $id }}"
+                    class="px-4 py-2 text-sm bg-blue-400 text-white rounded hover:bg-blue-300">
+                    Tampilkan Lagi
+                </button>
+            </div>
+        @endif
     @endif
     </div>
-
-    
-
 </div>
+
+<script>
+document.getElementById('load-more-btn')?.addEventListener('click', function() {
+    const btn = this;
+    const offset = parseInt(btn.dataset.offset);
+    const courseId = btn.dataset.course;
+
+    fetch("{{ route('rating.loadMore') }}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ offset: offset, course_id: courseId })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.html.trim() !== '') {
+            document.getElementById('rating-list').insertAdjacentHTML('beforeend', data.html);
+            btn.dataset.offset = offset + 3;
+
+            // Sembunyikan tombol jika sudah semua
+            if ((offset + 3) >= {{ $totalCount }}) {
+                btn.style.display = 'none';
+            }
+        } else {
+            btn.style.display = 'none';
+        }
+    })
+    .catch(err => console.error(err));
+});
+</script>
 @endsection

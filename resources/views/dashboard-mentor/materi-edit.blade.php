@@ -10,20 +10,20 @@
         <form action="{{ route('materi.update', ['courseId' => $course->id, 'materiId' => $materi->id]) }}" method="POST" enctype="multipart/form-data" class="w-full">
             @csrf
             @method('PUT')
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 gap-2">
                 <!-- Kiri: Input Judul dan Deskripsi -->
                 <div>
                     <!-- Input untuk Judul Materi -->
                     <div class="mb-4">
                         <label for="judul" class="block text-gray-700 font-semibold mb-2">Judul Materi</label>
-                        <input type="text" name="judul" id="judul" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan judul materi" value="{{ old('judul', $materi->judul) }}">
+                        <input type="text" name="judul" id="judul" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan judul materi" value="{{ old('judul', $materi->judul) }}">
                         @error('judul')
                             <div class="text-red-400">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-4">
                         <label for="deskripsi" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
-                        <textarea name="deskripsi" id="deskripsi" rows="4" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" placeholder="Masukkan deskripsi materi">{{ old('deskripsi', $materi->deskripsi) }}</textarea>
+                        <textarea name="deskripsi" id="deskripsi" rows="4" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan deskripsi materi">{{ old('deskripsi', $materi->deskripsi) }}</textarea>
                         @error('deskripsi')
                             <div class="text-red-400">{{ $message }}</div>
                         @enderror
@@ -58,7 +58,7 @@
                         <div class="mb-4">
                             <label class="block text-gray-700 font-semibold mb-2">Judul Link Materi</label>
                             <input type="text" :name="'videos[' + index + '][title]'" x-model="video.title"
-                                class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+                                class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
                                 placeholder="Masukkan judul materi video">
                         </div>
 
@@ -66,7 +66,7 @@
                         <div class="mb-4">
                             <label class="block text-gray-700 font-semibold mb-2">Deskripsi Link Materi</label>
                             <textarea :name="'videos[' + index + '][description]'" x-model="video.description"
-                                class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+                                class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
                                 placeholder="Masukkan deskripsi materi" rows="3"></textarea>
                         </div>
 
@@ -74,7 +74,7 @@
                         <div class="mb-4">
                             <label class="block text-gray-700 font-semibold mb-2">Link Materi</label>
                             <input type="text" :name="'videos[' + index + '][link]'" x-model="video.link"
-                                class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+                                class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
                                 placeholder="Masukkan link materi">
                         </div>
 
@@ -105,10 +105,10 @@
 
             <!-- Tombol Submit -->
             <div class="mt-6 flex justify-end space-x-2">
-                <a href="{{ route('courses.show', $course->id) }}" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg">
+                <a href="{{ route('courses.show', $course->id) }}" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-md">
                     Batal
                 </a>
-                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg">
+                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-md">
                     Simpan
                 </button>
             </div>
