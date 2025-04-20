@@ -16,7 +16,7 @@
             <div>
                 <label for="title" class="block text-gray-700 font-bold mb-2">Judul Tugas Akhir</label>
                 <input type="text" name="title" id="title"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 text-gray-600 @error('title') border-red-500 @enderror"
+                    class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-600 @error('title') border-red-500 @enderror"
                     placeholder="Masukkan judul tugas akhir" value="{{ old('title') }}">
                 @error('title')
                     <div class="text-red-600 text-sm mt-1" id="error-title">{{ $message }}</div>
@@ -27,7 +27,7 @@
             <div>
                 <label for="description" class="block text-gray-700 font-bold mb-2">Deskripsi</label>
                 <textarea name="description" id="description" rows="5"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 text-gray-600 @error('description') border-red-500 @enderror"
+                    class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-600 @error('description') border-red-500 @enderror"
                     placeholder="Masukkan deskripsi tugas akhir">{{ old('description') }}</textarea>
                 @error('description')
                     <div class="text-red-600 text-sm mt-1" id="error-description">{{ $message }}</div>
@@ -37,11 +37,11 @@
             <!-- Tombol Submit -->
             <div class="mt-6 flex justify-end space-x-2">
                 <a href="{{ route('courses.show', ['course' => $courseId]) }}"
-                    class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg">
+                    class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-md">
                     Batal
                 </a>
                 <button type="submit"
-                    class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg">
+                    class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-md">
                     Simpan
                 </button>
             </div>

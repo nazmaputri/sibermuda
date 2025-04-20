@@ -222,7 +222,7 @@
 
 @if(in_array($catName, ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber']))
     <!-- Section Tugas Akhir -->
-    <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+    <div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
         <div class="mb-2 flex items-center justify-between p-1 border-b-2">
             <h2 class="text-xl font-semibold text-gray-700 pt-2">Tugas Akhir</h2>                                                     
         </div>

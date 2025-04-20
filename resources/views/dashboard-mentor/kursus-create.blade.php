@@ -8,7 +8,7 @@
         <!-- Form Tambah Kursus -->
         <form action="{{ route('courses.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <!-- Kolom Kiri -->
                 <div>
                     <!-- Input untuk Judul -->
@@ -41,7 +41,7 @@
                     </div>
 
                     <!-- Input untuk Deskripsi -->
-                    <div class="mb-4">
+                    <div class="mb-1">
                         <label for="description" class="block font-semibold text-gray-700 pb-2">Deskripsi</label>
                         <textarea name="description" id="description" rows="4" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description') }}</textarea>
                         @error('description')
@@ -54,16 +54,31 @@
                 <!-- Kolom Kanan -->
                 <div>
                     <!-- Input untuk Kategori -->
-                    <div class="mb-4">
+                    <div x-data="{ open: false, selected: '', selectedId: '', categories: @js($categories) }" class="relative mb-4">
                         <label for="category_id" class="block font-semibold text-gray-700 pb-2">Kategori Kursus</label>
-                        <select name="category_id" id="category_id" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
-                            <option value="">Pilih Kategori</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                    {{ $category->name }}
-                                </option>
-                            @endforeach
-                        </select>
+
+                        <!-- Display Selected -->
+                        <button @click="open = !open" type="button"
+                            class="w-full p-2 text-sm text-left text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                            <span x-text="selected || 'Pilih Kategori'"></span>
+                        </button>
+
+                        <!-- Dropdown List -->
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm scrollbar-hide text-gray-700"
+                            style="display: none;">
+                            <template x-for="category in categories" :key="category.id">
+                                <div @click="selected = category.name; selectedId = category.id; open = false"
+                                    class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                                    :class="{ 'bg-gray-100': selectedId === category.id }">
+                                    <span x-text="category.name"></span>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Hidden Input to Submit -->
+                        <input type="hidden" name="category_id" :value="selectedId">
+
                         @error('category_id')
                             <span class="text-red-600 text-sm">{{ $message }}</span>
                         @enderror

@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- import sweetalert untuk popup -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
     @vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
     <style>
         body {
@@ -214,9 +216,9 @@
                         $cartCount = \App\Models\Keranjang::where('user_id', Auth::id())->count();
                     @endphp
                 
-                <a href="{{ route('cart.index') }}" class="relative cursor-pointer mr-6">
+                <a href="{{ route('cart.index') }}" class="relative cursor-pointer mr-4">
                     @if($cartCount > 0)
-                        <div class="absolute -top-1 -right-2 bg-red-500 text-white text-xs text-xs w-4 h-4 flex items-center justify-center rounded-full border-1 border-white">
+                        <div class="absolute -top-1 -right-2 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full border-1 border-white">
                             {{ $cartCount }}
                         </div>
                     @endif
@@ -228,9 +230,9 @@
 
                 <!-- Notifikasi -->
                 <div class="relative flex items-center cursor-pointer mr-4" id="notification-container">
-                    <button id="notification-button" class="p-1 rounded-full border border-gray-500 bg-white relative">
+                    <button id="notification-button" class=" bg-white relative">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500">
+                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 
                                 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 
@@ -240,15 +242,15 @@
 
                         <!-- Badge notifikasi -->
                         <span id="notification-badge"
-                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center hidden">
+                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-semibold rounded-full w-4 h-4 flex items-center justify-center hidden">
                             <span id="notification-count">0</span>
                         </span>
                     </button>
 
                     <!-- Dropdown notifikasi -->
                     <div id="notification-dropdown"
-                        class="absolute right-0 top-10 bg-white shadow-lg rounded-md w-72 z-50 hidden">
-                        <div id="notification-list" class="max-h-60 overflow-y-auto p-2">
+                        class="absolute right-0 top-8 bg-white shadow-lg rounded-md border border-gray-200 w-60 md:w-96 hidden">
+                        <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
                         </div>
                     </div>
@@ -275,8 +277,8 @@
                                 }
                 
                                 list.innerHTML = data.map(item => `
-                                    <div class="p-2 text-sm border-b">
-                                        <div class="font-semibold">Pembelian Dikonfirmasi</div>
+                                    <div class="p-2 text-sm border-b hover:bg-gray-100">
+                                        <div class="font-semibold text-gray-700">Pembelian Dikonfirmasi</div>
                                         <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
                                         <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
                                     </div>
