@@ -79,7 +79,7 @@
             <form class="space-y-4 w-full" method="POST" action="{{ route('rating.store') }}">
                 @csrf
 
-                <h1>Form Penilaian Sibermuda</h1>
+                <h1 class="text-center semibold text-lg ">Form Penilaian Sibermuda</h1>
                 <!-- Nama -->
                 <div>
                     <label for="nama" class="block text-md text-gray-700">Nama :</label>

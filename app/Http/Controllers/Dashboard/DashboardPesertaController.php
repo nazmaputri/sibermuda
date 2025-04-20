@@ -16,6 +16,27 @@ use Carbon\Carbon;
 
 class DashboardPesertaController extends Controller
 {
+    public function navbarNotifikasi()
+    {
+        $userId = auth()->id();
+
+        $successPurchases = Purchase::where('user_id', $userId)
+            ->where('status', 'success')
+            ->with('course') // ambil relasi course
+            ->latest()
+            ->take(10)
+            ->get()
+            ->map(function ($item) {
+                return [
+                    'id' => $item->id,
+                    'course_title' => $item->course->title ?? '-', // pastikan kolomnya `title` atau sesuaikan
+                    'updated_at' => $item->updated_at,
+                ];
+            });
+
+        return response()->json($successPurchases);
+    }
+
     public function detail($id)
     {
         // Ambil satu data kursus berdasarkan ID

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Keranjang;
 use App\Models\Discount;
-use App\Models\Course;
+use App\Models\Payment;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +32,19 @@ class KeranjangController extends Controller
         $carts = Keranjang::where('user_id', Auth::id())
             ->with('course')
             ->get();
-    
+
+        $pendingTransactions = [];
+
+        $purchases = Purchase::where('user_id', auth()->id())
+            ->with('payment') // pastikan relasi payment sudah didefinisikan di model
+            ->get();
+            
+        foreach ($purchases as $purchase) {
+            if ($purchase->payment && $purchase->payment->transaction_status === 'pending') {
+                $pendingTransactions[] = $purchase->course_id;
+            }
+        }
+            
         // Hitung total harga sebelum diskon
         $totalPrice = $carts->sum(fn($cart) => $cart->course->price);
     
@@ -71,7 +83,7 @@ class KeranjangController extends Controller
         ->value('phone_number');
     
         return view('dashboard-peserta.keranjang', compact(
-            'carts', 'activeDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin'
+            'carts', 'activeDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions'
         ));
     }
     

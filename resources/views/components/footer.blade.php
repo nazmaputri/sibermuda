@@ -36,7 +36,7 @@
 
         <!-- Footer Bawah -->
         <div class="mt-8 border-t border-white pt-4 text-center text-sm">
-            <p>&copy; 2025 Sibermuda. All rights reserved.</p>
+            <p>&copy; 2025 Sibermuda. All rights reserved.</p>Powered by PPLG SMKN 1 Ciomas
         </div>
     </div>
 </footer>

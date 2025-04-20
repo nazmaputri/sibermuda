@@ -97,12 +97,43 @@
                         </span>
                     </div>
                 </div>
-                <button 
-                    class="bg-green-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-green-300 w-full mt-3 text-sm" 
-                    id="pay-now" 
-                    data-total-price="{{ $totalPriceAfterDiscount }}">
-                    Beli Sekarang
-                </button>
+
+                <!-- Button Beli -->
+                @foreach ($carts as $cart)
+                    @php
+                        $isPending = in_array($cart->course_id, $pendingTransactions);
+                    @endphp
+
+                    @if ($isPending)
+                        <button 
+                            class="bg-gray-400 text-white font-semibold py-1.5 px-3 rounded-lg w-full mt-3 text-sm cursor-not-allowed" 
+                            onclick="showPendingAlert(event)">
+                            Beli Sekarang
+                        </button>
+                    @else
+                        <button 
+                            class="bg-green-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-green-300 w-full mt-3 text-sm" 
+                            id="pay-now" 
+                            data-total-price="{{ $totalPriceAfterDiscount }}">
+                            Beli Sekarang
+                        </button>
+                    @endif
+                @endforeach
+
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    function showPendingAlert(e) {
+                        e.preventDefault();
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Kursus sudah dibeli',
+                            text: 'Anda sudah membeli kursus ini. Harap tunggu konfirmasi dari admin.',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Oke'
+                        });
+                    }
+                </script>      
+            
             </div>
 
          </div>

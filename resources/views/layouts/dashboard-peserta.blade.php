@@ -253,6 +253,51 @@
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        const button = document.getElementById('notification-button');
+                        const dropdown = document.getElementById('notification-dropdown');
+                        const list = document.getElementById('notification-list');
+                        const badge = document.getElementById('notification-badge');
+                        const count = document.getElementById('notification-count');
+                
+                        // Ambil data notifikasi
+                        fetch('/notifikasi/pembelian')
+                            .then(res => res.json())
+                            .then(data => {
+                                const seenIds = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+                                const unread = data.filter(item => !seenIds.includes(item.id));
+                
+                                if (unread.length > 0) {
+                                    badge.classList.remove('hidden');
+                                    count.textContent = unread.length;
+                                }
+                
+                                list.innerHTML = data.map(item => `
+                                    <div class="p-2 text-sm border-b">
+                                        <div class="font-semibold">Pembelian Dikonfirmasi</div>
+                                        <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
+                                        <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
+                                    </div>
+                                `).join('');
+                            });
+                
+                        // Toggle dropdown
+                        button.addEventListener('click', () => {
+                            dropdown.classList.toggle('hidden');
+                
+                            // Tandai semua sebagai dibaca saat klik tombol
+                            fetch('/notifikasi/pembelian')
+                                .then(res => res.json())
+                                .then(data => {
+                                    const ids = data.map(item => item.id);
+                                    localStorage.setItem('read_notifications', JSON.stringify(ids));
+                                    badge.classList.add('hidden');
+                                });
+                        });
+                    });
+                </script>                
                 
                 <div class="relative">
                 <!-- Wrapper yang bisa diklik untuk membuka dropdown -->

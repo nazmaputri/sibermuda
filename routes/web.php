@@ -122,6 +122,8 @@ Route::middleware(['auth:student'])->group(function () {
     Route::put('/update-peserta', [SettingController::class, 'updatePeserta'])->name('update-peserta');
     Route::post('/kursus/{course_id}/rating', [RatingKursusController::class, 'store'])->name('ratings.store');
  
+    Route::get('/notifikasi/pembelian', [DashboardPesertaController::class, 'navbarNotifikasi']);
+
     //Keranjang
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('cart.index');
     Route::post('/keranjang/tambah/{id}', [KeranjangController::class, 'addToCart'])->name('cart.add');
