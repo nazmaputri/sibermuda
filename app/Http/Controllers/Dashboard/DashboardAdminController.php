@@ -240,8 +240,15 @@ class DashboardAdminController extends Controller
         $jumlahKursus = Course::count();
         $jumlahKategori = Category::count();
     
-        // Ambil tahun dari request atau default ke tahun saat ini
+         // Ambil tahun filter (default tahun sekarang)
         $year = $request->input('year', date('Y'));
+
+        // === Ubah di sini: bikin array 3 tahun terakhir ===
+        $currentYear = date('Y');
+        // Buat range [tahun sekarang, tahun-1, tahun-2]
+        $years = collect(range($currentYear, $currentYear - 2))
+                    ->sortDesc()   // atau ->sort() kalau mau urut naik
+                    ->values();    // reset keys
         
         // Ambil data jumlah pengguna yang mendaftar setiap bulan di tahun tertentu
         $userGrowth = User::select(

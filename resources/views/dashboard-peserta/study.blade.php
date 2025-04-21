@@ -165,7 +165,7 @@
                                     <th class="px-4 py-2 border-t border-l border-b border-gray-200 rounded-tl-lg">Judul Kuis</th>
                                     <th class="px-4 py-2 border-t border-b border-gray-200">Nilai</th>
                                     <th class="px-4 py-2 border-t border-b border-gray-200">Tanggal</th>
-                                    <th class="px-4 py-2 border-t border-b border-r border-gray-200 rounded-tr-lg">Aksi</th>
+                                    {{-- <th class="px-4 py-2 border-t border-b border-r border-gray-200 rounded-tr-lg">Aksi</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -177,7 +177,23 @@
                                         <td class="px-4 py-2 border-b border-l border-gray-200">{{ $quiz->title ?? 'Kuis Tidak Ditemukan' }}</td>
                                         <td class="px-4 py-2 border-b border-gray-200 text-green-600 font-semibold">{{ $history->nilai }}</td>
                                         <td class="px-4 py-2 border-b border-gray-200">{{ \Carbon\Carbon::parse($history->completed_at)->format('d M Y, H:i') }}</td>
-                                        <td class="px-4 py-2 border-b border-r border-gray-200 text-blue-600"></td>
+                                        {{-- <td class="px-4 py-2 border-b border-r border-gray-200 text-center">
+                                            <a href="{{ route('quiz.result', ['quizId' => $quiz->id, 'courseId' => $quiz->course_id]) }}"
+                                                class="text-white p-1 rounded-md bg-blue-400 hover:bg-blue-300"
+                                                title="Lihat Detail">
+                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                      viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                                                      class="w-6 h-6 inline-block">
+                                                   <path stroke-linecap="round" stroke-linejoin="round"
+                                                         d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 
+                                                            12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 
+                                                            0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 
+                                                            0-8.573-3.007-9.963-7.178Z" />
+                                                   <path stroke-linecap="round" stroke-linejoin="round"
+                                                         d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                 </svg>
+                                             </a>    
+                                        </td>                                    --}}
                                     </tr>
                                 @endforeach
                             </tbody>
