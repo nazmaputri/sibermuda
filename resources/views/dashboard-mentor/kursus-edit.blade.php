@@ -50,7 +50,7 @@
             </div>
 
             <!-- Input untuk Deskripsi -->
-            <div class="mb-3">
+            <div class="mb-1">
                 <label for="description" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
                 <textarea name="description" id="description" rows="6" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 border rounded @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description', $course->description) }}</textarea>
                 @error('description')
@@ -63,7 +63,15 @@
         <!-- Kolom Kanan: Foto -->
         <div>
             <!-- Input untuk Kategori -->
-            <div class="mb-4">
+            <div 
+                x-data="{
+                    open: false, 
+                    selected: '{{ old('category_id', $course->category) ? $categories->firstWhere('id', old('category_id', $course->category))?->name : '' }}',
+                    selectedId: '{{ old('category_id', $course->category) }}',
+                    categories: @js($categories)
+                }" 
+                class="relative mb-4"
+            >
                 <label for="category_id" class="block text-gray-700 font-semibold mb-2">Kategori Kursus</label>
                 <select name="category_id" id="category_id" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 border rounded @error('category_id') border-red-500 @enderror">
                     <option value="">Pilih Kategori</option>
@@ -76,7 +84,45 @@
                 @error('category_id')
                     <span class="text-red-500 text-sm" id="error-category">{{ $message }}</span>
                 @enderror
-            </div>                             
+            </div>                            
+
+                <!-- Tombol Pilih -->
+                <button 
+                    type="button"
+                    @click="open = !open"
+                    class="w-full p-2 text-sm text-left text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                    :class="{ 'border-red-500': '{{ $errors->has('category') }}' }"
+                >
+                    <span x-text="selected || 'Pilih Kategori'"></span>
+                </button>
+
+                <!-- Dropdown List -->
+                <div 
+                    x-show="open" 
+                    @click.away="open = false"
+                    class="absolute z-10 w-full mt-1 bg-white text-gray-700 border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm scrollbar-hide"
+                    style="display: none;"
+                >
+                    <template x-for="category in categories" :key="category.id">
+                        <div 
+                            @click="selected = category.name; selectedId = category.id; open = false"
+                            class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                            :class="{ 'bg-gray-100': selectedId == category.id }"
+                        >
+                            <span x-text="category.name"></span>
+                        </div>
+                    </template>
+                </div>
+
+                <!-- Hidden Input -->
+                <input type="hidden" name="category_id" :value="selectedId">
+
+                <!-- Error -->
+                @error('category')
+                    <span class="text-red-500 text-sm" id="error-category">{{ $message }}</span>
+                @enderror
+            </div>
+>>>>>>> cc96f3d2871158cdbe493105343f3e46be96be3e
 
             <!-- Input untuk Kapasitas -->
             <div class="mt-3">
