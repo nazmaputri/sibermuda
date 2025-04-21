@@ -96,25 +96,25 @@ class DashboardPesertaController extends Controller
                 ->map(fn($item) => strtolower($item))
                 ->contains($categoryName);
 
-            if ($isCyberSecurity) {
-                // Butuh persetujuan mentor
-                $certificateStatus = DB::table('final_task_user')
-                    ->where('user_id', $userId)
-                    ->where('course_id', $course->id)
-                    ->value('certificate_status');
-
-                $isAllowed = $certificateStatus === 'approved';
-            } else {
-                // Non-cybersecurity: cek nilai
-                $nilai = DB::table('materi_user')
-                    ->where('user_id', $userId)
-                    ->where('courses_id', $course->id)
-                    ->value('nilai');
-
-                $isAllowed = $nilai !== null && $nilai >= 75;
-            }
-
-            $canDownloadCertificates[$course->id] = $isAllowed;
+                if ($isCyberSecurity) {
+                    // Butuh persetujuan mentor
+                    $certificateStatus = DB::table('final_task_user')
+                        ->where('user_id', $userId)
+                        ->where('course_id', $course->id)
+                        ->value('certificate_status');
+                
+                    $isAllowed = $certificateStatus === 'approved';
+                } else {
+                    // Non-cybersecurity: ambil nilai tertinggi
+                    $nilai = DB::table('materi_user')
+                        ->where('user_id', $userId)
+                        ->where('courses_id', $course->id)
+                        ->max('nilai'); // <-- ini penting
+                
+                    $isAllowed = $nilai !== null && $nilai >= 75;
+                }
+                
+                $canDownloadCertificates[$course->id] = $isAllowed;                
 
             // Menghitung rata-rata rating untuk kursus ini
                 $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');

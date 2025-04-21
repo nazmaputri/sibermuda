@@ -89,13 +89,13 @@
 
         {{-- Background kiri atas --}}
         <div class="top-image left-top">
-            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kiri-atas.png') : asset('storage/kiri-atas.png') }}"
+            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kiri-atas.jpg') : asset('storage/kiri-atas.jpg') }}"
                  style="width: 200px;" alt="kiri-atas">
         </div>
 
         {{-- Background kanan atas --}}
         <div class="top-image right-top">
-            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kanan-atas.png') : asset('storage/kanan-atas.png') }}"
+            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kanan-atas.jpg') : asset('storage/kanan-atas.jpg') }}"
                  style="width: 250px;" alt="kanan-atas">
         </div>
 
@@ -112,13 +112,13 @@
 
         {{-- Background kiri bawah --}}
         <div class="bottom-image left-bottom">
-            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kiri-bawah.png') : asset('storage/kiri-bawah.png') }}"
+            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kiri-bawah.jpg') : asset('storage/kiri-bawah.jpg') }}"
                  style="width: 250px;" alt="kiri-bawah">
         </div>
 
         {{-- Background kanan bawah --}}
         <div class="bottom-image right-bottom">
-            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kanan-bawah.png') : asset('storage/kanan-bawah.png') }}"
+            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kanan-bawah.jpg') : asset('storage/kanan-bawah.jpg') }}"
                  style="width: 250px;" alt="kanan-bawah">
         </div>
 
@@ -126,20 +126,20 @@
         <div class="signature">
             <table style="width: 100%;">
                 <tr>
-                    <td style="text-align: center;">
-                        <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/tanda-tangan.png') : asset('storage/tanda-tangan.png') }}"
-                             style="width: 120px;" alt="tanda-tangan">
-                        <div style="border-top: 2px solid #9ca3af; width: 200px; margin: 10px auto 5px;"></div>
-                        <p style="font-size: 16px; font-weight: bold; color: #374151;">
-                            {{ $signature_title_left ?? 'Direktur' }}
-                        </p>
-                    </td>
-                    <td style="text-align: center;">
+                    {{-- <td style="text-align: center;">
                         <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/tanda-tangan.png') : asset('storage/tanda-tangan.png') }}"
                              style="width: 120px;" alt="tanda-tangan">
                         <div style="border-top: 2px solid #9ca3af; width: 200px; margin: 10px auto 5px;"></div>
                         <p style="font-size: 16px; font-weight: bold; color: #374151;">
                             {{ $signature_title_right ?? 'Mentor' }}
+                        </p>
+                    </td> --}}
+                    <td style="text-align: center;">
+                        <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/ttd.jpg') : asset('storage/ttd.jpg') }}"
+                             style="width: 120px;" alt="tanda-tangan">
+                        <div style="border-top: 2px solid #9ca3af; width: 200px; margin: 10px auto 5px;"></div>
+                        <p style="font-size: 16px; font-weight: bold; color: #374151;">
+                            {{ $signature_title_left ?? 'Direktur' }}
                         </p>
                     </td>
                 </tr>
