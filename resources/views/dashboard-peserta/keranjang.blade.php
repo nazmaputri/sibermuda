@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-peserta')
-@section('title', 'Keranjang Saya')
+@section('title', 'Keranjang')
 @section('content')
     <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-md">
         <!-- <div id="flash-container"></div> -->

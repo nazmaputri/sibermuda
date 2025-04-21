@@ -1,4 +1,5 @@
 @extends('layouts.dashboard-mentor')
+@section('title', 'Rating')
 @section('content')
 <div class="bg-white p-6 rounded-lg shadow-md">
     <h2 class="text-xl font-semibold mb-8 border-b-2 border-gray-300 pb-2 text-gray-700 text-center">Daftar Kursus</h2>

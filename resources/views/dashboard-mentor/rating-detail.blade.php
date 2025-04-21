@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Detail Rating')
 @section('content')
 <div class="container mx-auto">
     <div class="bg-white rounded-lg shadow-md p-8">

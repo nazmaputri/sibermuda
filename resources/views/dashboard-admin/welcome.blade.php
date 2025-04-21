@@ -1,4 +1,5 @@
 @extends('layouts.dashboard-admin')
+@section('title', 'Dashboard')
 @section('content')
 
     <!-- Card Informasi -->

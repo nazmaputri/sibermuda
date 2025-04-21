@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-peserta')
-
+@section('title', 'Chat')
 @section('content')
 <div class="inline-block h-auto sm:h-[450px] flex">
     <!-- Main Chat Area -->

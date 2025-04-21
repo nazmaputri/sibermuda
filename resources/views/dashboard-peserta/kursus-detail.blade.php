@@ -1,8 +1,18 @@
 @extends('layouts.dashboard-peserta')
-
+@section('title', 'Detail Kursus')
 @section('content')
+
+<!-- Tombol Kembali -->
+<div class="flex justify-start mb-2">
+    <a href="{{ route('daftar-kursus') }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
 <div class="container mx-auto">
-    <div class="bg-white p-8 rounded-lg shadow-md relative">
+    <div class="bg-white p-8 border border-gray-200 rounded-lg shadow-md relative">
         <h2 class="text-xl font-semibold mb-4 border-b-2 border-gray-300 pb-2 text-gray-700 text-center">Detail Kursus</h2>
 
         <!-- Card Informasi Kursus -->
@@ -30,22 +40,22 @@
                 @endif
             </div>
         </div> 
-        <div class="flex flex-col sm:flex-row mb-6"> <!-- Menambahkan 'relative' pada induk -->
+        <div class="flex ml-auto justify-end mt-2"> <!-- Menambahkan 'relative' pada induk -->
             <!-- Tombol Rating -->
             @if(!$hasRated)
-            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-300 text-white font-semibold py-2 px-3 rounded-lg mb-4 sm:mb-4 sm:absolute sm:bottom-0 sm:right-24 sm:mr-4">
+            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-300 text-white font-semibold py-1.5 px-3 rounded-md text-sm mb-4 sm:mb-4 sm:absolute sm:bottom-0">
                 Beri Rating
             </button>
             @else
-            <button id="ratingdone" class="bg-gray-400 hover:bg-gray-300 text-white font-semibold py-2 px-3 rounded-lg mb-4 sm:mb-4 sm:absolute sm:bottom-0 sm:right-24 sm:mr-4 cursor-not-allowed">
+            <button id="ratingdone" class="bg-gray-400 hover:bg-gray-300 text-white font-semibold py-1.5 px-3 rounded-md text-sm mb-4 sm:mb-4 sm:absolute sm:bottom-0 sm:right-24 sm:mr-4 cursor-not-allowed">
                 Beri Rating
             </button>
             @endif
         
             <!-- Tombol Kembali di pojok kanan bawah -->
-            <a href="{{ route('daftar-kursus') }}" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-3 text-center rounded-lg sm:absolute sm:bottom-0 sm:right-0 sm:mr-4 sm:mb-4">
+            <!-- <a href="{{ route('daftar-kursus') }}" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-3 text-center rounded-lg sm:absolute sm:bottom-0 sm:right-0 sm:mr-4 sm:mb-4">
                 Kembali
-            </a>
+            </a> -->
         </div>
         <!-- Modal Pop-up -->
     <div id="ratingModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -102,7 +112,7 @@
         </div>
     </div>
 
-<script>d
+<script>
     // Menampilkan modal saat tombol "Beri Rating" diklik
     document.getElementById('ratingButton').addEventListener('click', function () {
         document.getElementById('ratingModal').classList.remove('hidden');

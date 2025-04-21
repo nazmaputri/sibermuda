@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-peserta')
-
+@section('title', 'Hasil Kuis')
 @section('content')
     <div class="container mx-auto">
         <div class="bg-white shadow-lg rounded-lg overflow-hidden p-6 border border-gray-200">

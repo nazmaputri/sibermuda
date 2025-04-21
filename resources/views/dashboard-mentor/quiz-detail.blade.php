@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Detail Kuis')
 @section('content')
 
 <div class="mb-3 flex justify-start">

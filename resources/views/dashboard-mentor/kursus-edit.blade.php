@@ -66,32 +66,23 @@
             <div 
                 x-data="{
                     open: false, 
-                    selected: '{{ old('category_id', $course->category) ? $categories->firstWhere('id', old('category_id', $course->category))?->name : '' }}',
-                    selectedId: '{{ old('category_id', $course->category) }}',
+                    selected: '{{ old('category_id', $course->category?->name ?? '') }}',
+                    selectedId: '{{ old('category_id', $course->category_id ?? '') }}',
                     categories: @js($categories)
                 }" 
                 class="relative mb-4"
             >
                 <label for="category_id" class="block text-gray-700 font-semibold mb-2">Kategori Kursus</label>
-                <select name="category_id" id="category_id" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 border rounded @error('category_id') border-red-500 @enderror">
-                    <option value="">Pilih Kategori</option>
-                    @foreach ($categories as $category)
-                        <option value="{{ $category->id }}" {{ old('category_id', $course->category_id) == $category->id ? 'selected' : '' }}>
-                            {{ $category->name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                    <span class="text-red-500 text-sm" id="error-category">{{ $message }}</span>
-                @enderror
-            </div>                            
 
-                <!-- Tombol Pilih -->
+                <!-- Hidden input yang akan dikirim ke backend -->
+                <input type="hidden" name="category_id" x-model="selectedId">
+
+                <!-- Tombol Dropdown -->
                 <button 
                     type="button"
                     @click="open = !open"
                     class="w-full p-2 text-sm text-left text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
-                    :class="{ 'border-red-500': '{{ $errors->has('category') }}' }"
+                    :class="{ 'border-red-500': '{{ $errors->has('category_id') }}' }"
                 >
                     <span x-text="selected || 'Pilih Kategori'"></span>
                 </button>
@@ -100,8 +91,8 @@
                 <div 
                     x-show="open" 
                     @click.away="open = false"
-                    class="absolute z-10 w-full mt-1 bg-white text-gray-700 border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm scrollbar-hide"
-                    style="display: none;"
+                    x-transition
+                    class="absolute z-10 w-full mt-1 bg-white text-gray-700 border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm overflow-hidden"
                 >
                     <template x-for="category in categories" :key="category.id">
                         <div 
@@ -114,15 +105,12 @@
                     </template>
                 </div>
 
-                <!-- Hidden Input -->
-                <input type="hidden" name="category_id" :value="selectedId">
-
-                <!-- Error -->
-                @error('category')
+                <!-- Error message -->
+                @error('category_id')
                     <span class="text-red-500 text-sm" id="error-category">{{ $message }}</span>
                 @enderror
             </div>
->>>>>>> cc96f3d2871158cdbe493105343f3e46be96be3e
+
 
             <!-- Input untuk Kapasitas -->
             <div class="mt-3">
@@ -172,9 +160,8 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <!-- Tombol Submit -->
+        </div>
+        <!-- Tombol Submit -->
     <div class="mt-6 flex justify-end space-x-2">
         <a href="{{ route('courses.index') }}" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg">
             Batal
@@ -183,9 +170,10 @@
             Simpan
         </button>
     </div>
+    </div>
 </form>
     </div>
-</div>
+
 
  <script>
         // Menghapus error dan border merah saat pengguna mulai mengetik

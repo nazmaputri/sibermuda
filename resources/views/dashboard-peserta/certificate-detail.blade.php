@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-peserta')
-
+@section('title', 'Sertifikat')
 @section('content')
 <div class="container mx-auto">
     <div class="bg-white p-8 rounded-lg shadow-md relative">

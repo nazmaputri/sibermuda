@@ -1,4 +1,5 @@
 @extends('layouts.dashboard-peserta')
+@section('title', 'Dashboard')
 @section('content')
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">

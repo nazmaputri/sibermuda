@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Laporan')
 @section('content')
 <div class="container mx-auto">
     @php

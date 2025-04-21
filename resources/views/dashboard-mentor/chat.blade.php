@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-mentor')
-
+@section('title', 'Chat')
 @section('content')
 <div class="h-screen flex flex-col lg:flex-row">
     <!-- Sidebar -->

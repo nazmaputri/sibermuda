@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-admin')
-@section('title', 'Daftar Kategori')
+@section('title', 'Kategori')
 @section('content')
 <div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
     <!-- Tombol Tambah Kategori -->

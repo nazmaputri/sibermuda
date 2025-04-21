@@ -1,4 +1,5 @@
 @extends('layouts.dashboard-mentor')
+@section('title', 'Dashboard')
 @section('content')
 
     <div class="bg-white rounded-lg shadow-md p-8 w-full flex flex-col md:flex-row h-auto items-center border border-gray-200">

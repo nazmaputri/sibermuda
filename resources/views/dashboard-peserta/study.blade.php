@@ -1,5 +1,5 @@
 @extends('layouts.dashboard-peserta')
-
+@section('title', 'Belajar')
 @section('content')
 
 <div class="mb-3 flex justify-start">
@@ -91,6 +91,22 @@
             @endif
             </div>
             @endforeach
+
+            <!-- Konten Final Task -->
+            <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
+                <h3 class="text-lg font-semibold text-center text-gray-700 mb-4">Tugas Akhir</h3>
+
+                <p class="text-gray-700 mb-1">Judul: {{ $finalTask->judul }}</p>
+                <p class="text-gray-700 mb-1">{{ $finalTask->desc }}</p>
+
+                <!-- Button untuk Mengerjakan Tugas Akhir -->
+                <div class="mt-4">
+                    <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}"
+                    class="bg-green-400 text-white text-sm px-2 py-2 rounded hover:bg-green-300">
+                        Kerjakan Tugas Akhir
+                    </a>
+                </div>
+            </div>
 
             <!-- Konten Kuis -->
             @if ($course->quizzes->isNotEmpty())
@@ -207,33 +223,33 @@
             </div>
             @endif
 
-            <!-- Tugas Akhir -->
+           <!-- Tugas Akhir -->
             @php
                 $allowedCategories = ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber'];
                 $courseCategory = strtolower($course->category->name ?? '');
             @endphp
-            
+
+            <!-- Tugas Akhir (Final Task) Menu Sidebar -->
             @if (in_array($courseCategory, $allowedCategories))
                 @if ($finalTask)
                     <hr class="my-2">
                     <div class="group">
-                        <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}" 
-                            class="w-full flex text-left px-3 py-2 rounded hover:bg-gray-100 flex items-center"
-                            :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'upload-task' }"
-                            @click="selected = 'upload-task'; if(window.innerWidth < 1024) sidebarOpen = false">
+                        <button @click="selected = 'final-task'; if(window.innerWidth < 1024) sidebarOpen = false"
+                            class="w-full flex text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
+                            :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'final-task' }">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
                             </svg>
-                            <span class="text-gray-600 ml-1 transform transition-all duration-300 ease-in-out group-hover:translate-x-1">Upload Tugas Akhir</span>
-                        </a>
+                            <span class="text-gray-600 ml-1 transform transition-all duration-300 ease-in-out group-hover:translate-x-1">Tugas Akhir</span>
+                        </button>
                     </div>
                 @else
-                <div class="flex items-center space-x-2 text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
-                    </svg>
-                    <p class="text-sm">Tugas akhir belum tersedia untuk kursus ini.</p>
-                </div>
+                    <div class="flex items-center space-x-2 text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                        </svg>
+                        <p class="text-sm">Tugas akhir belum tersedia untuk kursus ini.</p>
+                    </div>
                 @endif
             @endif
         
