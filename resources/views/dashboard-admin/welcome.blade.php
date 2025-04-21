@@ -68,73 +68,68 @@
             </div>
         </div>
     </div>
-
+    
     <!-- Grafik Perkembangan Pengguna Bulanan -->
     <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6 mb-6 mt-10">
         <div class="flex flex-col items-center mb-4">
-            <div class="flex items-center space-x-4">
-                <h2 class="text-xl font-semibold inline-block pb-1 text-gray-700">
-                    Laporan Perkembangan Pengguna Bulanan
-                </h2>
-                <select id="yearFilter" class="p-1 border rounded-md focus:outline-none focus:ring focus:ring-sky-200">
-                    @foreach ($years as $availableYear)
-                        <option value="{{ $availableYear }}" {{ $availableYear == $year ? 'selected' : '' }}>
-                            {{ $availableYear }}
-                        </option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="border-b-2 w-full mt-1"></div>
+          <div class="flex items-center space-x-4">
+            <h2 class="text-xl font-semibold pb-1 text-gray-700">
+              Laporan Perkembangan Pengguna Bulanan
+            </h2>
+            <select id="yearFilter" class="p-1 border rounded-md focus:outline-none focus:ring focus:ring-sky-200">
+                @foreach ($years as $availableYear)
+                  <option value="{{ $availableYear }}"
+                          {{ $availableYear == $year ? 'selected' : '' }}>
+                    {{ $availableYear }}
+                  </option>
+                @endforeach
+            </select>
+          </div>
+          <div class="border-b-2 w-full mt-1"></div>
         </div>
-        <div style="position: relative; height: 300px; width: 100%;">
-            <canvas id="userGrowthChart"></canvas>
+      
+        <!-- Wrapper responsif: selalu punya height! -->
+        <div class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[32rem]">
+          <canvas id="userGrowthChart" class="absolute inset-0 w-full h-full"></canvas>
         </div>
-    </div>
-
-<script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const ctx = document.getElementById('userGrowthChart').getContext('2d');
-        
-            // Buat grafik menggunakan Chart.js dengan data dari controller
-            const userGrowthChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: @json($monthNames),
-                    datasets: [{
-                        label: 'Pengguna Baru',
-                        data: @json($userGrowthData),
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderWidth: 2,
-                        fill: true,
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Jumlah Pengguna'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Bulan'
-                            }
-                        }
-                    }
-                }
-            });
-        
-            // Update grafik saat tahun dipilih
-            document.getElementById('yearFilter').addEventListener('change', function () {
-                const selectedYear = this.value;
-                window.location.href = `?year=${selectedYear}`;
-            });
-        });
-</script>    
+      </div>
 @endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const ctx = document.getElementById('userGrowthChart').getContext('2d');
+          new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: @json($monthNames),
+              datasets: [{
+                label: 'Pengguna Baru',
+                data: @json($userGrowthData),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                fill: true,
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  title: { display: true, text: 'Jumlah Pengguna' }
+                },
+                x: {
+                  title: { display: true, text: 'Bulan' }
+                }
+              }
+            }
+          });
+      
+          document.getElementById('yearFilter')
+                  .addEventListener('change', function () {
+            window.location.search = `year=${this.value}`;
+          });
+        });
+    </script>

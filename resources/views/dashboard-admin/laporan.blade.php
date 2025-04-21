@@ -26,7 +26,7 @@
         <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
             <div class="mt-2">
                 <h2 class="text-xl font-semibold text-gray-600">
-                    Rp. 1.000.000
+                    Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
                 </h2>
                 <p class="text-md font-semibold text-gray-600">
                     Pendapatan Tahun Ini
@@ -49,7 +49,7 @@
                     Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
                 </h2>
                 <p class="text-md font-semibold text-gray-600">
-                    Pendapatan Tahun Ini
+                    Pendapatan Bulan Ini
                 </p>
             </div>
             <div class="flex items-end gap-1 h-24 w-fit cursor-pointer ml-auto">
