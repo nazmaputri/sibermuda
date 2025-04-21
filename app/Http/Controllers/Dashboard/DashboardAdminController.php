@@ -282,30 +282,22 @@ class DashboardAdminController extends Controller
         ]);
     }    
 
-    public function detailkursus($courseId, $id = null) 
+    public function detailkursus($categoryId, $courseId)
     {
-        // Jika $name diberikan, maka ambil kategori berdasarkan nama tersebut
-        if ($id) {
-            $category = Category::with('courses')->where('id', $id)->firstOrFail();
-        } else {
-            // Jika tidak ada $name, ambil kategori kursus berdasarkan kursus ID
-            $course = Course::findOrFail($courseId);
-            $category = $course->category; // Ambil kategori dari relasi di model Course
-        }
+        // 1. Ambil kategori berdasarkan ID pertama (categoryId)
+        $category = Category::with('courses')
+                            ->findOrFail($categoryId);
 
-        // Ambil kursus berdasarkan ID
-        $course = Course::findOrFail($id);
+        // 2. Ambil kursus berdasarkan ID kedua (courseId)
+        $course = Course::findOrFail($courseId);
 
-        // Ambil user yang sedang login
+        // 3. Ambil peserta untuk kursus itu, hanya yang sukses bayar
         $user = auth()->user();
-
-        // Ambil peserta yang telah membayar dengan status sukses
         $participants = Purchase::where('user_id', $user->id)
                                 ->where('status', 'success')
-                                ->where('course_id', $id)
+                                ->where('course_id', $courseId)
                                 ->paginate(5);
 
-        // Mengembalikan tampilan dengan data yang diperlukan
         return view('dashboard-admin.detail-kursus', compact('course', 'category', 'participants'));
     }
 

@@ -72,28 +72,30 @@ class MateriController extends Controller
     
     public function store(Request $request, $courseId)
     {
-        // 1. Validasi
+        // 1. Validasi dasar
         $request->validate([
-            'judul'               => 'required|string|max:255',
-            'deskripsi'           => 'nullable|string',
-            // Google Drive
-            'title'               => 'required|array',
-            'title.*'             => 'required|string|max:255',
-            'description'         => 'required|array',
-            'description.*'       => 'required|string|max:500',
-            'link'                => 'required|array',
-            'link.*'              => 'required|url',
-            // YouTube (opsional)
-            'youtube_title'       => 'nullable|array',
-            'youtube_title.*'     => 'required_with:youtube_link|string|max:255',
-            'youtube_description' => 'nullable|array',
-            'youtube_description.*'=> 'required_with:youtube_link|string|max:500',
-            'youtube_link'        => 'nullable|array',
-            'youtube_link.*'      => 'required_with:youtube_title|url',
-        ],[
-            'judul.required'      => 'Judul materi wajib diisi.',
-            'title.*.required'    => 'Judul file Google Drive wajib diisi.',
-            'link.*.url'          => 'Link harus berupa URL yang valid.',
+            'judul'     => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+
+            // Google Drive fields
+            'title'         => 'nullable|array',
+            'title.*'       => 'nullable|string|max:255',
+            'description'   => 'nullable|array',
+            'description.*' => 'nullable|string|max:500',
+            'link'          => 'nullable|array',
+            'link.*'        => 'nullable|url',
+
+            // YouTube fields
+            'youtube_title'        => 'nullable|array',
+            'youtube_title.*'      => 'nullable|string|max:255',
+            'youtube_description'  => 'nullable|array',
+            'youtube_description.*'=> 'nullable|string|max:500',
+            'youtube_link'         => 'nullable|array',
+            'youtube_link.*'       => 'nullable|url',
+        ], [
+            'judul.required' => 'Judul materi wajib diisi.',
+            'link.*.url'     => 'Link Google Drive harus berupa URL yang valid.',
+            'youtube_link.*.url' => 'Link YouTube harus berupa URL yang valid.',
         ]);
 
         // 2. Buat Materi
@@ -104,37 +106,39 @@ class MateriController extends Controller
             'is_preview'=> false,
         ]);
 
-        // 3. Simpan Google Drive ke materi_video (hanya ID)
-        foreach ($request->link as $i => $driveLink) {
-            $driveId = $this->extractDriveFileId($driveLink);
-            if ($driveId) {
-                MateriVideo::create([
-                    'materi_id'  => $materi->id,
-                    'title'      => $request->title[$i],
-                    'description'=> $request->description[$i],
-                    'link'       => $driveId,       // simpan hanya ID
-                ]);
-            }
-        }
-
-        // 4. Simpan YouTube ke youtube (hanya ID)
-        if ($request->filled('youtube_link')) {
-            foreach ($request->youtube_link as $i => $ytLink) {
-                $youtubeId = $this->extractYoutubeVideoId($ytLink);
-                if ($youtubeId) {
-                    Youtube::create([
-                        'materi_id'  => $materi->id,
-                        'title'      => $request->youtube_title[$i],
-                        'description'=> $request->youtube_description[$i],
-                        'link'       => $youtubeId,    // simpan hanya ID
+        // 3. Simpan Google Drive Materi jika ada isian
+        if ($request->filled('link')) {
+            foreach ($request->link as $i => $driveLink) {
+                if ($driveLink) {
+                    $driveId = $this->extractDriveFileId($driveLink);
+                    MateriVideo::create([
+                        'materi_id'   => $materi->id,
+                        'title'       => $request->title[$i] ?? '',
+                        'description' => $request->description[$i] ?? '',
+                        'link'        => $driveId,
                     ]);
                 }
             }
         }
-        
+
+        // 4. Simpan YouTube jika ada isian
+        if ($request->filled('youtube_link')) {
+            foreach ($request->youtube_link as $i => $ytLink) {
+                if ($ytLink) {
+                    $youtubeId = $this->extractYoutubeVideoId($ytLink);
+                    Youtube::create([
+                        'materi_id'   => $materi->id,
+                        'title'       => $request->youtube_title[$i] ?? '',
+                        'description' => $request->youtube_description[$i] ?? '',
+                        'link'        => $youtubeId,
+                    ]);
+                }
+            }
+        }
+
         return redirect()
-               ->route('courses.show', $courseId)
-               ->with('success', 'Materi & video berhasil ditambahkan');
+            ->route('courses.show', $courseId)
+            ->with('success', 'Materi berhasil ditambahkan.');
     }
 
     /**

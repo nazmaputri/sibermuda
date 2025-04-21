@@ -43,28 +43,52 @@
                 <p class="text-gray-700 mb-4">{{ $materi->deskripsi }}</p>
 
                 <!-- Video -->
-                @if ($materi->videos && $materi->videos->count())
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-                    @foreach ($materi->videos as $video)
-                    <div class="border p-4 rounded-md shadow-md">
-                        <h4 class="font-semibold mb-2 text-gray-700">{{ $video->title }}</h4>
-                        @if ($video->link)
-                        <iframe 
-                            src="{{ $video->link }}" 
-                            width="100%" 
-                            height="250" 
-                            allow="autoplay" 
-                            allowfullscreen 
-                            class="rounded-lg shadow-md">
-                        </iframe>
-                        @else
-                        <p class="text-red-500">Video tidak tersedia.</p>
-                        @endif 
-                        <p class="font-semibold mt-3 text-gray-700">{{ $video->description }}</p>
-                    </div>
-                    @endforeach
-                </div>
-                @endif
+                @if($materi->videos->isEmpty() && $materi->youtube->isEmpty())
+                <p class="text-gray-700">Tidak ada video untuk materi ini.</p>
+                @else
+                    <ul class="mt-4 space-y-4">
+                        {{-- Google Drive Videos --}}
+                        @foreach ($materi->videos as $video)
+                            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                                <h3 class="font-semibold text-gray-800 mb-4">{{ $video->title }}</h3>
+    
+                                @if ($video->link)
+                                    <iframe
+                                        src="https://drive.google.com/file/d/{{ $video->link }}/preview"
+                                        width="100%" height="480"
+                                        allow="autoplay"
+                                        allowfullscreen
+                                        class="rounded-lg shadow-md">
+                                    </iframe>
+                                    <p class="text-gray-600 mt-2">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
+                                @else
+                                    <p class="text-red-500">Video Google Drive tidak tersedia.</p>
+                                @endif
+                            </li>
+                        @endforeach
+    
+                        {{-- YouTube Videos --}}
+                        @foreach ($materi->youtube as $yt)
+                            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                                <h3 class="font-semibold mb-4 text-gray-800">{{ $yt->title }}</h3>
+    
+                                @if ($yt->link)
+                                    <iframe
+                                        width="100%" height="480"
+                                        src="https://www.youtube.com/embed/{{ $yt->link }}"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen
+                                        class="rounded-lg shadow-md">
+                                    </iframe>
+                                    <p class="text-gray-600 mt-2">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
+                                @else
+                                    <p class="text-red-500">Video YouTube tidak tersedia.</p>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+            @endif
             </div>
             @endforeach
 
