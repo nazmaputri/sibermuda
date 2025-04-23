@@ -2,7 +2,7 @@
 @section('title', 'Laporan')
 @section('content')
 <div class="container mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
             <div class="mt-2">
                 <h2 class="text-xl font-semibold text-gray-600">
@@ -23,7 +23,7 @@
                 <div class="w-3 h-16 bg-gradient-to-t from-[#08072a] to-[#3e3b7a] hover:h-20 transition-all duration-300 rounded-t"></div>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
+        <!-- <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
             <div class="mt-2">
                 <h2 class="text-xl font-semibold text-gray-600">
                     Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
@@ -33,16 +33,16 @@
                 </p>
             </div>
             <div class="flex items-end gap-1 h-24 w-fit cursor-pointer ml-auto">
-                <!-- Batang 1 -->
+               
                 <div class="w-3 h-6 bg-gradient-to-t from-[#08072a] to-[#1c1b3a] hover:h-10 transition-all duration-300 rounded-t"></div>
                 
-                <!-- Batang 2 -->
+                
                 <div class="w-3 h-10 bg-gradient-to-t from-[#08072a] to-[#2d2b5a] hover:h-14 transition-all duration-300 rounded-t"></div>
                 
-                <!-- Batang 3 -->
+                
                 <div class="w-3 h-16 bg-gradient-to-t from-[#08072a] to-[#3e3b7a] hover:h-20 transition-all duration-300 rounded-t"></div>
             </div>
-        </div>
+        </div> -->
         <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
             <div class="mt-2">
                 <h2 class="text-xl font-semibold text-gray-600">

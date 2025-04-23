@@ -170,72 +170,122 @@ class MateriController extends Controller
     {
         $course = Course::findOrFail($courseId);
         $materi = Materi::where('course_id', $courseId)->findOrFail($materiId);
-        $materi->load('videos'); 
-    
+        $materi->load(['videos', 'youtube']);
+
         return view('dashboard-mentor.materi-edit', compact('materi', 'course'));
     }
 
     public function update(Request $request, $courseId, $materiId)
     {
-        // Validasi data utama
         $request->validate([
-            'judul' => 'required|string|max:255',
+            'judul'     => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
-            'videos' => 'required|array|min:1',
-            'videos.*.title' => 'required|string|max:255',
-            'videos.*.description' => 'nullable|string',
-            'videos.*.link' => 'required|url',
+    
+            // Google Drive
+            'title'         => 'nullable|array',
+            'title.*'       => 'nullable|string|max:255',
+            'description'   => 'nullable|array',
+            'description.*' => 'nullable|string|max:500',
+            'link'          => 'nullable|array',
+            'link.*'        => 'nullable|url',
+    
+            // YouTube
+            'youtube_title'         => 'nullable|array',
+            'youtube_title.*'       => 'nullable|string|max:255',
+            'youtube_description'   => 'nullable|array',
+            'youtube_description.*' => 'nullable|string|max:500',
+            'youtube_link'          => 'nullable|array',
+            'youtube_link.*'        => 'nullable|url',
         ]);
-
-        // Update data Materi utama
+    
+        // Update Materi
         $materi = Materi::findOrFail($materiId);
         $materi->update([
-            'judul' => $request->judul,
+            'judul'     => $request->judul,
             'deskripsi' => $request->deskripsi,
             'course_id' => $courseId,
         ]);
-
+    
+        // === Materi Video (Google Drive) ===
         $existingVideos = MateriVideo::where('materi_id', $materiId)->get();
-
-        // Ambil semua data video yang dikirim
-        $incomingVideos = $request->videos;
-
-        // Simpan ID video yang masih ada (untuk keperluan hapus sisanya)
         $keptVideoIds = [];
-
-        foreach ($incomingVideos as $videoData) {
-            // Cek apakah kombinasi title/link ini sudah ada (bisa juga pakai ID jika dikirim)
-            $video = $existingVideos->firstWhere('link', $videoData['link']);
-
-            if ($video) {
-                // Update existing
-                $video->update([
-                    'title' => $videoData['title'],
-                    'description' => $videoData['description'],
-                    'link' => $videoData['link'],
-                ]);
-                $keptVideoIds[] = $video->id;
-            } else {
-                // Create new
-                $newVideo = MateriVideo::create([
-                    'materi_id' => $materi->id,
-                    'title' => $videoData['title'],
-                    'description' => $videoData['description'],
-                    'link' => $videoData['link'],
-                ]);
-                $keptVideoIds[] = $newVideo->id;
+    
+        if ($request->filled('link')) {
+            foreach ($request->link as $i => $link) {
+                if ($link) {
+                    $driveId = $this->extractDriveFileId($link);
+                    if (!$driveId) continue;
+    
+                    $title = $request->title[$i] ?? '';
+                    $desc  = $request->description[$i] ?? '';
+    
+                    $video = $existingVideos->firstWhere('link', $driveId);
+    
+                    if ($video) {
+                        $video->update([
+                            'title'       => $title,
+                            'description' => $desc,
+                            'link'        => $driveId,
+                        ]);
+                        $keptVideoIds[] = $video->id;
+                    } else {
+                        $new = MateriVideo::create([
+                            'materi_id'   => $materiId,
+                            'title'       => $title,
+                            'description' => $desc,
+                            'link'        => $driveId,
+                        ]);
+                        $keptVideoIds[] = $new->id;
+                    }
+                }
             }
         }
-
-        // Hapus video yang tidak ada dalam input terbaru
-        MateriVideo::where('materi_id', $materiId)
-            ->whereNotIn('id', $keptVideoIds)
-            ->delete();
-
-        return redirect()->route('courses.show', ['course' => $courseId])
-                        ->with('success', 'Materi berhasil diperbarui.');
+    
+        // Hapus yang tidak digunakan
+        MateriVideo::where('materi_id', $materiId)->whereNotIn('id', $keptVideoIds)->delete();
+    
+        // === Youtube Video ===
+        $existingYoutubes = Youtube::where('materi_id', $materiId)->get();
+        $keptYoutubeIds = [];
+    
+        if ($request->filled('youtube_link')) {
+            foreach ($request->youtube_link as $i => $link) {
+                if ($link) {
+                    $youtubeId = $this->extractYoutubeVideoId($link);
+                    if (!$youtubeId) continue;
+    
+                    $title = $request->youtube_title[$i] ?? '';
+                    $desc  = $request->youtube_description[$i] ?? '';
+    
+                    $yt = $existingYoutubes->firstWhere('link', $youtubeId);
+    
+                    if ($yt) {
+                        $yt->update([
+                            'title'       => $title,
+                            'description' => $desc,
+                            'link'        => $youtubeId,
+                        ]);
+                        $keptYoutubeIds[] = $yt->id;
+                    } else {
+                        $new = Youtube::create([
+                            'materi_id'   => $materiId,
+                            'title'       => $title,
+                            'description' => $desc,
+                            'link'        => $youtubeId,
+                        ]);
+                        $keptYoutubeIds[] = $new->id;
+                    }
+                }
+            }
+        }
+    
+        Youtube::where('materi_id', $materiId)->whereNotIn('id', $keptYoutubeIds)->delete();
+    
+        return redirect()
+            ->route('courses.show', ['course' => $courseId])
+            ->with('success', 'Materi berhasil diperbarui.');
     }
-
+    
     public function destroy($courseId, $materiId)
     {
         $materi = Materi::findOrFail($materiId);
