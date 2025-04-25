@@ -22,10 +22,10 @@
         <p class="text-gray-700">{{ $materi->deskripsi ?? 'Tidak ada deskripsi' }}</p>
 
         <!-- Nama Kursus -->
-        <p class="mt-2 text-gray-700"><span class="font-semibold">Kursus :</span> {{ $materi->course->title ?? 'Kursus tidak tersedia' }}</p>
+        <p class="mt-2 text-gray-700"><span class="">Kursus :</span> {{ $materi->course->title ?? 'Kursus tidak tersedia' }}</p>
 
         <!-- Video Section -->
-        <div class="mt-6">
+        <div class="mt-2">
         <h2 class="text-lg font-semibold text-gray-700">Video Materi</h2>
 
         <!-- Cek apakah ada video sama sekali -->
@@ -35,7 +35,7 @@
                 <ul class="mt-4 space-y-4">
                     {{-- Google Drive Videos --}}
                     @foreach ($materi->videos as $video)
-                        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                        <li class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
                             <h3 class="font-semibold text-gray-800">{{ $video->title }}</h3>
                             <p class="text-gray-600">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
 
@@ -55,7 +55,7 @@
 
                     {{-- YouTube Videos --}}
                     @foreach ($materi->youtube as $yt)
-                        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
+                        <li class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
                             <h3 class="font-semibold text-gray-800">{{ $yt->title }}</h3>
                             <p class="text-gray-600">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
 

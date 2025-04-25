@@ -1,8 +1,8 @@
 <!-- Courses Section -->
-<section id="category" class="bg-white py-16 md:mx-10">
+<section id="category" class="bg-white py-16 md:mx-12">
     <div class="container mx-auto px-6">
         <div class="mb-6 text-center">
-            <h3 class="text-xl font-bold text-[#08072a]" data-aos="fade-up">
+            <h3 class="text-xl md:text-3xl font-['Roboto'] font-bold text-[#08072a]" data-aos="fade-up">
                 Explorasi Kategori Kursus di Sibermuda
             </h3>
             <p class="text-md text-gray-700 mt-2" data-aos="fade-up">

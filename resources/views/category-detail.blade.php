@@ -32,7 +32,7 @@
     <!-- Bagian Materi Kursus -->
     <section id="course" class="py-12 bg-white p-6">
         <div class="mb-4 mt-8">
-            <h3 class="text-xl font-bold text-center text-[#08072a]" data-aos="fade-up">
+            <h3 class="text-xl md:text-3xl font-['Roboto'] font-bold text-center text-[#08072a]" data-aos="fade-up">
                 Daftar Kursus Yang Tersedia
             </h3>
         </div>

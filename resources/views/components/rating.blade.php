@@ -9,10 +9,10 @@
 @vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
 
 <!-- Testimoni Section -->
-<section id="rating" class="bg-white py-16">
+<section id="rating" class="bg-white py-16 mx-4">
     <div class="container mx-auto px-2 md:px-12">
         <div class="mb-6 text-center">
-            <h3 class="text-xl font-bold text-[#08072a]" data-aos="fade-down">
+            <h3 class="text-xl md:text-3xl font-['Roboto'] font-bold text-[#08072a]" data-aos="fade-down">
                 Kata Mereka Tentang Sibermuda
             </h3>
             <p class="text-md text-gray-700 mt-2" data-aos="fade-down">

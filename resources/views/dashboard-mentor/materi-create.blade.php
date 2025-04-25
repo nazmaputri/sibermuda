@@ -32,135 +32,95 @@
                     </div>
                 </div>
 
-                <!-- Kanan: Input Materi dan YouTube -->
                 <div x-data="{
-                    materi: [{
-                        title: '',
-                        description: '',
-                        link: ''
-                    }],
-                    youtube: [{
-                        title: '',
-                        description: '',
-                        link: ''
-                    }],
-                    addMateri() {
-                        this.materi.push({ title: '', description: '', link: '' });
+                    materiDrive: [
+                        @foreach ($materi->videos as $drive)
+                            {
+                                id: {{ $drive->id }},
+                                title: @js($drive->title),
+                                description: @js($drive->description),
+                                link: 'https://drive.google.com/file/d/{{ $drive->link }}/preview',
+                                type: 'drive'
+                            },
+                        @endforeach
+                    ],
+                    materiYoutube: [
+                        @foreach ($materi->youtube as $yt)
+                            {
+                                id: {{ $yt->id }},
+                                title: @js($yt->title),
+                                description: @js($yt->description),
+                                link: 'https://www.youtube.com/watch?v={{ $yt->link }}',
+                                type: 'youtube'
+                            },
+                        @endforeach
+                    ],
+                    addMateri(type) {
+                        if (type === 'drive') {
+                            this.materiDrive.push({ id: null, title: '', description: '', link: '', type: 'drive' });
+                        } else if (type === 'youtube') {
+                            this.materiYoutube.push({ id: null, title: '', description: '', link: '', type: 'youtube' });
+                        }
                     },
-                    removeMateri(index) {
-                        this.materi.splice(index, 1);
-                    },
-                    addYouTube() {
-                        this.youtube.push({ title: '', description: '', link: '' });
-                    },
-                    removeYouTube(index) {
-                        this.youtube.splice(index, 1);
+                    removeMateri(type, index) {
+                        if (type === 'drive') {
+                            this.materiDrive.splice(index, 1);
+                        } else if (type === 'youtube') {
+                            this.materiYoutube.splice(index, 1);
+                        }
                     }
                 }">
+                    <input type="hidden" name="courses_id" value="{{ $course->id }}">
 
-                    <!-- Input untuk Materi -->
-                    <template x-for="(item, index) in materi" :key="index">
-                        <div class="materi-group border p-4 rounded space-y-2 bg-gray-50 mb-2">
-                            <input type="hidden" name="courses_id[]" value="{{ $course->id }}">
+                    <div class="grid grid-cols-1 gap-4">
+                        <!-- Drive -->
+                        <div>
+                            <template x-for="(item, index) in materiDrive" :key="'drive-' + index">
+                                <div class="border p-4 rounded bg-white mb-2 space-y-2">
+                                    <input type="hidden" :name="`type[]`" x-model="item.type">
+                                    <input type="hidden" :name="`id[]`" :value="item.id">
 
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-2">Judul Link Materi</label>
-                                <input type="text" :name="`title[]`" x-model="item.title" placeholder="Masukkan judul"
-                                    class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400">
-                            </div>
+                                    <label>Judul Link Materi G-drive</label>
+                                    <input type="text" :name="`title[]`" x-model="item.title" class="w-full border p-2 rounded">
 
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-2">Deskripsi Link Materi</label>
-                                <textarea :name="`description[]`" x-model="item.description" rows="3"
-                                        placeholder="Masukkan deskripsi materi"
-                                        class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400"></textarea>
-                            </div>
+                                    <label>Deskripsi Link Materi G-drive</label>
+                                    <textarea :name="`description[]`" x-model="item.description" class="w-full border p-2 rounded"></textarea>
 
-                            <div class="mb-2">
-                                <label class="block text-gray-700 font-semibold mb-2">Link Materi</label>
-                                <input type="link" :name="`link[]`" x-model="item.link" placeholder="Masukkan link"
-                                    class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400">
-                            </div>
+                                    <label>Link Materi G-drive</label>
+                                    <input type="text" :name="`link[]`" x-model="item.link" class="w-full border p-2 rounded">
 
-                            <!-- Tombol Hapus Materi -->
-                            <div class="text-right" x-show="materi.length > 1">
-                                <button type="button"
-                                    @click="removeMateri(index)"
-                                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-400 text-white text-sm shadow hover:bg-red-300 mt-2 transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                    Hapus
-                                </button>
-                            </div>
-
+                                    <div class="text-right" x-show="materiDrive.length > 1">
+                                        <button type="button" @click="removeMateri('drive', index)" class="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>
+                                    </div>
+                                </div>
+                            </template>
+                            <button type="button" @click="addMateri('drive')" class="bg-green-500 text-white px-4 py-2 rounded">+ Tambah Materi Drive</button>
                         </div>
-                    </template>
 
-                    <!-- Tombol Tambah Materi -->
-                    <div>
-                        <button type="button"
-                            @click="addMateri"
-                            class="inline-flex items-center gap-2 px-4 py-2 my-2 bg-green-400 text-white rounded-md text-sm shadow hover:bg-green-300 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"> 
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            Tambah Materi
-                        </button>
-                    </div>
+                        <!-- YouTube -->
+                        <div>
+                            <template x-for="(item, index) in materiYoutube" :key="'youtube-' + index">
+                                <div class="border p-4 rounded bg-white mb-2 space-y-2">
+                                    <input type="hidden" :name="`type[]`" x-model="item.type">
+                                    <input type="hidden" :name="`id[]`" :value="item.id">
 
-                    <!-- Input untuk YouTube -->
-                    <template x-for="(item, index) in youtube" :key="index">
-                        <div class="materi-group border p-4 rounded space-y-1 bg-gray-50 mb-2">
+                                    <label>Judul Link Materi YouTube</label>
+                                    <input type="text" :name="`title[]`" x-model="item.title" class="w-full border p-2 rounded">
 
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-2">Judul Video YouTube</label>
-                                <input type="text" :name="`youtube_title[]`" x-model="item.title" placeholder="Masukkan judul video"
-                                    class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400">
-                            </div>
+                                    <label>Deskripsi Link Materi YouTube</label>
+                                    <textarea :name="`description[]`" x-model="item.description" class="w-full border p-2 rounded"></textarea>
 
-                            <div>
-                                <label class="block text-gray-700 font-semibold mb-2">Deskripsi Video YouTube</label>
-                                <textarea :name="`youtube_description[]`" x-model="item.description" rows="3"
-                                        placeholder="Masukkan deskripsi video"
-                                        class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400"></textarea>
-                            </div>
+                                    <label>Link Materi YouTube</label>
+                                    <input type="text" :name="`link[]`" x-model="item.link" class="w-full border p-2 rounded">
 
-                            <div class="mb-2">
-                                <label class="block text-gray-700 font-semibold mb-2">Link YouTube</label>
-                                <input type="text" :name="`youtube_link[]`" x-model="item.link" placeholder="Masukkan link video"
-                                    class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400">
-                            </div>
-
-                            <!-- Tombol Hapus YouTube -->
-                            <div class="text-right" x-show="youtube.length > 1">
-                                <button type="button"
-                                    @click="removeYouTube(index)"
-                                    class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-400 text-white text-sm shadow hover:bg-red-300 mt-2 transition">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                    </svg>
-                                    Hapus
-                                </button>
-                            </div>
-
+                                    <div class="text-right" x-show="materiYoutube.length > 1">
+                                        <button type="button" @click="removeMateri('youtube', index)" class="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>
+                                    </div>
+                                </div>
+                            </template>
+                            <button type="button" @click="addMateri('youtube')" class="bg-blue-500 text-white px-4 py-2 rounded">+ Tambah Materi YouTube</button>
                         </div>
-                    </template>
-
-                    <!-- Tombol Tambah YouTube -->
-                    <div>
-                        <button type="button"
-                            @click="addYouTube"
-                            class="inline-flex items-center gap-2 px-4 py-2 mt-2 bg-blue-400 text-white rounded-md text-sm shadow hover:bg-blue-300 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"> 
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-                            </svg>
-                            Tambah YouTube
-                        </button>
                     </div>
-
                 </div>
 
             </div>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/jpg" href="storage/logo.png">
     <title>{{ $course->judul ?? 'Kursus' }}</title>
+    @vite('resources/css/app.css')
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -100,8 +101,12 @@
     @endif
     
     <!-- Bagian Materi Kursus -->
-    <section id="course" class="py-12 bg-[#08072a]">
-        <div class="container mx-auto px-6 lg:px-8 md:mt-32 mt-64">
+    <section id="course" class="py-12 bg-midnight rounded-b-3xl">
+        <div class="container mx-auto px-6 lg:px-8 @if($discount && now()->lt($end_datetime))
+            md:mt-32 mt-60
+        @else
+            md:mt-16 mt-10
+        @endif">
             <!-- Kontainer Kursus -->
             <div class="flex flex-col lg:flex-row bg-white shadow-lg overflow-hidden border rounded-xl">
                 <!-- Detail Kursus -->
@@ -126,7 +131,7 @@
                             @endforeach
                         </ul>
                         <a href="/">
-                            <button class="bg-[#08072a] hover:bg-white hover:text-gray-700 hover:border-2 hover:border-gray-700 text-white py-2 px-4 rounded-full font-semibold mt-6 transition-all">
+                            <button class="bg-blue-400 hover:bg-blue-300 text-white py-2 px-4 rounded-md font-semibold mt-6">
                                 Kembali
                             </button>                            
                         </a>
@@ -218,7 +223,7 @@
                     <!-- Dua Tombol Vertikal -->
                     <div class="flex flex-col gap-3">
                         <a href="{{ route('beli.kursus', ['id' => $course->id]) }}">
-                            <button class="w-full bg-[#08072a] hover:bg-white hover:text-[#08072a] border hover:border-[#08072a] text-white font-semibold py-2 px-4 rounded-lg">
+                            <button class="w-full bg-blue-400 hover:bg-blue-300 border text-white font-semibold py-2 px-4 rounded-lg">
                                 Tambah Ke Keranjang
                             </button>
                         </a>
@@ -276,23 +281,23 @@
                                 
                 <!-- Daftar Button -->
                 <div class="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
-                    <button class="bg-[#08072a] hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-blue-400 hover:bg-blue-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/fluency-systems-regular/50/certificate--v1.png" alt="certificate--v1"/>
                         <span>Sertifikat</span>
                     </button>
-                    <button class="bg-[#08072a] hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-blue-400 hover:bg-blue-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/ios-glyphs/30/last-24-hours.png" alt="last-24-hours"/>
                         <span>Akses Materi 24 Jam</span>
                     </button>
-                    {{-- <button class="bg-[#08072a] hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    {{-- <button class="bg-blue-400 hover:bg-blue-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/material-outlined/24/book.png" alt="book"/>
                         <span>Bahan Bacaan</span>
                     </button> --}}
-                    <button class="bg-[#08072a] hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-blue-400 hover:bg-blue-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <img class="w-6 h-6" style="filter: invert(1);" src="https://img.icons8.com/sf-black/64/cinema-.png" alt="cinema-"/>
                         <span>Video Pembelajaran</span>
                     </button>
-                    <button class="bg-[#08072a] hover:bg-gray-500 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
+                    <button class="bg-blue-400 hover:bg-blue-300 text-white font-semibold py-2 px-3 rounded-lg text-sm shadow-lg shadow-gray-200 hover:shadow-none flex items-center space-x-2" data-aos="zoom-in-right">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5A3.375 3.375 0 0 0 6.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0 0 15 2.25h-1.5a2.251 2.251 0 0 0-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 0 0-9-9Z" />
                         </svg>

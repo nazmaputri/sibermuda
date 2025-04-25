@@ -70,7 +70,7 @@
                     <!-- Icon Arrow Left jika sidebar terbuka -->
                     <template x-if="sidebarExpanded">
                         <div class="p-0.5 rounded-full border border-gray-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 font-semibold text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 font-semibold text-gray-500">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                             </svg>
                         </div>
@@ -78,7 +78,7 @@
                     <!-- Icon Arrow Right jika sidebar tertutup -->
                     <template x-if="!sidebarExpanded">
                         <div class="p-0.5 rounded-full border border-gray-400">
-                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 font-semibold text-gray-400">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 font-semibold text-gray-500">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
                         </div>
@@ -172,7 +172,7 @@
             </nav>
             
             <div class="m-4">
-                <a href="https://wa.me/62895365544316" target="_blank" class="block group">
+                <a href="https://wa.me/62881025655793" target="_blank" class="block group">
                     <li 
                         class="flex items-center py-2 rounded-md space-x-4 text-green-700 bg-green-200 transition-all duration-300 ease-in-out " 
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
@@ -249,7 +249,7 @@
 
                     <!-- Dropdown notifikasi -->
                     <div id="notification-dropdown"
-                        class="absolute right-0 top-8 bg-white shadow-lg rounded-md border border-gray-200 w-60 md:w-96 hidden">
+                        class="absolute right-0 top-8 bg-white shadow-lg rounded-md border border-gray-200 w-60 md:mt-1 md:w-96 hidden">
                         <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
                         </div>
