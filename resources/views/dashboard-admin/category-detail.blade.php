@@ -85,7 +85,6 @@
                                     </button>
                                 </form>
 
-
                                 @php
                                     $canToggle = in_array($course->status, ['approved', 'published', 'nopublished']);
                                 @endphp

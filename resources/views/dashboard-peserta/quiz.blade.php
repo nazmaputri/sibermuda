@@ -11,22 +11,53 @@
             <div id="timer" class="mt-2 text-xl font-semibold border py-2 px-4 text-red-500"></div>
         </div>
         
-        <!-- Wrapper Responsif -->
-        <div class="flex flex-col md:flex-row gap-4 mt-6">
-            <!-- Nomor Soal -->
-            <div class="md:w-1/4 bg-neutral-50 p-4 rounded border">
-                <h2 class="font-semibold mb-2 text-gray-600">Nomor Soal</h2>
-                <div class="grid grid-cols-5 gap-2">
-                    @foreach($quiz->questions as $key => $question)
-                    <button
-                        class="question-number border border-gray-300 rounded p-2 text-center hover:bg-blue-400 hover:text-white transition flex items-center justify-center"
-                        data-question-id="{{ $question->id }}"
-                        data-answered="false">
-                        {{ $key + 1 }}
-                    </button>
-                    @endforeach
+        <!-- Wrapper -->
+        <div x-data="{ open: window.innerWidth >= 768 }" class="flex flex-col md:flex-row gap-4 mt-4 relative">
+            <!-- Sidebar Nomor Soal -->
+            <div class="relative md:w-1/4">
+                <!-- Tombol Toggle (ada di atas sidebar) -->
+            <div class="mb-7 md:mb-0 md:hidden">
+            <button 
+                    @click="open = !open"
+                    class="fixed z-40 md:hidden bg-blue-400 hover:bg-blue-300 text-white p-1 rounded-sm"
+                    aria-label="Toggle Nomor Soal">
+                    <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg x-show="open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+                <div
+                    x-show="open"
+                    x-transition:enter="transition transform duration-300"
+                    x-transition:enter-start="translate-x-full"
+                    x-transition:enter-end="translate-x-0"
+                    x-transition:leave="transition transform duration-300"
+                    x-transition:leave-start="translate-x-0"
+                    x-transition:leave-end="translate-x-full"
+                    class="fixed top-9 mt-9 right-0 w-64 max-h-[70vh] overflow-y-auto h-full scrollbar-hide bg-neutral-50 z-30 p-4 border border-gray-200 md:static md:top-auto md:mt-0 md:translate-x-0 md:h-auto md:max-h-[60vh] lg:max-h-[50vh] rounded md:rounded-sm md:w-full md:block md:overflow-y-auto lg:overflow-y-auto"
+                    style="display: none;">
+                    <h2 class="font-semibold mb-2 text-gray-600">Nomor Soal</h2>
+                    <div class="grid grid-cols-5 gap-2 md:grid-cols-5 max-h-[80vh] overflow-y-auto">
+                        @foreach($quiz->questions as $key => $question)
+                        <button
+                            @click="if(window.innerWidth < 768) open = false"
+                            class="question-number border border-gray-300 rounded p-0.5 text-sm text-center hover:bg-blue-400 hover:text-white transition flex items-center justify-center"
+                            data-question-id="{{ $question->id }}"
+                            data-answered="false">
+                            {{ $key + 1 }}
+                        </button>
+                        @endforeach
+                    </div>
                 </div>
-            </div>            
+            </div>
         
             <!-- Soal dan Jawaban -->
             <div class="md:w-3/4 bg-white p-6 rounded shadow border">
@@ -71,7 +102,6 @@
                 </form>
             </div>
         </div>        
-
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -210,22 +240,27 @@
 
                 submitBtn.addEventListener('click', function () {
                     Swal.fire({
-                        title: 'Yakin ingin mengirim kuis ini?',
+                        title: 'Kirim kuis ini?',
                         icon: 'question',
                         customClass: {
-                            popup: 'text-sm',
+                            popup: 'text-sm', // Ukuran teks kecil untuk popup
+                            title: 'text-md', // Ukuran teks kecil untuk title
+                            confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2', // Tombol konfirmasi hijau dengan efek hover
+                            cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2', // Tombol batal merah dengan efek hover
                         },
+                        buttonsStyling: false, // Menonaktifkan styling default dari SweetAlert
                         showCancelButton: true,
-                        confirmButtonText: 'Ya, Kirim',
                         cancelButtonText: 'Batal',
-                        reverseButtons: true,
+                        confirmButtonText: 'Ya, Kirim',
+                        reverseButtons: true, // Membalikkan posisi tombol confirm dan cancel
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            document.getElementById('quiz-form').submit();
+                            document.getElementById('quiz-form').submit(); // Mengirim form jika tombol konfirmasi ditekan
                         }
                     });
                 });
             });
         </script>        
     </div>
+</div>
 @endsection

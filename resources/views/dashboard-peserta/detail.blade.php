@@ -207,7 +207,7 @@
                 <button id="load-more-btn"
                     data-offset="3"
                     data-course="{{ $id }}"
-                    class="px-4 py-2 text-sm bg-white text-midnight hover:text-white hover:bg-midnight border border-midnight rounded shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
+                    class="px-4 py-2 text-sm bg-white text-midnight hover:text-white hover:bg-midnight border border-midnight rounded shadow-md transition-transform duration-300 ease-in-out transform hover:scale-105">
                     Tampilkan Lagi
                 </button>
             </div>

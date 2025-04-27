@@ -311,7 +311,7 @@
 </script>      
 
 <!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
-@if(session('success') || session('error') || session('info') || session('warning'))
+@if((session('success') || session('error') || session('info') || session('warning')) && !session('disable_swal')) <!-- tambahkan disable_swal agar popup ketika mengirim chat berhasil, popup tidak muncul (di controller chat liat dah) -->
     <div id="sweetalert-data"
          data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
          data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">

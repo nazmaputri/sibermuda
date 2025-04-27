@@ -147,7 +147,7 @@
 @if (! in_array($namaKategori, ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber']))
     <div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
         <div class="mb-2 flex items-center justify-between p-1 border-b-2">
-            <h2 class="text-lg font-semibold text-gray-700 pt-2">Kuis dari Keseluruhan Materi</h2>                                                     
+            <h2 class="text-lg font-semibold text-gray-700 pt-2">Kuis</h2>                                                     
         </div>
         <div class="text-right">
             <a href="{{ route('quiz.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
@@ -231,7 +231,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                <span class="ml-2">Tugas Akhir</span>
+                <span class="ml-2 text-sm">Tugas Akhir</span>
             </a> 
         </div>
     

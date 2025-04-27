@@ -96,7 +96,7 @@
 
                                     <div class="text-right" x-show="materiDrive.length > 1">
                                         <button type="button" @click="removeMateri('drive', index)"
-                                            class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-400 text-white text-sm shadow hover:bg-red-300 mt-2 transition">
+                                            class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md bg-red-400 hover:bg-red-300 text-white text-sm shadow mt-2 transition">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -107,8 +107,8 @@
                                 </div>
                             </template>
                             <button type="button" @click="addMateri('drive')"
-                                class="inline-flex items-center gap-2 px-4 py-2 bg-green-400 text-white rounded-md text-sm shadow hover:bg-green-300 transition">
-                                + Tambah Materi Drive
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-white rounded-md text-sm shadow  transition">
+                                + Tambah Materi G-Drive
                             </button>
                         </div>
 
@@ -151,7 +151,7 @@
                                 </div>
                             </template>
                             <button type="button" @click="addMateri('youtube')"
-                                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-400 text-white rounded-md text-sm shadow hover:bg-blue-300 transition">
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-400 hover:bg-blue-300 text-white rounded-md text-sm shadow  transition">
                                 + Tambah Materi YouTube
                             </button>
                         </div>

@@ -5,55 +5,60 @@
         <!-- Form untuk memilih kategori -->
         <form action="{{ route('kategori-peserta') }}" method="GET">
             <label for="kategori" class="block text-sm text-gray-700 mb-2">Pilih Kategori</label>
-            
+
             <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4 mb-3 md:mb-5">
                 <div 
-                    x-data="{
-                        open: false,
-                        selectedName: '{{ request('kategori') ? ($categories->firstWhere('id', request('kategori'))?->name ?? 'Pilih kategori') : 'Pilih kategori' }}',
-                        selectedId: '{{ request('kategori') ?? '' }}'
-                    }" 
+                    x-data="dropdownKategori()"
                     class="relative w-full sm:w-80 mb-2 sm:mb-0"
                 >
                     <!-- Input tersembunyi -->
                     <input type="hidden" name="kategori" :value="selectedId">
 
-                    <!-- Tombol utama dropdown -->
-                    <div 
-                        @click="open = !open"
-                        class="p-2 bg-white border border-gray-300 rounded-md shadow-sm cursor-pointer flex justify-between items-center text-sm text-gray-600 capitalize w-full"
-                    >
-                        <span class="truncate w-full" x-text="selectedName || 'Pilih kategori'"></span>
-                        <svg :class="{ 'rotate-180': open }" class="w-4 h-4 ml-2 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
+                    <!-- Search/Input sekaligus tombol -->
+                    <div class="relative">
+                        <input 
+                            type="text"
+                            @click="open = true"
+                            x-model="search"
+                            :placeholder="selectedName || 'Pilih kategori'"
+                            class="p-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm text-gray-600 capitalize w-full focus:outline-none cursor-pointer"
+                        >
+                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                            <svg :class="{ 'rotate-180': open }" class="w-4 h-4 ml-2 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
                     </div>
 
                     <!-- Dropdown options -->
-                    <ul 
+                    <div 
                         x-show="open"
                         @click.away="open = false"
                         x-transition
-                        class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-40 overflow-y-auto text-sm scrollbar-hide"
+                        class="absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-y-auto text-sm"
                     >
-                        <li 
-                            @click="selectedId = ''; selectedName = 'Pilih kategori'; open = false"
-                            class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-500 italic truncate"
-                        >
-                            Pilih kategori
-                        </li>
-
-                        @foreach($categories as $kategori)
+                        <ul class="max-h-40 overflow-y-auto shidecrollbar-">
                             <li 
-                                @click="selectedId = '{{ $kategori->id }}'; selectedName = '{{ $kategori->name }}'; open = false"
-                                class="px-4 py-2 hover:bg-gray-100 cursor-pointer capitalize text-gray-700 truncate"
-                                :class="{ 'bg-gray-100': selectedId === '{{ $kategori->id }}' }"
-                                title="{{ $kategori->name }}"
+                                @click="clearSelection"
+                                class="px-4 py-2 hover:bg-gray-100 cursor-pointer text-gray-500 italic truncate"
                             >
-                                {{ $kategori->name }}
+                                Pilih kategori
                             </li>
-                        @endforeach
-                    </ul>
+
+                            <template x-for="kategori in filteredCategories" :key="kategori.id">
+                                <li 
+                                    @click="selectCategory(kategori)"
+                                    class="px-4 py-2 hover:bg-gray-100 cursor-pointer capitalize text-gray-700 truncate"
+                                    :class="{ 'bg-gray-100': selectedId == kategori.id }"
+                                    x-text="kategori.name"
+                                ></li>
+                            </template>
+
+                            <div x-show="filteredCategories.length === 0" class="px-4 py-2 text-gray-500 italic text-sm">
+                                Tidak ada hasil.
+                            </div>
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Tombol Submit -->
@@ -76,7 +81,7 @@
             </div>
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($courses->whereIn('status', ['approved', 'published']) as $course)
+                @foreach($courses->whereIn('status', ['approved', 'published', 'nopublished']) as $course)
                     @php
                         $isPurchased = $course->purchases()
                             ->where('user_id', auth()->id())
@@ -147,4 +152,35 @@
                 @endforeach
             </div>
         @endif
+
+<!-- Alpine Data Untuk Dropdown -->
+<script>
+    function dropdownKategori() {
+        return {
+            open: false,
+            search: '',
+            selectedName: '{{ request('kategori') ? ($categories->firstWhere('id', request('kategori'))?->name ?? 'Pilih kategori') : 'Pilih kategori' }}',
+            selectedId: '{{ request('kategori') ?? '' }}',
+            categories: @json($categories),
+            get filteredCategories() {
+                if (this.search === '') {
+                    return this.categories;
+                }
+                return this.categories.filter(c => c.name.toLowerCase().includes(this.search.toLowerCase()));
+            },
+            selectCategory(kategori) {
+                this.selectedId = kategori.id;
+                this.selectedName = kategori.name;
+                this.search = kategori.name;
+                this.open = false;
+            },
+            clearSelection() {
+                this.selectedId = '';
+                this.selectedName = 'Pilih kategori';
+                this.search = '';
+                this.open = false;
+            }
+        }
+    }
+</script>
 @endsection

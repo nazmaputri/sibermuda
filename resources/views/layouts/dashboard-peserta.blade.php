@@ -242,7 +242,7 @@
 
                         <!-- Badge notifikasi -->
                         <span id="notification-badge"
-                            class="absolute -top-1 -right-1 bg-red-600 text-white text-xs font-semibold rounded-full w-4 h-4 flex items-center justify-center hidden">
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-semibold rounded-full w-4 h-4 flex items-center justify-center hidden">
                             <span id="notification-count">0</span>
                         </span>
                     </button>
@@ -417,7 +417,7 @@
 </script>   
 
 <!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
-@if(session('success') || session('error') || session('info') || session('warning'))
+@if((session('success') || session('error') || session('info') || session('warning')) && !session('disable_swal')) <!-- tambahkan disable_swal agar popup ketika mengirim chat berhasil, popup tidak muncul (di controller chat liat dah) -->
     <div id="sweetalert-data"
          data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
          data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">

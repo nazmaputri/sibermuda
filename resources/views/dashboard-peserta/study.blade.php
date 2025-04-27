@@ -93,56 +93,60 @@
             @endforeach
 
             <!-- Konten Final Task -->
-            <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
-                <h3 class="text-lg font-semibold text-center text-gray-700 mb-4">Tugas Akhir</h3>
+            @if($finalTask)
+                <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
+                    <h3 class="text-lg font-semibold text-center text-gray-700 mb-4">Tugas Akhir</h3>
 
-                <p class="text-gray-700 mb-1">Judul: {{ $finalTask->judul }}</p>
-                <p class="text-gray-700 mb-1">{{ $finalTask->desc }}</p>
+                    <p class="text-gray-700 mb-1">Judul: {{ $finalTask->judul }}</p>
+                    <p class="text-gray-700 mb-1">{{ $finalTask->desc }}</p>
 
-                <!-- Button untuk Mengerjakan Tugas Akhir -->
-                <div class="mt-4">
-                    <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}"
-                    class="bg-green-400 text-white text-sm px-2 py-2 rounded hover:bg-green-300">
-                        Kerjakan Tugas Akhir
-                    </a>
+                    <!-- Button untuk Mengerjakan Tugas Akhir -->
+                    <div class="mt-4">
+                        <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}"
+                        class="bg-green-400 text-white text-sm px-2 py-2 rounded hover:bg-green-300">
+                            Kerjakan Tugas Akhir
+                        </a>
+                    </div>
                 </div>
-            </div>
+            @else
+                <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border text-center text-gray-500">
+                    Tugas akhir belum tersedia.
+                </div>
+            @endif
 
             <!-- Konten Kuis -->
             @if ($course->quizzes->isNotEmpty())
             <div x-show="selected === 'quiz'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
                 <h3 class="text-lg font-semibold text-gray-700 mb-4">Daftar Kuis</h3>
                 @foreach ($course->quizzes as $quiz)
-                <div class="mb-4">
-                    <a href="{{ route('quiz.show', $quiz->id) }}"
-                        class="quiz-link bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-                        data-quiz-title="{{ $quiz->title }}"
-                        data-quiz-url="{{ route('quiz.show', $quiz->id) }}"
-                        data-quiz-duration="{{ $quiz->duration }}">
-                        Mulai Kuis: {{ $quiz->title }}
-                    </a>
+                    <div class="mb-4">
+                        @php
+                            $userQuizResult = \DB::table('materi_user')
+                                ->where('user_id', auth()->id())
+                                ->where('courses_id', $course->id)
+                                ->where('quiz_id', $quiz->id)
+                                ->orderByDesc('completed_at')
+                                ->first();
+                        @endphp
 
-                    @php
-                        $userQuizResult = \DB::table('materi_user')
-                            ->where('user_id', auth()->id())
-                            ->where('courses_id', $course->id)
-                            ->where('quiz_id', $quiz->id)
-                            ->orderByDesc('completed_at')
-                            ->first();
-                    @endphp
-
-                    @if ($userQuizResult)
-                    <form method="POST" action="{{ route('quiz.retake', $quiz->id) }}" class="mt-2 quiz-retake" data-title="{{ $quiz->title }}">
-                        @csrf
-                        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
-                            Kerjakan Kuis Lagi
-                        </button>
-                    </form>
-
-                    @else
-                    <p class="text-sm text-red-500 mt-2">❌ Kamu belum mengerjakan kuis ini.</p>
-                    @endif
-                </div>
+                        @if ($userQuizResult)
+                            <form method="POST" action="{{ route('quiz.retake', $quiz->id) }}" class="quiz-retake" data-title="{{ $quiz->title }}">
+                                @csrf
+                                <button type="submit" class="bg-amber-400 text-white px-2 py-1 rounded hover:bg-amber-300">
+                                    Kerjakan Kuis Lagi
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('quiz.show', $quiz->id) }}"
+                            class="quiz-link bg-blue-400 text-white px-2 py-1 rounded hover:bg-blue-300"
+                            data-quiz-title="{{ $quiz->title }}"
+                            data-quiz-url="{{ route('quiz.show', $quiz->id) }}"
+                            data-quiz-duration="{{ $quiz->duration }}">
+                                Mulai Kuis
+                            </a>
+                            <p class="text-sm text-red-500 mt-2">❌ Kamu belum mengerjakan kuis ini.</p>
+                        @endif
+                    </div>
                 @endforeach
 
                 {{-- Riwayat Kuis --}}
@@ -164,7 +168,7 @@
                                 <tr>
                                     <th class="px-4 py-2 border-t border-l border-b border-gray-200 rounded-tl-lg">Judul Kuis</th>
                                     <th class="px-4 py-2 border-t border-b border-gray-200">Nilai</th>
-                                    <th class="px-4 py-2 border-t border-b border-gray-200">Tanggal</th>
+                                    <th class="px-4 py-2 border-t border-b border-r rounded-tr-lg border-gray-200">Tanggal</th>
                                     {{-- <th class="px-4 py-2 border-t border-b border-r border-gray-200 rounded-tr-lg">Aksi</th> --}}
                                 </tr>
                             </thead>
@@ -176,7 +180,7 @@
                                     <tr class="bg-white hover:bg-gray-50 text-gray-600">
                                         <td class="px-4 py-2 border-b border-l border-gray-200">{{ $quiz->title ?? 'Kuis Tidak Ditemukan' }}</td>
                                         <td class="px-4 py-2 border-b border-gray-200 text-green-600 font-semibold">{{ $history->nilai }}</td>
-                                        <td class="px-4 py-2 border-b border-gray-200">{{ \Carbon\Carbon::parse($history->completed_at)->format('d M Y, H:i') }}</td>
+                                        <td class="px-4 py-2 border-b border-r border-gray-200">{{ \Carbon\Carbon::parse($history->completed_at)->format('d M Y, H:i') }}</td>
                                         {{-- <td class="px-4 py-2 border-b border-r border-gray-200 text-center">
                                             <a href="{{ route('quiz.result', ['quizId' => $quiz->id, 'courseId' => $quiz->course_id]) }}"
                                                 class="text-white p-1 rounded-md bg-blue-400 hover:bg-blue-300"
@@ -300,7 +304,6 @@
         });
     });
 
-    // handle popup konfirmasi kerjakan kuis dan kerjakan ulang kuis
     document.addEventListener("DOMContentLoaded", function () {
     const quizLinks = document.querySelectorAll(".quiz-link");
     const retakeForms = document.querySelectorAll(".quiz-retake");
@@ -318,10 +321,17 @@
                 text: `Kuis "${title}" membutuhkan waktu ${duration} menit untuk diselesaikan.`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#4CAF50', // Adjust confirm button color (value 400 for green)
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, mulai kuis',
-                cancelButtonText: 'Tidak'
+                cancelButtonText: 'Tidak',
+                customClass: {
+                    popup: 'text-sm', // Smaller text size for the popup
+                    confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2', // Green button with hover effect
+                    cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2', // Red button with hover effect
+                },
+                reverseButtons: true, // Membalikkan posisi tombol confirm dan cancel
+                buttonsStyling: false, // Disable default button styling from SweetAlert
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = url;
@@ -341,8 +351,15 @@
                 text: `Apakah Anda yakin ingin mengulang kuis "${title}"?`,
                 icon: 'question',
                 showCancelButton: true,
+                cancelButtonText: 'Batal', 
                 confirmButtonText: 'Ya, kerjakan lagi',
-                cancelButtonText: 'Batal'
+                customClass: {
+                    popup: 'text-sm', // Smaller text size for the popup
+                    confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2', // Green button with hover effect
+                    cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2', // Red button with hover effect
+                },
+                buttonsStyling: false, // Disable default button styling from SweetAlert
+                reverseButtons: true, // Membalikkan posisi tombol confirm dan cancel
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();
@@ -351,5 +368,6 @@
         });
     });
 });
+
 </script>
 @endsection

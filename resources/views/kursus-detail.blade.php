@@ -117,7 +117,7 @@
                         <p class="text-gray-600 capitalize">Mentor : {{ $course->mentor->name }}</p>
                         <h3 class="text-xl font-semibold text-gray-700 my-2 text-left">Materi</h3>
                         <ul class="divide-y divide-gray-200">
-                            @foreach ($course->materi as $index => $materi)
+                            @forelse ($course->materi as $index => $materi)
                                 <li class="flex items-center space-x-4 py-2">
                                     <!-- Icon -->
                                     <svg class="h-5 w-5 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512">
@@ -128,7 +128,11 @@
                                         {{ $index + 1 }}. {{ $materi->judul }}
                                     </span>
                                 </li>
-                            @endforeach
+                            @empty
+                                <li class="py-1 text-sm text-gray-500">
+                                    belum ada materi untuk kursus ini
+                                </li>
+                            @endforelse
                         </ul>
                         <a href="/">
                             <button class="bg-blue-400 hover:bg-blue-300 text-white py-2 px-4 rounded-md font-semibold mt-6">

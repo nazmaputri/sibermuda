@@ -28,7 +28,7 @@
                 <h2 class="text-lg font-semibold capitalize text-gray-700">{{ $course->title }}</h2>
                 <p class="text-gray-700 text-md">{{ $course->description }}</p>
                 <p class="text-gray-600 text-sm capitalize"><span class="">Mentor :</span> {{ $course->mentor->name }}</p>
-                <p class="text-gray-600 text-sm">Harga : <span class="">Rp {{ number_format($course->price, 0, ',', '.') }}</span></p>
+                <p class="text-gray-600 text-sm">Harga : <span class="text-red-500">Rp {{ number_format($course->price, 0, ',', '.') }}</span></p>
                 @if($course->start_date && $course->end_date)
                     <p class="text-gray-600 text-sm"><span class="">Tanggal Mulai :</span> {{ \Carbon\Carbon::parse($course->start_date)->translatedFormat('d F Y') }} - {{ \Carbon\Carbon::parse($course->end_date)->translatedFormat('d F Y') }}</p>
                 @endif

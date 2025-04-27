@@ -1,6 +1,16 @@
 @extends('layouts.dashboard-mentor')
 @section('title', 'Detail Tugas Akhir')
 @section('content')
+
+<!-- button kembali -->
+<div class="mb-3 flex justify-start">
+    <a href="{{ route('courses.show', ['course' => $course->id]) }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
 <div class="container mx-auto">
     <!-- Final Task Detail -->
     <div class="bg-white rounded-lg shadow p-6 mb-6 border border-gray-200">
@@ -51,23 +61,24 @@
                                 <span class="text-gray-400 text-sm">-</span>
                             @endif
                         </td>
-
                         <td class="px-4 py-2 text-center border-b border-r border-gray-200">
                             @if($submission->certificate_status == 'pending')
-                                <form action="{{ route('final-task.confirm', $submission->id) }}" method="POST">
+                                <form action="{{ route('final-task.confirm', $submission->id) }}" method="POST" class="flex items-center justify-center" title="Konfirmasi Sertifikat">
                                     @csrf
-                                    <button type="submit" title="Konfirmasi Sertifikat"  class="p-1 bg-green-100 hover:bg-green-200 text-green-600 rounded">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
-                                            stroke-width="1.5" stroke="currentColor" class="size-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                    <button type="submit"
+                                        class="font-semibold p-1 rounded-md 
+                                            bg-green-300 hover:bg-green-200 text-white">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" 
+                                            class="w-5 h-5 text-white" fill="currentColor">
+                                            <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
                                         </svg>
                                     </button>
                                 </form>
                             @elseif($submission->certificate_status == 'approved')
-                                <div title="Sudah Dikonfirmasi"  class="p-1 text-green-600 font-medium cursor-not-allowed inline-flex items-center justify-center bg-gray-200 rounded">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
-                                        stroke-width="1.5" stroke="currentColor" class="size-6">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                <div class="font-semibold p-1 rounded-md bg-gray-300 text-white cursor-not-allowed inline-flex items-center justify-center" title="Sudah Dikonfirmasi">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" 
+                                        class="w-5 h-5 text-white" fill="currentColor">
+                                        <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
                                     </svg>
                                 </div>
                             @else
@@ -82,6 +93,7 @@
            </div>
         </div>
     </div>
+</div>
 
 <!-- Modal -->
 <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
