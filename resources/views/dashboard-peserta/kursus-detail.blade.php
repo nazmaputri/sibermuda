@@ -98,7 +98,7 @@
                 </script>                
                 <div class="mb-4">
                     <label for="comment" class="block text-sm text-gray-600 font-semibold">Komentar</label>
-                    <textarea name="comment" id="comment" class="w-full text-sm border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500" rows="4" placeholder="Tulis komentar Anda (opsional)"></textarea>
+                    <textarea name="comment" id="comment" class="w-full text-sm border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" rows="4" placeholder="Tulis komentar Anda (opsional)"></textarea>
                 </div>
                 <div class="flex justify-end">
                     <button type="button" id="closeRatingModal" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg mr-2 text-center">

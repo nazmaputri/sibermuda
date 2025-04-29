@@ -62,7 +62,7 @@
                                     </iframe>
                                     <p class="text-gray-600 mt-2">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
-                                    <p class="text-red-500">Video Google Drive tidak tersedia.</p>
+                                    <p class="text-red-500">Video Google Drive tidak tersedia.</p>
                                 @endif
                             </li>
                         @endforeach
@@ -388,7 +388,7 @@
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                text: `Kuis "${title}" membutuhkan waktu ${duration} menit untuk diselesaikan.`,
+                text: Kuis "${title}" membutuhkan waktu ${duration} menit untuk diselesaikan.,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#4CAF50', // Adjust confirm button color (value 400 for green)
@@ -418,7 +418,7 @@
 
             Swal.fire({
                 title: 'Kerjakan Ulang Kuis?',
-                text: `Apakah Anda yakin ingin mengulang kuis "${title}"?`,
+                text: Apakah Anda yakin ingin mengulang kuis "${title}"?,
                 icon: 'question',
                 showCancelButton: true,
                 cancelButtonText: 'Batal', 
