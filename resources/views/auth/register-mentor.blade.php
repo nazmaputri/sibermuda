@@ -48,7 +48,7 @@
                     <h1 class="text-xl font-semibold text-gray-700">Daftar Mentor</h1>
                 </div>
                 <h4 class="text-center text-gray-700">
-                    Ayo daftar dan menjadi bagian mentor di EduFlix!
+                    Ayo daftar dan menjadi bagian mentor di Sibermuda!
                 </h4>
             </div>  
 

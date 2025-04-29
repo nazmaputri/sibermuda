@@ -93,6 +93,7 @@
             @endforeach
 
             <!-- Konten Final Task -->
+            @if ($finalTask)
             <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
                 <h3 class="text-lg font-semibold text-center text-gray-700 mb-4">Tugas Akhir</h3>
 
@@ -102,11 +103,12 @@
                 <!-- Button untuk Mengerjakan Tugas Akhir -->
                 <div class="mt-4">
                     <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}"
-                    class="bg-green-400 text-white text-sm px-2 py-2 rounded hover:bg-green-300">
+                        class="bg-green-400 text-white text-sm px-2 py-2 rounded hover:bg-green-300">
                         Kerjakan Tugas Akhir
                     </a>
                 </div>
             </div>
+            @endif
 
             <!-- Konten Kuis -->
             @if ($course->quizzes->isNotEmpty())
