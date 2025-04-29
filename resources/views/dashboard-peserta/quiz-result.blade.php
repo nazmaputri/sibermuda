@@ -16,7 +16,7 @@
                 }
             </script>
             <div class="mt-6 flex flex-col lg:flex-row gap-8">
-                <div class="lg:w-1/3 bg-white shadow-md rounded-lg p-6 sticky top-6 border">
+                <div class="lg:w-1/3 md:max-h-[40vh] bg-white shadow-md rounded-lg p-6 sticky top-6 border">
                     <h2 class="text-lg font-semibold text-gray-700 border-b-2 pb-2">Skor Anda</h2>
                 
                     <!-- Tanggal Ujian (Paling Atas) -->
@@ -48,7 +48,7 @@
                 </div>                             
 
                 <!-- Detail Jawaban -->
-                <div class="lg:w-2/3 bg-white shadow-md rounded-lg border p-6 overflow-y-auto max-h-[calc(100vh-200px)]">
+                <div class="lg:w-2/3 md:max-h-[55vh] bg-white shadow-md rounded-lg border p-6 overflow-y-auto scrollbar-hide max-h-[calc(100vh-200px)]">
                     <h2 class="text-lg font-semibold text-gray-700 mb-4 border-b-2 pb-2">Detail Jawaban</h2>
                     @foreach ($results as $result)
                         <div class="border-b border-gray-200 py-4">

@@ -21,6 +21,17 @@ export default {
                 'primary-sidebar-hover': '#85afdb',
                 'midnight' : '#08072a',
             },
+            keyframes: {
+                fadeInOut: {
+                  '0%, 100%': { opacity: 0 },
+                  '50%': { opacity: 1 },
+                }
+              },
+              animation: {
+                'fade-slow': 'fadeInOut 6s ease-in-out infinite',
+                'fade-slower': 'fadeInOut 8s ease-in-out infinite',
+                'fade-slowest': 'fadeInOut 10s ease-in-out infinite',
+              },
         },
     },
     plugins: [

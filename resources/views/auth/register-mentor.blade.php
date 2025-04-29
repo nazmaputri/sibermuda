@@ -39,20 +39,26 @@
 <!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
 <x-loading-screen />
 
-    <div class="flex justify-center items-center min-h-screen">
-        <div class="w-full max-w-4xl p-5 space-y-6 bg-white rounded-lg shadow-lg m-10">
-            <!-- Logo and Website Name -->
-            <div class="flex flex-col items-center justify-center space-y-2">
+<div class="flex justify-center items-center min-h-screen px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-4xl my-4 bg-white rounded-lg shadow-lg overflow-hidden">
+        <!-- Gambar di sebelah kiri, hanya tampil di md ke atas -->
+        <div class="hidden md:block">
+            <img src="{{ asset('storage/belajar-with-laptop.jpg') }}" alt="Login Image" class="h-full w-full object-contain">
+        </div>
+
+         <!-- Form Login di sebelah kanan -->
+         <div id="register-container" class="w-full p-8 space-y-6 opacity-0 scale-90">
+            
+         <div class="flex flex-col items-center justify-center space-y-2">
                 <div class="flex flex-col md:flex-row items-center space-x-3">
                     <!-- <img src="{{ asset('storage/eduflix-1.png') }}" alt="Logo" class="w-18 h-16"> -->
                     <h1 class="text-xl font-semibold text-gray-700">Daftar Mentor</h1>
                 </div>
                 <h4 class="text-center text-gray-700">
-                    Ayo daftar dan menjadi bagian mentor di Sibermuda!
+                    Ayo daftar dan menjadi bagian mentor di Sibermuda.Idn!
                 </h4>
-            </div>  
+            </div> 
 
-           
             <!-- Notifikasi Sukses -->
             @if (session('success'))
                 <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
@@ -61,9 +67,9 @@
             @endif
             
             <!-- Form -->
-            <form action="{{ route('register') }}" method="POST" class="" id="form">
+            <form action="{{ route('register') }}" method="POST" class="space-y-2" id="form">
                 @csrf
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6"> -->
                     <!-- Name Field -->
                     <div>
                         <label for="name" class="block text-sm font-medium text-gray-700 pb-2">Nama Lengkap</label>
@@ -129,28 +135,27 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                </div>
-            
-                <!-- Hidden Role Field -->
-                <input type="hidden" name="role" value="mentor">
+
+                     <!-- Hidden Role Field -->
+                    <input type="hidden" name="role" value="mentor">
              
-                <div class="justify-center items-center space-y-4 mt-5">
-                    <!-- Submit Button -->
-                    <div class="flex justify-center">
-                        <button type="submit" id="btn-submit"
-                            class="inline-flex justify-center items-center md:w-1/2 w-full px-4 py-2 bg-[#08072a] text-white font-semibold rounded-md hover:bg-opacity-90 focus:outline-none">
-                            Daftar
-                        </button>
-                    </div>
-                
-                    <!-- Login Link -->
-                    <h4 class="text-center text-gray-700">
-                        Sudah punya akun?
-                        <a href="/login" class="text-blue-900 underline">Login</a>
-                    </h4>
-                </div>
+             <div class="justify-center items-center space-y-4 mt-5">
+                 <!-- Submit Button -->
+                 <div class="flex justify-center">
+                     <button type="submit" id="btn-submit"
+                         class="inline-flex justify-center items-center w-full px-4 py-2 bg-[#08072a] text-white font-semibold rounded-md hover:bg-opacity-90 focus:outline-none">
+                         Daftar
+                     </button>
+                 </div>
+             
+                 <!-- Login Link -->
+                 <h4 class="text-center text-gray-700">
+                     Sudah punya akun?
+                     <a href="/login" class="text-blue-900 underline">Login</a>
+                 </h4>
+             <!-- </div> -->
+            </div>
             </form>
-            
         </div>
     </div>
 
@@ -224,7 +229,7 @@
     
     // Saat DOM sudah siap, tambahkan class animasi zoom-in ke kontainer
     document.addEventListener('DOMContentLoaded', () => {
-        const loginContainer = document.getElementById('login-container');
+        const loginContainer = document.getElementById('register-container');
         setTimeout(() => {
             loginContainer.classList.add('animate-zoom-in');
         }, 100); // delay sedikit agar smooth

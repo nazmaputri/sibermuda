@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 
     <!-- AOS CSS -->
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
@@ -31,8 +32,8 @@
 
     <!-- Bagian Materi Kursus -->
     <section id="course" class="py-12 bg-white p-6">
-        <div class="mb-4 mt-8">
-            <h3 class="text-xl font-bold text-center text-[#08072a]" data-aos="fade-up">
+        <div class="mb-4 mt-8 md:mt-10">
+            <h3 class="text-xl md:text-3xl font-['Roboto'] font-bold text-center text-[#08072a]" data-aos="fade-up">
                 Daftar Kursus Yang Tersedia
             </h3>
         </div>

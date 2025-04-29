@@ -1,6 +1,6 @@
 <!-- About Section -->
 <section id="about" class="bg-white py-12">
-    <div class="container mx-auto px-2">
+    <div class="container mx-auto px-4">
         <div class="flex lg:space-x-12 items-center">
 
             <!-- Image Section -->
@@ -12,7 +12,7 @@
             <div class="md:px-12 space-y-6" data-aos="fade-right">
                 <!-- Title -->
                 <div class="mb-6">
-                    <h3 class="text-xl text-center font-bold text-[#08072a] text-opacity-90">
+                    <h3 class="text-xl md:text-3xl font-['Roboto'] text-center font-bold text-[#08072a] text-opacity-90">
                        Tentang Kami
                     </h3>
                 </div>
@@ -23,12 +23,12 @@
                 </p>
 
                 <!-- Accordion -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="accordion">
+                <div class="grid grid-cols-1 gap-4" id="accordion">
                     <!-- Card 1 -->
                     <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
                         <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
-                            <span>01. Akses Materi Pembelajaran Terlengkap</span>
+                            <span>Akses Materi Pembelajaran Terlengkap</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                 class="w-5 h-5 transition-transform duration-300 transform rotate-0">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -46,7 +46,7 @@
                     <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
                         <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
-                            <span>02. Pembelajaran Interaktif dan Menyenangkan</span>
+                            <span>Pembelajaran Interaktif dan Menyenangkan</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                 class="w-5 h-5 transition-transform duration-300 transform rotate-0">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -64,7 +64,7 @@
                     <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
                         <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
-                            <span>03. Fasilitas untuk Mentor dan Peserta</span>
+                            <span>Fasilitas untuk Mentor dan Peserta</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                 class="w-5 h-5 transition-transform duration-300 transform rotate-0">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -82,7 +82,7 @@
                     <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
                         <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-semibold focus:outline-none"
                             onclick="toggleFeature(this)">
-                            <span>04. Sertifikat Digital Setelah Selesai Kursus</span>
+                            <span>Sertifikat Digital Setelah Selesai Kursus</span>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                 class="w-5 h-5 transition-transform duration-300 transform rotate-0">
                                 <path stroke-linecap="round" stroke-linejoin="round"

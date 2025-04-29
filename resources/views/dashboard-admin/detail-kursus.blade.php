@@ -37,16 +37,16 @@
                 <p class="text-gray-600 text-center mt-1 text-sm">Kursus ini belum ada materi apapun.</p>
             @else
             @foreach($course->materi as $materi)
-            <div class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+            <div class="bg-white border border-gray-200 p-2.5 rounded-lg shadow-sm">
                 <div x-data="{ open: false }">
                     <!-- Judul Materi dengan Toggle Dropdown -->
                     <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
                         <!-- Menambahkan nomor urut di sebelah kiri judul -->
-                        <span class="text-gray-700 font-semibold mr-2">
+                        <span class="text-gray-700 text-sm font-semibold mr-2">
                             {{ sprintf('%02d', $loop->iteration) }}.
                         </span>
                         
-                        <h4 class="text-md font-semibold text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
+                        <h4 class="text-sm font-semibold text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
                                                 
                         <!-- Tombol Toggle -->
                         <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 text-gray-600 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -55,20 +55,18 @@
                     </div>
 
                     <!-- Deskripsi Materi -->
-                    <p class="text-gray-600 mb-2 mt-2" x-show="open" x-transition>{{ $materi->deskripsi }}</p>
+                    <p class="text-gray-600 text-smmb-2 mt-2" x-show="open" x-transition>{{ $materi->deskripsi }}</p>
 
                     <!-- Video (Tampilkan hanya jika open adalah true) -->
                     <div x-show="open" x-transition>
                         @if($materi->videos->isEmpty() && $materi->youtube->isEmpty())
-                        <p class="text-gray-700">Tidak ada video untuk materi ini.</p>
+                        <p class="text-gray-700 text-sm">Tidak ada video untuk materi ini.</p>
                         @else
                             <ul class="mt-4 space-y-4">
                                 {{-- Google Drive Videos --}}
                                 @foreach ($materi->videos as $video)
                                     <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                        <h3 class="font-semibold text-gray-800">{{ $video->title }}</h3>
-                                        <p class="text-gray-600">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
-            
+                                        <h3 class="font-semibold text-sm text-gray-700">{{ $video->title }}</h3>
                                         @if ($video->link)
                                             <iframe
                                                 src="https://drive.google.com/file/d/{{ $video->link }}/preview"
@@ -78,17 +76,16 @@
                                                 class="rounded-lg shadow-md">
                                             </iframe>
                                         @else
-                                            <p class="text-red-500">Video Google Drive tidak tersedia.</p>
+                                            <p class="text-gray-700 text-sm">Video Google Drive tidak tersedia.</p>
                                         @endif
+                                        <p class="text-gray-600 text-sm">{{ $video->description ?: 'Tidak ada deskripsi video G-drive' }}</p>
                                     </li>
                                 @endforeach
             
                                 {{-- YouTube Videos --}}
                                 @foreach ($materi->youtube as $yt)
                                     <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                        <h3 class="font-semibold text-gray-800">{{ $yt->title }}</h3>
-                                        <p class="text-gray-600">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
-            
+                                        <h3 class="font-semibold text-gray-700 text-sm">{{ $yt->title }}</h3>
                                         @if ($yt->link)
                                             <iframe
                                                 width="100%" height="480"
@@ -99,8 +96,9 @@
                                                 class="rounded-lg shadow-md">
                                             </iframe>
                                         @else
-                                            <p class="text-red-500">Video YouTube tidak tersedia.</p>
+                                            <p class="text-gray-700 text-sm">Video YouTube tidak tersedia.</p>
                                         @endif
+                                        <p class="text-gray-600">{{ $yt->description ?: 'Tidak ada deskripsi video Youtube' }}</p>
                                     </li>
                                 @endforeach
                             </ul>

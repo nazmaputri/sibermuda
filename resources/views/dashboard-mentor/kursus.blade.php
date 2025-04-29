@@ -58,7 +58,7 @@
                         <td class="px-4 py-2 text-center border-b border-gray-200">{{ $course->price ? 'Rp. ' . number_format($course->price, 0, ',', '.') : 'Gratis' }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 capitalize text-center">{{ $course->total_peserta }}</td>
                         <td class="py-2 px-4 text-center border-b  border-r border-gray-200">
-                            <div class="flex items-center justify-center space-x-3">
+                            <div class="flex items-center justify-center space-x-3 overflow-x-auto scrollbar-hide">
                                 <!-- Tombol Chat -->
                                 <a href="{{ $course->chat ? route('chat.mentor', ['courseId' => $course->id]) : '#' }}" class="text-white bg-green-300 p-1 rounded-md hover:bg-green-200 {{ !$course->chat ? 'cursor-not-allowed opacity-50' : '' }}" id="chatButton" {{ !$course->chat ? 'disabled' : '' }} title="{{ !$course->chat ? 'Chat Tidak Aktif' : 'Chat Aktif' }}">
                                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

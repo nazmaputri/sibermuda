@@ -70,7 +70,7 @@
                     <!-- Icon Arrow Left jika sidebar terbuka -->
                     <template x-if="sidebarExpanded">
                         <div class="p-0.5 rounded-full border border-gray-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 font-semibold text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 font-semibold text-gray-500">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                             </svg>
                         </div>
@@ -78,7 +78,7 @@
                     <!-- Icon Arrow Right jika sidebar tertutup -->
                     <template x-if="!sidebarExpanded">
                         <div class="p-0.5 rounded-full border border-gray-400">
-                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 font-semibold text-gray-400">
+                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 font-semibold text-gray-500">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                             </svg>
                         </div>
@@ -311,7 +311,7 @@
 </script>      
 
 <!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->
-@if(session('success') || session('error') || session('info') || session('warning'))
+@if((session('success') || session('error') || session('info') || session('warning')) && !session('disable_swal')) <!-- tambahkan disable_swal agar popup ketika mengirim chat berhasil, popup tidak muncul (di controller chat liat dah) -->
     <div id="sweetalert-data"
          data-type="{{ session('success') ? 'success' : (session('error') ? 'error' : (session('info') ? 'info' : 'warning')) }}"
          data-message="{{ session('success') ?? session('error') ?? session('info') ?? session('warning') }}">

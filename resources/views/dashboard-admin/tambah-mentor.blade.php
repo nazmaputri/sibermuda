@@ -21,12 +21,13 @@
             <!-- Email -->
             <div>
                 <label for="email" class="block font-semibold text-gray-700 pb-2">Email</label>
-                <input type="email" name="email" id="email" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('email') border-red-500 @enderror" placeholder="Masukkan Email">
+                <input type="email" name="email" id="email" class="anti-autofill w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('email') border-red-500 @enderror" placeholder="Masukkan Email" value="{{ old('email') }}" autocomplete="off" {{-- atau coba: autocomplete="new-password" --}} readonly  onfocus="this.removeAttribute('readonly');"
+                >
                 @error('email')
                     <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
                 @enderror
             </div>
-           
+
             <!-- Nomor Telepon -->
             <div>
                 <label for="phone_number" class="block font-semibold text-gray-700 pb-2">Nomor Telepon</label>

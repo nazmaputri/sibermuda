@@ -11,72 +11,105 @@
 </div>
 
 <div class="container mx-auto">
+<!-- Card Wrapper -->
+<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
 
-  <!-- Card Wrapper -->
-    <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+    <!-- Judul Halaman -->
+    <h1 class="text-xl text-center text-gray-700 font-semibold mb-4 border-b-2 pb-2 capitalize">Detail Materi : {{ $materi->judul }}</h1>
 
-        <!-- Judul Halaman -->
-        <h1 class="text-xl text-center text-gray-700 font-semibold mb-4 border-b-2 pb-2 capitalize">Detail Materi : {{ $materi->judul }}</h1>
+    <!-- Nama Kursus -->
+    <p class="mt-2 text-gray-700"><span class="font-semibold">Kursus :</span> {{ $materi->course->title ?? 'Kursus tidak tersedia' }}</p>
 
-        <!-- Detail Materi -->
-        <p class="text-gray-700">{{ $materi->deskripsi ?? 'Tidak ada deskripsi' }}</p>
+    <!-- Detail Materi -->
+    <p class="text-gray-700">{{ $materi->deskripsi ?? 'Tidak ada deskripsi' }}</p>
 
-        <!-- Nama Kursus -->
-        <p class="mt-2 text-gray-700"><span class="font-semibold">Kursus :</span> {{ $materi->course->title ?? 'Kursus tidak tersedia' }}</p>
+    <!-- Video Section -->
+    <div class="mt-2">
 
-        <!-- Video Section -->
-        <div class="mt-6">
-        <h2 class="text-lg font-semibold text-gray-700">Video Materi</h2>
-
-        <!-- Cek apakah ada video sama sekali -->
         @if($materi->videos->isEmpty() && $materi->youtube->isEmpty())
             <p class="text-gray-700">Tidak ada video untuk materi ini.</p>
-            @else
-                <ul class="mt-4 space-y-4">
-                    {{-- Google Drive Videos --}}
-                    @foreach ($materi->videos as $video)
-                        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                            <h3 class="font-semibold text-gray-800">{{ $video->title }}</h3>
-                            <p class="text-gray-600">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
+        @else
+            <div class="space-y-4 text-sm">
+                {{-- Google Drive Videos --}}
+                @if ($materi->videos->isNotEmpty())
+                    <div>
+                        <h2 class="text-base font-semibold text-gray-700 mb-2">Video G-Drive</h2>
+                        <div class="grid grid-cols-1 gap-4">
+                            @foreach ($materi->videos as $video)
+                                <div x-data="{ open: false }" 
+                                :class="open ? 'border-midnight' : 'border-gray-200'" 
+                                class="bg-white border rounded-lg p-2.5 flex flex-col self-start transition-colors duration-300">
+                                    <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500">{{ $loop->iteration }}.</span>
+                                        <h3 class="text-sm font-medium text-gray-700">{{ $video->title }}</h3>
+                                    </div>
+                                        <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                    <div x-show="open" x-collapse class="mt-4 overflow-hidden">
+                                        @if ($video->link)
+                                            <iframe
+                                                src="https://drive.google.com/file/d/{{ $video->link }}/preview"
+                                                width="100%" height="480"
+                                                allow="autoplay"
+                                                allowfullscreen
+                                                class="rounded-lg shadow-md">
+                                            </iframe>
+                                        @else
+                                            <p class="text-red-500">Video Google Drive tidak tersedia.</p>
+                                        @endif
+                                        <p class="text-gray-700 mt-2">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
 
-                            @if ($video->link)
-                                <iframe
-                                    src="https://drive.google.com/file/d/{{ $video->link }}/preview"
-                                    width="100%" height="480"
-                                    allow="autoplay"
-                                    allowfullscreen
-                                    class="rounded-lg shadow-md">
-                                </iframe>
-                            @else
-                                <p class="text-red-500">Video Google Drive tidak tersedia.</p>
-                            @endif
-                        </li>
-                    @endforeach
-
-                    {{-- YouTube Videos --}}
-                    @foreach ($materi->youtube as $yt)
-                        <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                            <h3 class="font-semibold text-gray-800">{{ $yt->title }}</h3>
-                            <p class="text-gray-600">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
-
-                            @if ($yt->link)
-                                <iframe
-                                    width="100%" height="480"
-                                    src="https://www.youtube.com/embed/{{ $yt->link }}"
-                                    frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowfullscreen
-                                    class="rounded-lg shadow-md">
-                                </iframe>
-                            @else
-                                <p class="text-red-500">Video YouTube tidak tersedia.</p>
-                            @endif
-                        </li>
-                    @endforeach
-                </ul>
+                {{-- YouTube Videos --}}
+                @if ($materi->youtube->isNotEmpty())
+                    <div>
+                        <h2 class="text-base font-semibold text-gray-700 mb-2">Video YouTube</h2>
+                        <div class="grid grid-cols-1 gap-4">
+                            @foreach ($materi->youtube as $yt)
+                                <div x-data="{ open: false }" 
+                                :class="open ? 'border-midnight' : 'border-gray-200'" 
+                                class="bg-white border rounded-lg p-2.5 flex flex-col self-start transition-colors duration-300" >
+                                    <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-500">{{ $loop->iteration }}.</span>
+                                        <h3 class="text-sm font-medium text-gray-700">{{ $yt->title }}</h3>
+                                    </div>
+                                        <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </div>
+                                    <div x-show="open" x-collapse class="mt-4 overflow-hidden">
+                                        @if ($yt->link)
+                                            <iframe
+                                                width="100%" height="480"
+                                                src="https://www.youtube.com/embed/{{ $yt->link }}"
+                                                frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen
+                                                class="rounded-lg shadow-md">
+                                            </iframe>
+                                        @else
+                                            <p class="text-red-500">Video YouTube tidak tersedia.</p>
+                                        @endif
+                                        <p class="text-gray-700 mt-2">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+            </div>
         @endif
     </div>
-
+</div>
 </div>
 
 <!-- Modal Popup -->

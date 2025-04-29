@@ -119,7 +119,10 @@ class ChatController extends Controller
         return redirect()->route($roleRoute, [
             'courseId' => $chat->course_id, // Tambahkan courseId
             'chatId' => $chat->id,         // Chat yang sedang aktif
-        ])->with('success', 'Message sent successfully.');
+        ])->with([
+            'success' => 'Message sent successfully.',
+            'disable_swal' => true, // Tambahkan ini supaya pesannya tidak ditampilkan oleh sweetalert
+        ]);
     }
     
     public function startChat(Request $request, $studentId)

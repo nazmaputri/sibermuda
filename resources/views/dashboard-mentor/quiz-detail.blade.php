@@ -22,35 +22,42 @@
         </p>
 
         <!-- Durasi Kuis -->
-        <p class="text-gray-600 mb-6 text-sm">
+        <p class="text-gray-600 mb-4 text-sm">
             <strong>Durasi :</strong> {{ $quiz->duration }} Menit
         </p>
 
         <!-- Daftar Soal -->
         @if($quiz->questions->isNotEmpty())
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
             @foreach($quiz->questions as $index => $question)
-            <!-- Card untuk Setiap Soal -->
-            <div class="bg-gray-50 border rounded-lg p-4 shadow-md text-sm">
-                <div class="flex items-start">
-                    <!-- Nomor Soal -->
-                    <span class="text-sm text-gray-700 font-semibold mr-2">{{ $index + 1 }}.</span>
-                    
-                    <!-- Pertanyaan -->
-                    <p class="text-sm font-medium text-gray-700 flex-1 capitalize">{{ $question->question }}</p>
+            <div 
+                x-data="{ open: false }" 
+                :class="open ? 'border-midnight' : 'border-gray-200'" 
+                class="bg-white border rounded-lg p-2.5 flex flex-col self-start transition-all duration-300"
+            >
+                <!-- Header Soal -->
+                <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
+                    <div class="flex items-start">
+                        <span class="text-sm text-gray-700 font-semibold mr-2">{{ $index + 1 }}.</span>
+                        <p class="text-sm font-medium text-gray-700 capitalize">{{ $question->question }}</p>
+                    </div>
+                    <!-- Icon Dropdown -->
+                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
                 </div>
 
-                <!-- Jawaban Tersembunyi dengan Dropdown -->
-                <details class="mt-4">
-                    <summary class="cursor-pointer text-sky-400">Lihat Jawaban</summary>
-                    <ul class="list-none mt-2 space-y-2">
+                <!-- Dropdown Content -->
+                <div x-show="open" x-collapse class="mt-4 overflow-hidden">
+                    <p class="text-sm font-semibold text-gray-500 mb-2">Jawaban:</p>
+                    <ul class="list-none space-y-2">
                         @foreach($question->answers as $answer)
-                        <li class="p-2 border rounded-md {{ $answer->is_correct ? 'bg-green-100 text-green-700 font-semibold' : 'bg-gray-100 text-gray-600' }}">
+                        <li class="p-2 border border-gray-200 rounded-md text-sm {{ $answer->is_correct ? 'bg-green-50 text-green-600 font-semibold' : 'bg-gray-50 text-gray-600' }}">
                             {{ $answer->answer }}
                         </li>
                         @endforeach
                     </ul>
-                </details>
+                </div>
             </div>
             @endforeach
         </div>

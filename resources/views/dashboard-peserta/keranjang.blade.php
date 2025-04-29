@@ -7,7 +7,7 @@
         <!-- Pemberitahuan Diskon (Tetap Ada di Atas Keranjang) -->
         @if ($activeDiscount)
         <div class="bg-yellow-100 text-yellow-700 p-4 mb-4 rounded-lg">
-            <h3 class="font-bold text-lg">🎉 Kode kupon: <span class="">{{ $activeDiscount->coupon_code }}</span></h3>
+            <h3 class="font-bold text-lg">🎉 Kode Diskon: <span class="">{{ $activeDiscount->coupon_code }}</span></h3>
             <p class="text-sm">Diskon sebesar <strong>{{ $activeDiscount->discount_percentage }}%</strong> berlaku hingga <span id="discount-end">{{ \Carbon\Carbon::parse($activeDiscount->end_date)->translatedFormat('d F Y') }} {{ $activeDiscount->end_time }}</span>.</p>
             <div class="text-red-600 font-semibold text-sm mt-2" id="countdown-timer"></div>
         </div>
@@ -40,104 +40,132 @@
             if (discountEnd) startCountdown(discountEnd);
         </script>
         @if ($carts->isEmpty())
-            <!-- Jika keranjang kosong -->
-            <div class="text-center py-3">
-                <p class="text-gray-500">Keranjang Kamu masih kosong. Yuk, pilih kursus favoritmu!</p>
-                <a href="{{ route('kategori-peserta') }}"
-                    class="mt-4 font-semibold inline-block bg-sky-400 text-white py-1.5 px-5 rounded-lg hover:bg-sky-300 transition shadow-lg">
-                    Jelajahi Kursus
-                </a>
-            </div>
-        @else
-        <div class="flex flex-col lg:flex-row gap-6">
-        <!-- kontainer untuk kursus yang ada di keranjang -->
-        <div class="flex flex-col bg-white border border-gray-200 p-3 rounded-lg shadow lg:w-2/3 md:min-h-40">
-            @foreach ($carts as $cart)
-                <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
-                    <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md"/>
-        
-                    <!-- Informasi Produk -->
-                    <div class="flex-1 space-y-1">
-                        <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
-                        <p class="text-sm font-semibold text-red-400">Rp. <span class="">{{ number_format($cart->course->price, 0, ',', '.') }}</span></p>
-                        <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="flex text-center items-center justify-center rounded-md text-red text-xs" type="submit">
-                                <span class="text-sm text-red-400">Hapus</span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-
-        <!-- kontainer untuk apply kupon, total harga dan beli -->
-        <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
-            <!-- Input Kupon -->
-            <div class="flex space-x-2 items-center mt-1">
-                <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
-                <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
-            </div>
-
-            <!-- Total Harga -->
-            <div class="mt-3">
-                <div class="flex justify-between items-center flex-wrap gap-2">
-                    <h3 class="font-semibold text-gray-700 text-sm">
-                        Total:
-                    </h3>
-                    <div class="flex items-center space-x-2">
-                        @if ($couponCode)
-                            <span class="text-gray-500 line-through text-sm">
-                                Rp {{ number_format($totalPrice, 0, ',', '.') }}
-                            </span>
-                        @endif
-                        <span id="total-price" class="text-red-500 font-semibold text-sm">
-                            Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}
-                        </span>
-                    </div>
-                </div>
-
-                <!-- Button Beli -->
-                @foreach ($carts as $cart)
-                    @php
-                        $isPending = in_array($cart->course_id, $pendingTransactions);
-                    @endphp
-
-                    @if ($isPending)
-                        <button 
-                            class="bg-gray-400 text-white font-semibold py-1.5 px-3 rounded-lg w-full mt-3 text-sm cursor-not-allowed" 
-                            onclick="showPendingAlert(event)">
-                            Beli Sekarang
-                        </button>
-                    @else
-                        <button 
-                            class="bg-green-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-green-300 w-full mt-3 text-sm" 
-                            id="pay-now" 
-                            data-total-price="{{ $totalPriceAfterDiscount }}">
-                            Beli Sekarang
-                        </button>
-                    @endif
-                @endforeach
-
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                <script>
-                    function showPendingAlert(e) {
-                        e.preventDefault();
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Kursus sudah dibeli',
-                            text: 'Anda sudah membeli kursus ini. Harap tunggu konfirmasi dari admin.',
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Oke'
-                        });
+            @if (!empty($pendingTransactions))
+                @php
+                    $pendingCarts = [];
+                    foreach ($carts as $cart) {
+                        if (in_array($cart->course_id, $pendingTransactions)) {
+                            $pendingCarts[] = $cart;
+                        }
                     }
-                </script>      
-            
-            </div>
+                @endphp
 
-         </div>
-        </div>
+                <!-- Kursus dengan status pending -->
+                @if (!empty($pendingCarts))
+                    <div class="mt-6 bg-white border border-gray-200 p-4 rounded-lg shadow shadow-md lg:w-2/3">
+                        <h3 class="text-gray-700 font-semibold mb-2">Menunggu Konfirmasi Pembayaran</h3>
+                        @foreach ($pendingCarts as $cart)
+                            <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
+                                <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-20 h-20 object-cover rounded-md" />
+                                <div class="flex-1">
+                                    <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
+                                    <p class="text-sm font-semibold text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                                    <p class="text-xs text-gray-600">status : <span class="text-yellow-500">pending</span></p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            @else
+                <div class="text-center py-3">
+                    <p class="text-gray-500">Keranjang Kamu masih kosong. Yuk, pilih kursus favoritmu!</p>
+                    <a href="{{ route('kategori-peserta') }}"
+                        class="mt-4 font-semibold inline-block bg-sky-400 text-white py-1.5 px-5 rounded-lg hover:bg-sky-300 transition shadow-lg">
+                        Jelajahi Kursus
+                    </a>
+                </div>
+            @endif
+        @else
+            @php
+                $pendingCarts = [];
+                $availableCarts = [];
+                $subtotal = 0;
+
+                foreach ($carts as $cart) {
+                    if (in_array($cart->course_id, $pendingTransactions)) {
+                        $pendingCarts[] = $cart;
+                    } else {
+                        $availableCarts[] = $cart;
+                        $subtotal += $cart->course->price;
+                    }
+                }
+            @endphp
+
+            @if (!empty($availableCarts))
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Kursus yang bisa dibeli -->
+                    <div class="flex flex-col bg-white border border-gray-200 p-3 rounded-lg shadow lg:w-2/3">
+                        @foreach ($availableCarts as $cart)
+                            <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
+                                <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md"/>
+                                <div class="flex-1 space-y-1">
+                                    <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
+                                    <p class="text-sm font-semibold text-red-400">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                                    <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="flex text-center items-center justify-center rounded-md text-red text-xs" type="submit">
+                                            <span class="text-sm text-red-400">Hapus</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Sidebar total & checkout -->
+                    <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
+                        <!-- Input Kupon -->
+                        <div class="flex space-x-2 items-center mt-1 pb-4">
+                            <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
+                            <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
+                        </div>
+
+                        <!-- Total Harga -->
+                        <div class="mt-3">
+                            <div class="flex justify-between items-center flex-wrap gap-2">
+                                <h3 class="font-semibold text-gray-700 text-sm">
+                                    Total:
+                                </h3>
+                                <div class="flex items-center space-x-2">
+                                    @if ($couponCode && $totalPriceAfterDiscount < $subtotal)
+                                        <span class="text-gray-500 line-through text-sm">
+                                            Rp {{ number_format($subtotal, 0, ',', '.') }}
+                                        </span>
+                                    @endif
+                                    <span id="total-price" class="text-red-500 font-semibold text-sm">
+                                        Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <button 
+                                class="bg-green-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-green-300 w-full mt-3 text-sm" 
+                                id="pay-now" 
+                                data-total-price="{{ $subtotal }}">
+                                Beli Sekarang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Kursus dengan status pending -->
+            @if (!empty($pendingCarts))
+                <div class="mt-6 bg-white border border-gray-200 p-4 rounded-lg shadow shadow-md {{ empty($availableCarts) ? 'w-full' : 'lg:w-2/3' }}">
+                    <h3 class="text-gray-700 font-semibold mb-2">Menunggu Konfirmasi Pembayaran</h3>
+                    @foreach ($pendingCarts as $cart)
+                        <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
+                            <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-20 h-20 object-cover rounded-md" />
+                            <div class="flex-1">
+                                <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
+                                <p class="text-sm font-semibold text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                                <p class="text-xs text-gray-600">status : <span class="text-yellow-500">pending</span></p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
         @endif
     </div>
 

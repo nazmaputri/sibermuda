@@ -45,34 +45,40 @@ class KeranjangController extends Controller
             }
         }
             
-        // Hitung total harga sebelum diskon
-        $totalPrice = $carts->sum(fn($cart) => $cart->course->price);
-    
+        // Filter keranjang yang tidak dalam transaksi pending
+        $availableCarts = $carts->filter(function ($cart) use ($pendingTransactions) {
+            return !in_array($cart->course_id, $pendingTransactions);
+        });
+
+        // Hitung total harga dari kursus yang tidak pending
+        $totalPrice = $availableCarts->sum(fn($cart) => $cart->course->price);
+
         // Ambil diskon yang aktif
         $activeDiscount = Discount::where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->first();
-    
+
         $totalPriceAfterDiscount = $totalPrice;
         $couponCode = $request->query('coupon');
-    
+
         if ($couponCode) {
             $discount = Discount::where('coupon_code', $couponCode)
                 ->where('start_date', '<=', now())
                 ->where('end_date', '>=', now())
                 ->first();
-    
+
             if ($discount) {
                 if ($discount->apply_to_all) {
                     $discountAmount = $totalPrice * ($discount->discount_percentage / 100);
                 } else {
                     $discountAmount = 0;
-                    foreach ($carts as $cart) {
+                    foreach ($availableCarts as $cart) {
                         if ($discount->courses->contains($cart->course->id)) {
                             $discountAmount += $cart->course->price * ($discount->discount_percentage / 100);
                         }
                     }
                 }
+
                 $totalPriceAfterDiscount = $totalPrice - $discountAmount;
             }
         }

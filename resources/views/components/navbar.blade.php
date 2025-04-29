@@ -15,7 +15,7 @@
     <div class="md:col-span-3 flex items-center gap-2">
       <!-- Logo -->
        <!-- <div class="">
-        <img src="{{ asset('storage/siber.png') }}" alt="image description" class="rounded-full bg-white w-12 h-12">
+        <img src="{{ asset('storage/logo-sibermuda.png') }}" alt="image description" class="rounded-full bg-white w-12 h-12">
        </div> -->
       <!-- End Logo -->
 
@@ -26,12 +26,13 @@
     <!-- Button Group -->
     <div class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:order-3 md:col-span-3">
     <!-- Tombol Account -->
-    <a href="/login" type="button" class="py-2 px-4 md:border-1 md:hover:bg-[#08072a] border border-[#08072a] md:border-[#08072a] inline-flex items-center gap-x-2 text-sm font-medium rounded-xl md:rounded-full focus:outline-none transition ease-in-out duration-300">
+    <a href="/login" type="button" class="group py-2 px-4 md:border-1 md:hover:bg-[#08072a] border border-[#08072a] md:border-[#08072a] inline-flex items-center gap-x-2 text-sm font-medium rounded-xl md:rounded-full focus:outline-none transition ease-in-out duration-300">
         <!-- Teks Account hanya tampil di layar medium ke atas -->
-        <span class="hidden md:block text-[#08072a] hover:text-white">Masuk</span>
+        <span class="hidden md:block text-[#08072a] group-hover:text-white transition-colors duration-300">Masuk</span>
+        
         <!-- Ikon hanya tampil di layar kecil -->
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-[#08072a] block md:hidden w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
         </svg>
     </a>
 

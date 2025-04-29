@@ -48,7 +48,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     //Kursus
     Route::get('/kursus/{categoryId}/{courseId}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
-    // Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus');
+    Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus'); //nggadipake, tp jgn dikomen nnti detail mentor malah ngaco 
 
     //Laporan
     Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan'])->name('laporan-admin');

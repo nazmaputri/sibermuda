@@ -92,7 +92,7 @@
                 <div class="p-2 mt-auto flex-col sm:flex-row justify-between gap-3">
                     <!-- Button Lanjut Belajar -->
                     <a href="{{ route('study-peserta', ['id' => $course->id]) }}" class="flex-1">
-                        <button class="bg-yellow-200/50 mb-4 text-yellow-500 border border-yellow-300 w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:text-white hover:bg-yellow-300 transition-colors">
+                        <button class="bg-white mb-4 text-yellow-500 border border-yellow-300 w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:text-white hover:bg-yellow-300 transition-colors">
                             Belajar
                         </button>
                     </a>
@@ -103,12 +103,12 @@
                     
                     @if ($canDownload)
                         <a href="{{ route('certificate.download', ['courseId' => $course->id]) }}">
-                            <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 bg-green-200/50 text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors">
+                            <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 bg-white text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors">
                                 Download Sertifikat
                             </button>
                         </a>
                     @else
-                        <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 bg-gray-400 text-gray-600 border-gray-600 cursor-not-allowed opacity-50" disabled>
+                        <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 bg-white text-gray-500 border border-gray-500 cursor-not-allowed opacity-50" disabled>
                             Sertifikat Tidak Tersedia
                         </button>
                     @endif
@@ -116,7 +116,7 @@
                     {{-- <a href="{{ $canDownloadCertificate ? route('certificate-detail', ['courseId' => $course->id]) : '#' }}" 
                         class="flex-1 {{ !$canDownloadCertificate ? 'pointer-events-none' : '' }}">
                          <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 
-                             {{ !$canDownloadCertificate ? 'bg-gray-400 text-gray-600 border-gray-600 cursor-not-allowed opacity-50' : 'bg-green-200/50 text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors group' }}">
+                             {{ !$canDownloadCertificate ? 'bg-white text-gray-600 border-gray-600 cursor-not-allowed' : 'bg-white text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors group' }}">
                              
                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5 transition-all 
                                  {{ !$canDownloadCertificate ? 'grayscale opacity-50 cursor-not-allowed' : 'group-hover:fill-white fill-green-500' }}">

@@ -1,8 +1,8 @@
 <!-- Price Section -->
-<section id="price" class="bg-white py-16">
+<section id="price" class="bg-white py-16 mx-4">
     <div class="container mx-auto px-2 md:px-12">
         <div class="mb-6 text-center">
-            <h3 class="text-xl font-bold text-[#08072a]" data-aos="fade-down">Rekomendasi Kursus Sibermuda</h3>
+            <h3 class="text-xl md:text-3xl font-['Roboto'] font-bold text-[#08072a]" data-aos="fade-down">Rekomendasi Kursus Sibermuda</h3>
             <p class="text-md text-gray-700 mt-2" data-aos="fade-down">Pilih kursus yang sesuai dengan kebutuhan Anda.</p>
         </div>
         <div class="overflow-x-auto hide-scrollbar py-5">
