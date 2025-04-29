@@ -62,7 +62,7 @@
                                     </iframe>
                                     <p class="text-gray-600 mt-2">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
-                                    <p class="text-red-500">Video Google Drive tidak tersedia.</p>
+                                    <p class="text-red-500">Video Google Drive tidak tersedia.</p>
                                 @endif
                             </li>
                         @endforeach
@@ -93,29 +93,13 @@
             @endforeach
 
             <!-- Konten Final Task -->
-<<<<<<< HEAD
-            @if ($finalTask)
-            <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
-                <h3 class="text-lg font-semibold text-center text-gray-700 mb-4">Tugas Akhir</h3>
-=======
             @if($finalTask)
                 <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
                     <h3 class="text-lg font-semibold text-center text-gray-700 mb-4">Tugas Akhir</h3>
->>>>>>> 552e8cf0edccab175140e982d7e8b809d796fe59
 
                     <p class="text-gray-700 mb-1">Judul: {{ $finalTask->judul }}</p>
                     <p class="text-gray-700 mb-1">{{ $finalTask->desc }}</p>
 
-<<<<<<< HEAD
-                <!-- Button untuk Mengerjakan Tugas Akhir -->
-                <div class="mt-4">
-                    <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}"
-                        class="bg-green-400 text-white text-sm px-2 py-2 rounded hover:bg-green-300">
-                        Kerjakan Tugas Akhir
-                    </a>
-                </div>
-            </div>
-=======
                     <!-- Button untuk Mengerjakan Tugas Akhir -->
                     <div class="mt-4">
                         <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}"
@@ -128,7 +112,6 @@
                 <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border text-center text-gray-500">
                     Tugas akhir belum tersedia.
                 </div>
->>>>>>> 552e8cf0edccab175140e982d7e8b809d796fe59
             @endif
 
             <!-- Konten Kuis -->
@@ -335,7 +318,7 @@
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                text: `Kuis "${title}" membutuhkan waktu ${duration} menit untuk diselesaikan.`,
+                text: Kuis "${title}" membutuhkan waktu ${duration} menit untuk diselesaikan.,
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#4CAF50', // Adjust confirm button color (value 400 for green)
@@ -365,7 +348,7 @@
 
             Swal.fire({
                 title: 'Kerjakan Ulang Kuis?',
-                text: `Apakah Anda yakin ingin mengulang kuis "${title}"?`,
+                text: Apakah Anda yakin ingin mengulang kuis "${title}"?,
                 icon: 'question',
                 showCancelButton: true,
                 cancelButtonText: 'Batal', 
