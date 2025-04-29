@@ -19,12 +19,12 @@
         </div>
         <!-- Informasi Kursus -->
         <div class="ml-4 w-2/3 md:ml-4 mt-1 space-y-1">
-            <h2 class="text-md font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
+            <h2 class="text-lg font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
             <p class="text-gray-700 mb-2 text-sm">{{ $course->description }}</p>
             <p class="text-gray-600 text-sm">Mentor : <span class="capitalize">{{ $course->mentor->name }}<span></p>
             <p class="text-gray-600 text-sm">Harga : <span class="text-red-500">Rp {{ number_format($course->price, 0, ',', '.') }}</span></p>
-            <p class="text-gray-600 text-sm">Kapasitas : {{ $course->capacity }} peserta</p> 
-            <p class="text-gray-600 text-sm">Tanggal Mulai : {{ $course->start_date }}</p>
+            <!-- <p class="text-gray-600 text-sm">Kapasitas : {{ $course->capacity }} peserta</p>  -->
+            <!-- <p class="text-gray-600 text-sm">Tanggal Mulai : {{ $course->start_date }}</p> -->
             <p class="text-gray-600 text-sm">Masa Aktif : {{ $course->duration }}</p>
         </div>
     </div>
@@ -34,7 +34,12 @@
         <h3 class="text-lg font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
         <div class="space-y-6">
             @if($course->materi->isEmpty())
-                <p class="text-gray-600 text-center mt-1 text-sm">Kursus ini belum ada materi apapun.</p>
+                <div class="col-span-full text-center items-center justify-center flex flex-col">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mb-1 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                    </svg>
+                    <p class="text-gray-600 text-center text-sm">Belum ada materi untuk kursus ini.</p>
+                </div>
             @else
             @foreach($course->materi as $materi)
             <div class="bg-white border border-gray-200 p-2.5 rounded-lg shadow-sm">
@@ -55,7 +60,7 @@
                     </div>
 
                     <!-- Deskripsi Materi -->
-                    <p class="text-gray-600 text-smmb-2 mt-2" x-show="open" x-transition>{{ $materi->deskripsi }}</p>
+                    <p class="text-gray-700 text-sm mb-2 mt-2" x-show="open" x-transition>{{ $materi->deskripsi }}</p>
 
                     <!-- Video (Tampilkan hanya jika open adalah true) -->
                     <div x-show="open" x-transition>
@@ -66,26 +71,26 @@
                                 {{-- Google Drive Videos --}}
                                 @foreach ($materi->videos as $video)
                                     <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                        <h3 class="font-semibold text-sm text-gray-700">{{ $video->title }}</h3>
+                                        <h3 class="font-semibold text-sm text-gray-700 mb-1.5">{{ $video->title }}</h3>
                                         @if ($video->link)
                                             <iframe
                                                 src="https://drive.google.com/file/d/{{ $video->link }}/preview"
                                                 width="100%" height="480"
                                                 allow="autoplay"
                                                 allowfullscreen
-                                                class="rounded-lg shadow-md">
+                                                class="rounded-lg shadow-sm">
                                             </iframe>
                                         @else
                                             <p class="text-gray-700 text-sm">Video Google Drive tidak tersedia.</p>
                                         @endif
-                                        <p class="text-gray-600 text-sm">{{ $video->description ?: 'Tidak ada deskripsi video G-drive' }}</p>
+                                        <p class="text-gray-600 text-sm mt-1.5">{{ $video->description ?: 'Tidak ada deskripsi video G-drive' }}</p>
                                     </li>
                                 @endforeach
             
                                 {{-- YouTube Videos --}}
                                 @foreach ($materi->youtube as $yt)
                                     <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                        <h3 class="font-semibold text-gray-700 text-sm">{{ $yt->title }}</h3>
+                                        <h3 class="font-semibold text-gray-700 text-sm mb-1.5">{{ $yt->title }}</h3>
                                         @if ($yt->link)
                                             <iframe
                                                 width="100%" height="480"
@@ -93,42 +98,102 @@
                                                 frameborder="0"
                                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                 allowfullscreen
-                                                class="rounded-lg shadow-md">
+                                                class="rounded-lg shadow-sm">
                                             </iframe>
                                         @else
                                             <p class="text-gray-700 text-sm">Video YouTube tidak tersedia.</p>
                                         @endif
-                                        <p class="text-gray-600">{{ $yt->description ?: 'Tidak ada deskripsi video Youtube' }}</p>
+                                        <p class="text-gray-700 mt-1.5">{{ $yt->description ?: 'Tidak ada deskripsi video Youtube' }}</p>
                                     </li>
                                 @endforeach
                             </ul>
                     @endif                             
-                    </div>
-
-                    <!-- Kuis -->
-                    <div x-show="open" x-transition>
-                        {{-- @if($materi->quizzes->count())
-                        <div class="mt-4">
-                            <h5 class="text-md font-semibold text-gray-800">📝 Kuis</h5>
-                                <ul class="list-disc list-inside">
-                                    @foreach($materi->quizzes as $quiz)
-                                    <li>
-                                    <a href="{{ route('quizzes.show', $quiz->id) }}" class="text-sky-400 hover:underline">
-                                        {{ $quiz->title }}
-                                    </a>
-                                    </li>
-                                    @endforeach
-                                </ul>
-                        </div>
-                        @else
-                            <p class="text-gray-600 mt-4">Belum ada kuis untuk materi ini.</p>
-                                @endif --}}
                     </div>
                 </div>
             </div>
             @endforeach
             @endif
         </div>
+
+        @php
+            $catName = strtolower($course->category->name ?? '');
+            $isCyber = in_array($catName, ['cyber security', 'siber', 'cybersecurity', 'cyber']);
+        @endphp
+
+        <!-- Tugas Akhir atau Kuis -->
+        <div class="mt-8">
+            <h3 class="text-lg font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">
+                @if($isCyber)
+                    Tugas Akhir
+                @else
+                    Kuis
+                @endif
+            </h3>
+
+            @if($isCyber)
+                @if(empty($course->finalTask))
+                <div class="col-span-full text-center items-center justify-center flex flex-col">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mb-1 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                    </svg>
+                    <p class="text-gray-600 text-center text-sm">Belum ada tugas akhir untuk kursus ini.</p>
+                </div>
+                @else
+                    <div x-data="{ open: false }" class="bg-white p-2.5 rounded-lg shadow-sm border border-gray-200">
+                        <!-- Judul Tugas Akhir -->
+                        <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
+                            <span class="text-gray-700 text-sm font-semibold mr-2">
+                                01.
+                            </span>
+                            <span class="flex-1 text-sm font-semibold text-gray-700 capitalize">{{ $course->finalTask->judul }}</span>
+                            <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 text-gray-600 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+
+                        <!-- Deskripsi Tugas Akhir -->
+                        <div x-show="open" x-transition class="mt-3 text-sm text-gray-700">
+                            <p><span class="font-semibold">Deskripsi:</span> {{ $course->finalTask->desc ?: 'Tidak ada deskripsi' }}</p>
+                        </div>
+                    </div>
+                @endif
+            @else
+                @if($course->quizzes->isEmpty())
+                <div class="col-span-full text-center items-center justify-center flex flex-col">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 mb-1 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+                    </svg>
+                    <p class="text-gray-600 text-center text-sm">Belum ada kuis untuk kursus ini.</p>
+                </div>
+                @else
+                    <div class="space-y-4">
+                        @foreach($course->quizzes as $quiz)
+                            <div x-data="{ open: false }" class="bg-white p-2.5 rounded-lg shadow-sm border border-gray-200">
+                                <!-- Judul Kuis -->
+                                <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
+                                    <!-- Menambahkan nomor urut di sebelah kiri judul -->
+                                    <span class="text-gray-700 text-sm font-semibold mr-2">
+                                        {{ sprintf('%02d', $loop->iteration) }}.
+                                    </span>
+                                    <span class="flex-1 text-sm font-semibold text-gray-700 capitalize">{{ $quiz->title }}</span>
+                                    <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 text-gray-600 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+
+                                <!-- Detail Kuis -->
+                                <div x-show="open" x-transition class="mt-3 text-sm text-gray-700 space-y-2">
+                                    <p><span class="font-semibold">Deskripsi:</span> {{ $quiz->description ?: 'Tidak ada deskripsi' }}</p>
+                                    <p><span class="font-semibold">Durasi:</span> {{ $quiz->duration }} menit</p>
+                                    <p><span class="font-semibold">Total Pertanyaan:</span> {{ $quiz->questions->count() }} soal</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+            @endif
+        </div>
+
     </div>
 </div>
 

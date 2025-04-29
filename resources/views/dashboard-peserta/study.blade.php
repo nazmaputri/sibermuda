@@ -16,15 +16,15 @@
     <!-- Header Course -->
     <div class="bg-white text-gray-600 pt-1 rounded-lg mt-2">
         <h2 class="text-xl text-center font-semibold capitalize">{{ $course->title }}</h2>
-        <p class="text-sm mt-2 text-center text-gray-600 capitalize">Mentor: {{ $course->mentor->name ?? 'Tidak ada mentor' }}</p>
+        <p class="text-sm mt-2 text-center text-gray-600 capitalize">Mentor : {{ $course->mentor->name ?? 'Tidak ada mentor' }}</p>
     </div>
 
     <!-- Tombol Toggle Sidebar (Mobile) -->
     <div class="block lg:hidden text-right mt-2 ml-2">
         <button @click="sidebarOpen = !sidebarOpen" 
-                class="bg-sky-400 hover:bg-sky-300 text-white px-2 py-2 rounded mr-2 flex items-center gap-2">
+                class="bg-sky-400 hover:bg-sky-300 text-white px-1.5 py-1.5 rounded mr-2 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
-                stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" 
                     d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
             </svg>
@@ -92,21 +92,91 @@
             </div>
             @endforeach
 
-            <!-- Konten Final Task -->
+           <!-- Konten Final Task -->
             @if($finalTask)
                 <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
                     <h3 class="text-lg font-semibold text-center text-gray-700 mb-4">Tugas Akhir</h3>
 
-                    <p class="text-gray-700 mb-1">Judul: {{ $finalTask->judul }}</p>
-                    <p class="text-gray-700 mb-1">{{ $finalTask->desc }}</p>
-
-                    <!-- Button untuk Mengerjakan Tugas Akhir -->
-                    <div class="mt-4">
-                        <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}"
-                        class="bg-green-400 text-white text-sm px-2 py-2 rounded hover:bg-green-300">
-                            Kerjakan Tugas Akhir
-                        </a>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex flex-wrap">
+                            <span class="font-semibold w-16 min-w-[0]">Judul</span><span class="mr-1">:</span>
+                            <span class="">{{ $finalTask->judul }}</span>
+                        </div>
+                        <div class="flex flex-wrap">
+                            <span class="font-semibold w-16 min-w-[0]">Deskripsi</span><span class="mr-1">:</span>
+                            <span class="">{{ $finalTask->desc }}</span>
+                        </div>
                     </div>
+        
+                    <!-- Cek apakah tugas sudah dikerjakan -->
+                    @php
+                        $isCompleted = DB::table('final_task_user')->where('user_id', Auth::id())->where('final_task_id', $finalTask->id)->exists();
+                    @endphp
+
+                    @if($isCompleted)
+                        <!-- Jika sudah dikerjakan, tampilkan tombol yang dinonaktifkan -->
+                        <div class="mt-4">
+                            <button class="bg-gray-400 text-white text-sm px-2 py-2 rounded cursor-not-allowed" disabled>
+                                Sudah Dikerjakan
+                            </button>
+                        </div>
+
+                        <!-- Tampilkan tabel riwayat pengerjaan tugas akhir -->
+                        <div class="mt-4">
+                            <h4 class="text-md font-semibold text-gray-700 mb-2">Riwayat Pengerjaan Tugas Akhir</h4>
+                            <div class="overflow-x-auto">
+                            <div class="min-w-full w-64">
+                                <table class="min-w-full border-separate border-spacing-0">
+                                    <thead>
+                                        <tr class="bg-gray-100 text-gray-600 text-sm">
+                                            <th class="py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">Judul</th>
+                                            <th class="py-2 border-b border-t border-gray-200">Deskripsi</th>
+                                            <th class="py-2 border-t border-b border-gray-200">Tanggal</th>
+                                            <th class="py-2 border-b border-r border-t border-gray-200 rounded-tr-lg">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    @if($finalTask && $finalTaskHistory)
+                                        <tr class="bg-white hover:bg-gray-50">
+                                            <td class="px-4 py-2 text-gray-600 text-sm border-b border-l border-gray-200">
+                                                {{ $finalTaskHistory->title }}
+                                            </td>
+                                            <td class="px-4 py-2 text-gray-600 text-sm border-b border-gray-200">
+                                                {{ $finalTaskHistory->description }}
+                                            </td>
+                                            <td class="px-4 py-2 text-gray-600 text-sm border-b border-gray-200">
+                                                {{ \Carbon\Carbon::parse($finalTaskHistory->created_at)->translatedFormat('d F Y, H:i') }}
+                                            </td>
+                                            <td class="px-4 py-2 text-sm border-b border-r border-gray-200 
+                                                @if($finalTaskHistory->certificate_status === 'pending') text-yellow-500
+                                                @elseif($finalTaskHistory->certificate_status === 'approved') text-green-500
+                                                @else text-gray-600 @endif">
+                                                {{ $finalTaskHistory->certificate_status ?? 'Belum Ada' }}
+                                            </td>
+                                        </tr>
+                                    @elseif($finalTask && !$finalTaskHistory)
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4 text-gray-500">Belum ada riwayat final task untuk user ini.</td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td colspan="4" class="text-center py-4 text-gray-500">Tidak ada final task untuk course ini.</td>
+                                        </tr>
+                                    @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Jika belum dikerjakan, tampilkan tombol untuk mengerjakan tugas -->
+                        <div class="mt-4">
+                            <a href="{{ route('finaltask-user', ['course' => $course->id, 'finalTaskId' => $finalTask->id]) }}"
+                                class="bg-green-400 text-white text-sm px-2 py-2 rounded hover:bg-green-300">
+                                Kerjakan Tugas Akhir
+                            </a>
+                        </div>
+                    @endif
                 </div>
             @else
                 <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border text-center text-gray-500">
@@ -234,7 +304,7 @@
             <div class="group"> {{-- Tambahkan wrapper group --}}
                 <button @click="selected = 'quiz'; if(window.innerWidth < 1024) sidebarOpen = false" 
                         class="w-full flex text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
-                        :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'quiz' }">
+                        :class="{ 'bg-gray-100 font-semibold text-gray-700': selected === 'quiz' }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>
@@ -256,7 +326,7 @@
                     <div class="group">
                         <button @click="selected = 'final-task'; if(window.innerWidth < 1024) sidebarOpen = false"
                             class="w-full flex text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
-                            :class="{ 'bg-indigo-100 font-semibold text-indigo-700': selected === 'final-task' }">
+                            :class="{ 'bg-gray-100 font-semibold text-gray-700': selected === 'final-task' }">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
                             </svg>

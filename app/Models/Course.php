@@ -110,6 +110,9 @@ class Course extends Model
             ->exists();
     }
 
-
+    public function finalTask()
+    {
+        return $this->hasOne(FinalTask::class, 'course_id');
+    }
 }
 

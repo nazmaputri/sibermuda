@@ -170,57 +170,67 @@
     </div>
 
 <!-- Modal Overlay -->
-<div id="registration-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+<div id="registration-modal" class="fixed px-4 inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
     <!-- Modal Box -->
-    <div class="bg-white w-full max-w-md mx-auto rounded-2xl shadow-2xl p-8 relative animate__animated animate__fadeInDown">
+    <div id="modal-box" class="bg-white w-full max-w-sm md:max-w-md mx-auto rounded-2xl shadow-2xl px-8 py-6 relative transform scale-90 opacity-0 transition-all duration-300 ease-out">
         <!-- Tombol Close -->
         <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-600 text-2xl font-bold">
             &times;
         </button>
 
-        <h3 class="text-2xl font-semibold mb-6 text-gray-800 text-center">Formulir Pendaftaran</h3>
+        <!-- Judul -->
+        <h3 class="text-xl font-bold text-center text-gray-700 mb-2">Formulir Pendaftaran</h3>
+        <div class="w-16 h-1 bg-gray-700 mx-auto mb-6 rounded"></div>
 
-        <form id="wa-form">
-            <div class="space-y-4">
-                <label class="block">
-                    <span class="text-gray-700 font-medium">Nama Lengkap</span>
-                    <input id="nama" type="text" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                        value="{{ Auth::user()->name }}" readonly>
-                </label>
-                <label class="block">
-                    <span class="text-gray-700 font-medium">Email</span>
-                    <input id="email" type="email" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                        value="{{ Auth::user()->email }}" readonly>
-                </label>
-                <label class="block">
-                    <span class="text-gray-700 font-medium">No Telepon</span>
-                    <input id="telepon" type="telp" class="mt-1 block w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-gray-400"
-                        value="{{ Auth::user()->phone_number }}" readonly>
-                </label>
+        <!-- Formulir -->
+        <form id="wa-form" class="text-sm text-gray-700 space-y-3">
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Nama Lengkap:</p>
+                <p class="text-gray-700">{{ Auth::user()->name }}</p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Email:</p>
+                <p class="text-gray-700">{{ Auth::user()->email }}</p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">No Telepon:</p>
+                <p class="text-gray-700">{{ Auth::user()->phone_number }}</p>
             </div>
 
-            <!-- Kursus dari keranjang -->
             @php
-                $courseTitles = $carts->pluck('course.title')->toArray();
+                $availableCartsCollection = collect($availableCarts);
+
+                $courseTitles = $availableCartsCollection->pluck('course.title')->toArray();
                 $courseList = implode(', ', $courseTitles);
             @endphp
 
             <input type="hidden" id="nama-kursus" value="{{ $courseList }}">
             <input type="hidden" id="total-harga" value="Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}">
 
-            <div class="mt-6 text-gray-700 space-y-1 text-sm">
-                <p><strong>Kursus:</strong> {{ $courseList }}</p>
-                <p><strong>Total Harga:</strong> Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}</p>
-                <p><strong>No Rekening Admin:</strong> 0895365544316 (Dana/Bank)</p>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Kursus:</p>
+                <p class="text-gray-700">{{ $courseList }}</p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Total Harga:</p>
+                <p class="text-red-400 font-semibold">Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}</p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 mb-2 border-b border-gray-200">
+                <p class="font-semibold">No Rek. Admin:</p>
+                <p class="text-gray-700">0895365544316 (Dana/Bank)</p>
             </div>
 
+            <p class="text--sm text-gray-600">*Refresh halaman ini jika kamu sudah kirim bukti pembayaran</p>
+
             <!-- Tombol WhatsApp -->
+            <div class="mt-4">
             <a id="kirim-wa"
                href="#"
                target="_blank"
-               class="mt-6 block text-center bg-green-500 hover:bg-green-400 text-white font-semibold py-2 px-4 rounded-lg w-full transition-all duration-200">
+               class="block text-center bg-green-500 hover:bg-green-400 text-white font-semibold py-2 rounded-lg w-full transition-all duration-200">
                 Kirim Bukti Pembayaran via WhatsApp
             </a>
+            </div>
         </form>
     </div>
 </div>
@@ -228,23 +238,39 @@
 <script>
     const payNowBtn = document.getElementById('pay-now');
     const modal = document.getElementById('registration-modal');
+    const modalBox = document.getElementById('modal-box'); // Ambil box dalam modal
     const closeModalBtn = document.getElementById('close-modal');
 
+    // Buka Modal
     payNowBtn.addEventListener('click', function () {
         modal.classList.remove('hidden');
-        modal.classList.add('flex'); // agar bisa tampil sebagai flex (centered)
+        modal.classList.add('flex');
+
+        // Animasi buka
+        setTimeout(() => {
+            modalBox.classList.remove('scale-90', 'opacity-0');
+            modalBox.classList.add('scale-100', 'opacity-100');
+        }, 10); 
     });
 
-    closeModalBtn.addEventListener('click', function () {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    });
+    // Tutup Modal
+    function closeModal() {
+        // Animasi tutup
+        modalBox.classList.remove('scale-100', 'opacity-100');
+        modalBox.classList.add('scale-90', 'opacity-0');
 
-    // Opsional: Tutup modal jika klik di luar box
-    window.addEventListener('click', function (e) {
-        if (e.target === modal) {
+        setTimeout(() => {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
+        }, 300); // Sesuai durasi animasi 300ms
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+
+    // Tutup kalau klik di luar box
+    window.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            closeModal();
         }
     });
 

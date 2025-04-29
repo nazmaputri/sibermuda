@@ -96,7 +96,7 @@
                                 <td class="px-2 py-2 text-center border-b border-l border-gray-200">{{ $courses->firstItem() + $index }}</td>
                                 <td class="px-4 py-2 border-b border-gray-200">{{ Str::limit($course->title, 40) }}</td>
                                 <td class="px-4 py-2 border-b border-gray-200 text-center">Rp {{ number_format($course->price, 0, ',', '.') }}</td> 
-                                <td class="px-4 py-2 border-b border-gray-200 text-center">{{\Carbon\Carbon::parse( $course->created_at)->translatedFormat('d F Y') }}
+                                <td class="px-4 py-2 border-b border-gray-200 text-center">{{\Carbon\Carbon::parse( $course->created_at)->translatedFormat('d F Y') }}</td>
                                 <td class="px-4 py-2 border-b border-gray-200 text-center border-r">
                                     @if (!empty($course->average_rating) && is_numeric($course->average_rating))
                                         <span class="text-yellow-500">★</span> {{ $course->average_rating }}/5

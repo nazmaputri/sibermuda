@@ -77,7 +77,7 @@
             <h2 class="text-xl font-semibold pb-1 text-gray-700">
               Laporan Perkembangan Pengguna Bulanan
             </h2>
-            <select id="yearFilter" class="p-1 border rounded-md focus:outline-none focus:ring focus:ring-sky-200">
+            <select id="yearFilter" class="p-1 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-200">
                 @foreach ($years as $availableYear)
                   <option value="{{ $availableYear }}"
                           {{ $availableYear == $year ? 'selected' : '' }}>
@@ -90,7 +90,7 @@
         </div>
       
         <!-- Wrapper responsif: selalu punya height! -->
-        <div class="relative w-full h-64 sm:h-80 md:h-96 lg:h-[32rem]">
+        <div class="relative w-full h-64 sm:h-80 md:h-80 lg:h-80">
           <canvas id="userGrowthChart" class="absolute inset-0 w-full h-full"></canvas>
         </div>
       </div>

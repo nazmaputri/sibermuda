@@ -110,7 +110,11 @@
     <div class="bg-white p-4 rounded-md mx-4 w-full md:w-[700px]">
     <div class="flex items-center justify-between w-full mb-4">
         <h2 class="text-gray-700 font-semibold w-full text-center text-lg">Detail Diskon</h2>
-        <button class="bg-red-400 hover:bg-red-300 text-white px-2 py-0.5 rounded-md" onclick="closeDiscountModal()">x</button>
+        <button class="text-gray-700 px-2 py-0.5 rounded-md" onclick="closeDiscountModal()">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 font-semibold">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+        </button>
     </div>
         <p class="text-gray-700 font-semibold">Kode Diskon : <span id="modalCouponCode"></span></p>
         <p class="text-gray-700 font-semibold">Terapkan pada semua kursus : <span id="modalApplyToAll"></span></p>

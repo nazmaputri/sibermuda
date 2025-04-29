@@ -155,7 +155,7 @@
                                     -
                                 @endif
                             </td>                            
-                            <td class="px-4 py-2 text-center border-b border-gray-200 border-r">{{ $purchase->created_at->format('d M Y') }}</td>
+                            <td class="px-4 py-2 text-center border-b border-gray-200 border-r">{{ $purchase->created_at->format('d F Y') }}</td>
                         </tr>
                     @endforeach
                     @endif

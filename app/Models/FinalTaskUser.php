@@ -20,6 +20,13 @@ class FinalTaskUser extends Model
         'photo',
         'certificate_status',
     ];
+    
+    /**
+     * Cast kolom tertentu agar otomatis jadi array, datetime, dll
+     */
+    protected $casts = [
+        'photo' => 'array',
+    ];
 
     /**
      * Relasi ke model FinalTask

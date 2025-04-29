@@ -216,11 +216,21 @@ class DashboardPesertaController extends Controller
             ->orderBy('completed_at', 'desc')
             ->get();
 
-        // Ambil Final Task terkait course jika perlu
-        $finalTask = FinalTask::where('course_id', $id)->first();  // Ambil final task yang terkait dengan course
+        // Ambil Final Task terkait course
+        $finalTask = FinalTask::where('course_id', $id)->first();
+
+        // Ambil Final Task History jika ada
+        $finalTaskHistory = null;
+        if ($finalTask) {
+            $finalTaskHistory = \DB::table('final_task_user')
+                ->where('user_id', auth()->id())
+                ->where('course_id', $id)
+                ->where('final_task_id', $finalTask->id)
+                ->first();
+        }
 
         // Kirim data ke view
-        return view('dashboard-peserta.study', compact('course', 'quizHistories', 'finalTask'));
+        return view('dashboard-peserta.study', compact('course', 'quizHistories', 'finalTask', 'finalTaskHistory'));
     }
 
     public function kursusTerdaftar()

@@ -17,14 +17,34 @@ class FinalTaskController extends Controller
         return view('dashboard-mentor.finaltask-create', compact('courses', 'courseId'));
     }
 
-    // Form detail
     public function detail($courseId, $taskId)
     {
-        $submissions = FinalTaskUser::with('user')->get();
+        $finalTask = FinalTask::where('id', $taskId)
+                    ->where('course_id', $courseId)
+                    ->firstOrFail();
+
+        $course = Course::findOrFail($courseId);
+
+        $submissions = FinalTaskUser::with('user')
+                        ->where('final_task_id', $finalTask->id)
+                        ->orderBy('created_at', 'desc') // Urutkan dari yang terbaru
+                        ->paginate(10); // Pagination 10 data per halaman
+
+        return view('dashboard-mentor.finaltask-detail', compact('finalTask','course', 'submissions'));
+    }
+
+    // Menampilkan detail jawaban tugas akhir yang dikumpulkan oleh user tertentu
+    public function detailByUser($courseId, $taskId, $userId)
+    {
+        $submission = FinalTaskUser::with('user')
+            ->where('final_task_id', $taskId)
+            ->where('user_id', $userId)
+            ->firstOrFail();
+
         $finalTask = FinalTask::findOrFail($taskId);
         $course    = Course::findOrFail($courseId);
-   
-        return view('dashboard-mentor.finaltask-detail', compact('finalTask','course', 'submissions'));
+
+        return view('dashboard-mentor.finaltask-detail-submission', compact('submission', 'finalTask', 'course'));
     }
 
     // Form edit
@@ -103,36 +123,67 @@ class FinalTaskController extends Controller
 
     public function storeUser(Request $request)
     {
-        // Validasi inputan
         $request->validate([
             'final_task_id' => 'required|exists:final_tasks,id',
             'user_id' => 'required|exists:users,id',
-            'course_id' => 'required|exists:courses,id',  // Validasi untuk course_id
+            'course_id' => 'required|exists:courses,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi untuk setiap foto
+        ], [
+            'final_task_id.required' => 'ID tugas akhir wajib diisi.',
+            'final_task_id.exists' => 'ID tugas akhir tidak ditemukan.',
+            
+            'user_id.required' => 'ID pengguna wajib diisi.',
+            'user_id.exists' => 'ID pengguna tidak ditemukan.',
+            
+            'course_id.required' => 'ID kursus wajib diisi.',
+            'course_id.exists' => 'ID kursus tidak ditemukan.',
+            
+            'title.required' => 'Judul wajib diisi.',
+            'title.string' => 'Judul harus berupa teks.',
+            'title.max' => 'Judul tidak boleh lebih dari 255 karakter.',
+            
+            'description.required' => 'Deskripsi wajib diisi.',
+            'description.string' => 'Deskripsi harus berupa teks.',
+            
+            'photo.*.nullable' => 'Foto bersifat opsional.',
+            'photo.*.image' => 'File yang diunggah harus berupa gambar.',
+            'photo.*.mimes' => 'Format gambar yang diperbolehkan adalah jpeg, png, jpg, atau gif.',
+            'photo.*.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
         ]);
-    
+
         // Ambil data dari request
         $data = $request->only([
             'final_task_id',
             'user_id',
-            'course_id', // Ambil course_id
+            'course_id',
             'title',
-            'description', // Deskripsi dari Summernote
-            'certificate_status', // status sertifikat
+            'description',
+            'certificate_status',
         ]);
-    
-        // Jika ada foto yang diupload
+
+        // Jika ada foto yang diupload (disimpan dalam bentuk array agar bisa lebih dari 1 foto)
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('final-task-photos', 'public');
+            $photos = $request->file('photo');
+            $photoPaths = [];
+
+            // Looping melalui file yang dipilih dan simpan path-nya
+            foreach ($photos as $file) {
+                // Menyimpan foto di storage dan mendapatkan path
+                $photoPaths[] = $file->store('final-task-photos', 'public');
+            }
+
+            // Simpan semua path foto sebagai array
+            $data['photo'] = $photoPaths; // Menyimpan dalam bentuk array
         }
-    
+
         // Simpan data ke tabel final_task_user
         FinalTaskUser::create($data);
-    
-        // Redirect kembali dengan pesan sukses
-        return redirect()->back()->with('success', 'Tugas akhir berhasil diupload.');
+
+        // Redirect ke route study-peserta dengan pesan sukses
+        return redirect()->route('study-peserta', ['id' => $request->course_id])
+            ->with('success', 'Tugas akhir berhasil diupload.');
     }
 
     public function confirm($id)
