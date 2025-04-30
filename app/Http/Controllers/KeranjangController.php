@@ -89,7 +89,7 @@ class KeranjangController extends Controller
         ->value('phone_number');
     
         return view('dashboard-peserta.keranjang', compact(
-            'carts', 'activeDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions'
+            'availableCarts', 'carts', 'activeDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions'
         ));
     }
     

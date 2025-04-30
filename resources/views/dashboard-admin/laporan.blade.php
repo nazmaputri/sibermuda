@@ -67,33 +67,88 @@
 
     <!-- Pendapatan Per Kursus -->
     <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-700 mb-4">Detail Pembelian Kursus</h3>
+        <h3 class="text-lg font-semibold text-gray-700 mb-2">Detail Pembelian Kursus</h3>
     
         <form method="GET" class="mb-4 flex flex-wrap items-center gap-4">
             <!-- Filter Kursus -->
-            <div>
+            <div x-data="{ open: false, selected: '{{ request('course_id') ? $coursesRevenue->firstWhere('id', request('course_id'))->title : 'Semua Kursus' }}', selectedId: '{{ request('course_id') ?? '' }}' }" class="relative w-64">
                 <label for="course_id" class="text-sm text-gray-600 mr-2">Filter Kursus:</label>
-                <select name="course_id" id="course_id" class="border rounded px-2 py-1 text-sm">
-                    <option value="">Semua Kursus</option>
+
+                <!-- Trigger Button -->
+                <div @click="open = !open" 
+                    class="border rounded px-4 py-2 text-sm bg-white cursor-pointer text-gray-700 flex justify-between items-center h-[38px]">
+                    <span class="truncate max-w-[200px] overflow-hidden whitespace-nowrap" x-text="selected"></span>
+                    <svg class="w-4 h-4 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+
+                <!-- Dropdown List -->
+                <div x-show="open" @click.away="open = false"
+                    class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm scrollbar-hide text-gray-700"
+                    style="display: none;">
+                    <!-- Default Option -->
+                    <div @click="selected = 'Semua Kursus'; selectedId = ''; open = false"
+                        class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                        :class="{ 'bg-gray-100': selectedId === '' }">
+                        Semua Kursus
+                    </div>
+                    <!-- Dynamic Options -->
                     @foreach ($coursesRevenue as $course)
-                        <option value="{{ $course->id }}" {{ request('course_id') == $course->id ? 'selected' : '' }}>
+                        <div @click="selected = '{{ $course->title }}'; selectedId = '{{ $course->id }}'; open = false"
+                            class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                            :class="{ 'bg-gray-100': selectedId == '{{ $course->id }}' }">
                             {{ $course->title }}
-                        </option>
+                        </div>
                     @endforeach
-                </select>
+                </div>
+
+                <!-- Hidden Input for Form Submission -->
+                <input type="hidden" name="course_id" :value="selectedId">
             </div>
-        
-            <!-- Filter Bulan -->
-            <div>
+
+           <!-- Filter Bulan -->
+            <div x-data="{ 
+                    open: false, 
+                    selected: '{{ request('month') ? \Carbon\Carbon::create()->month((int) request('month'))->format('F') : 'Semua Bulan' }}', 
+                    selectedMonth: '{{ request('month') ?? '' }}' 
+                }" class="relative w-64">
+                
                 <label for="month" class="text-sm text-gray-600 mr-2">Filter Bulan:</label>
-                <select name="month" id="month" class="border rounded px-2 py-1 text-sm">
-                    <option value="">Semua Bulan</option>
+
+                <!-- Trigger Button -->
+                <div @click="open = !open" class="border rounded px-4 py-2 text-sm bg-white cursor-pointer text-gray-700 flex justify-between items-center">
+                    <span x-text="selected"></span>
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+
+                <!-- Dropdown List -->
+                <div x-show="open" @click.away="open = false"
+                    class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm scrollbar-hide text-gray-700"
+                    style="display: none;">
+
+                    <!-- Default Option -->
+                    <div @click="selected = 'Semua Bulan'; selectedMonth = ''; open = false"
+                        class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                        :class="{ 'bg-gray-100': selectedMonth === '' }">
+                        Semua Bulan
+                    </div>
+
+                    <!-- Dynamic Month Options -->
                     @for ($m = 1; $m <= 12; $m++)
-                        <option value="{{ $m }}" {{ request('month') == $m ? 'selected' : '' }}>
-                            {{ \Carbon\Carbon::create()->month($m)->format('F') }}
-                        </option>
+                        @php $monthName = \Carbon\Carbon::create()->month($m)->translatedFormat('F');@endphp
+                        <div @click="selected = '{{ $monthName }}'; selectedMonth = '{{ $m }}'; open = false"
+                            class="cursor-pointer px-4 py-2 hover:bg-gray-100"
+                            :class="{ 'bg-gray-100': selectedMonth == '{{ $m }}' }">
+                            {{ $monthName }}
+                        </div>
                     @endfor
-                </select>
+                </div>
+
+                <!-- Hidden Input for Form Submission -->
+                <input type="hidden" name="month" :value="selectedMonth">
             </div>
 
             <!-- Filter Tahun -->
@@ -110,8 +165,9 @@
             </div> -->
         
             <!-- Tombol Submit -->
-            <div>
-                <button type="submit" class="shadow-blue-100 bg-blue-400 hover:bg-blue-300 text-white px-3 py-1 rounded text-sm">
+            <div class="self-end"> <!-- atau 'flex items-end' jika perlu align ke bawah -->
+                <button type="submit" 
+                    class="bg-blue-400 hover:bg-blue-300 text-white px-4 py-2 rounded text-sm">
                     Filter
                 </button>
             </div>

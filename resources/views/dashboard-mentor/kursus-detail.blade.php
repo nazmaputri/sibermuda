@@ -17,24 +17,54 @@
         <div class="w-full sm:w-1/4 md:w-1/5 mb-4 lg:mb-0">
             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-full h-auto">
         </div>
-        <div class="ml-4 w-2/3 space-y-3">
+        <div class="ml-4 md:w-2/3 w-full space-y-3">
             <h2 class="text-md font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
             <p class="text-gray-700 mb-2 text-md">{{ $course->description }}</p>
-            <p class="text-gray-600 text-sm capitalize">Mentor :{{ $course->mentor->name }}</p>
-            <p class="text-gray-600 text-sm">Harga :<span class="text-red-400">Rp {{ number_format($course->price, 0, ',', '.') }}</span></p>
+            <div class="space-y-2 text-sm text-gray-600">
+                <div class="flex flex-wrap capitalize">
+                    <span class="w-24">Mentor</span><span class="mr-1">:</span>
+                    <span>{{ $course->mentor->name }}</span>
+                </div>
+
+                <div class="flex flex-wrap">
+                    <span class="w-24">Harga</span><span class="mr-1">:</span>
+                    <span class="text-red-400">Rp {{ number_format($course->price, 0, ',', '.') }}</span>
+                </div>
+
                 @if($course->start_date && $course->end_date)
-                    <p class="text-gray-600 text-sm">Tanggal Mulai: {{ \Carbon\Carbon::parse($course->start_date)->translatedformat('d F Y') }} - {{ \Carbon\Carbon::parse($course->end_date)->translatedformat('d F Y') }}</p>
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Tanggal Mulai</span><span class="mr-1">:</span>
+                        <span>{{ \Carbon\Carbon::parse($course->start_date)->translatedformat('d F Y') }} - {{ \Carbon\Carbon::parse($course->end_date)->translatedformat('d F Y') }}</span>
+                    </div>
                 @endif
+
                 @if($course->duration)
-                    <p class="text-gray-600 text-sm">Masa Aktif :{{ $course->duration }}</p>
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Masa Aktif</span><span class="mr-1">:</span>
+                        <span>{{ $course->duration }}</span>
+                    </div>
                 @endif
+
                 @if($course->capacity)
-                    <p class="text-gray-600 text-sm">Kapasitas :{{ $course->capacity }} Peserta</p>
-                @endif                  
-            <p class="text-gray-600 text-sm capitalize">Status :{{ $course->status }}</p>
-            <p class="text-sm {{ $course->chat ? 'text-green-500' : 'text-red-500' }}">
-                {{ $course->chat ? 'Fitur Chat Aktif' : 'Fitur Chat Tidak Aktif' }}
-            </p> 
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Kapasitas</span><span class="mr-1">:</span>
+                        <span>{{ $course->capacity }} Peserta</span>
+                    </div>
+                @endif
+
+                <div class="flex flex-wrap capitalize">
+                    <span class="w-24">Status</span><span class="mr-1">:</span>
+                    <span>{{ $course->status }}</span>
+                </div>
+
+                <div class="flex flex-wrap">
+                    <span class="w-24">Fitur Chat</span><span class="mr-1">:</span>
+                    <span class="{{ $course->chat ? 'text-green-500' : 'text-red-500' }}">
+                        {{ $course->chat ? 'Aktif' : 'Tidak Aktif' }}
+                    </span>
+                </div>
+            </div>
+
             <!-- Tombol untuk melihat sertifikat -->
             <p id="view-certificate-btn" class="cursor-pointer text-blue-500 hover:underline text-sm">Lihat Sertifikat</p>
         </div>

@@ -6,10 +6,10 @@
     <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
         <h1 class="text-xl font-semibold text-gray-700 mb-6 text-center border-b-2 pb-2">Edit Kuis</h1>
 
-        <!-- Form Edit Quiz -->
-        <form action="{{ route('quiz.update', ['courseId' => $courseId, 'quiz' => $quiz->id]) }}" method="POST">
-            @csrf
-            @method('PUT')
+    <!-- Form Edit Quiz -->
+    <form action="{{ route('quiz.update', ['courseId' => $courseId, 'quiz' => $quiz->id]) }}" method="POST">
+        @csrf
+        @method('PUT')
 
     <!-- Judul Quiz -->
     <div class="mb-4">
@@ -37,7 +37,7 @@
     <div class="mb-4">
         <label for="duration" class="block text-gray-700 font-semibold">Durasi (Menit)</label>
         <input type="number" name="duration" id="duration" value="{{ old('duration', $quiz->duration) }}" 
-               class="w-full text-gray-700 text-sm border-gray-300 border rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 p-2
+               class="w-full text-gray-700 text-sm border-gray-300 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 p-2
                @error('duration') border-red-500 @enderror">
         @error('duration') 
             <span class="text-red-500 text-sm">{{ $message }}</span> 
@@ -46,9 +46,9 @@
 
     <!-- Soal Quiz -->
     <div class="mb-4">
-        <h3 class="text-lg font-semibold text-gray-700 mb-4">Soal dan Jawaban</h3>
+        <h3 class="font-semibold text-gray-700 mb-4">Soal dan Jawaban</h3>
         @foreach($quiz->questions as $index => $question)
-            <div class="bg-white border border-gray-200 p-4 rounded-md mb-4">
+            <div class="bg-white border border-gray-200 p-3 rounded-md mb-4">
                 <!-- Soal -->
                 <div class="mb-4">
                     <label for="questions[{{ $index }}][question]" class="block text-gray-700 font-semibold">Soal {{ $index + 1 }}</label>
@@ -63,9 +63,11 @@
 
                 <!-- Jawaban -->
                 <div class="space-y-3">
+                    <!-- Jawaban label yang hanya tampil di layar kecil -->
+                    <p class="block sm:hidden text-gray-700 font-semibold text-sm mb-2">Jawaban</p>
                     @foreach($question->answers as $answerIndex => $answer)
-                        <div class="flex items-center space-x-4">
-                            <label for="questions[{{ $index }}][answers][{{ $answerIndex }}]" class="block text-gray-700 font-semibold text-sm">Jawaban {{ $answerIndex + 1 }}</label>
+                        <div class="flex items-center gap-x-2">
+                            <label for="questions[{{ $index }}][answers][{{ $answerIndex }}]" class=" text-gray-700 font-semibold text-sm hidden md:block">Jawaban {{ $answerIndex + 1 }}</label>
                             <input type="text" name="questions[{{ $index }}][answers][{{ $answerIndex }}]" 
                                    id="questions[{{ $index }}][answers][{{ $answerIndex }}]" 
                                    value="{{ old("questions.$index.answers.$answerIndex", $answer->answer) }}" 
@@ -75,7 +77,7 @@
                             <!-- Checkbox untuk Jawaban Benar -->
                             <input type="radio" name="questions[{{ $index }}][correct_answer]" value="{{ $answerIndex }}" 
                                    {{ old("questions.$index.correct_answer") == $answerIndex ? 'checked' : '' }} class="focus:ring focus:ring-blue-300">
-                            <span class="text-sm text-gray-700 text-sm hidden sm:inline ml-2">Benar</span>
+                            <span class="text-sm text-gray-700 text-sm hidden sm:inline">Benar</span>
                         </div>
                     @endforeach
                 </div>
@@ -90,13 +92,13 @@
             <div class="question-item border p-4 mb-4 rounded bg-white">
                 <!-- Menampilkan Nomor Soal -->
                 <div class="mb-3">
-                    <span class="text-lg font-semibold text-gray-700">Soal <span class="question-number"></span></span>
+                    <span class="font-semibold text-gray-700">Soal <span class="question-number"></span></span>
                 </div>
 
                 <!-- Input Pertanyaan -->
                 <div class="mb-3">
-                    <label class="block text-gray-700 font-semibold mb-2">Soal</label>
-                    <input type="text" name="questions[0][question]" class="w-full p-2 text-gray-700 border rounded question-input focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan teks soal" required>
+                    <label class="block text-gray-700 font-semibold mb-2 text-sm">Soal</label>
+                    <input type="text" name="questions[0][question]" class="w-full p-2 text-gray-700 border border-gray-300 rounded question-input focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan teks soal" required>
                 </div>
 
                 <!-- Input Jawaban Pilihan Ganda -->
@@ -148,7 +150,7 @@
 </div>
 
 <script>
- document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         const inputs = document.querySelectorAll('input, textarea');
 
         inputs.forEach(input => {
@@ -166,37 +168,37 @@
             });
         });
     });
-   let questionCounter = {{ count($quiz->questions) }}; // Mulai dari jumlah soal yang sudah ada
 
-function addQuestion() {
-    const template = document.getElementById('question-template').content.cloneNode(true);
-    const questionList = document.getElementById('question-list');
-    const newIndex = questionCounter++;
+    let questionCounter = {{ count($quiz->questions) }}; // Mulai dari jumlah soal yang sudah ada
 
-    const questionNumber = template.querySelector('.question-number');
-    if (questionNumber) {
-        questionNumber.textContent = newIndex + 1;
-    }
+    function addQuestion() {
+        const template = document.getElementById('question-template').content.cloneNode(true);
+        const questionList = document.getElementById('question-list');
+        const newIndex = questionCounter++;
 
-    template.querySelectorAll('.question-input, .answer-input, .answer-radio').forEach(el => {
-        if (el.classList.contains('question-input')) {
-            el.name = `questions[${newIndex}][question]`;
-        } else if (el.classList.contains('answer-radio')) {
-            el.name = `questions[${newIndex}][correct_answer]`;
-        } else {
-            el.name = `questions[${newIndex}][answers][]`;
+        const questionNumber = template.querySelector('.question-number');
+        if (questionNumber) {
+            questionNumber.textContent = newIndex + 1;
         }
-    });
 
-    questionList.appendChild(template);
-}
+        template.querySelectorAll('.question-input, .answer-input, .answer-radio').forEach(el => {
+            if (el.classList.contains('question-input')) {
+                el.name = `questions[${newIndex}][question]`;
+            } else if (el.classList.contains('answer-radio')) {
+                el.name = `questions[${newIndex}][correct_answer]`;
+            } else {
+                el.name = `questions[${newIndex}][answers][]`;
+            }
+        });
 
-function removeQuestion(element) {
-    const questionItem = element.closest('.question-item');
-    if (questionItem) {
-        questionItem.remove();
+        questionList.appendChild(template);
     }
-}
 
+    function removeQuestion(element) {
+        const questionItem = element.closest('.question-item');
+        if (questionItem) {
+            questionItem.remove();
+        }
+    }
 </script>
 @endsection

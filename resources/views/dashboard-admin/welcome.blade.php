@@ -2,8 +2,9 @@
 @section('title', 'Dashboard')
 @section('content')
 
-    <!-- Card Informasi -->
-    <div class="bg-white rounded-lg border border-gray-200 shadow-md p-5 w-full flex flex-col md:flex-row h-auto items-center">
+<div class="container mx-auto">
+  <!-- Card Informasi -->
+  <div class="bg-white rounded-lg border border-gray-200 shadow-md p-5 w-full flex flex-col md:flex-row h-auto items-center">
         <!-- Text Content -->
         <div class="w-full text-center md:text-left mb-4 md:mb-0">
             <h1 class="text-xl font-semibold mb-4 text-gray-700">Selamat datang, {{ Auth::user()->name }}!</h1>
@@ -94,6 +95,7 @@
           <canvas id="userGrowthChart" class="absolute inset-0 w-full h-full"></canvas>
         </div>
       </div>
+</div>
 @endsection
 
 @push('scripts')

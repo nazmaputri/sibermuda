@@ -97,6 +97,9 @@
             </table>
            </div>
         </div>
+        <div class="pagination mt-4">
+            {{ $submissions->links('pagination::tailwind') }}
+        </div>
     </div>
 </div>
 @endsection
