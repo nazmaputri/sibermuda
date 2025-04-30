@@ -179,7 +179,7 @@
         </button>
 
         <!-- Judul -->
-        <h3 class="text-xl font-bold text-center text-gray-700 mb-2">Formulir Pendaftaran</h3>
+        <h3 class="text-xl font-bold text-center text-gray-700 mb-2">Formulir Pembelian</h3>
         <div class="w-16 h-1 bg-gray-700 mx-auto mb-6 rounded"></div>
 
         <!-- Formulir -->
