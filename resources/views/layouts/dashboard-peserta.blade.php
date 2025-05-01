@@ -248,8 +248,10 @@
                     </button>
 
                     <!-- Dropdown notifikasi -->
-                    <div id="notification-dropdown"
-                        class="absolute right-0 top-8 bg-white shadow-lg rounded-md border border-gray-200 w-60 md:mt-1 md:w-96 hidden">
+                    <div id="notification-dropdown" class="absolute z-10 right-0 top-8 bg-white shadow-lg rounded-md border border-gray-200 w-60 md:mt-1 md:w-96 hidden"> 
+                        <p id="notification-empty" class="text-center pt-2.5 text-sm text-gray-500 hidden">
+                            Belum ada notifikasi
+                        </p>
                         <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
                         </div>
@@ -263,33 +265,44 @@
                         const list = document.getElementById('notification-list');
                         const badge = document.getElementById('notification-badge');
                         const count = document.getElementById('notification-count');
-                
+                        const emptyMessage = document.getElementById('notification-empty');
+
                         // Ambil data notifikasi
                         fetch('/notifikasi/pembelian')
                             .then(res => res.json())
                             .then(data => {
                                 const seenIds = JSON.parse(localStorage.getItem('read_notifications') || '[]');
                                 const unread = data.filter(item => !seenIds.includes(item.id));
-                
+
+                                // Tampilkan badge jika ada yang belum dibaca
                                 if (unread.length > 0) {
                                     badge.classList.remove('hidden');
                                     count.textContent = unread.length;
+                                } else {
+                                    badge.classList.add('hidden');
                                 }
-                
-                                list.innerHTML = data.map(item => `
-                                    <div class="p-2 text-sm border-b hover:bg-gray-100">
-                                        <div class="font-semibold text-gray-700">Pembelian Dikonfirmasi</div>
-                                        <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
-                                        <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
-                                    </div>
-                                `).join('');
+
+                                // Tampilkan pesan kosong jika tidak ada notifikasi
+                                if (data.length === 0) {
+                                    emptyMessage.classList.remove('hidden');
+                                    list.innerHTML = '';
+                                } else {
+                                    emptyMessage.classList.add('hidden');
+                                    list.innerHTML = data.map(item => `
+                                        <div class="p-2 text-sm border-b hover:bg-gray-100">
+                                            <div class="font-semibold text-gray-700">Pembelian Dikonfirmasi</div>
+                                            <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
+                                            <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
+                                        </div>
+                                    `).join('');
+                                }
                             });
-                
-                        // Toggle dropdown
+
+                        // Toggle dropdown saat tombol diklik
                         button.addEventListener('click', () => {
                             dropdown.classList.toggle('hidden');
-                
-                            // Tandai semua sebagai dibaca saat klik tombol
+
+                            // Tandai semua sebagai dibaca saat dropdown dibuka
                             fetch('/notifikasi/pembelian')
                                 .then(res => res.json())
                                 .then(data => {
@@ -299,7 +312,7 @@
                                 });
                         });
                     });
-                </script>                
+                </script>         
                 
                 <div class="relative">
                 <!-- Wrapper yang bisa diklik untuk membuka dropdown -->

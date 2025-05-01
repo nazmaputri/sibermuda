@@ -66,7 +66,7 @@
             </div>
 
             <!-- Tombol untuk melihat sertifikat -->
-            <p id="view-certificate-btn" class="cursor-pointer text-blue-500 hover:underline text-sm">Lihat Sertifikat</p>
+            <!-- <p id="view-certificate-btn" class="cursor-pointer text-blue-500 hover:underline text-sm">Lihat Sertifikat</p> -->
         </div>
      </div>          
                 

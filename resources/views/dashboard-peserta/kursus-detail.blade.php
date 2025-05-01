@@ -12,7 +12,7 @@
 </div>
 
 <div class="container mx-auto">
-    <div class="bg-white p-8 border border-gray-200 rounded-lg shadow-md relative">
+    <div class="bg-white p-8 border border-gray-200 rounded-lg shadow-md">
         <h2 class="text-xl font-semibold mb-4 border-b-2 border-gray-300 pb-2 text-gray-700 text-center">Detail Kursus</h2>
 
         <!-- Card Informasi Kursus -->
@@ -24,46 +24,66 @@
                     <img src="https://via.placeholder.com/400x300" alt="Default Course Image" class="rounded-lg w-full h-auto">
                 @endif
             </div>
-            <div class="ml-4 w-2/3 space-y-1">
+            <div class="ml-4 md:w-2/3 w-full space-y-1">
                 <h2 class="text-lg font-semibold capitalize text-gray-700">{{ $course->title }}</h2>
                 <p class="text-gray-700 text-md">{{ $course->description }}</p>
-                <p class="text-gray-600 text-sm capitalize"><span class="">Mentor :</span> {{ $course->mentor->name }}</p>
-                <p class="text-gray-600 text-sm">Harga : <span class="text-red-500">Rp {{ number_format($course->price, 0, ',', '.') }}</span></p>
+                <div class="text-gray-600 text-sm space-y-1">
+                <div class="flex flex-wrap">
+                    <span class="w-24 capitalize">Mentor</span><span class="mr-1">:</span>
+                    <span>{{ $course->mentor->name }}</span>
+                </div>
+
+                <div class="flex flex-wrap">
+                    <span class="w-24">Harga</span><span class="mr-1">:</span>
+                    <span class="text-red-500">Rp {{ number_format($course->price, 0, ',', '.') }}</span>
+                </div>
+
                 @if($course->start_date && $course->end_date)
-                    <p class="text-gray-600 text-sm"><span class="">Tanggal Mulai :</span> {{ \Carbon\Carbon::parse($course->start_date)->translatedFormat('d F Y') }} - {{ \Carbon\Carbon::parse($course->end_date)->translatedFormat('d F Y') }}</p>
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Tanggal Mulai</span><span class="mr-1">:</span>
+                        <span>{{ \Carbon\Carbon::parse($course->start_date)->translatedFormat('d F Y') }} - {{ \Carbon\Carbon::parse($course->end_date)->translatedFormat('d F Y') }}</span>
+                    </div>
                 @endif
+
                 @if($course->duration)
-                    <p class="text-gray-600 text-sm"><span class="">Masa Aktif :</span> {{ $course->duration }}</p>
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Masa Aktif</span><span class="mr-1">:</span>
+                        <span>{{ $course->duration }}</span>
+                    </div>
                 @endif
+
                 @if($course->capacity)
-                    <p class="text-gray-600 text-sm"><span class="">Kapasitas :</span> {{ $course->capacity }} peserta</p>
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Kapasitas</span><span class="mr-1">:</span>
+                        <span>{{ $course->capacity }} peserta</span>
+                    </div>
                 @endif
+                </div>
             </div>
-        </div> 
-        <div class="flex ml-auto justify-end mt-2"> <!-- Menambahkan 'relative' pada induk -->
-            <!-- Tombol Rating -->
+        </div>
+
+         <!-- Tombol Rating di kanan bawah -->
+         <div class="flex justify-end mt-6">
             @if(!$hasRated)
-            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-300 text-white font-semibold py-1.5 px-3 rounded-md text-sm mb-4 sm:mb-4 sm:absolute sm:bottom-0">
+            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-300 text-white font-semibold py-1.5 px-3 rounded-md text-sm">
                 Beri Rating
             </button>
             @else
-            <button id="ratingdone" class="bg-gray-400 hover:bg-gray-300 text-white font-semibold py-1.5 px-3 rounded-md text-sm mb-4 sm:mb-4 sm:absolute sm:bottom-0 sm:right-24 sm:mr-4 cursor-not-allowed">
+            <button id="ratingdone" class="bg-gray-400 hover:bg-gray-300 text-white font-semibold py-1.5 px-3 rounded-md text-sm cursor-not-allowed">
                 Beri Rating
             </button>
             @endif
-        
-            <!-- Tombol Kembali di pojok kanan bawah -->
-            <!-- <a href="{{ route('daftar-kursus') }}" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-3 text-center rounded-lg sm:absolute sm:bottom-0 sm:right-0 sm:mr-4 sm:mb-4">
-                Kembali
-            </a> -->
         </div>
-        <!-- Modal Pop-up -->
-    <div id="ratingModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-        <div class="bg-white p-6 rounded-lg shadow-lg md:w-1/3 w-full mx-4">
-            <h2 class="text-lg text-gray-700 text-center font-semibold mb-4">Beri Rating untuk Kursus</h2>
-            <form id="ratingForm" method="POST" action="{{ route('ratings.store', ['course_id' => $course->id]) }}">
-                @csrf
-                <input type="hidden" name="course_id" value="{{ $course->id }}">
+    </div>
+</div>
+
+<!-- Modal Pop-up -->
+<div id="ratingModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg md:w-1/3 w-full mx-4">
+        <h2 class="text-lg text-gray-700 text-center font-semibold mb-4">Beri Rating Kursus</h2>
+        <form id="ratingForm" method="POST" action="{{ route('ratings.store', ['course_id' => $course->id]) }}">
+            @csrf
+            <input type="hidden" name="course_id" value="{{ $course->id }}">
                 <div class="mb-4">
                     <label for="stars" class="block text-sm font-medium text-gray-600 mb-2 font-semibold">Rating</label>
                     <div id="starRating" class="flex space-x-1">
@@ -108,9 +128,9 @@
                         Kirim
                     </button>
                 </div>
-            </form>
-        </div>
+        </form>
     </div>
+</div>
 
 <script>
     // Menampilkan modal saat tombol "Beri Rating" diklik
@@ -123,6 +143,4 @@
         document.getElementById('ratingModal').classList.add('hidden');
     });
 </script>
-    </div>
-</div>
 @endsection

@@ -48,9 +48,10 @@
     <div class="mb-4">
         <h3 class="font-semibold text-gray-700 mb-4">Soal dan Jawaban</h3>
         @foreach($quiz->questions as $index => $question)
-            <div class="bg-white border border-gray-200 p-3 rounded-md mb-4">
+            <div class="bg-white border border-gray-200 p-3 rounded-md mb-4 question-block">
                 <!-- Soal -->
                 <div class="mb-4">
+                    <input type="hidden" name="questions[{{ $index }}][id]" value="{{ $question->id }}">
                     <label for="questions[{{ $index }}][question]" class="block text-gray-700 font-semibold">Soal {{ $index + 1 }}</label>
                     <input type="text" name="questions[{{ $index }}][question]" id="questions[{{ $index }}][question]" 
                            value="{{ old("questions.$index.question", $question->question) }}" 
@@ -67,6 +68,8 @@
                     <p class="block sm:hidden text-gray-700 font-semibold text-sm mb-2">Jawaban</p>
                     @foreach($question->answers as $answerIndex => $answer)
                         <div class="flex items-center gap-x-2">
+                            <!-- Untuk setiap jawaban -->
+                            <input type="hidden" name="questions[{{ $index }}][answers][{{ $answerIndex }}]" ...>
                             <label for="questions[{{ $index }}][answers][{{ $answerIndex }}]" class=" text-gray-700 font-semibold text-sm hidden md:block">Jawaban {{ $answerIndex + 1 }}</label>
                             <input type="text" name="questions[{{ $index }}][answers][{{ $answerIndex }}]" 
                                    id="questions[{{ $index }}][answers][{{ $answerIndex }}]" 
@@ -74,13 +77,18 @@
                                    class="flex-1 text-gray-700 text-sm border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 p-2
                                    @error("questions.$index.answers.$answerIndex") border-red-500 @enderror">
 
-                            <!-- Checkbox untuk Jawaban Benar -->
+                             <!-- Checkbox untuk Jawaban Benar -->
                             <input type="radio" name="questions[{{ $index }}][correct_answer]" value="{{ $answerIndex }}" 
-                                   {{ old("questions.$index.correct_answer") == $answerIndex ? 'checked' : '' }} class="focus:ring focus:ring-blue-300">
+                               {{ old("questions.$index.correct_answer", $question->correct_answer) == $answerIndex ? 'checked' : ($answer->is_correct ? 'checked' : '') }} 
+                               class="focus:ring focus:ring-blue-300">
                             <span class="text-sm text-gray-700 text-sm hidden sm:inline">Benar</span>
                         </div>
                     @endforeach
                 </div>
+                <!-- Tombol Hapus Soal -->
+                <button type="button" class="remove-question text-red-600 hover:text-red-800 font-semibold mt-2">
+                    Hapus Soal
+                </button>
             </div>
         @endforeach
     </div>
@@ -200,5 +208,17 @@
             questionItem.remove();
         }
     }
+
+    // MANIPULASI DOM UNTUK PENGHAPUSAN PERTANYAAN DAN JAWABAN DARI KUIS YANG LAMA
+    document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.remove-question').forEach(function (button) {
+        button.addEventListener('click', function () {
+            const block = button.closest('.question-block');
+            if (block) {
+                block.remove();
+            }
+        });
+    });
+});
 </script>
 @endsection
