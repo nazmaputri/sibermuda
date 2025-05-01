@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="mb-3 flex justify-start">
-    <a href="{{ route('kategori-peserta') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
+    <a href="{{ route('kategori-peserta') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
     </svg>
@@ -118,7 +118,7 @@
                                             <h4 class="font-semibold mb-2 text-gray-700">{{ $video->title }}</h4>
                                             @if ($video->link)
                                             <iframe 
-                                                src="https://drive.google.com/file/d/{{ $video->link }}" 
+                                                src="https://drive.google.com/file/d/{{ $video->link }}/preview" 
                                                 width="100%" 
                                                 height="250" 
                                                 allow="autoplay" 

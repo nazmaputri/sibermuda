@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
     <!-- AlphineJs -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -20,7 +21,7 @@
      <!-- Custom Style -->
      <style>
         body {
-            font-family: "Quicksand", sans-serif !important;
+            font-family: "Nunito", sans-serif !important;
         }
         .no-scrollbar::-webkit-scrollbar {
             display: none;
@@ -40,7 +41,7 @@
                 <!-- Promo text -->
                 <div class="text-sm sm:text-base font-semibold">
                     Promo Diskon {{ $discount->discount_percentage }}%! <br class="md:hidden" />
-                    <span class="font-normal">Berlaku sampai {{ \Carbon\Carbon::parse($discount->end_date)->format('d F Y') }}!</span>
+                    <span class="font-normal">Berlaku sampai {{ \Carbon\Carbon::parse($discount->end_date)->locale('id')->translatedFormat('d F Y') }}!</span>
                 </div>
 
                 <!-- Countdown -->
@@ -56,10 +57,19 @@
                     <button class="bg-white text-red-600 font-bold px-3 py-1 rounded hover:bg-gray-100 text-sm">
                         {{ $discount->coupon_code }}
                     </button>
-                    <button class="bg-sky-500 text-white font-semibold px-3 py-1 rounded hover:bg-sky-400 text-sm"
-                        onclick="copyToClipboard('{{ $discount->coupon_code }}')">
-                        SALIN
-                    </button>
+                    <div class="relative inline-block">
+                        <button
+                            class="bg-sky-500 text-white font-semibold px-3 py-1 rounded hover:bg-sky-400 text-sm"
+                            onclick="copyToClipboard(this, '{{ $discount->coupon_code }}')">
+                            SALIN
+                        </button>
+
+                        <div
+                            class="absolute left-1/2 translate-x-[-50%] mt-2 px-3 py-1 bg-black text-white text-xs rounded shadow-md opacity-0 pointer-events-none transition-opacity duration-300"
+                            id="copy-toast">
+                            Disalin!
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -92,9 +102,16 @@
                 document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
             }, 1000);
 
-            function copyToClipboard(text) {
-                navigator.clipboard.writeText(text).then(function () {
-                    alert('Kode promo berhasil disalin: ' + text);
+            function copyToClipboard(button, text) {
+                navigator.clipboard.writeText(text).then(() => {
+                const toast = button.parentElement.querySelector('#copy-toast');
+                toast.classList.remove('opacity-0');
+                toast.classList.add('opacity-100');
+
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                }, 3000);
                 });
             }
         </script>
@@ -115,51 +132,66 @@
                         <h2 class="md:text-xl text-md font-semibold text-gray-700 capitalize mb-1 capitalize">{{ $course->title }}</h2>
                         <p class="text-gray-700">{{ $course->description }}</p>
                         <p class="text-gray-600 capitalize">Mentor : {{ $course->mentor->name }}</p>
-                        <h3 class="text-xl font-semibold text-gray-700 my-2 text-left">Materi</h3>
+                        <h3 class="md:text-xl text-md font-semibold text-gray-700 my-2 text-left">Materi</h3>
                         <ul class="divide-y divide-gray-200">
-                            @forelse ($course->materi as $index => $materi)
-                                <li class="flex items-center space-x-4 py-2">
-                                    <!-- Icon -->
-                                    <svg class="h-5 w-5 text-gray-700" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 512 512">
-                                        <path d="..." />
-                                    </svg>
-                                    <!-- Judul Materi -->
-                                    <span class="text-sm font-semibold text-gray-700 capitalize">
-                                        {{ $index + 1 }}. {{ $materi->judul }}
-                                    </span>
-                                </li>
-                            @empty
-                                <li class="py-1 text-sm text-gray-500">
-                                    belum ada materi untuk kursus ini
-                                </li>
-                            @endforelse
+                        @php
+                            $maxItems = 10;
+                            $totalMateri = $course->materi->count();
+                        @endphp
+
+                        @forelse ($course->materi->take($maxItems) as $index => $materi)
+                            <li class="flex items-center space-x-4 py-2">
+                                <!-- Judul Materi -->
+                                <span class="text-sm text-gray-700 capitalize">
+                                    {{ $index + 1 }}. {{ $materi->judul }}
+                                </span>
+                            </li>
+                        @empty
+                            <li class="py-1 text-sm text-gray-500">
+                                belum ada materi untuk kursus ini
+                            </li>
+                        @endforelse
+
+                        @if ($totalMateri > $maxItems)
+                            <li class="py-1 text-sm text-gray-500 italic">
+                                dan materi lainnya...
+                            </li>
+                        @endif
                         </ul>
                         <a href="/">
-                            <button class="bg-blue-400 hover:bg-blue-300 text-white py-2 px-4 rounded-md font-semibold mt-6">
+                            <button class="group bg-blue-400 hover:bg-blue-300 text-white text-sm md:text-md py-2 px-4 rounded-md font-semibold mt-6 flex items-center gap-2 transition-all duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 transform transition-transform duration-300 group-hover:-translate-x-1">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+                                </svg>
                                 Kembali
-                            </button>                            
+                            </button>
                         </a>
+
                     </div>
                 </div>
 
                <!-- Trailer dan keranjang -->
                 <div class="lg:w-1/3 w-full h-full p-6 bg-white border border-gray-300 rounded-lg shadow-md" data-aos="zoom-in">
                     <!-- Cuplikan Video Pembelajaran -->
+                    @php
+                        $previewMateri = $course->materi->filter(fn($m) => $m->is_preview);
+                    @endphp
+
                     <div>
-                        <h3 class="text-lg font-semibold text-gray-700 mb-4">Cuplikan Video Pembelajaran</h3>
-                    
-                        @foreach ($course->materi as $materi)
-                            @if($materi->is_preview)
+                        <h3 class="md:text-xl text-md font-semibold text-gray-700 mb-4">Cuplikan Video Pembelajaran</h3>
+
+                        @if($previewMateri->isEmpty())
+                            <p class="text-gray-500 text-sm mb-2">Belum ada cuplikan video untuk kursus ini.</p>
+                        @else
+                            @foreach ($previewMateri as $materi)
                                 @php
-                                    // Coba ambil video Google Drive (MateriVideo)
                                     $driveVid = $materi->videos->first();
-                                    // Kalau gak ada, ambil video YouTube
+                                    // jika video drive tidak ada maka tampilkan video youtube
                                     $ytVid    = $materi->youtube->first();
                                 @endphp
-                    
+
                                 <div class="mb-6">
                                     @if($driveVid && $driveVid->link)
-                                        {{-- Embed Google Drive --}}
                                         <iframe
                                             src="https://drive.google.com/file/d/{{ $driveVid->link }}/preview"
                                             width="100%" height="100%"
@@ -167,9 +199,7 @@
                                             allowfullscreen
                                             class="rounded-lg shadow-md">
                                         </iframe>
-                    
                                     @elseif($ytVid && $ytVid->link)
-                                        {{-- Embed YouTube --}}
                                         <iframe
                                             width="100%" height="100%"
                                             src="https://www.youtube.com/embed/{{ $ytVid->link }}"
@@ -178,29 +208,28 @@
                                             allowfullscreen
                                             class="rounded-lg shadow-md">
                                         </iframe>
-                    
                                     @else
-                                        <p class="text-gray-500">Tidak ada video preview untuk materi ini.</p>
+                                        <p class="text-sm text-gray-500 mb-2">Belum ada cuplikan video untuk kursus ini.</p>
                                     @endif
                                 </div>
-                            @endif
-                        @endforeach
-                    </div>                    
-
+                            @endforeach
+                        @endif
+                    </div>
+              
                     <!-- Header 3 Teks Sejajar -->
                     <div class="flex space-x-1 items-center mb-4">
                         @if($discount && $discountPercentage > 0 && now()->lt($end_datetime))
-                            <span class="font-semibold text-2xl text-gray-700">
+                            <span class="font-semibold md:text-2xl text-xl text-red-500">
                                 Rp.{{ number_format($discountedPrice, 0, ',', '.') }}
                             </span>
                             <span class="text-sm font-medium text-gray-600 line-through">
                                 Rp.{{ number_format($originalPrice, 0, ',', '.') }}
                             </span>
-                            <span class="text-sm font-medium text-gray-600">
-                                Potongan {{ $discountPercentage }}%!
+                            <span class="text-xs font-medium text-red-500 p-0.5 bg-red-100 rounded-sm">
+                                {{ $discountPercentage }}%!
                             </span>
                         @else
-                            <span class="font-semibold text-2xl text-gray-700">
+                            <span class="font-semibold md:text-2xl text-xl text-red-500">
                                 Rp.{{ number_format($originalPrice, 0, ',', '.') }}
                             </span>
                         @endif
@@ -227,7 +256,10 @@
                     <!-- Dua Tombol Vertikal -->
                     <div class="flex flex-col gap-3">
                         <a href="{{ route('beli.kursus', ['id' => $course->id]) }}">
-                            <button class="w-full bg-blue-400 hover:bg-blue-300 border text-white font-semibold py-2 px-4 rounded-lg">
+                            <button class="w-full bg-blue-400 hover:bg-blue-300 border text-white font-semibold py-2 px-4 rounded-lg flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-5 h-5">
+                                    <path d="M0 24C0 10.7 10.7 0 24 0L69.5 0c22 0 41.5 12.8 50.6 32l411 0c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3l-288.5 0 5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5L488 336c13.3 0 24 10.7 24 24s-10.7 24-24 24l-288.3 0c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5L24 48C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" fill="white"/>
+                                </svg>
                                 Tambah Ke Keranjang
                             </button>
                         </a>
@@ -246,7 +278,7 @@
     <section class="bg-white p-10">        
         <div class="flex items-center justify-center px-4">
             <div class="w-full text-center">
-                <h2 class="text-2xl font-semibold text-gray-700 mb-2" data-aos="zoom-in">
+                <h2 class="md:text-2xl text-xl font-semibold text-gray-700 mb-2" data-aos="zoom-in">
                     Yuk Beli Kursusnya Sekarang Untuk Akses Materinya!
                 </h2>
                 <!-- Deskripsi -->

@@ -55,7 +55,7 @@
                     <h1 class="text-xl font-semibold text-gray-700">Daftar Mentor</h1>
                 </div>
                 <h4 class="text-center text-gray-700">
-                    Ayo daftar dan menjadi bagian mentor di Sibermuda.Idn!
+                    Ayo daftar dan menjadi mentor bersama Sibermuda.Idn!
                 </h4>
             </div> 
 
@@ -151,7 +151,7 @@
                  <!-- Login Link -->
                  <h4 class="text-center text-gray-700">
                      Sudah punya akun?
-                     <a href="/login" class="text-blue-900 underline">Login</a>
+                     <a href="/login" class="text-midnight font-semibold">Login</a>
                  </h4>
              <!-- </div> -->
             </div>

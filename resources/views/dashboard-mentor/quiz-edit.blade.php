@@ -86,7 +86,7 @@
                     @endforeach
                 </div>
                 <!-- Tombol Hapus Soal -->
-                <button type="button" class="remove-question text-red-600 hover:text-red-800 font-semibold mt-2">
+                <button type="button" class="remove-question text-white px-2 py-1 bg-red-400 hover:bg-red-300 text-sm rounded font-semibold mt-2">
                     Hapus Soal
                 </button>
             </div>
@@ -106,7 +106,10 @@
                 <!-- Input Pertanyaan -->
                 <div class="mb-3">
                     <label class="block text-gray-700 font-semibold mb-2 text-sm">Soal</label>
-                    <input type="text" name="questions[0][question]" class="w-full p-2 text-gray-700 border border-gray-300 rounded question-input focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan teks soal" required>
+                    <input type="text" name="questions[0][question]" class="w-full p-2 text-gray-700 border border-gray-300 rounded question-input focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan teks soal">
+                    @error('questions.*.question')
+                        <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <!-- Input Jawaban Pilihan Ganda -->
@@ -116,12 +119,18 @@
                         <div class="flex items-center mb-2">
                             <input type="radio" name="questions[0][correct_answer]" value="{{ $i }}" class="mr-2 answer-radio" required>
                             <input type="text" name="questions[0][answers][]" class="w-full p-2 text-sm text-gray-700 border border-gray-300 rounded answer-input focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan jawaban" required>
+                            @error('questions.*.answers.*')
+                                <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                            @enderror
                         </div>
                     @endfor
+                    @error('questions.0.correct_answer')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Tombol Hapus Soal -->
-                <button type="button" onclick="removeQuestion(this)" class="text-red-600 hover:text-red-800 font-semibold mt-2">Hapus Soal</button>
+                <button type="button" onclick="removeQuestion(this)" class="text-white px-2 py-1 bg-red-400 hover:bg-red-300 text-sm rounded font-semibold mt-2">Hapus soal</button>
             </div>
         </template>
 

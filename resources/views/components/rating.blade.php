@@ -66,7 +66,7 @@
 
 <!-- Rating Section -->
 <section id="ratingform" class="fixed inset-0 w-full h-full bg-black bg-opacity-50 items-center justify-center p-4 hidden z-[1000] flex">
-    <div class="container mx-auto md:mx-16 my-2 rounded rounded-md px-2 bg-white max-w-xl w-full">
+    <div id="modalBox" class="container mx-auto md:mx-16 my-2 rounded rounded-md px-2 bg-white max-w-xl w-full transform scale-90 opacity-0 transition-all duration-300 ease-out">
         <div class="flex flex-col items-center space-y-2 p-3">
             <!-- Close Button with Icon -->
             <button id="closeRatingBtn" class="flex items-center text-sm text-red-500 hover:text-red-600 gap-1 self-end">
@@ -186,19 +186,33 @@
         // Handle open popup (optional if you have a trigger button)
         const openRatingBtn = document.getElementById('openRatingBtn');
         const ratingSection = document.getElementById('ratingform');
+        const modalBox = document.getElementById('modalBox');
 
         if (openRatingBtn) {
             openRatingBtn.addEventListener('click', function () {
                 ratingSection.classList.remove('hidden');
                 ratingSection.scrollIntoView({ behavior: 'smooth' });
+
+                // Animasi buka
+                setTimeout(() => {
+                    modalBox.classList.remove('scale-90', 'opacity-0');
+                    modalBox.classList.add('scale-100', 'opacity-100');
+                }, 10); // delay untuk memastikan transition aktif
             });
         }
-
-        // Handle close popup
+        
+        // Handle close popup (tombol tutup rating)
         const closeRatingBtn = document.getElementById('closeRatingBtn');
         if (closeRatingBtn) {
             closeRatingBtn.addEventListener('click', function () {
-                ratingSection.classList.add('hidden');
+                // Animasi tutup
+                modalBox.classList.remove('scale-100', 'opacity-100');
+                modalBox.classList.add('scale-90', 'opacity-0');
+
+                // Menyembunyikan setelah animasi selesai
+                setTimeout(() => {
+                    ratingSection.classList.add('hidden');
+                }, 300);  // Waktu yang sama dengan durasi animasi
             });
         }
     });

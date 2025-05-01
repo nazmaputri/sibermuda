@@ -266,8 +266,11 @@ class QuizController extends Controller
                 }
             }            
 
+             // Redirect setelah sukses update kuis
+            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil diperbarui');
+
         } catch (\Exception $e) {
-            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil ditambahkan');
+            return redirect()->route('courses.show', ['course' => $course->id])->with('error', 'Terjadi kesalahan saat memperbarui kuis');
         }
     }
 

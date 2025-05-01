@@ -16,10 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
     @endpush
     
-    <div class="bg-white rounded-2xl shadow-md p-6 mb-8 border border-gray-200">
-        <h1 class="text-xl md:text-xl font-bold text-center text-gray-800 mb-6 border-b pb-3">Detail Jawaban Tugas Akhir</h1>
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-gray-200">
+        <h1 class="text-lg font-semibold text-center text-gray-700 mb-6 border-b pb-3">Detail Jawaban Tugas Akhir</h1>
     
-        <div class="space-y-4 text-sm md:text-base text-gray-700">
+        <div class="space-y-3 text-sm md:text-base text-gray-700">
             <div class="flex flex-wrap items-start">
                 <span class="font-semibold w-24">Nama</span><span class="mr-2">:</span>
                 <span>{{ $submission->user->name }}</span>
@@ -34,9 +34,9 @@
             </div>
         </div>
     
-        <div class="mt-6">
+        <div class="mt-3">
             <div class="flex flex-wrap items-start mb-2">
-                <span class="font-semibold w-24">Foto</span><span class="mr-2">:</span>
+                <span class="font-semibold w-24 text-gray-700">Foto</span><span class="mr-2">:</span>
             </div>
     
             @if ($submission->photo && count($submission->photo))
@@ -45,7 +45,7 @@
                         <div x-data="{ open: false }">
                             <button 
                                 @click="open = true"
-                                class="text-blue-600 hover:underline text-sm"
+                                class="text-blue-500 hover:underline text-sm"
                             >
                                 📎 Lihat Foto {{ $index + 1 }}
                             </button>
@@ -58,7 +58,7 @@
                                 @click="open = false"
                             >
                                 <div 
-                                    class="bg-white rounded-lg p-4 w-full max-w-3xl mx-auto"
+                                    class="bg-white rounded-lg p-4 w-full max-w-3xl mx-auto max-h-[90vh] overflow-auto"
                                     @click.stop
                                 >
                                     <img 
@@ -68,7 +68,7 @@
                                     >
                                     <button 
                                         @click="open = false" 
-                                        class="mt-4 w-full py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                        class="mt-4 w-full py-2 bg-red-500 text-white rounded hover:bg-red-400"
                                     >
                                         Tutup
                                     </button>

@@ -172,7 +172,7 @@
             </nav>
             
             <div class="m-4">
-                <a href="https://wa.me/62881025655793" target="_blank" class="block group">
+                <a href="#" id="waLink" target="_blank" class="block group">
                     <li 
                         class="flex items-center py-2 rounded-md space-x-4 text-green-700 bg-green-200 transition-all duration-300 ease-in-out " 
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
@@ -299,17 +299,30 @@
                             });
 
                         // Toggle dropdown saat tombol diklik
-                        button.addEventListener('click', () => {
+                        button.addEventListener('click', (event) => {
+                            event.stopPropagation(); // Cegah klik tombol menutup dropdown langsung
+
                             dropdown.classList.toggle('hidden');
 
-                            // Tandai semua sebagai dibaca saat dropdown dibuka
-                            fetch('/notifikasi/pembelian')
-                                .then(res => res.json())
-                                .then(data => {
-                                    const ids = data.map(item => item.id);
-                                    localStorage.setItem('read_notifications', JSON.stringify(ids));
-                                    badge.classList.add('hidden');
-                                });
+                            // Jika dropdown sedang dibuka
+                            if (!dropdown.classList.contains('hidden')) {
+                                fetch('/notifikasi/pembelian')
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        const ids = data.map(item => item.id);
+                                        localStorage.setItem('read_notifications', JSON.stringify(ids));
+                                        badge.classList.add('hidden');
+                                    });
+                            }
+                        });
+
+                        // Tutup dropdown saat klik di luar area
+                        document.addEventListener('click', (event) => {
+                            if (!dropdown.classList.contains('hidden') &&
+                                !dropdown.contains(event.target) &&
+                                !button.contains(event.target)) {
+                                dropdown.classList.add('hidden');
+                            }
                         });
                     });
                 </script>         
@@ -427,6 +440,16 @@
             setTimeout(() => loader.remove(), 500); // hilangkan dari DOM
         }
     });
+
+    // Mengambil nomor telepon admin langsung dari Blade
+    var nomorAdmin = @json(DB::table('users')->where('role', 'admin')->value('phone_number'));
+
+    // Memastikan nomor admin ditemukan, jika ada update link WhatsApp
+    if (nomorAdmin) {
+        document.getElementById('waLink').setAttribute('href', 'https://wa.me/' + nomorAdmin);
+    } else {
+        alert('Nomor admin tidak ditemukan!');
+    }
 </script>   
 
 <!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->

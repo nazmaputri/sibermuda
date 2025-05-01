@@ -79,7 +79,7 @@
 
 <!-- Modal Pop-up -->
 <div id="ratingModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-    <div class="bg-white p-6 rounded-lg shadow-lg md:w-1/3 w-full mx-4">
+    <div id="modalBox" class="bg-white p-6 rounded-lg shadow-lg md:w-1/3 w-full mx-4 transform transition-all duration-300 ease-out scale-90 opacity-0">
         <h2 class="text-lg text-gray-700 text-center font-semibold mb-4">Beri Rating Kursus</h2>
         <form id="ratingForm" method="POST" action="{{ route('ratings.store', ['course_id' => $course->id]) }}">
             @csrf
@@ -118,13 +118,13 @@
                 </script>                
                 <div class="mb-4">
                     <label for="comment" class="block text-sm text-gray-600 font-semibold">Komentar</label>
-                    <textarea name="comment" id="comment" class="w-full text-sm border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" rows="4" placeholder="Tulis komentar Anda (opsional)"></textarea>
+                    <textarea name="comment" id="comment" class="w-full text-sm text-gray-700 border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" rows="4" placeholder="Tulis komentar Anda (opsional)"></textarea>
                 </div>
                 <div class="flex justify-end">
-                    <button type="button" id="closeRatingModal" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg mr-2 text-center">
+                    <button type="button" id="closeRatingModal" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg mr-2 text-center text-sm">
                         Batal
                     </button>
-                    <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg text-center">
+                    <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg text-center text-sm">
                         Kirim
                     </button>
                 </div>
@@ -133,14 +133,27 @@
 </div>
 
 <script>
-    // Menampilkan modal saat tombol "Beri Rating" diklik
-    document.getElementById('ratingButton').addEventListener('click', function () {
-        document.getElementById('ratingModal').classList.remove('hidden');
-        });
+    const ratingModal = document.getElementById('ratingModal');
+    const modalBox = document.getElementById('modalBox');
 
-    // Menyembunyikan modal saat tombol "Batal" diklik
+    document.getElementById('ratingButton').addEventListener('click', function () {
+        ratingModal.classList.remove('hidden');
+
+        // Delay agar animasi terlihat
+        setTimeout(() => {
+            modalBox.classList.remove('opacity-0', 'scale-90');
+            modalBox.classList.add('opacity-100', 'scale-100');
+        }, 10);
+    });
+
     document.getElementById('closeRatingModal').addEventListener('click', function () {
-        document.getElementById('ratingModal').classList.add('hidden');
+        modalBox.classList.remove('opacity-100', 'scale-100');
+        modalBox.classList.add('opacity-0', 'scale-90');
+
+        // Tunggu animasi selesai sebelum menyembunyikan modal
+        setTimeout(() => {
+            ratingModal.classList.add('hidden');
+        }, 300); // harus sesuai dengan duration Tailwind (300ms)
     });
 </script>
 @endsection

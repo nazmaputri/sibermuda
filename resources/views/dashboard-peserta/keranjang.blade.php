@@ -53,10 +53,18 @@
                 <!-- Kursus dengan status pending -->
                 @if (!empty($pendingCarts))
                     <div class="mt-6 bg-white border border-gray-200 p-4 rounded-lg shadow shadow-md lg:w-2/3">
-                        <h3 class="text-gray-700 font-semibold mb-2">Menunggu Konfirmasi Pembayaran</h3>
+                        <div class="flex items-center p-3 mb-4 text-sm text-yellow-600 rounded-lg bg-yellow-100" role="alert">
+                            <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                            </svg>
+                            <span class="sr-only">Info</span>
+                            <div>
+                                <span class="font-semibold md:text-ms text-sm">Menunggu Konfirmasi Pembayaran</span>
+                            </div>
+                        </div>
                         @foreach ($pendingCarts as $cart)
                             <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
-                                <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-20 h-20 object-cover rounded-md" />
+                                <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md" />
                                 <div class="flex-1">
                                     <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
                                     <p class="text-sm font-semibold text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
@@ -153,10 +161,18 @@
             <!-- Kursus dengan status pending -->
             @if (!empty($pendingCarts))
                 <div class="mt-6 bg-white border border-gray-200 p-4 rounded-lg shadow shadow-md {{ empty($availableCarts) ? 'w-full' : 'lg:w-2/3' }}">
-                    <h3 class="text-gray-700 font-semibold mb-2">Menunggu Konfirmasi Pembayaran</h3>
+                    <div class="flex items-center p-3 mb-4 text-sm text-yellow-600 rounded-lg bg-yellow-100" role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div>
+                            <span class="font-semibold md:text-ms text-sm">Menunggu Konfirmasi Pembayaran</span>
+                        </div>
+                    </div>
                     @foreach ($pendingCarts as $cart)
                         <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
-                            <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-20 h-20 object-cover rounded-md" />
+                            <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md" />
                             <div class="flex-1">
                                 <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
                                 <p class="text-sm font-semibold text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>

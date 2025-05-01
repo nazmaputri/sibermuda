@@ -230,7 +230,7 @@
                 @endphp
 
                 @if ($quizHistories->isNotEmpty())
-                <div class="mt-10">
+                <div class="mt-6">
                     <h2 class="text-md text-gray-700 font-semibold mb-4">Riwayat Semua Kuis</h2>
                     <div class="overflow-x-auto">
                         <table class="min-w-full border-separate border-spacing-0 text-sm text-center">

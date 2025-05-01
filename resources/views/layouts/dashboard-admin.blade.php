@@ -326,8 +326,8 @@
                 <div class="ml-auto flex mr-4 space-x-4">
                <!-- Notifikasi -->
                 <div class="relative flex items-center cursor-pointer" id="notification-container">
-                    <button id="notification-button" class="p-1 rounded-full border border-gray-200 bg-white relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500">
+                    <button id="notification-button" class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
                         </svg>
 
@@ -340,7 +340,7 @@
 
                     <!-- Dropdown notifikasi -->
                     <div id="notification-dropdown"
-                        class="absolute right-0 top-10 md:top-12 bg-white shadow-lg border border-gray-200 rounded-md w-60 md:w-96 hidden">
+                        class="absolute right-0 top-10 md:top-12 bg-white shadow-lg border border-gray-200 rounded-md w-60 md:w-96 hidden z-30">
                         <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
                         </div>
@@ -356,10 +356,21 @@
                         const markAsReadBtn = document.getElementById('mark-as-read');
                     
                         // Toggle dropdown & ambil notifikasi saat dibuka
-                        button.addEventListener('click', function () {
+                        button.addEventListener('click', function (event) {
+                            event.stopPropagation(); // Cegah klik pada tombol memicu penutupan
                             dropdown.classList.toggle('hidden');
                             if (!dropdown.classList.contains('hidden')) {
                                 fetchNotifications();
+                            }
+                        });
+
+                        // Tutup dropdown jika klik di luar dropdown
+                        document.addEventListener('click', function (event) {
+                            // Jika dropdown sedang terbuka dan klik terjadi di luar tombol dan dropdown
+                            if (!dropdown.classList.contains('hidden') &&
+                                !dropdown.contains(event.target) &&
+                                !button.contains(event.target)) {
+                                dropdown.classList.add('hidden');
                             }
                         });
                     

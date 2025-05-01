@@ -126,7 +126,7 @@
 
             <h4 class="text-center text-gray-700">
                 Belum punya akun? 
-                <a href="{{ route('register') }}" class="text-blue-900 underline">Daftar</a>
+                <a href="{{ route('register') }}" class="text-midnight font-semibold">Daftar</a>
             </h4>
 
             @if(session('resent_time'))
