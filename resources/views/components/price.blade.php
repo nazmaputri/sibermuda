@@ -2,8 +2,8 @@
 <section id="price" class="bg-white py-16 mx-4">
     <div class="container mx-auto px-2 md:px-12">
         <div class="mb-6 text-center">
-            <h3 class="text-xl md:text-3xl font-['Roboto'] font-bold text-[#08072a]" data-aos="fade-down">Rekomendasi Kursus Sibermuda</h3>
-            <p class="text-md text-gray-700 mt-2" data-aos="fade-down">Pilih kursus yang sesuai dengan kebutuhan Anda.</p>
+            <h3 class="text-xl md:text-2xl font-['poppins'] font-semibold text-[#08072a]" data-aos="fade-down">Rekomendasi Kursus Sibermuda</h3>
+            <p class="text-lg  text-gray-700 mt-2" data-aos="fade-down">Pilih kursus yang sesuai dengan kebutuhan Anda.</p>
         </div>
         <div class="overflow-x-auto hide-scrollbar py-5">
             <div class="flex space-x-6">
@@ -20,7 +20,7 @@
                             <!-- Konten Kursus -->
                             <div class="p-4 flex flex-col">
                                 <!-- Judul Kursus -->
-                                <h1 class="text-xl font-semibold text-gray-800 mb-2">{{ Str::limit($course->title, 23, '...') }}</h1>
+                                <h1 class="text-lg font-semibold text-gray-800 mb-2">{{ Str::limit($course->title, 23, '...') }}</h1>
                                 
                                 <!-- Nama Mentor -->
                                 <p class="text-sm text-gray-600 mb-2">

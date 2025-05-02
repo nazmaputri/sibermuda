@@ -2,14 +2,14 @@
 @section('title', 'Pengaturan Akun')
 @section('content')
 
-<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-semibold text-gray-700 border-b-2 pb-2 mb-4">Pengaturan Akun</h2>
+<div class="max-w-2xl mx-auto bg-white border border-gray-200 p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl  font-semibold text-gray-700 border-b-2 pb-2 mb-4">Pengaturan Akun</h2>
     <form action="{{ url('/settings') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-4">
             <label for="photo" class="block text-sm font-medium text-gray-700 font-semibold">Foto Profil</label>
             @if($user->photo)
-                <img src="{{ Storage::url($user->photo) }}" alt="Foto Profil" class="w-28 h-28 rounded-full mt-2">
+                <img src="{{ Storage::url($user->photo) }}" alt="Foto Profil" class="w-28 h-28 rounded-full mx-auto">
             @endif
             <input type="file" name="photo" id="photo" class="p-2 mt-2 block w-full border border-gray-200 text-gray-700 rounded-md shadow-sm">
             @error('photo')
@@ -28,7 +28,7 @@
 
         <!-- Email -->
         <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700 font-semibold">Email</label>
+            <label for="email">Email</label>
             <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="p-2 mt-1 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700" required>
             @error('email')
                 <p class="text-red-500 text-xs">{{ $message }}</p>

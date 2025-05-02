@@ -3,11 +3,12 @@
 @section('content')
 
 <div class="max-w-2xl border border-gray-200 mx-auto bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-2xl font-semibold text-gray-700 border-b-2 pb-2 mb-4">Pengaturan Akun</h2>
     <form action="{{ url('/update-peserta') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
        <div class="mb-4">
-            <label for="photo" class="block text-sm font-medium text-gray-700"></label>
+            <label for="photo" class="block text-sm font-medium text-gray-700">Foto Profil</label>
             @if($user->photo)
                 <img src="{{ Storage::url($user->photo) }}" alt="Foto Profil" class="w-28 h-28 rounded-full mx-auto">
             @endif

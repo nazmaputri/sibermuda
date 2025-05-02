@@ -141,19 +141,12 @@ class MateriController extends Controller
             ->with('success', 'Materi berhasil ditambahkan.');
     }
 
-    /**
-     * Ekstrak ID file Youtube dari URL
-     */
-    private function extractYoutubeVideoId(string $url): ?string
+    private function extractYoutubeVideoId($url)
     {
-        if (preg_match(
-            '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|watch)(?:\.php)?(?:\?|\?.*?&)v=|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
-            $url, $matches
-        )) {
+        if (preg_match('/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([^\s&]+)/', $url, $matches)) {
             return $matches[1];
         }
-
-        return null;
+        return null; // Kembalikan null kalau tidak cocok
     }
 
     /**

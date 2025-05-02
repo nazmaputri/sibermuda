@@ -17,7 +17,7 @@
             <div class="md:px-12 space-y-6" data-aos="fade-right">
                 <!-- Title -->
                 <div class="mb-6">
-                    <h3 class="text-xl md:text-3xl font-['Roboto'] text-center font-bold text-[#08072a] text-opacity-90">
+                    <h3 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90">
                        Tentang Kami
                     </h3>
                 </div>
@@ -110,7 +110,7 @@
 <section class="py-16 px-4 bg-white">
   <div class="max-w-6xl mx-auto">
     <!-- Judul -->
-    <h2 class="text-xl md:text-3xl font-['Roboto'] text-center font-bold text-midnight text-opacity-90 mb-8" data-aos="fade-up">Visi & Misi Kami</h2>
+    <h2 class="text-xl md:text-2xl font-['poppins'] text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-up">Visi & Misi Kami</h2>
 
     <!-- Misi -->
     <div class="flex flex-col md:flex-row items-center bg-white border border-gray-200 rounded-2xl shadow mb-8" data-aos="fade-up">
@@ -120,7 +120,7 @@
         </div>
       </div>
       <div class="md:w-3/3 p-6 text-center md:text-left">
-        <h3 class="text-2xl font-semibold text-midnight mb-2">Visi</h3>
+        <h3 class="md:text-2xl text-xl font-semibold text-midnight mb-2">Visi</h3>
         <p class="text-gray-600">Menjadi pionir dalam pengembangan dan pemberdayaan generasi muda di bidang teknologi siber, menciptakan ekosistem inovatif yang mendukung keterampilan, kreativitas, dan pemahaman mendalam tentang dunia digital. Kami berkomitmen untuk memfasilitasi pembelajaran dan kolaborasi, sehingga generasi muda dapat menjadi pemimpin yang tangguh dan beretika dalam menghadapi tantangan teknologi masa depan.</p>
       </div>
     </div>
@@ -133,22 +133,60 @@
         </div>
       </div>
       <div class="md:w-3/3 p-6 text-center md:text-left">
-        <h3 class="text-2xl font-semibold text-midnight mb-2">Misi</h3>
+        <h3 class="md:text-2xl text-xl font-semibold text-midnight mb-2">Misi</h3>
         <p class="text-gray-600">Menyediakan pendidikan teknologi siber yang komprehensif, mendorong inovasi dan kreativitas melalui kolaborasi, membangun kesadaran akan etika digital, menjalin kemitraan strategis, serta memberikan dukungan berkelanjutan bagi generasi muda untuk sukses di dunia teknologi.</p>
       </div>
     </div>
   </div>
 </section>
 
+<section id="founder" class="py-12 max-w-7xl mx-auto px-4 md:px-8">
+    <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-right">Founder</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" data-aos="fade-right">
+        <!-- Card 1 -->
+        <div>
+            <div class="bg-white rounded-2xl border border-gray-200 h-[410px] p-4 text-left">
+                <div class="mb-2">
+                  <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
+                  <p class="text-sm text-gray-500">Chief Executive Officer</p>
+                </div>
+                <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-80 object-cover">
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div>
+            <div class="bg-white rounded-2xl border border-gray-200 h-[410px] p-4 text-left">
+                <div class="mb-2">
+                  <h3 class="text-lg font-semibold text-midnight">Rizky MR</h3>
+                  <p class="text-sm text-gray-500">Chief Technology Officer</p>
+                </div>
+                <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-80 object-cover">
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div>
+            <div class="bg-white rounded-2xl border border-gray-200 h-[410px] p-4 text-left">
+                <div class="mb-2">
+                  <h3 class="text-lg font-semibold text-midnight">Delika Pratiwi</h3>
+                  <p class="text-sm text-gray-500">Chief Academy Officer</p>
+                </div>
+                <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-80 object-cover">
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="py-12 max-w-7xl mx-auto px-4 md:px-8">
-    <h2 class="text-xl md:text-3xl font-['Roboto'] text-center font-bold text-midnight text-opacity-90 mb-8" data-aos="fade-right">Mentor Kami</h2>
+    <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-right">Mentor Kami</h2>
 
     <div class="swiper mySwiper">
       <div class="swiper-wrapper" data-aos="fade-right">
         <!-- Card 1 -->
         <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow p-4 text-center">
+          <div class="bg-white rounded-2xl shadow border border-gray-200 p-4 text-center">
             <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
             <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
             <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
@@ -157,7 +195,7 @@
 
         <!-- Card 2 -->
         <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow p-4 text-center">
+          <div class="bg-white rounded-2xl shadow border border-gray-200 p-4 text-center">
             <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
             <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
             <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
@@ -166,7 +204,7 @@
 
         <!-- Card 3 -->
         <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow p-4 text-center">
+          <div class="bg-white rounded-2xl shadow border border-gray-200 p-4 text-center">
             <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
             <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
             <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
@@ -175,7 +213,7 @@
 
         <!-- Card 3 -->
         <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow p-4 text-center">
+          <div class="bg-white rounded-2xl shadow border border-gray-200 p-4 text-center">
             <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
             <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
             <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>

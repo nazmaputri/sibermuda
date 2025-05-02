@@ -10,13 +10,14 @@
     <script src="//unpkg.com/alpinejs" defer></script> <!-- Tambahkan Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- import sweetalert untuk popup -->
     @vite('resources/js/delete-confirm.js') <!-- tambah ini agar bisa menggunakan popup konfirmasi penghapusan data menggunakan sweetalert yang ada di folder js>delete-confirm.js -->
     @vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
     <style>
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Poppins', sans-serif !important;
         }
 
         /* tambah ini agar kolom input tidak memiliki bg blue bawaan browser */
