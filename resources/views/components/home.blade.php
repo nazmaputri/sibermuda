@@ -12,7 +12,7 @@
       $zIndex = $i + 1; // memastikan gambar memiliki urutan yang berbeda
     @endphp
     <div class="absolute z-0 bg-no-repeat bg-cover opacity-0 {{ $delayClass }}"
-         style="{{ $style }} background-image: url('/storage/bg-wp.png'); z-index: {{ $zIndex }};">
+         style="{{ $style }} background-image: url('/storage/bg-wp.jpg'); z-index: {{ $zIndex }};">
     </div>
   @endfor
 

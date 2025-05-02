@@ -39,10 +39,12 @@ Route::get('/beli-kursus/{id}', [KeranjangController::class, 'handlePurchase'])-
 Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
 Route::post('/email/verification-notification', [LoginController::class, 'verifyHandler'])->middleware('throttle:6,1')->name('verification.send');
 
+Route::get('login-sber-md', [LoginController::class, 'loginAdmin'])->name('sber-md');
 
 // Route berdasarkan role
 
 Route::middleware(['auth:admin'])->group(function () {
+    
     //Beranda
     Route::get('dashboard-admin/welcome', [DashboardAdminController::class, 'show'])->name('welcome-admin');
 
@@ -191,8 +193,6 @@ Route::middleware(['auth:mentor'])->group(function () {
 
     // Konfirmasi Sertifikat
     Route::post('/final-task/{id}/confirm', [FinalTaskController::class, 'confirm'])->name('final-task.confirm');
-
-
 });
 
 //Umum
@@ -203,7 +203,7 @@ Route::middleware('auth:mentor,student')->group(function () {
     Route::get('chat/mentor/{courseId}/{chatId?}', [ChatController::class, 'chatMentor'])->name('chat.mentor');
     Route::get('chat/student/{courseId}/{chatId?}', [ChatController::class, 'chatStudent'])->name('chat.student');
     Route::post('chat-send/{chatId}', [ChatController::class, 'sendMessage'])->name('chat.send');
-    Route::get('chat/start/{studentId}', [ChatController::class, 'startChat'])->name('chat.start');
+    Route::get('/chat/start/{courseId}/{studentId?}', [ChatController::class, 'startChat'])->name('chat.start');
 });
 
 require __DIR__.'/auth.php';

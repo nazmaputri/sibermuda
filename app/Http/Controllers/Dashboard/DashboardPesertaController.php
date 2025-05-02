@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Purchase;
 use App\Models\FinalTask;
+use App\Models\Discount;
 use App\Models\RatingKursus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -267,6 +268,27 @@ class DashboardPesertaController extends Controller
         }
 
         foreach ($courses as $course) {
+            // Cek diskon aktif untuk kursus ini
+            $activeDiscount = Discount::where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where(function ($query) use ($course) {
+                $query->where('apply_to_all', false)
+                    ->whereHas('courses', function ($q) use ($course) {
+                        $q->where('course_id', $course->id);
+                    });
+            })
+            ->first();
+
+            // Hitung harga setelah diskon jika diskon hanya berlaku pada kursus tertentu
+            if ($activeDiscount) {
+            $discountPercentage = $activeDiscount->discount_percentage;
+            $discountedPrice = $course->price - ($course->price * $discountPercentage / 100);
+            $course->discounted_price = $discountedPrice;
+            } else {
+            // Jika diskon berlaku untuk semua (apply_to_all = true), jangan tampilkan harga diskon
+            $course->discounted_price = null;
+            }
+
             // Menghitung rata-rata rating untuk kursus ini
             $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
                     

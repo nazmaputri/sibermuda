@@ -18,6 +18,12 @@ use Illuminate\Auth\Events\Verified;
 class LoginController extends Controller
 {
 
+    //Login Admin
+    public function loginAdmin()
+    {
+        return view('auth.login-admin');
+    }
+
      // verifikasi email
      public function verify(Request $request, $id, $hash)
      {

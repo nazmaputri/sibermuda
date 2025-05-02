@@ -25,9 +25,10 @@ class MateriController extends Controller
     public function create($courseId)
     {
         $course = Course::findOrFail($courseId);
-    
-        return view('dashboard-mentor.materi-create', compact('course'));
-    }    
+        $materi = new Materi(); // atau Materi::make()
+
+        return view('dashboard-mentor.materi-create', compact('course', 'materi'));
+    }  
 
     public function togglePreview($id)
     {
@@ -146,14 +147,12 @@ class MateriController extends Controller
      */
     private function extractYoutubeVideoId(string $url): ?string
     {
-        if (preg_match(
-            '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?|watch)(?:\.php)?(?:\?|\?.*?&)v=|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
-            $url, $matches
-        )) {
-            return $matches[1];
-        }
-
-        return null;
+        // akan menangkap 11 karakter ID video
+        preg_match(
+            '/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/.*v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
+            $url, $m
+        );
+        return $m[1] ?? null;
     }
 
     /**

@@ -34,7 +34,7 @@
                         </a>
 
                         <!-- Button Chat -->
-                        <a href="{{ $course->isChatActive ? route('chat.student', $course->id) : '#' }}" 
+                        <a href="{{ route('chat.start', ['courseId' => $course->id]) }}"
                             class="px-2 py-2 rounded-lg flex items-center space-x-1 group w-auto
                             {{ $course->isChatActive ? 'bg-white border border-green-300 hover:bg-green-300 text-green-500 hover:text-white cursor-pointer' : 'bg-white border border-gray-300 text-gray-500 cursor-not-allowed' }}" 
                             {{ $course->isChatActive ? '' : 'aria-disabled="true"' }} 

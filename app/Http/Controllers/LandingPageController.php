@@ -41,11 +41,28 @@ class LandingPageController extends Controller
     public function detail($id)
     {
         $today = Carbon::now();
-    
+
+        // Cek diskon yang berlaku untuk semua kursus
         $discount = Discount::whereDate('start_date', '<=', $today)
             ->whereDate('end_date', '>=', $today)
+            ->where('apply_to_all', true)
             ->first();
-    
+
+        // Ambil kursus dan diskon spesifik untuk kursus tersebut yang aktif
+        $course = Course::with(['discounts' => function ($query) use ($today) {
+            $query->whereDate('start_date', '<=', $today)
+                ->whereDate('end_date', '>=', $today);
+        }])->findOrFail($id);
+
+        // Cari diskon aktif untuk kursus tertentu (jika ada)
+        $activeDiscount = $course->discounts->first(); // Ambil diskon pertama jika ada, pastikan diskon aktif
+
+        // Jika ada diskon aktif untuk kursus, gunakan diskon tersebut, jika tidak, gunakan diskon untuk semua kursus
+        if ($activeDiscount) {
+            $discount = $activeDiscount;
+        }
+
+        // Tentukan waktu mulai dan selesai diskon
         if ($discount) {
             $start_datetime = Carbon::parse($discount->start_date . ' ' . $discount->start_time);
             $end_datetime = Carbon::parse($discount->end_date . ' ' . $discount->end_time);
@@ -53,22 +70,21 @@ class LandingPageController extends Controller
             $start_datetime = null;
             $end_datetime = null;
         }
-    
+
         $ratings = RatingKursus::where('course_id', $id)->with('user')->get();
-        $course = Course::with(['mentor', 'category'])->findOrFail($id);
-    
+
         // Harga & Diskon
         $originalPrice = $course->price;
         $discountPercentage = $discount ? $discount->discount_percentage : 0;
         $discountedPrice = $originalPrice * (1 - $discountPercentage / 100);
-    
+
         return view('kursus-detail', compact(
             'course', 'ratings', 'discount',
             'start_datetime', 'end_datetime',
             'originalPrice', 'discountPercentage', 'discountedPrice'
         ));
-    }    
-
+    }
+    
     public function category($name)
     {
         // Mendapatkan kategori dengan kursus yang statusnya 'approved' atau 'published'
@@ -96,6 +112,7 @@ class LandingPageController extends Controller
     
         $discount = Discount::whereDate('start_date', '<=', $today)
             ->whereDate('end_date', '>=', $today)
+            ->where('apply_to_all', true)
             ->first();
     
         if ($discount) {

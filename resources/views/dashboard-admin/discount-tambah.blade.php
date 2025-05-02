@@ -98,12 +98,21 @@
                         </div>
                         <ul class="max-h-40 overflow-y-auto">
                             @foreach($courses as $course)
-                                <li class="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700 text-sm"
-                                    @click="selectedCourses.includes('{{ $course->title }}') 
-                                        ? selectedCourses.splice(selectedCourses.indexOf('{{ $course->title }}'), 1) 
-                                        : selectedCourses.push('{{ $course->title }}')">
-                                    <input type="checkbox" name="courses[]" value="{{ $course->id }}" class="mr-2 text-gray-700" x-bind:checked="selectedCourses.includes('{{ $course->title }}')">
+                                @php
+                                    // Cek apakah kursus memiliki diskon aktif
+                                    $hasActiveDiscount = $course->discounts->where('start_date', '<=', \Carbon\Carbon::now())
+                                                                        ->where('end_date', '>=', \Carbon\Carbon::now())
+                                                                        ->count() > 0;
+                                @endphp
+                                <li class="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700 text-sm">
+                                    <input type="checkbox" name="courses[]" value="{{ $course->id }}" 
+                                        class="mr-2 text-gray-700"
+                                        x-bind:disabled="{{ $hasActiveDiscount ? 'true' : 'false' }}"
+                                        x-bind:checked="selectedCourses.includes('{{ $course->title }}')">
                                     {{ $course->title }}
+                                    @if($hasActiveDiscount)
+                                        <span class="text-xs text-red-500 ml-2">Diskon Aktif</span>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>

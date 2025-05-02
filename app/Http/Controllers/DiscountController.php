@@ -143,7 +143,8 @@ class DiscountController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'coupon_code' => 'required|unique:discounts,coupon_code',
             'discount_percentage' => 'required|integer|min:1|max:100',
@@ -151,7 +152,7 @@ class DiscountController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'start_time' => 'required',
             'end_time' => 'required',
-            'apply_to_all' => 'nullable|boolean', 
+            'apply_to_all' => 'nullable|boolean',
             'courses' => 'nullable|array',
         ], [
             'coupon_code.required' => 'Kode kupon wajib diisi.',
@@ -170,9 +171,38 @@ class DiscountController extends Controller
             'apply_to_all.boolean' => 'Nilai apply to all harus berupa benar atau salah.',
             'courses.array' => 'Kursus harus berupa array.',
         ]);
-    
+
         $applyToAll = $request->has('apply_to_all');
-    
+
+        // Validasi untuk memeriksa apakah kursus yang dipilih memiliki diskon aktif
+        if (!$applyToAll && $request->has('courses')) {
+            $selectedCourses = $request->input('courses');
+            $today = Carbon::now();
+
+            // Ambil diskon aktif yang diterapkan untuk kursus tertentu
+            $activeDiscounts = Discount::whereDate('start_date', '<=', $today)
+                ->whereDate('end_date', '>=', $today)
+                ->where('apply_to_all', false)
+                ->get(); // Ambil diskon yang berlaku untuk kursus tertentu saja
+
+            // Periksa apakah salah satu kursus yang dipilih memiliki diskon aktif
+            foreach ($selectedCourses as $courseId) {
+                $course = Course::find($courseId);
+
+                if ($course) {
+                    // Periksa apakah kursus ini memiliki diskon aktif
+                    foreach ($activeDiscounts as $discount) {
+                        if ($discount->courses->contains($course)) {
+                            return back()->withErrors([
+                                'courses' => 'Kursus yang Anda pilih sudah memiliki diskon aktif dan tidak dapat dipilih.'
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Jika tidak ada kursus yang memiliki diskon aktif, buat diskon baru
         $discount = Discount::create([
             'coupon_code' => $request->coupon_code,
             'discount_percentage' => $request->discount_percentage,
@@ -182,12 +212,13 @@ class DiscountController extends Controller
             'end_time' => $request->end_time,
             'apply_to_all' => $applyToAll
         ]);
-    
+
+        // Jika diskon tidak berlaku untuk semua kursus, lampirkan kursus yang dipilih
         if (!$applyToAll && $request->has('courses')) {
             $discount->courses()->attach($request->courses);
         }
-    
+
         return redirect()->route('discount')->with('success', 'Diskon berhasil dibuat!');
     }
-    
+  
 }

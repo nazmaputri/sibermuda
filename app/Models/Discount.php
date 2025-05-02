@@ -21,9 +21,11 @@ class Discount extends Model {
         'apply_to_all'
     ];
 
-    public function courses() {
-        return $this->belongsToMany(Course::class, 'discount_course');
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'course_discount', 'discount_id', 'course_id');
     }
+
 }
 
 

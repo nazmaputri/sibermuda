@@ -5,13 +5,23 @@
         <!-- <div id="flash-container"></div> -->
 
         <!-- Pemberitahuan Diskon (Tetap Ada di Atas Keranjang) -->
-        @if ($activeDiscount)
+        @if($couponDiscount)
         <div class="bg-yellow-100 text-yellow-700 p-4 mb-4 rounded-lg">
-            <h3 class="font-bold text-lg">🎉 Kode Diskon: <span class="">{{ $activeDiscount->coupon_code }}</span></h3>
-            <p class="text-sm">Diskon sebesar <strong>{{ $activeDiscount->discount_percentage }}%</strong> berlaku hingga <span id="discount-end">{{ \Carbon\Carbon::parse($activeDiscount->end_date)->translatedFormat('d F Y') }} {{ $activeDiscount->end_time }}</span>.</p>
+            <h3 class="font-bold text-lg">
+            🎉 Kode Kupon Aktif: <span>{{ $couponDiscount->coupon_code }}</span>
+            </h3>
+            <p class="text-sm">
+            Diskon <strong>{{ $couponDiscount->discount_percentage }}%</strong>  
+            hingga  
+            <span id="discount-end">
+                {{ \Carbon\Carbon::parse($couponDiscount->end_date)->translatedFormat('d F Y') }}
+                {{ $couponDiscount->end_time }}
+            </span>.
+            </p>
             <div class="text-red-600 font-semibold text-sm mt-2" id="countdown-timer"></div>
         </div>
         @endif
+
         <!-- Tambahkan Countdown Timer -->
         <script>
             function startCountdown(endDate) {
@@ -100,7 +110,19 @@
                                 <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md"/>
                                 <div class="flex-1 space-y-1">
                                     <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
-                                    <p class="text-sm font-semibold text-red-400">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                                    @if ($cart->applied_discount)
+                                        <p class="text-sm text-gray-500 line-through">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                                        <p class="text-sm font-semibold text-red-500">
+                                            Rp. {{ number_format($cart->final_price, 0, ',', '.') }}
+                                            <span class="text-xs text-green-600">
+                                                (-{{ $cart->applied_discount->discount_percentage }}%)
+                                            </span>
+                                        </p>
+                                    @else
+                                        <p class="text-sm font-semibold text-red-500">
+                                            Rp. {{ number_format($cart->final_price, 0, ',', '.') }}
+                                        </p>
+                                    @endif
                                     <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
