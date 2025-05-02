@@ -1,4 +1,9 @@
-<!-- About Section -->
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+  
+  <!-- About Section -->
 <section id="about" class="bg-white py-12">
     <div class="container mx-auto px-4">
         <div class="flex lg:space-x-12 items-center">
@@ -100,6 +105,107 @@
             </div>
         </div>
     </div>
+</section>
+
+<section class="py-16 px-4 bg-white">
+  <div class="max-w-6xl mx-auto">
+    <!-- Judul -->
+    <h2 class="text-xl md:text-3xl font-['Roboto'] text-center font-bold text-midnight text-opacity-90 mb-8" data-aos="fade-up">Visi & Misi Kami</h2>
+
+    <!-- Misi -->
+    <div class="flex flex-col md:flex-row items-center bg-white border border-gray-200 rounded-2xl shadow mb-8" data-aos="fade-up">
+      <div class="md:w-1/3 p-6">
+        <div class="w-40 h-40 mx-auto md:mx-0 rounded-full overflow-hidden">
+          <img src="{{ asset('storage/visi.jpg') }}" alt="Visi Image" class="object-cover w-full h-full">
+        </div>
+      </div>
+      <div class="md:w-3/3 p-6 text-center md:text-left">
+        <h3 class="text-2xl font-semibold text-midnight mb-2">Visi</h3>
+        <p class="text-gray-600">Menjadi pionir dalam pengembangan dan pemberdayaan generasi muda di bidang teknologi siber, menciptakan ekosistem inovatif yang mendukung keterampilan, kreativitas, dan pemahaman mendalam tentang dunia digital. Kami berkomitmen untuk memfasilitasi pembelajaran dan kolaborasi, sehingga generasi muda dapat menjadi pemimpin yang tangguh dan beretika dalam menghadapi tantangan teknologi masa depan.</p>
+      </div>
+    </div>
+
+    <!-- Visi -->
+    <div class="flex flex-col md:flex-row-reverse items-center bg-white border border-gray-200 rounded-2xl shadow" data-aos="fade-up">
+      <div class="md:w-1/3 p-6">
+        <div class="w-40 h-40 mx-auto md:mx-0 rounded-full overflow-hidden">
+          <img src="{{ asset('storage/misi.jpg') }}" alt="Misi Image" class="object-cover w-full h-full">
+        </div>
+      </div>
+      <div class="md:w-3/3 p-6 text-center md:text-left">
+        <h3 class="text-2xl font-semibold text-midnight mb-2">Misi</h3>
+        <p class="text-gray-600">Menyediakan pendidikan teknologi siber yang komprehensif, mendorong inovasi dan kreativitas melalui kolaborasi, membangun kesadaran akan etika digital, menjalin kemitraan strategis, serta memberikan dukungan berkelanjutan bagi generasi muda untuk sukses di dunia teknologi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="py-12 max-w-7xl mx-auto px-4 md:px-8">
+    <h2 class="text-xl md:text-3xl font-['Roboto'] text-center font-bold text-midnight text-opacity-90 mb-8" data-aos="fade-right">Mentor Kami</h2>
+
+    <div class="swiper mySwiper">
+      <div class="swiper-wrapper" data-aos="fade-right">
+        <!-- Card 1 -->
+        <div class="swiper-slide">
+          <div class="bg-white rounded-2xl shadow p-4 text-center">
+            <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
+            <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
+            <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="swiper-slide">
+          <div class="bg-white rounded-2xl shadow p-4 text-center">
+            <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
+            <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
+            <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="swiper-slide">
+          <div class="bg-white rounded-2xl shadow p-4 text-center">
+            <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
+            <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
+            <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="swiper-slide">
+          <div class="bg-white rounded-2xl shadow p-4 text-center">
+            <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
+            <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
+            <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
+          </div>
+        </div>
+
+        <!-- Tambahkan card tambahan jika perlu -->
+      </div>
+
+        <!-- Navigasi panah manual -->
+        <div class="flex justify-center gap-4 mt-4" data-aos="fade-right">
+        <button class="swiper-button-prev-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
+            <!-- Icon kiri -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+        </button>
+        <button class="swiper-button-next-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
+            <!-- Icon kanan -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+        </button>
+        </div>
+
+    </div>
+</section>
+
+<!-- Swiper JS untuk slider card mentor -->
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 <script>
     function toggleFeature(button) {
         const card = button.closest('.card');
@@ -128,5 +234,25 @@
         svg.classList.remove('rotate-180');
       }
     }
+
+    const swiper = new Swiper(".mySwiper", {
+      slidesPerView: 1,
+      spaceBetween: 20,
+      navigation: {
+        nextEl: '.swiper-button-next-custom',
+        prevEl: '.swiper-button-prev-custom',
+      },
+      breakpoints: {
+        640: {
+          slidesPerView: 1.2,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 3,
+        }
+      }
+    });
 </script>
-</section>
+

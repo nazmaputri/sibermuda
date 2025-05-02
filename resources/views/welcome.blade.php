@@ -12,6 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet"><!-- AOS CSS -->
     <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CSS CDN -->
+    <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- import sweetalert untuk popup -->
     @vite('resources/js/app.js') <!-- tambah ini untuk menginisialisasi sweetalert yang sudah diimport di app.js dan alert.js di folder js -->
     @vite('resources/css/app.css')
@@ -24,13 +28,14 @@
 </head>
 <body class="font-sans">
     @include('components.navbar')
+    
     @if($discount && now()->lt($end_datetime))
         <section id="promo" class="bg-red-600 text-white px-4 py-2 text-center pt-[90px] fixed w-full z-40">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 pb-3 mx-14">
+            <div class="max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4 pb-3 mx-2 md:mx-14">
                 <!-- Promo text -->
                 <div class="text-sm sm:text-base font-semibold">
                     Promo Diskon {{ $discount->discount_percentage }}%! <br class="md:hidden" />
-                    <span class="font-normal">Berlaku sampai {{ \Carbon\Carbon::parse($discount->end_date)->format('d F Y') }}!</span>
+                    <span class="font-normal">Berlaku sampai {{ \Carbon\Carbon::parse($discount->end_date)->locale('id')->translatedFormat('d F Y') }}!</span>
                 </div>
 
                 <!-- Countdown -->
@@ -142,7 +147,7 @@
     </script>
     @endif
 
-    @include('components.home')
+    @include('components.home', ['hasPromo' => $discount && now()->lt($end_datetime)])
     @include('components.about')
     @include('components.course')
     @include('components.price')

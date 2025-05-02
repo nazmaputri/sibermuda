@@ -108,18 +108,30 @@ class KeranjangController extends Controller
         $subtotal = $totalPrice;
 
          // Ambil nomor telepon admin
+        // Ambil nomor telepon admin
         $nomorAdmin = DB::table('users')
         ->where('role', 'admin')
         ->value('phone_number');
     
         return view('dashboard-peserta.keranjang', compact(
             'carts', 'couponDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'subtotal', 'courseSpecificDiscounts'
+           
         ));
     }
     
     // Menambahkan kursus ke keranjang (hanya bisa ditambahkan sekali)
     public function addToCart(Request $request, $courseId)
     {
+        // Cek apakah kursus sedang ada di tabel purchases dengan status pending
+        $pendingPurchase = Purchase::where('user_id', Auth::id())
+        ->where('course_id', $courseId)
+        ->where('status', 'pending')
+        ->first();
+
+        if ($pendingPurchase) {
+            return redirect()->route('cart.index')->with('warning', 'Kursus ini sedang menunggu konfirmasi admin.');
+        }
+        
         // Cek apakah kursus sudah ada di keranjang user
         $existingCart = Keranjang::where('user_id', Auth::id())->where('course_id', $courseId)->first();
 

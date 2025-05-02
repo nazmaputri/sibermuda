@@ -243,30 +243,34 @@ class QuizController extends Controller
             // Hapus soal yang tidak ada di permintaan
             $quiz->questions()->whereNotIn('id', $questionIds)->delete();
 
-            // Perbarui soal dan jawaban
             foreach ($request->questions as $index => $questionData) {
-                // Jika `id` soal ada, perbarui; jika tidak, buat baru
-                $question = isset($questionData['id'])
-                    ? $quiz->questions()->findOrFail($questionData['id'])
-                    : $quiz->questions()->create(['question' => $questionData['question']]);
-
-                // Perbarui teks soal
-                $question->update(['question' => $questionData['question']]);
-
-                // Perbarui jawaban
+                // Cek apakah soal sudah ada (edit) atau baru (buat baru)
+                if (isset($questionData['id'])) {
+                    $question = $quiz->questions()->findOrFail($questionData['id']);
+                    $question->update(['question' => $questionData['question']]);
+                } else {
+                    $question = $quiz->questions()->create([
+                        'question' => $questionData['question']
+                    ]);
+                }
+            
+                // Hapus semua jawaban lama dulu agar tidak duplikat
+                $question->answers()->delete();
+            
+                // Simpan ulang jawaban
                 foreach ($questionData['answers'] as $answerIndex => $answerText) {
-                    // Cari jawaban berdasarkan indeks
-                    $answer = $question->answers()->firstOrNew(['index' => $answerIndex]);
-
-                    $answer->fill([
+                    $question->answers()->create([
                         'answer' => $answerText,
                         'is_correct' => $answerIndex == $questionData['correct_answer'],
-                    ])->save();
+                    ]);
                 }
-            }
+            }            
+
+             // Redirect setelah sukses update kuis
+            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil diperbarui');
 
         } catch (\Exception $e) {
-            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil ditambahkan');
+            return redirect()->route('courses.show', ['course' => $course->id])->with('error', 'Terjadi kesalahan saat memperbarui kuis');
         }
     }
 

@@ -14,7 +14,7 @@
 
             <!-- Input untuk Judul -->
             <div>
-                <label for="title" class="block text-gray-700 font-bold mb-2">Judul Tugas Akhir</label>
+                <label for="title" class="block text-gray-700 font-semibold mb-2">Judul Tugas Akhir</label>
                 <input type="text" name="title" id="title"
                     class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-600 @error('title') border-red-500 @enderror"
                     placeholder="Masukkan judul tugas akhir" value="{{ old('title') }}">
@@ -25,7 +25,7 @@
 
             <!-- Input untuk Deskripsi -->
             <div>
-                <label for="description" class="block text-gray-700 font-bold mb-2">Deskripsi</label>
+                <label for="description" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
                 <textarea name="description" id="description" rows="5"
                     class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-600 @error('description') border-red-500 @enderror"
                     placeholder="Masukkan deskripsi tugas akhir">{{ old('description') }}</textarea>

@@ -126,10 +126,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="pagination mt-4">
-                {{ $purchasedCourses->links('pagination::tailwind') }}
-            </div> 
         </div>
+        <div class="pagination mt-4">
+            {{ $purchasedCourses->links('pagination::tailwind') }}
+        </div> 
     </div>
 </div>
 

@@ -16,7 +16,7 @@
     </div>
   @endfor
 
-  <div class="container mx-auto px-2 md:px-12 py-8 mt-12 rounded-b-3xl relative z-30">
+  <div class="container mx-auto px-2 md:px-12 py-8 {{ $hasPromo ? 'mt-36 md:mt-32' : 'mt-12' }} rounded-b-3xl relative z-30">
     <div class="flex flex-col items-center gap-6">
       
       <!-- TEKS -->
@@ -25,9 +25,9 @@
             <a href="#home2" class="hidden md:inline-flex px-4 py-1.5 text-sm font-semibold text-gray-700 bg-gray-100 rounded-full m-1">
               Kenapa Pilih Kami?
             </a>
-            <a href="#category" class="flex space-x-2 justify-center items-center px-4 py-1.5 text-sm font-semibold text-midnight bg-white rounded-full hover:bg-white/65">
+            <a href="#category" class="group flex space-x-2 justify-center items-center px-4 py-1.5 text-sm font-semibold text-midnight bg-white rounded-full hover:bg-white/65 transition-all duration-300">
               Lihat Kategori Kursus 
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
               </svg>
             </a>

@@ -19,7 +19,7 @@
 
         <!-- Nama -->
         <div class="mb-4">
-            <label for="name" class="block font-semibold text-gray-700">Nama</label>
+            <label for="name" class="block font-semibold text-gray-700 text-sm">Nama</label>
             <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" required>
             @error('name')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
@@ -28,7 +28,7 @@
 
         <!-- Email -->
         <div class="mb-4">
-            <label for="email" class="block font-semibold text-gray-700">Email</label>
+            <label for="email" class="block font-semibold text-gray-700 text-sm">Email</label>
             <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" required>
             @error('email')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
@@ -37,7 +37,7 @@
 
         <!-- No Telepon -->
          <div class="mb-4">
-            <label for="phone_number" class="block font-semibold text-gray-700">No Telepon</label>
+            <label for="phone_number" class="block font-semibold text-gray-700 text-sm">No Telepon</label>
             <input type="number" name="phone_number" id="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" required>
             @error('phone_number')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
@@ -46,7 +46,7 @@
 
         <!-- Password -->
         <div class="mb-4 relative">
-            <label for="password" class="block font-semibold text-gray-700">Masukkan Kata Sandi Baru</label>
+            <label for="password" class="block font-semibold text-gray-700 text-sm">Masukkan Kata Sandi Baru</label>
             <input type="password" name="password" id="password" class="p-2 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
             <span class="absolute top-1/2 right-3 mt-3 transform -translate-y-1/2 cursor-pointer text-gray-500" id="togglePassword">
                 <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
@@ -61,7 +61,7 @@
 
         <!-- Confirm Password -->
         <div class="mb-4 relative">
-            <label for="password_confirmation" class="block font-semibold text-gray-700">Konfirmasi Kata Sandi Baru</label>
+            <label for="password_confirmation" class="block font-semibold text-gray-700 text-sm">Konfirmasi Kata Sandi Baru</label>
             <input type="password" name="password_confirmation" id="password_confirmation" class="p-2 mt-1 block text-sm text-gray-700 w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
             <span class="absolute top-1/2 right-1 transform -translate-x-1/2 cursor-pointer text-gray-500" id="toggleConfirmPassword">
                 <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
@@ -75,9 +75,9 @@
         </div>
         <div class="flex justify-end space-x-4">
             <!-- Tombol Batal -->
-            <a href="{{ route('welcome-admin') }}" class="bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300">Batal</a>
+            <a href="{{ route('welcome-admin') }}" class="bg-red-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-red-300 text-sm">Batal</a>
             <!-- Tombol Simpan -->
-            <button type="submit" class="bg-sky-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-sky-300">Simpan</button>
+            <button type="submit" class="bg-sky-400 text-white font-semibold py-2 px-6 rounded-md hover:bg-sky-300 text-sm">Simpan</button>
         </div>              
     </form>
 

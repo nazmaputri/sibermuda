@@ -141,7 +141,7 @@
                                             </form>
                                         @else
                                             <span class="text-sm text-white px-3 py-1 rounded cursor-not-allowed">
-                                                Sudah dibeli
+                                                Dibeli
                                             </span>
                                         @endif
                                     </div>

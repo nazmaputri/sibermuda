@@ -34,7 +34,7 @@
             <!-- Input untuk Start_date -->
             <div class="mb-4">
                 <label for="start_date" class="block text-gray-700 font-semibold mb-2">Tanggal Mulai</label>
-                <input type="date" name="start_date" id="start_date" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 border rounded @error('start_date') border-red-500 @enderror" value="{{ old('start_date', $course->start_date) }}">
+                <input type="date" name="start_date" id="start_date" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 border rounded @error('start_date') border-red-500 @enderror" value="{{ old('start_date', $course->start_date) }}" min="{{ \Carbon\Carbon::today()->toDateString() }}">
                 @error('start_date')
                     <span class="text-red-500 text-sm" id="error-start_date">{{ $message }}</span>
                 @enderror
@@ -43,7 +43,7 @@
             <!-- Input untuk End_date -->
             <div class="mb-4">
                 <label for="end_date" class="block text-gray-700 font-semibold mb-2">Tanggal Selesai</label>
-                <input type="date" name="end_date" id="end_date" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 border rounded @error('end_date') border-red-500 @enderror" value="{{ old('end_date', $course->end_date) }}">
+                <input type="date" name="end_date" id="end_date" class="w-full p-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 border rounded @error('end_date') border-red-500 @enderror" value="{{ old('end_date', $course->end_date) }}" min="{{ \Carbon\Carbon::today()->toDateString() }}">
                 @error('end_date')
                     <span class="text-red-500 text-sm" id="error-end_date">{{ $message }}</span>
                 @enderror

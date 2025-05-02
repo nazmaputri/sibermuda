@@ -16,9 +16,9 @@
 
             <!-- Input untuk Judul -->
             <div>
-                <label for="judul" class="block text-gray-700 font-bold mb-2">Judul Tugas Akhir</label>
+                <label for="judul" class="block text-gray-700 font-semibold mb-2">Judul Tugas Akhir</label>
                 <input type="text" name="judul" id="judul"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 text-gray-600 @error('judul') border-red-500 @enderror"
+                    class="w-full text-sm text-gray-700 p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('judul') border-red-500 @enderror"
                     placeholder="Masukkan judul tugas akhir" value="{{ old('judul', $finalTask->judul) }}">
                 @error('judul')
                     <div class="text-red-600 text-sm mt-1" id="error-judul">{{ $message }}</div>
@@ -27,9 +27,9 @@
 
             <!-- Input untuk Deskripsi -->
             <div>
-                <label for="desc" class="block text-gray-700 font-bold mb-2">Deskripsi</label>
+                <label for="desc" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
                 <textarea name="desc" id="desc" rows="5"
-                    class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:border-sky-500 text-gray-600 @error('desc') border-red-500 @enderror"
+                    class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('desc') border-red-500 @enderror"
                     placeholder="Masukkan deskripsi tugas akhir">{{ old('desc', $finalTask->desc) }}</textarea>
                 @error('desc')
                     <div class="text-red-600 text-sm mt-1" id="error-desc">{{ $message }}</div>

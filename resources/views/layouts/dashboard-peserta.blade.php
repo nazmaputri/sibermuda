@@ -172,7 +172,7 @@
             </nav>
             
             <div class="m-4">
-                <a href="https://wa.me/62881025655793" target="_blank" class="block group">
+                <a href="#" id="waLink" target="_blank" class="block group">
                     <li 
                         class="flex items-center py-2 rounded-md space-x-4 text-green-700 bg-green-200 transition-all duration-300 ease-in-out " 
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
@@ -248,8 +248,10 @@
                     </button>
 
                     <!-- Dropdown notifikasi -->
-                    <div id="notification-dropdown"
-                        class="absolute right-0 top-8 bg-white shadow-lg rounded-md border border-gray-200 w-60 md:mt-1 md:w-96 hidden">
+                    <div id="notification-dropdown" class="absolute z-10 right-0 top-8 bg-white shadow-lg rounded-md border border-gray-200 w-60 md:mt-1 md:w-96 hidden"> 
+                        <p id="notification-empty" class="text-center pt-2.5 text-sm text-gray-500 hidden">
+                            Belum ada notifikasi
+                        </p>
                         <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
                         </div>
@@ -263,43 +265,67 @@
                         const list = document.getElementById('notification-list');
                         const badge = document.getElementById('notification-badge');
                         const count = document.getElementById('notification-count');
-                
+                        const emptyMessage = document.getElementById('notification-empty');
+
                         // Ambil data notifikasi
                         fetch('/notifikasi/pembelian')
                             .then(res => res.json())
                             .then(data => {
                                 const seenIds = JSON.parse(localStorage.getItem('read_notifications') || '[]');
                                 const unread = data.filter(item => !seenIds.includes(item.id));
-                
+
+                                // Tampilkan badge jika ada yang belum dibaca
                                 if (unread.length > 0) {
                                     badge.classList.remove('hidden');
                                     count.textContent = unread.length;
-                                }
-                
-                                list.innerHTML = data.map(item => `
-                                    <div class="p-2 text-sm border-b hover:bg-gray-100">
-                                        <div class="font-semibold text-gray-700">Pembelian Dikonfirmasi</div>
-                                        <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
-                                        <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
-                                    </div>
-                                `).join('');
-                            });
-                
-                        // Toggle dropdown
-                        button.addEventListener('click', () => {
-                            dropdown.classList.toggle('hidden');
-                
-                            // Tandai semua sebagai dibaca saat klik tombol
-                            fetch('/notifikasi/pembelian')
-                                .then(res => res.json())
-                                .then(data => {
-                                    const ids = data.map(item => item.id);
-                                    localStorage.setItem('read_notifications', JSON.stringify(ids));
+                                } else {
                                     badge.classList.add('hidden');
-                                });
+                                }
+
+                                // Tampilkan pesan kosong jika tidak ada notifikasi
+                                if (data.length === 0) {
+                                    emptyMessage.classList.remove('hidden');
+                                    list.innerHTML = '';
+                                } else {
+                                    emptyMessage.classList.add('hidden');
+                                    list.innerHTML = data.map(item => `
+                                        <div class="p-2 text-sm border-b hover:bg-gray-100">
+                                            <div class="font-semibold text-gray-700">Pembelian Dikonfirmasi</div>
+                                            <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
+                                            <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
+                                        </div>
+                                    `).join('');
+                                }
+                            });
+
+                        // Toggle dropdown saat tombol diklik
+                        button.addEventListener('click', (event) => {
+                            event.stopPropagation(); // Cegah klik tombol menutup dropdown langsung
+
+                            dropdown.classList.toggle('hidden');
+
+                            // Jika dropdown sedang dibuka
+                            if (!dropdown.classList.contains('hidden')) {
+                                fetch('/notifikasi/pembelian')
+                                    .then(res => res.json())
+                                    .then(data => {
+                                        const ids = data.map(item => item.id);
+                                        localStorage.setItem('read_notifications', JSON.stringify(ids));
+                                        badge.classList.add('hidden');
+                                    });
+                            }
+                        });
+
+                        // Tutup dropdown saat klik di luar area
+                        document.addEventListener('click', (event) => {
+                            if (!dropdown.classList.contains('hidden') &&
+                                !dropdown.contains(event.target) &&
+                                !button.contains(event.target)) {
+                                dropdown.classList.add('hidden');
+                            }
                         });
                     });
-                </script>                
+                </script>         
                 
                 <div class="relative">
                 <!-- Wrapper yang bisa diklik untuk membuka dropdown -->
@@ -414,6 +440,16 @@
             setTimeout(() => loader.remove(), 500); // hilangkan dari DOM
         }
     });
+
+    // Mengambil nomor telepon admin langsung dari Blade
+    var nomorAdmin = @json(DB::table('users')->where('role', 'admin')->value('phone_number'));
+
+    // Memastikan nomor admin ditemukan, jika ada update link WhatsApp
+    if (nomorAdmin) {
+        document.getElementById('waLink').setAttribute('href', 'https://wa.me/' + nomorAdmin);
+    } else {
+        alert('Nomor admin tidak ditemukan!');
+    }
 </script>   
 
 <!-- tambah ini untuk menangkap popup pesan backend menggunakan sweetalert -->

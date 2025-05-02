@@ -49,7 +49,7 @@
 
         <div class="w-full space-y-2">
             <h1 class="text-xl font-bold text-gray-700 text-center">Daftar</h1>
-            <h4 class="text-center text-gray-700">Klik disini untuk daftar sebagai mentor!<a href="register-mentor" class="text-gray-700 underline">Daftar</a></h4>
+            <h4 class="text-center text-gray-700">Klik disini untuk daftar sebagai mentor!<a href="register-mentor" class="text-midnight font-semibold ml-1">Daftar</a></h4>
             <!-- Form -->
             <form action="{{ route('register') }}" method="POST" class="space-y-4" id="form">
                 @csrf
@@ -132,7 +132,7 @@
 
                 <h4 class="text-center text-gray-700">
                     Sudah punya akun? 
-                    <a href="/login" class="text-blue-900 underline">Login</a>
+                    <a href="/login" class="text-midnight font-semibold">Login</a>
                 </h4>
             </form>
         </div>

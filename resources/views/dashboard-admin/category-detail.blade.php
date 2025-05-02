@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="mb-3 flex justify-start">
-    <a href="{{ route('categories.index') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
+    <a href="{{ route('categories.index') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
         </svg>
@@ -25,7 +25,7 @@
         <div class="w-full md:w-2/3 space-y-2 mt-4 md:mt-0 md:ml-4">
             <h2 class="text-md text-gray-700 font-semibold mb-2 capitalize">{{ $category->name }}</h2>
             <p class="text-sm text-gray-700 mb-2">{{ $category->description }}</p>
-            <p class="text-sm text-gray-600">Total Kursus : {{ $category->courses->count() }}</p>
+            <p class="text-sm text-gray-600">Total kursus : {{ $category->courses->count() }} kursus</p>
         </div>
     </div>  
 </div>

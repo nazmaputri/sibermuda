@@ -11,7 +11,7 @@
         <!-- Kode Kupon -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Kode Diskon</label>
-            <input type="text" name="coupon_code" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror">
+            <input type="text" name="coupon_code" maxlength="12" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror">
             @error('coupon_code')
                 <p class="text-red-500 text-sm mt-1" id="coupon_code-error">{{ $message }}</p>
             @enderror
@@ -29,7 +29,7 @@
         <!-- Tanggal Mulai -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Tanggal Mulai</label>
-            <input type="date" name="start_date" value="{{ old('start_date', $discount->start_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror">
+            <input type="date" name="start_date" value="{{ old('start_date', $discount->start_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
             @error('start_date')
                 <p class="text-red-500 text-sm mt-1" id="start_date-error">{{ $message }}</p>
             @enderror
@@ -38,7 +38,7 @@
         <!-- Tanggal Berakhir -->
         <div class="mb-4">
             <label class="block text-gray-600 font-semibold">Tanggal Berakhir</label>
-            <input type="date" name="end_date" value="{{ old('end_date', $discount->end_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror">
+            <input type="date" name="end_date" value="{{ old('end_date', $discount->end_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
             @error('end_date')
                 <p class="text-red-500 text-sm mt-1" id="end_date-error">{{ $message }}</p>
             @enderror

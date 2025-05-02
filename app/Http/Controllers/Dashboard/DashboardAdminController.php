@@ -295,8 +295,8 @@ class DashboardAdminController extends Controller
         $category = Category::with('courses')
                             ->findOrFail($categoryId);
 
-        // 2. Ambil kursus berdasarkan ID kedua (courseId)
-        $course = Course::findOrFail($courseId);
+        // Ambil kursus dengan relasi finalTask
+        $course = Course::with('finalTask')->findOrFail($courseId);
 
         // 3. Ambil peserta untuk kursus itu, hanya yang sukses bayar
         $user = auth()->user();

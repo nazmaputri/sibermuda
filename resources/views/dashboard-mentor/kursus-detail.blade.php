@@ -17,26 +17,56 @@
         <div class="w-full sm:w-1/4 md:w-1/5 mb-4 lg:mb-0">
             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-full h-auto">
         </div>
-        <div class="ml-4 w-2/3 space-y-3">
+        <div class="ml-4 md:w-2/3 w-full space-y-3">
             <h2 class="text-md font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
             <p class="text-gray-700 mb-2 text-md">{{ $course->description }}</p>
-            <p class="text-gray-600 text-sm capitalize">Mentor :{{ $course->mentor->name }}</p>
-            <p class="text-gray-600 text-sm">Harga :<span class="text-red-400">Rp {{ number_format($course->price, 0, ',', '.') }}</span></p>
+            <div class="space-y-2 text-sm text-gray-600">
+                <div class="flex flex-wrap capitalize">
+                    <span class="w-24">Mentor</span><span class="mr-1">:</span>
+                    <span>{{ $course->mentor->name }}</span>
+                </div>
+
+                <div class="flex flex-wrap">
+                    <span class="w-24">Harga</span><span class="mr-1">:</span>
+                    <span class="text-red-400">Rp {{ number_format($course->price, 0, ',', '.') }}</span>
+                </div>
+
                 @if($course->start_date && $course->end_date)
-                    <p class="text-gray-600 text-sm">Tanggal Mulai: {{ \Carbon\Carbon::parse($course->start_date)->translatedformat('d F Y') }} - {{ \Carbon\Carbon::parse($course->end_date)->translatedformat('d F Y') }}</p>
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Tanggal Mulai</span><span class="mr-1">:</span>
+                        <span>{{ \Carbon\Carbon::parse($course->start_date)->translatedformat('d F Y') }} - {{ \Carbon\Carbon::parse($course->end_date)->translatedformat('d F Y') }}</span>
+                    </div>
                 @endif
+
                 @if($course->duration)
-                    <p class="text-gray-600 text-sm">Masa Aktif :{{ $course->duration }}</p>
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Masa Aktif</span><span class="mr-1">:</span>
+                        <span>{{ $course->duration }}</span>
+                    </div>
                 @endif
+
                 @if($course->capacity)
-                    <p class="text-gray-600 text-sm">Kapasitas :{{ $course->capacity }} Peserta</p>
-                @endif                  
-            <p class="text-gray-600 text-sm capitalize">Status :{{ $course->status }}</p>
-            <p class="text-sm {{ $course->chat ? 'text-green-500' : 'text-red-500' }}">
-                {{ $course->chat ? 'Fitur Chat Aktif' : 'Fitur Chat Tidak Aktif' }}
-            </p> 
+                    <div class="flex flex-wrap">
+                        <span class="w-24">Kapasitas</span><span class="mr-1">:</span>
+                        <span>{{ $course->capacity }} Peserta</span>
+                    </div>
+                @endif
+
+                <div class="flex flex-wrap capitalize">
+                    <span class="w-24">Status</span><span class="mr-1">:</span>
+                    <span>{{ $course->status }}</span>
+                </div>
+
+                <div class="flex flex-wrap">
+                    <span class="w-24">Fitur Chat</span><span class="mr-1">:</span>
+                    <span class="{{ $course->chat ? 'text-green-500' : 'text-red-500' }}">
+                        {{ $course->chat ? 'Aktif' : 'Tidak Aktif' }}
+                    </span>
+                </div>
+            </div>
+
             <!-- Tombol untuk melihat sertifikat -->
-            <p id="view-certificate-btn" class="cursor-pointer text-blue-500 hover:underline text-sm">Lihat Sertifikat</p>
+            <!-- <p id="view-certificate-btn" class="cursor-pointer text-blue-500 hover:underline text-sm">Lihat Sertifikat</p> -->
         </div>
      </div>          
                 
@@ -150,7 +180,12 @@
             <h2 class="text-lg font-semibold text-gray-700 pt-2">Kuis</h2>                                                     
         </div>
         <div class="text-right">
-            <a href="{{ route('quiz.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
+            @php
+                $quizExists = $course->quizzes()->exists(); // Cek apakah sudah ada kuis
+            @endphp
+            <a href="{{ route('quiz.create', ['courseId' => $course->id]) }}" 
+            class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md @if ($quizExists) cursor-not-allowed opacity-50 @endif"
+            @if ($quizExists) onclick="return false;" @endif>
                 <!-- Ikon muncul pada semua ukuran layar -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -227,7 +262,12 @@
             <h2 class="text-xl font-semibold text-gray-700 pt-2">Tugas Akhir</h2>                                                     
         </div>
         <div class="text-right">
-            <a href="{{ route('finaltask.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
+            @php
+                $finalTaskExists = $course->finalTask()->exists(); // Cek apakah sudah ada tugas akhir
+            @endphp
+            <a href="{{ route('finaltask.create', ['courseId' => $course->id]) }}" 
+            class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md @if ($finalTaskExists) cursor-not-allowed opacity-50 @endif"
+            @if ($finalTaskExists) onclick="return false;" @endif>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -240,7 +280,7 @@
                 <table class="min-w-full mt-4 border-separate border-spacing-0">
                     <thead>
                         <tr class="bg-gray-100 text-gray-500 text-sm">
-                            <th class="px-2 py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
+                            <th class="px-2 py-2 text-center border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
                             <th class="px-4 py-2 border-b border-t border-gray-200">Judul</th>
                             <th class="px-4 py-2 border-b border-t border-gray-200">Deskripsi</th>
                             <th class="px-4 py-2 border-b border-r border-gray-200 rounded-tr-lg">Aksi</th>
@@ -250,8 +290,8 @@
                         @forelse($finalTasks as $index => $task)
                         <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500">
                             <td class="px-2 py-2 text-center border-b border-l border-gray-200">{{ $startNumber + $index }}</td>
-                            <td class="px-4 py-2 text-center border-b border-gray-200">{{ $task->judul }}</td>
-                            <td class="px-4 py-2 text-center border-b border-gray-200">{{ $task->desc }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200">{{ $task->judul }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200">{{ $task->desc }}</td>
                             <td class="px-4 py-2 border-b border-r border-gray-200">
                                 <div class="flex items-center justify-center space-x-6">
                                     <a href="{{ route('finaltask.detail', ['course' => $course->id, 'id' => $task->id]) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">

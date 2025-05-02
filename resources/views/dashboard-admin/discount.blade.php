@@ -14,7 +14,7 @@
                         </svg>
                         <input type="search" name="search" id="search" 
                             class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none" 
-                            placeholder="Cari Kode Kupon..." value="{{ request('search') }}" />
+                            placeholder="Cari Kode Diskon..." value="{{ request('search') }}" />
                     </div>
             </form>
             
@@ -106,42 +106,50 @@
 </div>
 
 <!-- Modal Detail Discount -->
-<div id="discountModal" class="fixed inset-0 flex items-center text-left justify-center bg-black bg-opacity-50 hidden z-[1000]">
-    <div class="bg-white p-4 rounded-md mx-4 w-full md:w-[700px]">
-    <div class="flex items-center justify-between w-full mb-4">
-        <h2 class="text-gray-700 font-semibold w-full text-center text-lg">Detail Diskon</h2>
-        <button class="bg-red-400 hover:bg-red-300 text-white px-2 py-0.5 rounded-md" onclick="closeDiscountModal()">x</button>
-    </div>
-        <p class="text-gray-700 font-semibold">Kode Diskon : <span id="modalCouponCode"></span></p>
-        <p class="text-gray-700 font-semibold">Terapkan pada semua kursus : <span id="modalApplyToAll"></span></p>
-        <!-- Tabel dengan border bottom dashed -->
-        <div class="overflow-x-auto">
-            <table class="w-full border-collapse mt-4">
-                <thead class="bg-gray-100">
-                    <tr class="border-b border-dashed border-gray-400">
-                        <th class="px-4 py-2 text-center text-sm text-gray-700">Potongan</th>
-                        <th class="px-4 py-2 text-center text-sm text-gray-700">Tanggal Mulai</th>
-                        <th class="px-4 py-2 text-center text-sm text-gray-700">Tanggal Selesai</th>
-                        <th class="px-4 py-2 text-center text-sm text-gray-700">Jam Mulai</th>
-                        <th class="px-4 py-2 text-center text-sm text-gray-700">Jam Selesai</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="border-b border-dashed border-gray-300">
-                        <td class="px-4 py-2 text-sm text-gray-700 text-center"><span id="modalDiscountPercentage"></span>%</td>
-                        <td class="px-4 py-2 text-sm text-gray-700 text-center"><span id="modalStartDate"></span></td>
-                        <td class="px-4 py-2 text-sm text-gray-700 text-center"><span id="modalEndDate"></span></td>
-                        <td class="px-4 py-2 text-sm text-gray-700 text-center"><span id="modalStartTime"></span></td>
-                        <td class="px-4 py-2 text-sm text-gray-700 text-center"><span id="modalEndTime"></span></td>
-                    </tr>
-                </tbody>
-            </table>
+<div id="discountModal" class="fixed inset-0 px-4 flex items-center text-left justify-center bg-black bg-opacity-50 hidden z-[1000]">
+    <div id="modal-box" class="bg-white p-4 rounded-xl mx-4 w-full max-w-sm md:max-w-xl mx-auto relative transform scale-90 opacity-0 transition-all duration-300 ease-out">
+        <!-- Tombol Close -->
+        <button onclick="closeDiscountModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-600 text-2xl font-bold">
+            &times;
+        </button>
+        <!-- Judul -->
+        <h3 class="text-xl font-semibold text-center text-gray-700 mb-2">Detail Diskon</h3>
+        <div class="w-16 h-1 bg-gray-600 mx-auto mb-4 rounded"></div>
+        <!-- Layout detail kursus -->
+        <div class="space-y-2 mt-4 text-gray-700 text-sm">
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Kode Diskon : </p>
+                <p class="text-gray-700"><span id="modalCouponCode"></span></p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Terapkan pada semua kursus :</p>
+                <p class="text-gray-700"><span id="modalApplyToAll"></span></p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Potongan:</p>
+                <p class="text-gray-700"><span id="modalDiscountPercentage"></span>%</p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Tanggal Mulai:</p>
+                <p class="text-gray-700"><span id="modalStartDate"></span></p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Tanggal Selesai:</p>
+                <p class="text-gray-700"><span id="modalEndDate"></span></p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Jam Mulai:</p>
+                <p class="text-gray-700"><span id="modalStartTime"></span></p>
+            </div>
+            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+                <p class="font-semibold">Jam Selesai:</p>
+                <p class="text-gray-700"><span id="modalEndTime"></span></p>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    // untuk menampilkan detail diskon 
     function openDiscountModal(id, couponCode, discountPercentage, startDate, endDate, startTime, endTime, applyToAll) {
         // Isi data ke modal
         document.getElementById('modalCouponCode').textContent = couponCode;
@@ -159,12 +167,30 @@
         document.getElementById('modalStartTime').textContent = startTime;
         document.getElementById('modalEndTime').textContent = endTime;
         document.getElementById('modalApplyToAll').textContent = applyToAll ? 'Yes' : 'No';
-            // Tampilkan modal
-            document.getElementById('discountModal').classList.remove('hidden');
-        }
+
+        const modal = document.getElementById('discountModal');
+        const modalBox = document.getElementById('modal-box');
+
+        modal.classList.remove('hidden');
+        // Trigger animasi buka
+        setTimeout(() => {
+            modalBox.classList.remove('scale-90', 'opacity-0');
+            modalBox.classList.add('scale-100', 'opacity-100');
+        }, 10); // delay untuk memastikan transition aktif
+    }
 
     function closeDiscountModal() {
-        document.getElementById('discountModal').classList.add('hidden');
+        const modal = document.getElementById('discountModal');
+        const modalBox = document.getElementById('modal-box');
+
+        // Animasi tutup
+        modalBox.classList.remove('scale-100', 'opacity-100');
+        modalBox.classList.add('scale-90', 'opacity-0');
+
+        // Tunggu transisi selesai sebelum menyembunyikan modal
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300); // harus sama dengan duration Tailwind (300ms)
     }
 </script>
 @endsection

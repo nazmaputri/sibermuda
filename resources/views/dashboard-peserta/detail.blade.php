@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="mb-3 flex justify-start">
-    <a href="{{ route('kategori-peserta') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
+    <a href="{{ route('kategori-peserta') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
     </svg>
@@ -22,20 +22,32 @@
             @endif
         
             @if(!empty($course->description))
-                <p class="text-gray-600 mb-2 text-sm">{{ $course->description }}</p>
+                <p class="text-gray-700 mb-2 text-sm">{{ $course->description }}</p>
             @endif
         
-            @if(!empty($course->mentor->name))
-                <p class="text-gray-600 text-sm capitalize"><span>Mentor :</span> {{ $course->mentor->name }}</p>
-            @endif
-        
-            @if(!empty($course->start_date))
-                <p class="text-gray-600 text-sm"><span>Tanggal Mulai :</span>{{ \Carbon\Carbon::parse($course->start_date)->translatedFormat('d F Y') }}</p>
-            @endif
-        
-            @if(!empty($course->duration))
-                <p class="text-gray-600 text-sm"><span>Masa aktif :</span> {{ $course->duration }}</p>
-            @endif
+            <div class="space-y-2 text-sm text-gray-600">
+                @if(!empty($course->mentor->name))
+                    <div class="flex flex-wrap">
+                        <span class="w-20">Mentor</span><span class="mr-1">:</span>
+                        <span class="capitalize">{{ $course->mentor->name }}</span>
+                    </div>
+                @endif
+
+                @if(!empty($course->start_date))
+                    <div class="flex flex-wrap">
+                        <span class="w-20">Tanggal Mulai</span><span class="mr-1">:</span>
+                        <span>{{ \Carbon\Carbon::parse($course->start_date)->translatedFormat('d F Y') }}</span>
+                    </div>
+                @endif
+
+                @if(!empty($course->duration))
+                    <div class="flex flex-wrap">
+                        <span class="w-20">Masa Aktif</span><span class="mr-1">:</span>
+                        <span>{{ $course->duration }}</span>
+                    </div>
+                @endif
+            </div>
+
 
             @if(!empty($course->price))
                 <div class="flex space-x-4">   
@@ -80,12 +92,12 @@
             @else
             @foreach($course->materi as $materi)
                 <div x-data="{ open: false }" 
-                :class="open ? 'border-gray-700' : 'border-gray-200'" class="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
+                :class="open ? 'border-gray-700' : 'border-gray-200'" class="bg-white border border-gray-200 p-3 rounded-lg shadow-sm">
                     <div>
                         <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
                             <span class="text-gray-700 font-semibold mr-2 text-sm">{{ sprintf('%02d', $loop->iteration) }}.</span>
                             <h4 class="text-sm font-semibold text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
-                            <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 transition-transform duration-300 ease-in-out text-gray-600 hover:text-gray-800" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 transition-transform duration-300 ease-in-out text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
                         </div>
@@ -97,7 +109,8 @@
                         >
                             <p class="text-gray-600 mb-2 text-sm">{{ $materi->deskripsi }}</p>
 
-                            <ul class="space-y-1">
+                            <ul class="space-y-3">
+                                {{-- G-Drive Videos --}}
                                 @foreach($materi->videos as $index => $video)
                                     <li class="text-sm text-gray-700">
                                         @if($course->is_purchased || ($loop->first && $materi->is_preview))
@@ -105,7 +118,7 @@
                                             <h4 class="font-semibold mb-2 text-gray-700">{{ $video->title }}</h4>
                                             @if ($video->link)
                                             <iframe 
-                                                src="{{ $video->link }}" 
+                                                src="https://drive.google.com/file/d/{{ $video->link }}/preview" 
                                                 width="100%" 
                                                 height="250" 
                                                 allow="autoplay" 
@@ -118,7 +131,33 @@
                                             <p class="font-semibold mt-3 text-gray-700">{{ $video->description }}</p>
                                         </div>
                                         @else
-                                            🔒 <span class="text-gray-500">{{ $video->judul }} (Terkunci)</span>
+                                            🔒 <span class="text-gray-500">{{ $video->title }} (Terkunci)</span>
+                                        @endif
+                                    </li>
+                                @endforeach
+
+                                {{-- YouTube Videos --}}
+                                @foreach ($materi->youtube as $index => $youtube)
+                                    <li class="text-sm text-gray-700">
+                                        @if($course->is_purchased || ($loop->first && $materi->is_preview))
+                                            <div class="border p-4 rounded-md shadow-md bg-gray-100">
+                                                <h3 class="font-semibold mb-2 text-gray-800">{{ $youtube->title }}</h3>
+                                                @if ($youtube->link)
+                                                    <iframe
+                                                        width="100%" height="250"
+                                                        src="https://www.youtube.com/embed/{{ $youtube->link }}"
+                                                        frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowfullscreen
+                                                        class="rounded-lg shadow-md">
+                                                    </iframe>
+                                                    <p class="text-gray-600 mt-2">{{ $youtube->description ?: 'Tidak ada deskripsi video' }}</p>
+                                                @else
+                                                    <p class="text-red-500">Video YouTube tidak tersedia.</p>
+                                                @endif
+                                            </div>
+                                        @else
+                                            🔒 <span class="text-gray-500">{{ $youtube->title }} (Terkunci)</span>
                                         @endif
                                     </li>
                                 @endforeach

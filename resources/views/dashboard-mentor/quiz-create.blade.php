@@ -71,17 +71,20 @@
                     <label class="block text-gray-700 font-semibold mb-2">Jawaban Pilihan Ganda</label>
                     @for ($i = 0; $i < 4; $i++)
                         <div class="flex items-center mb-2">
-                            <input type="radio" name="questions[0][correct_answer]" value="{{ $i }}" class="mr-2 answer-radio" >
+                            <input type="radio" name="questions[0][correct_answer]" value="{{ $i }}" class="mr-2 answer-radio">
                             <input type="text" name="questions[0][answers][]" class="w-full text-gray-600 p-2 border focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 rounded answer-input" placeholder="Masukkan jawaban" value="{{ old('questions.0.answers.' . $i) }}" >
                             @error('questions.*.answers.*')
                                 <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
                             @enderror
                         </div>
                     @endfor
+                    @error('questions.0.correct_answer')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Tombol Hapus Soal -->
-                <button type="button" onclick="removeQuestion(this)" class="text-red-600 hover:text-red-800 font-semibold mt-2">Hapus Soal</button>
+                <button type="button" onclick="removeQuestion(this)" class="text-white px-2 py-1 bg-red-400 hover:bg-red-300 text-sm rounded font-semibold mt-2">Hapus Soal</button>
             </div>
         </template>
 

@@ -326,8 +326,8 @@
                 <div class="ml-auto flex mr-4 space-x-4">
                <!-- Notifikasi -->
                 <div class="relative flex items-center cursor-pointer" id="notification-container">
-                    <button id="notification-button" class="p-1 rounded-full border border-gray-200 bg-white relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-gray-500">
+                    <button id="notification-button" class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
                         </svg>
 
@@ -340,7 +340,7 @@
 
                     <!-- Dropdown notifikasi -->
                     <div id="notification-dropdown"
-                        class="absolute right-0 top-10 md:top-12 bg-white shadow-lg border border-gray-200 rounded-md w-60 md:w-96 hidden">
+                        class="absolute right-0 top-10 md:top-12 bg-white shadow-lg border border-gray-200 rounded-md w-60 md:w-96 hidden z-30">
                         <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
                         </div>
@@ -356,10 +356,21 @@
                         const markAsReadBtn = document.getElementById('mark-as-read');
                     
                         // Toggle dropdown & ambil notifikasi saat dibuka
-                        button.addEventListener('click', function () {
+                        button.addEventListener('click', function (event) {
+                            event.stopPropagation(); // Cegah klik pada tombol memicu penutupan
                             dropdown.classList.toggle('hidden');
                             if (!dropdown.classList.contains('hidden')) {
                                 fetchNotifications();
+                            }
+                        });
+
+                        // Tutup dropdown jika klik di luar dropdown
+                        document.addEventListener('click', function (event) {
+                            // Jika dropdown sedang terbuka dan klik terjadi di luar tombol dan dropdown
+                            if (!dropdown.classList.contains('hidden') &&
+                                !dropdown.contains(event.target) &&
+                                !button.contains(event.target)) {
+                                dropdown.classList.add('hidden');
                             }
                         });
                     
@@ -449,19 +460,17 @@
                                 <span class="group-hover:text-white">Profile</span>
                             </a>
                         </li>
-                        <li>
-                            <a class="group block flex items-center p-1 text-sm text-red-600 hover:bg-red-600 hover:text-white rounded-md mx-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" 
-                                    class="w-4 h-4 ml-1 m-2 fill-current group-hover:text-white">
-                                    <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
-                                </svg>
-                                <form action="{{ route('logout') }}" method="GET" class="w-full">
-                                    @csrf
-                                    <button type="submit" class="w-full text-left py-1.5 text-sm text-red-600 group-hover:text-white">
-                                        Keluar
-                                    </button>
-                                </form>
-                            </a>
+                        <li class="mx-2">
+                            <form action="{{ route('logout') }}" method="GET" class="group block w-full">
+                                @csrf
+                                <button type="submit" class="flex items-center w-full p-1 text-sm text-red-600 hover:bg-red-600 hover:text-white rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" 
+                                        class="w-4 h-4 ml-1 m-2 fill-current group-hover:text-white">
+                                        <path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"/>
+                                    </svg>
+                                    <span class="text-left">Keluar</span>
+                                </button>
+                            </form>
                         </li>
                     </ul>                            
                 </div>

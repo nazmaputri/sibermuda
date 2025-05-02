@@ -185,6 +185,7 @@ Route::middleware(['auth:mentor'])->group(function () {
 
     //Tugas Akhir
     Route::get('/finaltask-detail/{course}/{id}', [FinalTaskController::class, 'detail'])->name('finaltask.detail');
+    Route::get('/finaltask-detail/{courseId}/{taskId}/{userId}', [FinalTaskController::class, 'detailByUser'])->name('finaltask.detailByUser'); // route untuk menampilkan detail tugas akhir yg dikirim oleh peserta
     Route::get('/finaltask-create/{courseId}', [FinalTaskController::class, 'create'])->name('finaltask.create');
     Route::post('/finaltask/{courseId}', [FinalTaskController::class, 'store'])->name('finaltask.store');
     Route::get('/finaltask-edit/{course}/{id}', [FinalTaskController::class, 'edit'])->name('finaltask.edit');
