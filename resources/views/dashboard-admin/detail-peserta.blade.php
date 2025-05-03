@@ -23,7 +23,7 @@
                 </div>
 
                 <!-- Nama -->
-                <p class="text-lg text-gray-700 font-semibold text-center md:text-left">{{ $user->name }}</p>
+                <p class="text-lg text-gray-700 font-semibold text-center md:text-left">{{ Str::limit($user->name, 35, '...') }}</p>
 
                 <!-- Role -->
                 <p class="text-gray-700 text-sm text-center md:text-left">{{ ucfirst($user->role) }}</p>

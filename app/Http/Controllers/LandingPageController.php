@@ -37,6 +37,16 @@ class LandingPageController extends Controller
     {
         return view('components.rating');
     }
+
+    public function tutorialbeli()
+    {
+        return view('components.tutorial-beli');
+    }
+
+    public function tentangkami()
+    {
+        return view('components.tentang-kami');
+    }
     
     public function detail($id)
     {

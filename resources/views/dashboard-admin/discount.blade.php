@@ -122,7 +122,7 @@
                 <p class="text-gray-700"><span id="modalCouponCode"></span></p>
             </div>
             <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
-                <p class="font-semibold">Terapkan pada semua kursus :</p>
+                <p class="font-semibold">Terapkan ke semua kursus :</p>
                 <p class="text-gray-700"><span id="modalApplyToAll"></span></p>
             </div>
             <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">

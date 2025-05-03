@@ -50,7 +50,7 @@
                     @foreach($categories as $index => $category)
                         <tr class="bg-white hover:bg-gray-50 user-row border-b">
                             <td class="px-2 py-3 text-center text-gray-600  border-b border-l border-gray-200 text-sm">{{ $startNumber + $index }}</td>
-                            <td class="py-3 px-2 text-gray-600 text-sm border-b border-gray-200">{{ $category->name }}</td>
+                            <td class="py-3 px-2 text-gray-600 text-sm border-b border-gray-200">{{ Str::limit($category->name, 70, '...') }}</td>
                             <td class="py-3 px-2 flex items-center justify-center space-x-6 border-r border-b border-gray-200">
                                 <!-- Tombol Lihat Detail -->
                                 <a href="{{ route('categories.show', $category->id) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">

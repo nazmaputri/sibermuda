@@ -41,7 +41,6 @@
     {!! htmlScriptTagJsApi() !!}
 </head>
 <body class="bg-white min-h-screen flex items-center justify-center">
-
 <!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
 <!-- <x-loading-screen /> -->
 
@@ -67,53 +66,55 @@
         <form action="{{ route('login') }}" method="POST" class="space-y-4">
             @csrf
 
-            <div class="relative w-full">
-                <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    class="peer w-full px-4 pt-6 text-gray-600 pb-1 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent placeholder-transparent"
-                    placeholder="Email"
+            <!-- Email Field (Dengan efek floating label) -->
+            <div class="relative w-full mb-4">
+                <input 
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    placeholder=" " 
+                    class="peer w-full px-4 pt-5 pb-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 @error('email') border-red-500 @enderror" 
                     value="{{ old('email') }}"
                 />
-                <label
-                    for="email"
-                    class="absolute left-4 top-4 text-gray-500 px-1 transition-all duration-200 ease-in-out
-                        peer-placeholder-shown:top-4 peer-placeholder-shown:text-base
-                        peer-focus:top-0 peer-focus:text-sm peer-focus:text-gray-600"
+                <label 
+                    for="email" 
+                    class="absolute left-4 top-2 text-gray-500 text-sm transition-all duration-200 
+                    peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                    peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-700"
                 >
                     Email
                 </label>
                 @error('email')
-                    <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
+                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                 @enderror
-            </div>
+                </div>
 
-            <div class="relative w-full pb-4">
-                <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    class="peer w-full  text-gray-600 px-4 pt-6 pb-1 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-transparent placeholder-transparent @error('password') border-red-500 @enderror"
-                    placeholder="Kata Sandi"
+            <!-- Password Field (Dengan efek floating label) -->
+            <div class="relative w-full mb-4">
+                <input 
+                    type="password" 
+                    name="password" 
+                    id="password" 
+                    placeholder=" " 
+                    class="peer w-full px-4 pt-5 pb-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror"
                 />
-                <label
-                    for="password"
-                    class="absolute left-4 top-4 text-gray-500 px-1 transition-all duration-200 ease-in-out
-                        peer-placeholder-shown:top-4 peer-placeholder-shown:text-base
-                        peer-focus:top-0 peer-focus:text-sm peer-focus:text-gray-600"
+                <label 
+                    for="password" 
+                    class="absolute left-4 top-2 text-gray-500 text-sm transition-all duration-200 
+                    peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                    peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-700"
                 >
                     Kata Sandi
                 </label>
-                <button type="button" onclick="toggleVisibility()" class="absolute right-3 top-4 text-gray-500">
-                    <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20" class="h-5 w-5">
-                        <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
-                        <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd"/>
-                    </svg>
-                </button>
-                @error('password')
-                    <p class="text-red-500 text-sm mt-1" id="password-error">{{ $message }}</p>
-                @enderror
+                <span class="absolute right-3 mt-3.5 transform cursor-pointer text-gray-500"  onclick="toggleVisibility()">
+                    <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+                        <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                            <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
+                        </svg>
+                    </span>
+                    @error('password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
             </div>
 
             <!-- <div class="flex justify-end">

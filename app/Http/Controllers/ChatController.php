@@ -32,18 +32,38 @@ class ChatController extends Controller
             ->pluck('user')
             ->unique();
     
-        // Tetapkan chat aktif jika ada chat ID yang diberikan
-        $activeChat = $chatId ? Chat::where('id', $chatId)
-            ->where('mentor_id', $user->id)
-            ->where('course_id', $courseId)
-            ->first() : $chats->first();
+        // Hanya ambil chat aktif jika chatId disediakan
+        $activeChat = null;
+        $messages = [];
+
+        if ($chatId) {
+            $activeChat = Chat::where('id', $chatId)
+                ->where('mentor_id', $user->id)
+                ->where('course_id', $courseId)
+                ->first();
+        
+            if ($activeChat) {
+                // Tandai semua pesan sebagai sudah dibaca (is_read = true)
+                $activeChat->messages()
+                    ->where('is_read', false)
+                    ->where('course_id', $courseId)
+                    ->update(['is_read' => true]);
+        
+                // Ambil semua pesan setelah ditandai sudah dibaca
+                $messages = $activeChat->messages()
+                    ->where('course_id', $courseId)
+                    ->with('sender')
+                    ->get();
+            }
+        }        
     
-        // Ambil pesan-pesan yang sesuai dengan chat aktif
-        $messages = $activeChat ? $activeChat->messages()
-            ->where('course_id', $courseId)  // Pastikan pesan hanya diambil untuk course_id yang benar
-            ->with('sender') // Menampilkan informasi pengirim
-            ->get() : [];
-    
+        // Hitung jumlah pesan yang belum dibaca untuk setiap chat
+        foreach ($chats as $chat) {
+            $chat->unreadMessagesCount = $chat->messages()
+                ->where('is_read', false)
+                ->count();
+        }
+
         return view('dashboard-mentor.chat', compact('chats', 'messages', 'activeChat', 'students'));
     }
       

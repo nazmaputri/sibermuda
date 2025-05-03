@@ -71,3 +71,35 @@
         </div>
     </div>
 </section>
+
+<!-- Hero Section -->
+<section class="relative bg-cover bg-center h-[80vh]">
+    <!-- Background Image with Parallax Effect -->
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('{{ asset('storage/programmer.jpg') }}'); background-attachment: fixed;">
+    </div>
+
+    <!-- Overlay Color to Darken the Background -->
+    <div class="absolute inset-0 bg-midnight bg-opacity-30"></div>
+
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative z-10 max-w-6xl mx-auto px-6 flex flex-col justify-center h-full text-white">
+      <p class="text-blue-400 uppercase tracking-widest text-sm font-medium mb-4">Selamat Datang di Sibermuda!</p>
+      <h1 class="text-4xl md:text-5xl font-bold leading-tight">
+      Mulailah Bangun Masa Depanmu<br />
+      Bersama <span class="text-white">Sibermuda!</span> 
+      </h1>
+      <div class="flex gap-8 mt-4">
+        <div class="text-center">
+          <p class="text-3xl font-bold text-blue-600">50</p>
+          <p class="text-blue-500">Mentor Profesional</p>
+        </div>
+        <div class="text-center">
+          <p class="text-3xl font-bold text-blue-600">1200</p>
+          <p class="text-blue-500">Peserta Terdaftar</p>
+        </div>
+      </div>
+      <a href="{{ route('tutorial.beli') }}" class="mt-6 flex gap-4">
+        <button class="border border-white px-5 py-2 rounded-md hover:bg-white hover:text-black transition-transform duration-300 ease-in-out transform hover:scale-105">Lihat Cara Pembelian</button>
+      </a>
+    </div>
+</section>

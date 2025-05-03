@@ -25,7 +25,7 @@
                 
                 <!-- Nama -->
                 <div class="p-1">
-                    <p class="font-semibold text-gray-700 text-sm">{{ $user->name }}</p>
+                    <p class="font-semibold text-gray-700 text-sm">{{ Str::limit($user->name, 35, '...') }}</p>
                 </div>
 
                 <!-- Role -->
