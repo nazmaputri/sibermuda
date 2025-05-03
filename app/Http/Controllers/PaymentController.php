@@ -20,7 +20,7 @@ class PaymentController extends Controller
     
     public function createPayment(Request $request)
     {
-        try {
+       
             $user = Auth::guard('student')->user();
             if (!$user) {
                 return response()->json(['success' => false, 'message' => 'User tidak ditemukan'], 401);
@@ -41,54 +41,59 @@ class PaymentController extends Controller
                     ->first();
             }
     
-            $totalAmount = 0;
-            $hargaPerItem = [];
-    
-            foreach ($keranjangItems as $item) {
-                $originalPrice = $item->course->price;
-                $price = $originalPrice;
-    
-                if ($discount && ($discount->apply_to_all || $discount->courses->contains($item->course->id))) {
-                    $price = $originalPrice - ($originalPrice * $discount->discount_percentage / 100);
+            try {
+                $totalAmount = 0;
+                $hargaPerItem = [];
+            
+                foreach ($keranjangItems as $item) {
+                    $originalPrice = $item->course->price;
+            
+                    // Hitung harga dengan diskon jika berlaku
+                    if ($discount && ($discount->apply_to_all || $discount->courses->contains($item->course->id))) {
+                        $price = $originalPrice * (1 - ($discount->discount_percentage / 100));
+                    } else {
+                        $price = $originalPrice;
+                    }
+            
+                    $totalAmount += $price;
+                    $hargaPerItem[$item->id] = $price; // Simpan harga per item
                 }
-    
-                $totalAmount += $price;
-                $hargaPerItem[$item->id] = $price; // simpan harga untuk tiap item berdasarkan ID keranjang
-            }
-    
-            $orderId = 'ORDER-' . time();
-    
-            $payment = Payment::create([
-                'user_id'            => $user->id,
-                'transaction_id'     => $orderId,
-                'payment_type'       => 'whatsapp',
-                'transaction_status' => 'pending',
-                'amount'             => $totalAmount
-            ]);
-    
-            foreach ($keranjangItems as $item) {
-                Purchase::create([
-                    'user_id'        => $user->id,
-                    'course_id'      => $item->course_id,
-                    'transaction_id' => $orderId,
-                    'status'         => 'pending',
-                    'harga_course'   => $hargaPerItem[$item->id],
+            
+                $orderId = 'ORDER-' . time();
+            
+                // Simpan ke tabel payment
+                $payment = Payment::create([
+                    'user_id'            => $user->id,
+                    'transaction_id'     => $orderId,
+                    'payment_type'       => 'whatsapp',
+                    'transaction_status' => 'pending',
+                    'amount'             => $totalAmount
                 ]);
-            }
-    
-            return response()->json([
-                'success'   => true,
-                'message'   => 'Transaksi berhasil dicatat.',
-                'order_id'  => $orderId
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Gagal menyimpan payment: ' . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal menyimpan data.',
-                'error' => $e->getMessage(),
-            ]);
-        }
+            
+                // Simpan masing-masing pembelian (purchase) dengan harga diskon (jika ada)
+                foreach ($keranjangItems as $item) {
+                    Purchase::create([
+                        'user_id'        => $user->id,
+                        'course_id'      => $item->course_id,
+                        'transaction_id' => $orderId,
+                        'status'         => 'pending',
+                        'harga_course'   => $hargaPerItem[$item->id], // sudah diskon
+                    ]);
+                }
+            
+                return response()->json([
+                    'success'   => true,
+                    'message'   => 'Transaksi berhasil dicatat.',
+                    'order_id'  => $orderId
+                ]);
+            } catch (\Exception $e) {
+                \Log::error('Gagal menyimpan payment: ' . $e->getMessage());
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Gagal menyimpan data.',
+                    'error' => $e->getMessage(),
+                ]);
+            }            
     }
 
     // public function updateStatus($id)
@@ -155,7 +160,6 @@ class PaymentController extends Controller
         }
         return redirect()->back()->with('success', 'Status pembayaran dan semua pembelian terkait berhasil diubah.');
     }
-     
         
     // public function updatePaymentStatus(Request $request)
     // {

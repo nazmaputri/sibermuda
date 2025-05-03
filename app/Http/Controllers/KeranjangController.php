@@ -106,15 +106,14 @@ class KeranjangController extends Controller
         }
 
         $subtotal = $totalPrice;
-
-         // Ambil nomor telepon admin
+        
         // Ambil nomor telepon admin
         $nomorAdmin = DB::table('users')
         ->where('role', 'admin')
         ->value('phone_number');
     
         return view('dashboard-peserta.keranjang', compact(
-            'carts', 'couponDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'subtotal', 'courseSpecificDiscounts'
+            'availableCarts','carts', 'couponDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'subtotal', 'courseSpecificDiscounts'
            
         ));
     }

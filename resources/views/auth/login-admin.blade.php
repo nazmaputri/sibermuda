@@ -53,7 +53,7 @@
         <div id="login-container" class="w-full p-8 space-y-6 opacity-0 scale-90">
 
             {{-- Form Login --}}
-            <form action="{{ route('login') }}" method="POST" class="space-y-4" id="form">
+            <form action="{{ route('prosesLogin') }}" method="POST" class="space-y-4" id="form">
                 @csrf
                 <!-- Email -->
                 <div>

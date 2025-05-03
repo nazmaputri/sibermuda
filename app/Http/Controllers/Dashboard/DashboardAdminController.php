@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UserImport;
 use App\Exports\PurchasesExport;
+use Carbon\Carbon;
 
 class DashboardAdminController extends Controller
 {
@@ -363,12 +364,25 @@ class DashboardAdminController extends Controller
         $allPurchases = Purchase::where('status', 'success')
                                 ->with('payment')
                                 ->get();
-    
-        // Hitung total pendapatan dari seluruh transaksi
+
+        $bulan = Carbon::now()->month;
+        $tahun = Carbon::now()->year;
+                                
+        // Pendapatan Bulan Ini
+        $totalRevenue = $allPurchases->filter(function ($purchase) use ($bulan, $tahun) {
+            $paymentDate = optional($purchase->payment)->created_at;
+                return $paymentDate &&
+                    $paymentDate->month == $bulan &&
+                    $paymentDate->year == $tahun;
+            })->sum(function ($purchase) {
+                return optional($purchase->payment)->amount;
+            });
+                                
+        // Pendapatan Keseluruhan
         $totalAllRevenue = $allPurchases->sum(function ($purchase) {
             return optional($purchase->payment)->amount;
         });
-    
+                                
         // Query untuk hasil yang difilter
         $purchasesQuery = Purchase::where('status', 'success')
                                     ->with(['course', 'user', 'payment'])
@@ -400,7 +414,8 @@ class DashboardAdminController extends Controller
             'selectedCourseId' => $selectedCourseId,
             'totalRevenue' => $totalFilteredRevenue,
             'selectedMonth' => $selectedMonth,
-            'totalAllRevenue' => $totalAllRevenue
+            'totalAllRevenue' => $totalAllRevenue,
+            'totalRevenue' => $totalRevenue
         ]);
     }    
     

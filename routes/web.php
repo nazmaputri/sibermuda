@@ -40,6 +40,7 @@ Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verify'])->mid
 Route::post('/email/verification-notification', [LoginController::class, 'verifyHandler'])->middleware('throttle:6,1')->name('verification.send');
 
 Route::get('login-sber-md', [LoginController::class, 'loginAdmin'])->name('sber-md');
+Route::post('login-admin', [LoginController::class, 'prosesLogin'])->name('prosesLogin');
 
 // Route berdasarkan role
 

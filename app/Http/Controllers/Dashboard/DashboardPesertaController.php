@@ -75,7 +75,7 @@ class DashboardPesertaController extends Controller
 
         $totalKursus = $courses->count();
 
-        Carbon::setLocale('id'); 
+        Carbon::setLocale('en'); 
         $currentDateTime = Carbon::now();  // Mengambil tanggal dan waktu sekarang
         $currentDateTimeFormatted = $currentDateTime->translatedFormat('l, d F Y H:i:s');
 

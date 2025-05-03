@@ -315,15 +315,15 @@
     document.getElementById('kirim-wa').addEventListener('click', function (e) {
         e.preventDefault();
 
-        const nama = document.getElementById('nama')?.value || 'Tidak Ada';
+        const name = document.getElementById('name')?.value || 'Tidak Ada';
         const email = document.getElementById('email')?.value || 'Tidak Ada';
-        const telepon = document.getElementById('telepon')?.value || 'Tidak Ada';
+        const telepon = document.getElementById('no_telp')?.value || 'Tidak Ada';
         const kursus = document.getElementById('nama-kursus')?.value || 'Tidak Ada';
         const harga = document.getElementById('total-harga')?.value || '{{ $totalPriceAfterDiscount }}';
 
         const nomorAdmin = @json($nomorAdmin); 
         const pesan = `Halo Admin, saya ingin mengkonfirmasi pembayaran untuk:\n\n` +
-            `👤 Nama: ${nama}\n📧 Email: ${email}\n📱 Telepon: ${telepon}\n\n` +
+            `👤 Nama: ${name}\n📧 Email: ${email}\n📱 Telepon: ${telepon}\n\n` +
             `💻 Kursus: ${kursus}\n💰 Total: Rp ${harga}\n\n` +
             `Saya sudah melakukan pembayaran, berikut bukti transfernya.`;
 
