@@ -73,6 +73,11 @@ class Course extends Model
         return $this->hasMany(Payment::class, 'course_id');
     }
 
+    public function discounts()
+    {
+        return $this->belongsToMany(Discount::class, 'course_discount', 'course_id', 'discount_id');
+    }
+
     // Di model Course.php
     public function purchases()
     {

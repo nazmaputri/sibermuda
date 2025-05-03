@@ -60,43 +60,68 @@ class KeranjangController extends Controller
         // Hitung total harga dari kursus yang tidak pending
         $totalPrice = $availableCarts->sum(fn($cart) => $cart->course->price);
 
-        // Ambil diskon yang aktif
-        $activeDiscount = Discount::where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
+        $totalPrice = 0;
+        $totalPriceAfterDiscount = 0;
+        $couponCode = $request->query('coupon');
+        $couponDiscount = null;
+
+        // Ambil kupon global jika ada
+        $couponDiscount = Discount::where('start_date', '<=', now())
+            ->where('end_date',   '>=', now())
+            ->where('apply_to_all', true)
             ->first();
 
-        $totalPriceAfterDiscount = $totalPrice;
-        $couponCode = $request->query('coupon');
+        // Ambil semua diskon spesifik
+        $courseSpecificDiscounts = Discount::where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where('apply_to_all', false)
+            ->get();
 
-        if ($couponCode) {
-            $discount = Discount::where('coupon_code', $couponCode)
-                ->where('start_date', '<=', now())
-                ->where('end_date', '>=', now())
-                ->first();
+        foreach ($availableCarts as $cart) {
+            $course = $cart->course;
+            $price = $course->price;
+            $courseDiscount = null;
 
-            if ($discount) {
-                if ($discount->apply_to_all) {
-                    $discountAmount = $totalPrice * ($discount->discount_percentage / 100);
-                } else {
-                    $discountAmount = 0;
-                    foreach ($availableCarts as $cart) {
-                        if ($discount->courses->contains($cart->course->id)) {
-                            $discountAmount += $cart->course->price * ($discount->discount_percentage / 100);
-                        }
-                    }
+            foreach ($courseSpecificDiscounts as $discount) {
+                if ($discount->courses->contains($course->id)) {
+                    $courseDiscount = $discount;
+                    break;
                 }
-
-                $totalPriceAfterDiscount = $totalPrice - $discountAmount;
             }
+
+            // Harga asli
+            $totalPrice += $price;
+
+            if ($courseDiscount) {
+                $discounted = $price * ($courseDiscount->discount_percentage / 100);
+                $finalPrice = $price - $discounted;
+                $cart->final_price = $finalPrice;
+                $cart->applied_discount = $courseDiscount;
+            } elseif ($couponDiscount) {
+                $discounted = $price * ($couponDiscount->discount_percentage / 100);
+                $finalPrice = $price - $discounted;
+                $cart->final_price = $finalPrice;
+                $cart->applied_discount = $couponDiscount;
+            } else {
+                $finalPrice = $price;
+                $cart->final_price = $finalPrice;
+                $cart->applied_discount = null;
+            }
+
+            // Harga setelah diskon
+            $totalPriceAfterDiscount += $finalPrice;
         }
 
+        $subtotal = $totalPrice;
+        
         // Ambil nomor telepon admin
         $nomorAdmin = DB::table('users')
         ->where('role', 'admin')
         ->value('phone_number');
     
         return view('dashboard-peserta.keranjang', compact(
-            'availableCarts', 'carts', 'activeDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'availableCount', 'pendingCount'
+            'availableCarts','carts', 'couponDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'subtotal', 'courseSpecificDiscounts', 'availableCount', 'pendingCount'
+           
         ));
     }
 

@@ -15,6 +15,7 @@ class ChatController extends Controller
     public function chatMentor($courseId, $chatId = null)
     {
         $user = auth()->user();
+        $course = Course::findOrFail($courseId);
     
         // Ambil chat berdasarkan mentor dan courseId
         $chats = Chat::where('mentor_id', $user->id)
@@ -65,6 +66,7 @@ class ChatController extends Controller
         }
 
         return view('dashboard-mentor.chat', compact('chats', 'messages', 'activeChat', 'students'));
+        return view('dashboard-mentor.chat', compact('chats', 'messages', 'activeChat', 'students', 'course'));
     }
       
     public function chatStudent($courseId, $chatId = null)
@@ -145,20 +147,63 @@ class ChatController extends Controller
         ]);
     }
     
-    public function startChat(Request $request, $studentId)
+    // public function startChat(Request $request, $studentId, $courseId)
+    // {
+    //     $mentorId = auth()->id();
+
+    //     // Pastikan course sesuai dengan mentor dan courseId
+    //     $course = Course::where('id', $courseId)
+    //         ->where('mentor_id', $mentorId)
+    //         ->firstOrFail();
+
+    //     $chat = Chat::firstOrCreate([
+    //         'mentor_id' => $mentorId,
+    //         'student_id' => $studentId,
+    //         'course_id' => $course->id,
+    //     ]);
+
+    //     return redirect()->route('chat.mentor', [
+    //         'courseId' => $course->id,
+    //         'chatId' => $chat->id
+    //     ]);
+    // }
+
+    public function startChat(Request $request, $courseId, $studentId = null)
     {
-        $mentorId = auth()->id();
-        
-        // Ambil kursus mentor untuk mengaitkan dengan chat
-        $course = Course::where('mentor_id', $mentorId)->firstOrFail();
-        
+        $authUser = auth()->user();
+        $course = Course::findOrFail($courseId);
+
+        // Jika yang login adalah mentor
+        if ($authUser->id === $course->mentor_id) {
+            if (!$studentId) {
+                abort(400, 'Student ID diperlukan untuk mentor');
+            }
+
+            $chat = Chat::firstOrCreate([
+                'mentor_id' => $authUser->id,
+                'student_id' => $studentId,
+                'course_id' => $courseId,
+            ]);
+
+            return redirect()->route('chat.mentor', [
+                'courseId' => $courseId,
+                'chatId' => $chat->id,
+            ]);
+        }
+
+        $course = Course::findOrFail($courseId); 
+
         $chat = Chat::firstOrCreate([
-            'mentor_id' => $mentorId,
-            'student_id' => $studentId,
-            'course_id' => $course->id,
+            'mentor_id' => $course->mentor_id,
+            'student_id' => $authUser->id,
+            'course_id' => $courseId,
         ]);
-    
-        return redirect()->route('chat.mentor', ['courseId' => $course->id, 'chatId' => $chat->id]);
+        
+        return redirect()->route('chat.student', [
+            'courseId' => $courseId,
+            'chatId' => $chat->id,
+        ]);        
     }
+
     
 }

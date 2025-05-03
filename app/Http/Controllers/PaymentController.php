@@ -26,11 +26,23 @@ class PaymentController extends Controller
                 return response()->json(['success' => false, 'message' => 'User tidak ditemukan'], 401);
             }
     
-            $keranjangItems = Keranjang::where('user_id', $user->id)->with('course')->get();
+            // Ambil course_id yang sedang pending di purchases
+            $pendingCourseIds = Purchase::where('user_id', $user->id)
+                ->where('status', 'pending')
+                ->pluck('course_id')
+                ->toArray();
+    
+            // Filter keranjang yang tidak memiliki course dalam status pending
+            $keranjangItems = Keranjang::where('user_id', $user->id)
+                ->with('course')
+                ->get()
+                ->filter(fn($item) => !in_array($item->course_id, $pendingCourseIds));
+    
             if ($keranjangItems->isEmpty()) {
-                return response()->json(['success' => false, 'message' => 'Keranjang kosong'], 400);
+                return response()->json(['success' => false, 'message' => 'Semua kursus di keranjang sedang dalam transaksi pending'], 400);
             }
     
+            // Cek dan ambil diskon
             $couponCode = $request->input('coupon_code');
             $discount = null;
     
@@ -49,11 +61,11 @@ class PaymentController extends Controller
                 $price = $originalPrice;
     
                 if ($discount && ($discount->apply_to_all || $discount->courses->contains($item->course->id))) {
-                    $price = $originalPrice - ($originalPrice * $discount->discount_percentage / 100);
+                    $price -= ($originalPrice * $discount->discount_percentage / 100);
                 }
     
                 $totalAmount += $price;
-                $hargaPerItem[$item->id] = $price; // simpan harga untuk tiap item berdasarkan ID keranjang
+                $hargaPerItem[$item->id] = $price;
             }
     
             $orderId = 'ORDER-' . time();
@@ -155,7 +167,6 @@ class PaymentController extends Controller
         }
         return redirect()->back()->with('success', 'Status pembayaran dan semua pembelian terkait berhasil diubah.');
     }
-     
         
     // public function updatePaymentStatus(Request $request)
     // {

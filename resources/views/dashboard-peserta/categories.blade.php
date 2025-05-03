@@ -88,15 +88,26 @@
                             ->where('status', 'success')
                             ->exists();
                     @endphp
-
                     <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden flex flex-col">
                         <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}">
                         <div class="flex flex-col flex-grow">
                             <h3 class="text-md font-semibold text-gray-800 capitalize mx-3 mt-1">{{ $course->title }}</h3>
                             <p class="text-sm text-gray-600 mx-3 capitalize">Mentor : {{ $course->mentor->name }}</p>
-                            <p class="text-red-500 inline-flex items-center text-sm rounded-xl font-semibold mx-3" id="course-price-{{ $course->id }}">
-                                Rp. {{ number_format($course->price, 0, ',', '.') }}
-                            </p>
+                            {{-- <p class="text-red-500 inline-flex items-center text-sm rounded-xl font-semibold mx-3" id="course-price-{{ $course->id }}">
+                                Rp. {{ number_format($course->discounted_price ?? $course->price, 0, ',', '.') }}
+                            </p>   --}}
+                            @if($course->discounted_price)
+                                <p class="text-red-500 inline-flex items-center text-sm rounded-xl font-semibold mx-3">
+                                    Rp. {{ number_format($course->discounted_price, 0, ',', '.') }}
+                                    <span class="line-through text-gray-400 text-sm ml-2">
+                                        Rp. {{ number_format($course->price, 0, ',', '.') }}
+                                    </span>
+                                </p>
+                            @else
+                                <p class="text-gray-700 inline-flex items-center text-sm rounded-xl font-semibold mx-3">
+                                    Rp. {{ number_format($course->price, 0, ',', '.') }}
+                                </p>
+                            @endif
                             <div class="items-center mt-1 flex-grow">
                                 <div class="flex my-2 mx-3">
                                     @for ($i = 0; $i < 5; $i++)

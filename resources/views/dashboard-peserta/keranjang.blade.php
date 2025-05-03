@@ -5,13 +5,23 @@
         <!-- <div id="flash-container"></div> -->
 
         <!-- Pemberitahuan Diskon (Tetap Ada di Atas Keranjang) -->
-        @if ($activeDiscount)
+        @if($couponDiscount)
         <div class="bg-yellow-100 text-yellow-700 p-4 mb-4 rounded-lg">
-            <h3 class="font-bold text-lg">🎉 Kode Diskon: <span class="">{{ $activeDiscount->coupon_code }}</span></h3>
-            <p class="text-sm">Diskon sebesar <strong>{{ $activeDiscount->discount_percentage }}%</strong> berlaku hingga <span id="discount-end">{{ \Carbon\Carbon::parse($activeDiscount->end_date)->translatedFormat('d F Y') }} {{ $activeDiscount->end_time }}</span>.</p>
+            <h3 class="font-bold text-lg">
+            🎉 Kode Kupon Aktif: <span>{{ $couponDiscount->coupon_code }}</span>
+            </h3>
+            <p class="text-sm">
+            Diskon <strong>{{ $couponDiscount->discount_percentage }}%</strong>  
+            hingga  
+            <span id="discount-end">
+                {{ \Carbon\Carbon::parse($couponDiscount->end_date)->translatedFormat('d F Y') }}
+                {{ $couponDiscount->end_time }}
+            </span>.
+            </p>
             <div class="text-red-600 font-semibold text-sm mt-2" id="countdown-timer"></div>
         </div>
         @endif
+
         <!-- Tambahkan Countdown Timer -->
         <script>
             function startCountdown(endDate) {
@@ -141,6 +151,116 @@
             </div>
         </div>
         @else
+            @php
+                $pendingCarts = [];
+                $availableCarts = [];
+                $subtotal = 0;
+
+                foreach ($carts as $cart) {
+                    if (in_array($cart->course_id, $pendingTransactions)) {
+                        $pendingCarts[] = $cart;
+                    } else {
+                        $availableCarts[] = $cart;
+                        $subtotal += $cart->course->price;
+                    }
+                }
+            @endphp
+
+            @if (!empty($availableCarts))
+                <div class="flex flex-col lg:flex-row gap-6">
+                    <!-- Kursus yang bisa dibeli -->
+                    <div class="flex flex-col bg-white border border-gray-200 p-3 rounded-lg shadow lg:w-2/3">
+                        @foreach ($availableCarts as $cart)
+                            <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
+                                <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md"/>
+                                <div class="flex-1 space-y-1">
+                                    <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
+                                    @if ($cart->applied_discount)
+                                        <p class="text-sm text-gray-500 line-through">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                                        <p class="text-sm font-semibold text-red-500">
+                                            Rp. {{ number_format($cart->final_price, 0, ',', '.') }}
+                                            <span class="text-xs text-green-600">
+                                                (-{{ $cart->applied_discount->discount_percentage }}%)
+                                            </span>
+                                        </p>
+                                    @else
+                                        <p class="text-sm font-semibold text-red-500">
+                                            Rp. {{ number_format($cart->final_price, 0, ',', '.') }}
+                                        </p>
+                                    @endif
+                                    <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="flex text-center items-center justify-center rounded-md text-red text-xs" type="submit">
+                                            <span class="text-sm text-red-400">Hapus</span>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <!-- Sidebar total & checkout -->
+                    <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
+                        <!-- Input Kupon -->
+                        <div class="flex space-x-2 items-center mt-1 pb-4">
+                            <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
+                            <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
+                        </div>
+
+                        <!-- Total Harga -->
+                        <div class="mt-3">
+                            <div class="flex justify-between items-center flex-wrap gap-2">
+                                <h3 class="font-semibold text-gray-700 text-sm">
+                                    Total:
+                                </h3>
+                                <div class="flex items-center space-x-2">
+                                    @if ($couponCode && $totalPriceAfterDiscount < $subtotal)
+                                        <span class="text-gray-500 line-through text-sm">
+                                            Rp {{ number_format($subtotal, 0, ',', '.') }}
+                                        </span>
+                                    @endif
+                                    <span id="total-price" class="text-red-500 font-semibold text-sm">
+                                        Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <button 
+                                class="bg-green-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-green-300 w-full mt-3 text-sm" 
+                                id="pay-now" 
+                                data-total-price="{{ $subtotal }}">
+                                Beli Sekarang
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Kursus dengan status pending -->
+            @if (!empty($pendingCarts))
+                <div class="mt-6 bg-white border border-gray-200 p-4 rounded-lg shadow shadow-md {{ empty($availableCarts) ? 'w-full' : 'lg:w-2/3' }}">
+                    <div class="flex items-center p-3 mb-4 text-sm text-yellow-600 rounded-lg bg-yellow-100" role="alert">
+                        <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                        </svg>
+                        <span class="sr-only">Info</span>
+                        <div>
+                            <span class="font-semibold md:text-ms text-sm">Menunggu Konfirmasi Pembayaran</span>
+                        </div>
+                    </div>
+                    @foreach ($pendingCarts as $cart)
+                        <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
+                            <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md" />
+                            <div class="flex-1">
+                                <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
+                                <p class="text-sm font-semibold text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                                <p class="text-xs text-gray-600">status : <span class="text-yellow-500">pending</span></p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
             <!-- TAMPILAN JIKA HANYA ADA KURSUS YANG SEDANG DIPROSES ATAU SEMUA ITEM TIDAK TERSEDIA -->
             <div class="text-center py-3">
                 <p class="text-gray-500">Keranjang Kamu masih kosong. Yuk, pilih kursus favoritmu!</p>
@@ -270,15 +390,15 @@
     document.getElementById('kirim-wa').addEventListener('click', function (e) {
         e.preventDefault();
 
-        const nama = document.getElementById('nama')?.value || 'Tidak Ada';
+        const name = document.getElementById('name')?.value || 'Tidak Ada';
         const email = document.getElementById('email')?.value || 'Tidak Ada';
-        const telepon = document.getElementById('telepon')?.value || 'Tidak Ada';
+        const telepon = document.getElementById('no_telp')?.value || 'Tidak Ada';
         const kursus = document.getElementById('nama-kursus')?.value || 'Tidak Ada';
         const harga = document.getElementById('total-harga')?.value || '{{ $totalPriceAfterDiscount }}';
 
         const nomorAdmin = @json($nomorAdmin); 
         const pesan = `Halo Admin, saya ingin mengkonfirmasi pembayaran untuk:\n\n` +
-            `👤 Nama: ${nama}\n📧 Email: ${email}\n📱 Telepon: ${telepon}\n\n` +
+            `👤 Nama: ${name}\n📧 Email: ${email}\n📱 Telepon: ${telepon}\n\n` +
             `💻 Kursus: ${kursus}\n💰 Total: Rp ${harga}\n\n` +
             `Saya sudah melakukan pembayaran, berikut bukti transfernya.`;
 

@@ -53,8 +53,8 @@
             @if ($students->isNotEmpty())
                 @foreach ($students as $student)
                     @if (!in_array($student->id, $chats->pluck('student_id')->toArray()))
-                    <a href="{{ route('chat.start', ['studentId' => $student->id]) }}"
-                        class="flex items-center p-2 bg-white rounded-lg cursor-pointer hover:bg-gray-100 mt-2">
+                    <a href="{{ route('chat.start', ['studentId' => $student->id, 'courseId' => $course->id]) }}"
+                        class="flex items-center p-2 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 mt-2">
                         <img src="{{ asset('storage/default-profile.jpg') }}" class="w-10 h-10 rounded-full" alt="profile-user"/>
                         <div class="ml-4">
                             <h3 class="text-gray-700 text-sm">{{ Str::limit($student->name, 12) }}</h3>
@@ -96,8 +96,8 @@
             @if ($students->isNotEmpty())
                 @foreach ($students as $student)
                     @if (!in_array($student->id, $chats->pluck('student_id')->toArray()))
-                    <a href="{{ route('chat.start', ['studentId' => $student->id]) }}"
-                        class="flex items-center p-2 bg-white rounded-lg cursor-pointer hover:bg-gray-100 mt-2">
+                    <a href="{{ route('chat.start', ['studentId' => $student->id, 'courseId' => $course->id]) }}"
+                        class="flex items-center p-2 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 mt-2">
                         <img src="{{ asset('storage/default-profile.jpg') }}" class="w-10 h-10 rounded-full" alt="profile-user"/>
                         <div class="ml-4">
                             <h3 class="text-gray-700 font-medium">{{ $student->name }}</h3>

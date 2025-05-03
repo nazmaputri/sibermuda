@@ -205,11 +205,7 @@
                             <td class="px-4 py-2 border-b border-gray-200">{{ $purchase->user->name ?? '-' }}</td>
                             <td class="px-4 py-2 border-b border-gray-200">{{ $purchase->course->title ?? '-' }}</td>
                             <td class="px-4 py-2 border-b border-gray-200 -center text-green-600">
-                                @if(optional($purchase->payment)->amount)
-                                    Rp. {{ number_format(optional($purchase->payment)->amount, 0, ',', '.') }}
-                                @else
-                                    -
-                                @endif
+                                Rp. {{ number_format(optional($purchase)->harga_course, 0, ',', '.') }}
                             </td>                            
                             <td class="px-4 py-2 text-center border-b border-gray-200 border-r">{{ $purchase->created_at->format('d F Y') }}</td>
                         </tr>
@@ -222,7 +218,7 @@
     
         <!-- Total -->
         <div class="mt-4 text-right text-md text-gray-700 font-semibold">
-            Total Pendapatan: <span class="text-red-500">Rp. {{ number_format($totalRevenue, 0, ',', '.') }}</span>
+            Total Pendapatan: <span class="text-red-500">Rp. {{ number_format($totalAllRevenue, 0, ',', '.') }}</span>
         </div>
     </div>
 </div>

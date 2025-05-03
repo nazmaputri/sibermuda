@@ -18,6 +18,44 @@ use Illuminate\Auth\Events\Verified;
 class LoginController extends Controller
 {
 
+    //Login Admin
+    public function loginAdmin()
+    {
+        return view('auth.login-admin');
+    }
+
+    public function prosesLogin(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ], [
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password harus diisi.',
+        ]);
+    
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput($request->except('password'));
+        }
+    
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user) {
+            return back()->withErrors(['email' => 'Email tidak ditemukan.'])
+                ->withInput($request->except('password'));
+        }
+    
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Password salah.'])
+                ->withInput($request->except('password'));
+        }
+
+        $request->session()->regenerate();
+
+        return redirect()->route('welcome-admin');
+    }
+
      // verifikasi email
      public function verify(Request $request, $id, $hash)
      {
