@@ -368,20 +368,15 @@ class DashboardAdminController extends Controller
         $bulan = Carbon::now()->month;
         $tahun = Carbon::now()->year;
                                 
-        // Pendapatan Bulan Ini
+       // Total pendapatan per bulan berdasarkan 'created_at' di tabel purchase
         $totalRevenue = $allPurchases->filter(function ($purchase) use ($bulan, $tahun) {
-            $paymentDate = optional($purchase->payment)->created_at;
-                return $paymentDate &&
-                    $paymentDate->month == $bulan &&
-                    $paymentDate->year == $tahun;
-            })->sum(function ($purchase) {
-                return optional($purchase->payment)->amount;
-            });
-                                
-        // Pendapatan Keseluruhan
-        $totalAllRevenue = $allPurchases->sum(function ($purchase) {
-            return optional($purchase->payment)->amount;
-        });
+            return $purchase->created_at &&
+                $purchase->created_at->month == $bulan &&
+                $purchase->created_at->year == $tahun;
+        })->sum('harga_course');
+
+        // Total seluruh pendapatan dari semua purchase
+        $totalAllRevenue = $allPurchases->sum('harga_course');
                                 
         // Query untuk hasil yang difilter
         $purchasesQuery = Purchase::where('status', 'success')

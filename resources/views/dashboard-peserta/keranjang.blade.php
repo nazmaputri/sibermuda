@@ -151,7 +151,6 @@
             </div>
         </div>
         @else
-<<<<<<< HEAD
             @php
                 $pendingCarts = [];
                 $availableCarts = [];
@@ -262,7 +261,6 @@
                     @endforeach
                 </div>
             @endif
-=======
             <!-- TAMPILAN JIKA HANYA ADA KURSUS YANG SEDANG DIPROSES ATAU SEMUA ITEM TIDAK TERSEDIA -->
             <div class="text-center py-3">
                 <p class="text-gray-500">Keranjang Kamu masih kosong. Yuk, pilih kursus favoritmu!</p>
@@ -271,7 +269,6 @@
                     Jelajahi Kursus
                 </a>
             </div>
->>>>>>> 5646704aaa75be727699d833183b2dfaa6c9ad10
         @endif
     @else
         <!-- TAMPILAN SAAT KERANJANG SEPENUHNYA KOSONG -->
