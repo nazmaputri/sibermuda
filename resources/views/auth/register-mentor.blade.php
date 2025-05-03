@@ -6,16 +6,16 @@
     <link rel="icon" type="image/jpg" href="storage/logo.png">
     <title>Register Mentor</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
+    @vite('resources/css/app.css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
      <!-- Custom Style -->
      <style>
         body {
-            font-family: "Nunito", sans-serif !important;
+            font-family: "Poppins", sans-serif !important;
         }
         @layer utilities {
             @keyframes zoom-in {
@@ -35,27 +35,32 @@
         }
     </style>
 </head>
-<body class="bg-sky-50">
+<body class="bg-white min-h-screen flex items-center justify-center">
 <!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
 <x-loading-screen />
 
-<div class="flex justify-center items-center min-h-screen px-4">
-    <div class="grid grid-cols-1 md:grid-cols-2 w-full max-w-4xl my-4 bg-white rounded-lg shadow-lg overflow-hidden">
-        <!-- Gambar di sebelah kiri, hanya tampil di md ke atas -->
-        <div class="hidden md:block">
-            <img src="{{ asset('storage/belajar-with-laptop.jpg') }}" alt="Login Image" class="h-full w-full object-contain">
+<div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden">
+    
+        <!-- Kiri (Logo) -->
+        <div class="hidden md:flex md:w-1/2 bg-midnight rounded rounded-2xl items-center justify-center">
+            <img src="{{ asset('storage/login2.png') }}" alt="Logo" class="w-70 h-70 transform transition-transform hover:scale-105">
         </div>
 
          <!-- Form Login di sebelah kanan -->
-         <div id="register-container" class="w-full p-8 space-y-6 opacity-0 scale-90">
+         <div id="register-container" class="w-full md:w-1/2 p-4">
             
          <div class="flex flex-col items-center justify-center space-y-2">
-                <div class="flex flex-col md:flex-row items-center space-x-3">
-                    <!-- <img src="{{ asset('storage/eduflix-1.png') }}" alt="Logo" class="w-18 h-16"> -->
-                    <h1 class="text-xl font-semibold text-gray-700">Daftar Mentor</h1>
+                <div class="flex items-center gap-2 mb-4 text-midnight items-center justify-center text-center">
+                    <a href="{{ route('landingpage') }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01-.58 4.138l-5.58 3.114-5.58-3.114a12.083 12.083 0 01-.58-4.138L12 14z" />
+                        </svg>
+                    </a>
+                    <h2 class="text-3xl font-semibold">Daftar Mentor</h2>
                 </div>
                 <h4 class="text-center text-gray-700">
-                    Ayo daftar dan menjadi mentor bersama Sibermuda.Idn!
+                    Ayo menjadi mentor bersama Sibermuda.Idn!
                 </h4>
             </div> 
 
@@ -67,32 +72,74 @@
             @endif
             
             <!-- Form -->
-            <form action="{{ route('register') }}" method="POST" class="space-y-2" id="form">
+            <form action="{{ route('register') }}" method="POST" class="space-y-4" id="form">
                 @csrf
-                <!-- <div class="grid grid-cols-1 lg:grid-cols-2 gap-6"> -->
-                    <!-- Name Field -->
-                    <div>
-                        <label for="name" class="block text-sm font-medium text-gray-700 pb-2">Nama Lengkap</label>
-                        <input type="text" name="name" id="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('name') border-red-500 @enderror">
+        
+                    <div class="relative w-full mb-4">
+                        <input 
+                            type="text" 
+                            name="name" 
+                            id="name" 
+                            value="{{ old('name') }}" 
+                            placeholder=" " 
+                            class="peer w-full px-4 pt-5 pb-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 @error('name') border-red-500 @enderror"
+                        />
+                        <label 
+                            for="name" 
+                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all duration-200 
+                            peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                            peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-700"
+                        >
+                            Nama Lengkap
+                        </label>
+
                         @error('name')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
     
-                    <!-- Email Field -->
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700 pb-2">Email</label>
-                        <input type="email" name="email" id="email" placeholder="Masukkan email" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('email') border-red-500 @enderror" value="{{ old('email') }}">
+                    <!-- Email Field (Dengan efek floating label) -->
+                    <div class="relative w-full mb-4">
+                        <input 
+                            type="email" 
+                            name="email" 
+                            id="email" 
+                            placeholder=" " 
+                            class="peer w-full px-4 pt-5 pb-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 @error('email') border-red-500 @enderror" 
+                            value="{{ old('email') }}"
+                        />
+                        <label 
+                            for="email" 
+                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all duration-200 
+                            peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                            peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-700"
+                        >
+                            Email
+                        </label>
+
                         @error('email')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 
-                    <!-- Password Field -->
-                    <div class="relative">
-                        <label for="password" class="block text-sm font-medium text-gray-700 pb-2">Kata Sandi</label>
-                        <input type="password" name="password" id="password" placeholder="Masukkan kata sandi" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror">
-                        <span class="absolute right-3 mt-2 transform cursor-pointer text-gray-500" id="togglePassword">
+                    <!-- Password Field (Dengan efek floating label) -->
+                    <div class="relative w-full mb-4">
+                        <input 
+                            type="password" 
+                            name="password" 
+                            id="password" 
+                            placeholder=" " 
+                            class="peer w-full px-4 pt-5 pb-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 @error('password') border-red-500 @enderror"
+                        />
+                        <label 
+                            for="password" 
+                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all duration-200 
+                            peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                            peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-700"
+                        >
+                            Kata Sandi
+                        </label>
+                        <span class="absolute right-3 mt-3.5 transform cursor-pointer text-gray-500" id="togglePassword">
                             <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                                 <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
                                 <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
@@ -103,11 +150,24 @@
                         @enderror
                     </div>
                 
-                    <!-- Confirm Password Field -->
-                    <div class="relative">
-                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700 pb-2">Konfirmasi Kata Sandi</label>
-                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Masukkan ulang kata sandi" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('password_confirmation') border-red-500 @enderror">
-                        <span class="absolute mt-2 right-1 transform -translate-x-1/2 cursor-pointer text-gray-500" id="toggleConfirmPassword">
+                    <!-- Confirm Password Field (Dengan efek floating label) -->
+                    <div class="relative w-full mb-4">
+                        <input 
+                            type="password" 
+                            name="password_confirmation" 
+                            id="password_confirmation" 
+                            placeholder=" " 
+                            class="peer w-full px-4 pt-5 pb-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 @error('password_confirmation') border-red-500 @enderror"
+                        />
+                        <label 
+                            for="password_confirmation" 
+                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all duration-200 
+                            peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                            peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-700"
+                        >
+                            Konfirmasi Kata Sandi
+                        </label>
+                        <span class="absolute mt-3.5 right-1 transform -translate-x-1/2 cursor-pointer text-gray-500" id="toggleConfirmPassword">
                             <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
                                 <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
                                 <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
@@ -118,19 +178,46 @@
                         @enderror
                     </div>
                 
-                    <!-- Phone Number Field -->
-                    <div>
-                        <label for="phone_number" class="block text-sm font-medium text-gray-700 pb-2">Nomor Telepon</label>
-                        <input type="text" name="phone_number" id="phone_number" placeholder="Masukkan nomor telepon" class="w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('phone_number') border-red-500 @enderror" value="{{ old('phone_number') }}">
+                    <!-- Phone Number Field (Dengan efek floating label) -->
+                    <div class="relative w-full mb-4">
+                        <input 
+                            type="text" 
+                            name="phone_number" 
+                            id="phone_number" 
+                            placeholder=" " 
+                            class="peer w-full px-4 pt-5 pb-2 text-sm bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 @error('phone_number') border-red-500 @enderror"
+                            value="{{ old('phone_number') }}"
+                        />
+                        <label 
+                            for="phone_number" 
+                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all duration-200 
+                            peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                            peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-700"
+                        >
+                            Nomor Telepon
+                        </label>
                         @error('phone_number')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                 
-                    <!-- Deskripsi Pengalaman -->
-                    <div>
-                        <label for="experience" class="block text-sm font-medium text-gray-700 pb-2">Deskripsi Pengalaman</label>
-                        <textarea name="experience" id="experience" rows="5" placeholder="Deskripsikan pengalaman saat bekerja atau mengajar" class="text-sm w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700 focus:border-gray-700 @error('experience') border-red-500 @enderror">{{ old('experience') }}</textarea>
+                    <!-- Deskripsi Pengalaman (Dengan efek floating label) -->
+                    <div class="relative w-full mb-4">
+                        <textarea 
+                            name="experience" 
+                            id="experience" 
+                            rows="5" 
+                            placeholder=" " 
+                            class="peer text-sm w-full px-4 pt-5 pb-2 bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-700 focus:border-gray-700 @error('experience') border-red-500 @enderror"
+                        >{{ old('experience') }}</textarea>
+                        <label 
+                            for="experience" 
+                            class="absolute left-4 top-2 text-gray-500 text-sm transition-all duration-200 
+                            peer-placeholder-shown:top-3.5 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 
+                            peer-focus:top-2 peer-focus:text-sm peer-focus:text-gray-700"
+                        >
+                            Deskripsi Pengalaman
+                        </label>
                         @error('experience')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
@@ -151,13 +238,13 @@
                  <!-- Login Link -->
                  <h4 class="text-center text-gray-700">
                      Sudah punya akun?
-                     <a href="/login" class="text-midnight font-semibold">Login</a>
+                     <a href="/login" class="text-midnight font-semibold hover:underline">Login</a>
                  </h4>
              <!-- </div> -->
             </div>
             </form>
         </div>
-    </div>
+</div>
 
 <script>
     // Pengaturan Icon PAssword

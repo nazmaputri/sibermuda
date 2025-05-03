@@ -133,6 +133,9 @@ Route::middleware(['auth:student'])->group(function () {
     Route::post('/keranjang/tambah/{id}', [KeranjangController::class, 'addToCart'])->name('cart.add');
     Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'removeFromCart'])->name('cart.remove');
 
+    //Keranjang Pending
+    Route::get('/keranjang-pending', [KeranjangController::class, 'keranjangpending'])->name('keranjang-pending');
+
     Route::post('/apply-discount', [DiscountController::class, 'applyDiscount'])->name('apply.discount');
 
     //Tugas Akhir

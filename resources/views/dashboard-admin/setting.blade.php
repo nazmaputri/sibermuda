@@ -9,7 +9,7 @@
         <div class="mb-4">
             <label for="photo" class="block font-semibold text-gray-700">Foto Profil</label>
             @if($user->photo)
-                <img src="{{ Storage::url($user->photo) }}" alt="Foto Profil" class="w-28 h-28 rounded-full mt-2">
+                <img src="{{ Storage::url($user->photo) }}" alt="Foto Profil" class="w-28 h-28 rounded-full mt-2 mx-auto">
             @endif
             <input type="file" name="photo" id="photo" class="p-2 mt-2 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm text-gray-700">
             @error('photo')

@@ -49,51 +49,109 @@
             let discountEnd = document.getElementById("discount-end")?.textContent;
             if (discountEnd) startCountdown(discountEnd);
         </script>
-        @if ($carts->isEmpty())
-            @if (!empty($pendingTransactions))
-                @php
-                    $pendingCarts = [];
-                    foreach ($carts as $cart) {
-                        if (in_array($cart->course_id, $pendingTransactions)) {
-                            $pendingCarts[] = $cart;
-                        }
-                    }
-                @endphp
 
-                <!-- Kursus dengan status pending -->
-                @if (!empty($pendingCarts))
-                    <div class="mt-6 bg-white border border-gray-200 p-4 rounded-lg shadow shadow-md lg:w-2/3">
-                        <div class="flex items-center p-3 mb-4 text-sm text-yellow-600 rounded-lg bg-yellow-100" role="alert">
-                            <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                            </svg>
-                            <span class="sr-only">Info</span>
-                            <div>
-                                <span class="font-semibold md:text-ms text-sm">Menunggu Konfirmasi Pembayaran</span>
-                            </div>
-                        </div>
-                        @foreach ($pendingCarts as $cart)
-                            <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
-                                <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md" />
-                                <div class="flex-1">
-                                    <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
-                                    <p class="text-sm font-semibold text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
-                                    <p class="text-xs text-gray-600">status : <span class="text-yellow-500">pending</span></p>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-            @else
-                <div class="text-center py-3">
-                    <p class="text-gray-500">Keranjang Kamu masih kosong. Yuk, pilih kursus favoritmu!</p>
-                    <a href="{{ route('kategori-peserta') }}"
-                        class="mt-4 font-semibold inline-block bg-sky-400 text-white py-1.5 px-5 rounded-lg hover:bg-sky-300 transition shadow-lg">
-                        Jelajahi Kursus
+    <!-- MENU BREADCRUMB -->
+    <nav class="flex mb-2" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+            <li class="inline-flex items-center">
+                <a href="{{ route('cart.index') }}"
+                class="inline-flex items-center text-sm hover:text-midnight 
+                    {{ request()->routeIs('cart.index') ? 'text-gray-700 font-semibold' : 'text-gray-600' }}">
+                    Keranjang
+                    <span class="text-green-300 bg-green-100 ml-1 px-1 py-0.5 rounded-md"> {{ $availableCount ?? 0 }}</span>
+                </a>
+            </li>
+            <li>
+                <div class="flex items-center">
+                    <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+                    </svg>
+                    <a href="{{ route('keranjang-pending') }}"
+                    class="ms-1 text-sm hover:text-midnight md:ms-2 
+                        {{ request()->routeIs('keranjang-pending') ? 'text-gray-700 font-semibold' : 'text-gray-600' }}">
+                        Pending
                     </a>
+                    <span class="text-orange-300 bg-orange-100 ml-1 px-1 py-0.5 text-sm rounded-md"> {{ $pendingCount ?? 0 }}</span>
                 </div>
-            @endif
+            </li>
+        </ol>
+    </nav>
+
+    @if ($carts->isNotEmpty())
+    @php
+        $pendingCarts = [];
+        $availableCarts = [];
+        $subtotal = 0;
+
+        foreach ($carts as $cart) {
+            if (in_array($cart->course_id, $pendingTransactions)) {
+                $pendingCarts[] = $cart;
+            } else {
+                $availableCarts[] = $cart;
+                $subtotal += $cart->course->price;
+            }
+        }
+    @endphp
+
+    @if (!empty($availableCarts))
+        <!-- TAMPILAN KURSUS YANG BISA DIBELI -->
+        <div class="flex flex-col lg:flex-row gap-6">
+            <div class="flex flex-col bg-white border border-gray-200 p-3 rounded-lg shadow lg:w-2/3">
+                @foreach ($availableCarts as $cart)
+                    <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
+                        <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md"/>
+                        <div class="flex-1 space-y-1">
+                            <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
+                            <p class="text-sm font-semibold text-red-400">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                            <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button class="flex text-center items-center justify-center rounded-md text-red text-xs" type="submit">
+                                    <span class="text-sm text-red-400">Hapus</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Sidebar total & checkout -->
+            <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
+                <!-- Input Kupon -->
+                <div class="flex space-x-2 items-center mt-1 pb-4">
+                    <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
+                    <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
+                </div>
+
+                <!-- Total Harga -->
+                <div class="mt-3">
+                    <div class="flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="font-semibold text-gray-700 text-sm">
+                            Total:
+                        </h3>
+                        <div class="flex items-center space-x-2">
+                            @if ($couponCode && $totalPriceAfterDiscount < $subtotal)
+                                <span class="text-gray-500 line-through text-sm">
+                                    Rp {{ number_format($subtotal, 0, ',', '.') }}
+                                </span>
+                            @endif
+                            <span id="total-price" class="text-red-500 font-semibold text-sm">
+                                Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <button 
+                        class="bg-green-400 text-white font-semibold py-1.5 px-3 rounded-lg hover:bg-green-300 w-full mt-3 text-sm" 
+                        id="pay-now" 
+                        data-total-price="{{ $subtotal }}">
+                        Beli Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
         @else
+<<<<<<< HEAD
             @php
                 $pendingCarts = [];
                 $availableCarts = [];
@@ -204,7 +262,28 @@
                     @endforeach
                 </div>
             @endif
+=======
+            <!-- TAMPILAN JIKA HANYA ADA KURSUS YANG SEDANG DIPROSES ATAU SEMUA ITEM TIDAK TERSEDIA -->
+            <div class="text-center py-3">
+                <p class="text-gray-500">Keranjang Kamu masih kosong. Yuk, pilih kursus favoritmu!</p>
+                <a href="{{ route('kategori-peserta') }}"
+                    class="mt-4 font-semibold inline-block bg-sky-400 text-white py-1.5 px-5 rounded-lg hover:bg-sky-300 transition shadow-lg">
+                    Jelajahi Kursus
+                </a>
+            </div>
+>>>>>>> 5646704aaa75be727699d833183b2dfaa6c9ad10
         @endif
+    @else
+        <!-- TAMPILAN SAAT KERANJANG SEPENUHNYA KOSONG -->
+        <div class="text-center py-3">
+            <p class="text-gray-500">Keranjang Kamu masih kosong. Yuk, pilih kursus favoritmu!</p>
+            <a href="{{ route('kategori-peserta') }}"
+                class="mt-4 font-semibold inline-block bg-sky-400 text-white py-1.5 px-5 rounded-lg hover:bg-sky-300 transition shadow-lg">
+                Jelajahi Kursus
+            </a>
+        </div>
+    @endif
+
     </div>
 
 <!-- Modal Overlay -->
@@ -245,10 +324,9 @@
             <input type="hidden" id="nama-kursus" value="{{ $courseList }}">
             <input type="hidden" id="total-harga" value="Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}">
 
-            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
-                <p class="font-semibold">Kursus:</p>
-                <p class="text-gray-700">{{ $courseList }}</p>
-            </div>
+            <p class="font-semibold">Kursus:</p>
+            <p class="text-gray-700 border-b border-gray-200 py-1">{{ $courseList }}</p>
+           
             <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
                 <p class="font-semibold">Total Harga:</p>
                 <p class="text-red-400 font-semibold">Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}</p>

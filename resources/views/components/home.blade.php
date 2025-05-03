@@ -41,7 +41,7 @@
           Kursus online berkualitas dengan pendekatan praktis dan dukungan mentor yang siap membimbingmu.
         </p>
         <a href="{{ ('login') }}">
-          <button class="text-md px-6 py-2 rounded-md bg-midnight border border-gray-700 hover:bg-[#08072a] text-midnigt mt-2 text-white font-semibold shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
+          <button class="text-sm px-6 py-2 rounded-md bg-midnight border border-gray-700 hover:bg-midnight text-midnigt mt-2 text-white font-medium shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
             Belajar Sekarang
           </button>
         </a>
@@ -54,7 +54,7 @@
 <!-- Card Section -->
 <div id="home2" class="bg-midnight z-10 pb-6 lg:pb-20 md:pt-6 mx-4 md:mx-20 rounded rounded-2xl" data-aos="fade-up">
     <div class="container mx-auto px-6 md:px-12">
-    <p class="text-center font-semibold text-white font-['Roboto'] text-xl mb-2 md:mb-5 mt-2 pt-4 md:text-3xl" data-aos="fade-up">
+    <p class="text-center font-md text-white text-xl mb-2 md:mb-5 mt-2 pt-4 md:text-3xl" data-aos="fade-up">
     Mengapa <span class="text-white">Sibermuda.Idn</span> Adalah Pilihan Tepat?</p>
     <p class="text-white/65 text-center mb-1" data-aos="fade-up">Bangun karirmu dengan pembelajaran yang tepat, bersama mentor terbaik dan materi berstandar industri.</p>
 
@@ -73,7 +73,7 @@
 
                 <!-- Teks -->
                 <div class="text-left">
-                    <h3 class="font-bold text-lg text-white">Mentor Gaul</h3>
+                    <h3 class="font-medium text-lg text-white">Mentor Gaul</h3>
                     <p class="text-white/65 text-sm">Dengan adanya pembelajaran yang asik, dapat mempermudah untuk memahami pembelajaran.</p>
                 </div>
               </div>
@@ -93,7 +93,7 @@
 
                 <!-- Teks -->
                 <div class="text-left">
-                    <h3 class="font-bold text-lg text-white">Perkembangan pemuda</h3>
+                    <h3 class="font-medium text-lg text-white">Perkembangan pemuda</h3>
                     <p class="text-white/65 text-sm">Cukup mengikuti course ini dalam 1 kali, pemuda sudah bisa berkarir dengan handal.</p>
                 </div>
               </div>
@@ -113,7 +113,7 @@
 
                   <!-- Teks -->
                   <div class="text-left">
-                      <h3 class="font-bold text-lg text-white">Sertifikat</h3>
+                      <h3 class="font-medium text-lg text-white">Sertifikat</h3>
                       <p class="text-white/65 text-sm">Dapatkan sertifikat setelah menyelesaikan kursus.</p>
                   </div>
               </div>
@@ -134,7 +134,7 @@
 
                 <!-- Teks -->
                 <div class="text-left">
-                    <h3 class="font-bold text-lg text-white">Materi 24 jam</h3>
+                    <h3 class="font-medium text-lg text-white">Materi 24 jam</h3>
                     <p class="text-white/65 text-sm">Akses materi belajar kapan saja, 24 jam penuh.</p>
                 </div>
               </div>

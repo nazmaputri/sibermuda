@@ -50,6 +50,13 @@ class KeranjangController extends Controller
             return !in_array($cart->course_id, $pendingTransactions);
         });
 
+        $pendingCarts = $carts->filter(function ($cart) use ($pendingTransactions) {
+            return in_array($cart->course_id, $pendingTransactions);
+        });
+        
+        $pendingCount = $pendingCarts->count();        
+        $availableCount = $availableCarts->count();
+
         // Hitung total harga dari kursus yang tidak pending
         $totalPrice = $availableCarts->sum(fn($cart) => $cart->course->price);
 
@@ -113,9 +120,50 @@ class KeranjangController extends Controller
         ->value('phone_number');
     
         return view('dashboard-peserta.keranjang', compact(
+<<<<<<< HEAD
             'availableCarts','carts', 'couponDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'subtotal', 'courseSpecificDiscounts'
            
+=======
+            'availableCarts', 'carts', 'activeDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'availableCount', 'pendingCount'
+>>>>>>> 5646704aaa75be727699d833183b2dfaa6c9ad10
         ));
+    }
+
+    // Menampilkan keranjang dengan status pending
+    public function keranjangpending(Request $request)
+    {
+        // Ambil data transaksi yang statusnya pending
+        $pendingTransactions = [];
+
+        $purchases = Purchase::where('user_id', auth()->id())
+            ->with('payment') // pastikan relasi payment sudah didefinisikan di model
+            ->get();
+            
+        foreach ($purchases as $purchase) {
+            if ($purchase->payment && $purchase->payment->transaction_status === 'pending') {
+                $pendingTransactions[] = $purchase->course_id;
+            }
+        }
+
+        // Ambil data keranjang user
+        $carts = Keranjang::where('user_id', Auth::id())
+            ->with('course')
+            ->get();
+
+        // Filter keranjang yang dalam transaksi pending
+        $pendingCarts = $carts->filter(function ($cart) use ($pendingTransactions) {
+            return in_array($cart->course_id, $pendingTransactions);
+        });
+
+        // Filter keranjang yang tidak dalam transaksi pending
+        $availableCarts = $carts->filter(function ($cart) use ($pendingTransactions) {
+            return !in_array($cart->course_id, $pendingTransactions);
+        });
+
+        $availableCount = $availableCarts->count();
+        $pendingCount = $pendingCarts->count();
+
+        return view('dashboard-peserta.keranjang-pending', compact('pendingCarts', 'pendingCount', 'availableCount'));
     }
     
     // Menambahkan kursus ke keranjang (hanya bisa ditambahkan sekali)
@@ -128,7 +176,7 @@ class KeranjangController extends Controller
         ->first();
 
         if ($pendingPurchase) {
-            return redirect()->route('cart.index')->with('warning', 'Kursus ini sedang menunggu konfirmasi admin.');
+            return redirect()->route('keranjang-pending')->with('warning', 'Kursus ini sedang menunggu konfirmasi admin.');
         }
         
         // Cek apakah kursus sudah ada di keranjang user

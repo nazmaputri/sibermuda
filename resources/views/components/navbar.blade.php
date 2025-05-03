@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navbar</title>
+    @vite('resources/css/app.css')
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
     <style>
   </style>
@@ -14,13 +15,13 @@
   <nav class="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 basis-full items-center px-4 md:px-12 mx-auto">
     <div class="md:col-span-3 flex items-center gap-2">
       <!-- Logo -->
-       <!-- <div class="">
-        <img src="{{ asset('storage/logo-sibermuda.png') }}" alt="image description" class="rounded-full bg-white w-12 h-12">
-       </div> -->
+       <div class="">
+        <img src="{{ asset('storage/login.png') }}" alt="image description" class="rounded-full bg-white w-10 h-10">
+       </div>
       <!-- End Logo -->
 
       <!-- Teks hanya muncul di layar md ke atas -->
-      <span class="text-lg font-semibold text-[#08072a]">Sibermuda.Idn</span>
+      <span class="text-md font-semibold text-[#08072a]">Sibermuda.Idn</span>
     </div>
 
     <!-- Button Group -->
@@ -114,8 +115,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let sectionTop = sectionElement.offsetTop;
         let sectionHeight = sectionElement.offsetHeight;
         if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-          links.forEach(link => link.classList.remove('border-b-2', 'border-[#08072a]', 'font-bold'));
-          links[index].classList.add('border-b-2', 'border-[#08072a]', 'font-bold');
+          links.forEach(link => link.classList.remove('border-b-2', 'border-[#08072a]', 'font-semibold'));
+          links[index].classList.add('border-b-2', 'border-[#08072a]', 'font-semibold');
         }
       }
     });

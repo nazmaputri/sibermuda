@@ -49,7 +49,10 @@
             <div class="flex flex-col items-center sm:items-start">
                 <h4 class="font-semibold mb-4">Kontak Kami</h4>
                 <p class="text-sm">Email : Sibermuda@gmail.com</p>
-                <p class="text-sm">Telp : +62 813 1234 5678</p>
+                @php
+                    $adminPhone = \App\Models\User::where('role', 'admin')->first()?->phone_number ?? 'Belum ada nomor';
+                @endphp
+                <p class="text-sm">Telp : +62 {{ $adminPhone }}</p>
             </div>
         </div>
 
