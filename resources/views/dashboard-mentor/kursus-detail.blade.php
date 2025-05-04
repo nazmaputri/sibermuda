@@ -14,12 +14,12 @@
     <h2 class="text-lg font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Detail Kursus</h2>
     <!-- Card Informasi Kursus -->
     <div class="flex flex-col lg:flex-row mb-4">
-        <div class="w-full sm:w-1/4 md:w-1/5 mb-4 lg:mb-0">
+        <div class="w-full lg:w-1/3 mb-4 lg:mb-0">
             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-full h-auto">
         </div>
-        <div class="ml-4 md:w-2/3 w-full space-y-3">
+        <div class="md:ml-4 md:w-2/3 w-full space-y-3">
             <h2 class="text-md font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
-            <p class="text-gray-700 mb-2 text-md">{{ $course->description }}</p>
+            <p class="text-gray-700 mb-2 text-sm">{{ $course->description }}</p>
             <div class="space-y-2 text-sm text-gray-600">
                 <div class="flex flex-wrap capitalize">
                     <span class="w-24">Mentor</span><span class="mr-1">:</span>

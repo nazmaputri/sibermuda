@@ -30,7 +30,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Mentor</h2>
-                <p class="text-xl font-semibold text-gray-700">{{ $jumlahMentor }} Mentor</p>
+                <p class="text-md font-semibold text-gray-700">{{ $jumlahMentor }} Mentor</p>
             </div>
         </div>
         <!-- Card Jumlah Peserta -->
@@ -42,7 +42,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Peserta</h2>
-                <p class="text-xl font-semibold text-gray-700">{{ $jumlahPeserta }} Peserta</p>
+                <p class="text-md font-semibold text-gray-700">{{ $jumlahPeserta }} Peserta</p>
             </div>
         </div>
          <!-- Card Jumlah Kursus -->
@@ -54,7 +54,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Kursus</h2>
-                <p class="text-xl font-semibold text-gray-700">{{ $jumlahKursus }} Kursus</p>
+                <p class="text-md font-semibold text-gray-700">{{ $jumlahKursus }} Kursus</p>
             </div>
         </div>
         <!-- Card Jumlah Peserta -->
@@ -66,7 +66,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Kategori</h2>
-                <p class="text-xl font-semibold text-gray-700">{{ $jumlahKategori }} Kategori</p>
+                <p class="text-md font-semibold text-gray-700">{{ $jumlahKategori }} Kategori</p>
             </div>
         </div>
     </div>

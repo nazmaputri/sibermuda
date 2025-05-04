@@ -15,7 +15,7 @@
      
     <!-- Header Course -->
     <div class="bg-white text-gray-600 pt-1 rounded-lg mt-2">
-        <h2 class="text-xl text-center font-semibold capitalize">{{ $course->title }}</h2>
+        <h2 class="md:text-xl text-md text-center font-medium capitalize">{{ $course->title }}</h2>
         <p class="text-sm mt-2 text-center text-gray-600 capitalize">Mentor : {{ $course->mentor->name ?? 'Tidak ada mentor' }}</p>
     </div>
 
@@ -39,7 +39,7 @@
         <div class="lg:col-span-3">
             @foreach ($course->materi as $materi)
             <div x-show="selected == '{{ $materi->id }}'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
-                <h3 class="text-lg font-semibold text-gray-700 mb-2">{{ $materi->judul }}</h3>
+                <h3 class="text-lg font-medium text-gray-700 mb-2">{{ $materi->judul }}</h3>
                 <p class="text-gray-700 mb-4">{{ $materi->deskripsi }}</p>
 
                 <!-- Video -->
@@ -50,7 +50,7 @@
                         {{-- Google Drive Videos --}}
                         @foreach ($materi->videos as $video)
                             <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                <h3 class="font-semibold text-gray-800 mb-4">{{ $video->title }}</h3>
+                                <h3 class="font-medium text-gray-700 mb-4">{{ $video->title }}</h3>
     
                                 @if ($video->link)
                                     <iframe
@@ -60,7 +60,7 @@
                                         allowfullscreen
                                         class="rounded-lg shadow-md">
                                     </iframe>
-                                    <p class="text-gray-600 mt-2">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
+                                    <p class="text-gray-700 mt-2">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
                                     <p class="text-red-500">Video Google Drive tidak tersedia.</p>
                                 @endif
@@ -70,7 +70,7 @@
                         {{-- YouTube Videos --}}
                         @foreach ($materi->youtube as $yt)
                             <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                <h3 class="font-semibold mb-4 text-gray-800">{{ $yt->title }}</h3>
+                                <h3 class="font-medium mb-4 text-gray-700">{{ $yt->title }}</h3>
     
                                 @if ($yt->link)
                                     <iframe
@@ -81,7 +81,7 @@
                                         allowfullscreen
                                         class="rounded-lg shadow-md">
                                     </iframe>
-                                    <p class="text-gray-600 mt-2">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
+                                    <p class="text-gray-700 mt-2">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
                                     <p class="text-red-500">Video YouTube tidak tersedia.</p>
                                 @endif
@@ -95,15 +95,15 @@
            <!-- Konten Final Task -->
             @if($finalTask)
                 <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
-                    <h3 class="text-lg font-semibold text-center text-gray-700 mb-4">Tugas Akhir</h3>
+                    <h3 class="text-lg font-medium text-center text-gray-700 mb-4">Tugas Akhir</h3>
 
                     <div class="space-y-2 text-sm text-gray-600">
                         <div class="flex flex-wrap">
-                            <span class="font-semibold w-16 min-w-[0]">Judul</span><span class="mr-1">:</span>
+                            <span class="font-medium w-16 min-w-[0]">Judul</span><span class="mr-1">:</span>
                             <span class="">{{ $finalTask->judul }}</span>
                         </div>
                         <div class="flex flex-wrap">
-                            <span class="font-semibold w-16 min-w-[0]">Deskripsi</span><span class="mr-1">:</span>
+                            <span class="font-medium w-16 min-w-[0]">Deskripsi</span><span class="mr-1">:</span>
                             <span class="">{{ $finalTask->desc }}</span>
                         </div>
                     </div>
@@ -123,7 +123,7 @@
 
                         <!-- Tampilkan tabel riwayat pengerjaan tugas akhir -->
                         <div class="mt-4">
-                            <h4 class="text-md font-semibold text-gray-700 mb-2">Riwayat Pengerjaan Tugas Akhir</h4>
+                            <h4 class="text-md font-medium text-gray-700 mb-2">Riwayat Pengerjaan Tugas Akhir</h4>
                             <div class="overflow-x-auto">
                             <div class="min-w-full w-64">
                                 <table class="min-w-full border-separate border-spacing-0">
@@ -156,11 +156,11 @@
                                         </tr>
                                     @elseif($finalTask && !$finalTaskHistory)
                                         <tr>
-                                            <td colspan="4" class="text-center py-4 text-gray-500">Belum ada riwayat final task untuk user ini.</td>
+                                            <td colspan="4" class="text-center py-4 text-gray-500">Belum ada riwayat tugas akhir yang dikerjakan.</td>
                                         </tr>
                                     @else
                                         <tr>
-                                            <td colspan="4" class="text-center py-4 text-gray-500">Tidak ada final task untuk course ini.</td>
+                                            <td colspan="4" class="text-center py-4 text-gray-500">Tidak ada tugas akhir untuk course ini.</td>
                                         </tr>
                                     @endif
                                     </tbody>
@@ -187,7 +187,7 @@
             <!-- Konten Kuis -->
             @if ($course->quizzes->isNotEmpty())
             <div x-show="selected === 'quiz'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
-                <h3 class="text-lg font-semibold text-gray-700 mb-4">Daftar Kuis</h3>
+                <h3 class="text-lg font-medium text-gray-700 mb-4">Daftar Kuis</h3>
                 @foreach ($course->quizzes as $quiz)
                     <div class="mb-4">
                         @php
@@ -231,7 +231,7 @@
 
                 @if ($quizHistories->isNotEmpty())
                 <div class="mt-6">
-                    <h2 class="text-md text-gray-700 font-semibold mb-4">Riwayat Semua Kuis</h2>
+                    <h2 class="text-md text-gray-700 font-medium mb-4">Riwayat Semua Kuis</h2>
                     <div class="overflow-x-auto">
                         <table class="min-w-full border-separate border-spacing-0 text-sm text-center">
                             <thead class="bg-gray-100 text-gray-600">
@@ -249,8 +249,8 @@
                                     @endphp
                                     <tr class="bg-white hover:bg-gray-50 text-gray-600">
                                         <td class="px-4 py-2 border-b border-l border-gray-200">{{ $quiz->title ?? 'Kuis Tidak Ditemukan' }}</td>
-                                        <td class="px-4 py-2 border-b border-gray-200 text-green-600 font-semibold">{{ $history->nilai }}</td>
-                                        <td class="px-4 py-2 border-b border-r border-gray-200">{{ \Carbon\Carbon::parse($history->completed_at)->format('d M Y, H:i') }}</td>
+                                        <td class="px-4 py-2 border-b border-gray-200 text-green-600 font-medium">{{ $history->nilai }}</td>
+                                        <td class="px-4 py-2 border-b border-r border-gray-200">{{ \Carbon\Carbon::parse($history->completed_at)->translatedFormat('d F Y, H:i') }}</td>
                                         {{-- <td class="px-4 py-2 border-b border-r border-gray-200 text-center">
                                             <a href="{{ route('quiz.result', ['quizId' => $quiz->id, 'courseId' => $quiz->course_id]) }}"
                                                 class="text-white p-1 rounded-md bg-blue-400 hover:bg-blue-300"
@@ -287,12 +287,12 @@
             x-transition>
             
             <!-- Daftar Materi -->
-            <h3 class="text-md font-semibold text-gray-700 mb-2 text-center mt-4">Daftar Materi</h3>
+            <h3 class="text-md font-medium text-gray-700 mb-2 text-center mt-4">Daftar Materi</h3>
             @foreach ($course->materi as $materi)
             <div class="group space-y-1"> {{-- Tambahkan wrapper group untuk mengaktifkan efek hover --}}
                 <button @click="selected = '{{ $materi->id }}'; if(window.innerWidth < 1024) sidebarOpen = false" 
-                        class="w-full text-left px-3 py-2 rounded hover:bg-gray-100 text-gray-600 transform transition-all duration-300 ease-in-out group-hover:translate-x-1"
-                        :class="{ 'bg-gray-100 font-semibold text-gray-700': selected === '{{ $materi->id }}' }">
+                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 text-gray-600 transform transition-all duration-300 ease-in-out group-hover:translate-x-1"
+                        :class="{ 'bg-gray-100 font-medium text-gray-700': selected === '{{ $materi->id }}' }">
                         &bull; {{ $materi->judul }}
                 </button>
             </div>
@@ -303,8 +303,8 @@
             <hr class="my-2">
             <div class="group"> {{-- Tambahkan wrapper group --}}
                 <button @click="selected = 'quiz'; if(window.innerWidth < 1024) sidebarOpen = false" 
-                        class="w-full flex text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
-                        :class="{ 'bg-gray-100 font-semibold text-gray-700': selected === 'quiz' }">
+                        class="w-full flex text-sm text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
+                        :class="{ 'bg-gray-100 font-medium text-gray-700': selected === 'quiz' }">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                     </svg>
@@ -325,8 +325,8 @@
                     <hr class="my-2">
                     <div class="group">
                         <button @click="selected = 'final-task'; if(window.innerWidth < 1024) sidebarOpen = false"
-                            class="w-full flex text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
-                            :class="{ 'bg-gray-100 font-semibold text-gray-700': selected === 'final-task' }">
+                            class="w-full flex text-left text-sm px-3 py-2 rounded hover:bg-gray-100 items-center"
+                            :class="{ 'bg-gray-100 font-medium text-gray-700': selected === 'final-task' }">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
                             </svg>
@@ -388,20 +388,20 @@
 
             Swal.fire({
                 title: 'Apakah Anda yakin?',
-                text: Kuis "${title}" membutuhkan waktu ${duration} menit untuk diselesaikan.,
+                text: `Kuis "${title}" membutuhkan waktu ${duration} menit untuk diselesaikan.`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#4CAF50', // Adjust confirm button color (value 400 for green)
+                confirmButtonColor: '#4CAF50',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Ya, mulai kuis',
                 cancelButtonText: 'Tidak',
                 customClass: {
-                    popup: 'text-sm', // Smaller text size for the popup
-                    confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2', // Green button with hover effect
-                    cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2', // Red button with hover effect
+                    popup: 'text-sm',
+                    confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2',
+                    cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2',
                 },
-                reverseButtons: true, // Membalikkan posisi tombol confirm dan cancel
-                buttonsStyling: false, // Disable default button styling from SweetAlert
+                reverseButtons: true,
+                buttonsStyling: false,
             }).then((result) => {
                 if (result.isConfirmed) {
                     window.location.href = url;
@@ -418,18 +418,18 @@
 
             Swal.fire({
                 title: 'Kerjakan Ulang Kuis?',
-                text: Apakah Anda yakin ingin mengulang kuis "${title}"?,
+                text: `Apakah Anda yakin ingin mengulang kuis "${title}"?`,
                 icon: 'question',
                 showCancelButton: true,
-                cancelButtonText: 'Batal', 
+                cancelButtonText: 'Batal',
                 confirmButtonText: 'Ya, kerjakan lagi',
                 customClass: {
-                    popup: 'text-sm', // Smaller text size for the popup
-                    confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2', // Green button with hover effect
-                    cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2', // Red button with hover effect
+                    popup: 'text-sm',
+                    confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2',
+                    cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2',
                 },
-                buttonsStyling: false, // Disable default button styling from SweetAlert
-                reverseButtons: true, // Membalikkan posisi tombol confirm dan cancel
+                buttonsStyling: false,
+                reverseButtons: true,
             }).then((result) => {
                 if (result.isConfirmed) {
                     form.submit();
@@ -438,6 +438,5 @@
         });
     });
 });
-
 </script>
 @endsection

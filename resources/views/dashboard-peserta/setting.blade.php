@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="max-w-2xl border border-gray-200 mx-auto bg-white p-6 rounded-lg shadow-lg">
-    <h2 class="text-2xl font-semibold text-gray-700 border-b-2 pb-2 mb-4">Pengaturan Akun</h2>
+    <h2 class="md:text-xl text-md font-semibold text-gray-700 border-b-2 pb-2 mb-4">Pengaturan Akun</h2>
     <form action="{{ url('/update-peserta') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
@@ -21,7 +21,7 @@
         <!-- Nama -->
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
-            <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="p-1.5 text-sm mt-1 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700 text-gray-700" required>
+            <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="p-1.5 text-sm mt-1 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700" required>
             @error('name')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror

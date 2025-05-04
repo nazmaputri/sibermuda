@@ -3,42 +3,27 @@
 @section('content')
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">
-            <!-- <div class="p-2 bg-red-500 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 640 512" stroke="currentColor" fill="white">
-                    <path d="M160 64c0-35.3 28.7-64 64-64L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-239.2 0c-11.8-25.5-29.9-47.5-52.4-64l99.6 0 0-32c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 32 64 0 0-288L224 64l0 49.1C205.2 102.2 183.3 96 160 96l0-32zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352l53.3 0C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7L26.7 512C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/>
-                </svg>
-            </div> -->
             <div class="ml-4">
-                <h2 class="text-lg font-semibold text-gray-700">Hari dan Jam Saat Ini</h2>
-                <p id="realtime-clock" class="text-md font-semibold text-gray-700">{{ $currentDateTimeFormatted }}</p>
+                <h2 class="text-md font-medium text-gray-700">Hari dan Jam Saat Ini</h2>
+                <p id="realtime-clock" class="text-md font-medium text-gray-700">{{ $currentDateTimeFormatted }}</p>
             </div>
         </div>
         <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">
-            <!-- <div class="p-2 bg-red-500 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 640 512" stroke="currentColor" fill="white">
-                    <path d="M160 64c0-35.3 28.7-64 64-64L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-239.2 0c-11.8-25.5-29.9-47.5-52.4-64l99.6 0 0-32c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 32 64 0 0-288L224 64l0 49.1C205.2 102.2 183.3 96 160 96l0-32zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352l53.3 0C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7L26.7 512C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/>
-                </svg>
-            </div> -->
             <div class="ml-4">
-                <h2 class="text-md font-semibold text-gray-700">Total Kursus Yang Diikuti</h2>
-                <p class="text-lg font-semibold text-gray-700">{{ $totalKursus }}</p>
+                <h2 class="text-md font-medium text-gray-700">Total Kursus Yang Diikuti</h2>
+                <p class="text-lg font-medium text-gray-700">{{ $totalKursus }}</p>
             </div>
         </div>
         <div class="bg-white rounded-lg shadow-md border border-gray-200 p-5 flex items-center">
-            <!-- <div class="p-2 bg-red-500 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 640 512" stroke="currentColor" fill="white">
-                    <path d="M160 64c0-35.3 28.7-64 64-64L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64l-239.2 0c-11.8-25.5-29.9-47.5-52.4-64l99.6 0 0-32c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 32 64 0 0-288L224 64l0 49.1C205.2 102.2 183.3 96 160 96l0-32zm0 64a96 96 0 1 1 0 192 96 96 0 1 1 0-192zM133.3 352l53.3 0C260.3 352 320 411.7 320 485.3c0 14.7-11.9 26.7-26.7 26.7L26.7 512C11.9 512 0 500.1 0 485.3C0 411.7 59.7 352 133.3 352z"/>
-                </svg>
-            </div> -->
             <div class="ml-4">
-                <h2 class="text-md font-semibold text-gray-700">Total Sertifikat</h2>
-                <p class="text-lg font-semibold text-gray-700">{{ $totalSertifikat }}</p>
+                <h2 class="text-md font-medium text-gray-700">Total Sertifikat</h2>
+                <p class="text-lg font-medium text-gray-700">{{ $totalSertifikat }}</p>
             </div>
         </div>
     </div>
 
 <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 mt-7">
-    <h2 class="text-md font-semibold mb-5 text-gray-700 border-b-2 pb-2">Kursus Saya</h2>
+    <h2 class="text-md font-medium mb-5 text-gray-700 border-b-2 pb-2">Kursus Saya</h2>
     
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($courses as $course)
@@ -51,10 +36,10 @@
                     <div class="flex justify-between items-center mb-2">
                         <!-- Course Title and Rating -->
                         <div>
-                            <h3 class="text-md text-gray-700 font-semibold capitalize">{{ $course->title }}</h3>
+                            <h3 class="text-md text-gray-700 font-medium capitalize mb-1">{{ $course->title }}</h3>
                             <div class="flex">
                                 <!-- Jumlah Rating -->
-                                <span class="text-yellow-500 text-sm font-semibold mr-3">{{ number_format($course->average_rating, 1) }}</span>
+                                <span class="text-yellow-500 text-sm font-medium mr-3">{{ number_format($course->average_rating, 1) }}</span>
                                 @for ($i = 0; $i < 5; $i++)
                                     @if ($i < floor($course->average_rating)) <!-- Rating Penuh -->
                                         <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
@@ -92,7 +77,7 @@
                 <div class="p-2 mt-auto flex-col sm:flex-row justify-between gap-3">
                     <!-- Button Lanjut Belajar -->
                     <a href="{{ route('study-peserta', ['id' => $course->id]) }}" class="flex-1">
-                        <button class="bg-white mb-4 text-yellow-500 border border-yellow-300 w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 hover:text-white hover:bg-yellow-300 transition-colors">
+                        <button class="bg-white mb-4 text-yellow-500 border border-yellow-300 w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2 hover:text-white hover:bg-yellow-300 transition-colors">
                             Belajar
                         </button>
                     </a>
@@ -103,19 +88,19 @@
                     
                     @if ($canDownload)
                         <a href="{{ route('certificate.download', ['courseId' => $course->id]) }}">
-                            <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 bg-white text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors">
+                            <button class="w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2 bg-white text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors">
                                 Download Sertifikat
                             </button>
                         </a>
                     @else
-                        <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 bg-white text-gray-500 border border-gray-500 cursor-not-allowed opacity-50" disabled>
+                        <button class="w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2 bg-white text-gray-500 border border-gray-500 cursor-not-allowed opacity-50" disabled>
                             Sertifikat Tidak Tersedia
                         </button>
                     @endif
                 
                     {{-- <a href="{{ $canDownloadCertificate ? route('certificate-detail', ['courseId' => $course->id]) : '#' }}" 
                         class="flex-1 {{ !$canDownloadCertificate ? 'pointer-events-none' : '' }}">
-                         <button class="w-full py-2 rounded-lg font-semibold flex items-center justify-center gap-2 
+                         <button class="w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2 
                              {{ !$canDownloadCertificate ? 'bg-white text-gray-600 border-gray-600 cursor-not-allowed' : 'bg-white text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors group' }}">
                              
                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5 transition-all 

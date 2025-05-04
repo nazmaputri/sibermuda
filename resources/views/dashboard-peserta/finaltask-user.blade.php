@@ -6,7 +6,7 @@
         @csrf
 
         <!-- Judul Halaman -->
-        <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Tugas Akhir</h2>
+        <h2 class="md:text-xl text-md font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Tugas Akhir</h2>
 
         <input type="hidden" name="final_task_id" value="{{ $finalTask->id }}">
         <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
@@ -14,23 +14,23 @@
         <input type="hidden" name="certificate_status" value="pending">
 
         <div>
-            <label class="block font-semibold mb-1 text-gray-700">Judul Tugas</label>
-            <input type="text" name="title" id="title" class="w-full text-gray-600 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 p-2 @error('title') border-red-500 @enderror">
+            <label class="block font-medium mb-1 text-gray-700 text-sm">Judul Tugas</label>
+            <input type="text" name="title" id="title" class="w-full text-gray-700 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 p-2 @error('title') border-red-500 @enderror">
             @error('title')
                 <span class="text-red-500 text-sm" id="title-error">{{ $message }}</span>
             @enderror
         </div>
 
         <div>
-            <label class="block font-semibold mb-1 text-gray-700">Deskripsi Tugas</label>
-            <textarea name="description" id="description" class="w-full p-2 text-gray-600 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('description') border-red-500 @enderror"></textarea>
+            <label class="block font-medium mb-1 text-gray-700 text-sm">Deskripsi Tugas</label>
+            <textarea name="description" id="description" class="w-full p-2 text-gray-700 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('description') border-red-500 @enderror"></textarea>
             @error('description')
                 <span class="text-red-500 text-sm" id="description-error">{{ $message }}</span>
             @enderror
         </div>
 
         <div>
-            <label class="block font-semibold mb-1 text-gray-700">Upload Foto Tugas (Opsional)</label>
+            <label class="block font-medium mb-1 text-gray-700 text-sm">Upload Foto Tugas (Opsional)</label>
             <input type="file" name="photo[]" accept="image/*" multiple id="photo-input" class="block w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
         </div>
 
@@ -44,16 +44,6 @@
         </div>
     </form>
     </div>
-
-    <!-- {{-- Jika ada tugas yang sudah diupload --}}
-    @if($finalTaskUser = Auth::user()->finalTaskUser->first()) 
-        <h3 class="mt-5">Tugas Akhir yang Diupload</h3>
-        <h4>{{ $finalTaskUser->title }}</h4>
-        <p>{!! $finalTaskUser->description !!}</p> {{-- Tampilkan deskripsi dengan HTML --}}
-        @if($finalTaskUser->photo)
-            <img src="{{ asset('storage/'.$finalTaskUser->photo) }}" alt="Foto Tugas" class="mt-2">
-        @endif
-    @endif -->
 
 @endsection
 

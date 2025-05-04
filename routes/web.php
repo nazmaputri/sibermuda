@@ -29,6 +29,8 @@ Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kurs
 Route::get('/category/{name}', [LandingPageController::class, 'category'])->name('category.detail');
 Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
 Route::get('/beli-kursus/{id}', [KeranjangController::class, 'handlePurchase'])->name('beli.kursus');
+Route::get('/tutorialbeli', [LandingPageController::class, 'tutorialbeli'])->name('tutorial.beli');
+Route::get('/tentangkami', [LandingPageController::class, 'tentangkami'])->name('tentang.kami');
 // Route::get('/home', [LandingPageController::class, 'index'])->name('home');
 // Route::get('/category', [LandingPageController::class, 'categorylp'])->name('category');
 // Route::get('/price', [LandingPageController::class, 'price'])->name('price');
@@ -164,6 +166,7 @@ Route::middleware(['auth:mentor'])->group(function () {
     Route::post('/rating/{id}/toggle-display', [RatingKursusController::class, 'toggleDisplay'])->name('toggle.displaymentor');
     Route::delete('/rating/{id}', [RatingKursusController::class, 'destroy'])->name('ratingmentor.destroy');
     Route::get('/settings-mentor', [SettingController::class, 'mentor'])->name('settings.mentor');
+    Route::post('/settings', [SettingController::class, 'update']);
 
     //Kursus
     Route::resource('courses', CourseController::class);

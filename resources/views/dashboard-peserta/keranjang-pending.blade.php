@@ -9,7 +9,7 @@
             <li class="inline-flex items-center">
                 <a href="{{ route('cart.index') }}"
                 class="inline-flex items-center text-sm hover:text-midnight 
-                    {{ request()->routeIs('cart.index') ? 'text-gray-700 font-semibold' : 'text-gray-600' }}">
+                    {{ request()->routeIs('cart.index') ? 'text-gray-700 font-medium' : 'text-gray-600' }}">
                     Keranjang
                     <span class="text-green-300 bg-green-100 ml-1 px-1 py-0.5 rounded-md"> {{ $availableCount ?? 0 }}</span>
                 </a>
@@ -21,7 +21,7 @@
                     </svg>
                     <a href="{{ route('keranjang-pending') }}"
                     class="ms-1 text-sm hover:text-midnight md:ms-2 
-                        {{ request()->routeIs('keranjang-pending') ? 'text-gray-700 font-semibold' : 'text-gray-600' }}">
+                        {{ request()->routeIs('keranjang-pending') ? 'text-gray-700 font-medium' : 'text-gray-600' }}">
                         Pending
                     </a>
                     <span class="text-orange-300 bg-orange-100 ml-1 px-1 py-0.5 text-sm rounded-md"> {{ $pendingCount ?? 0 }}</span>
@@ -39,22 +39,22 @@
                 </svg>
                 <span class="sr-only">Info</span>
                 <div>
-                    <span class="font-semibold md:text-ms text-sm">Menunggu Konfirmasi Pembayaran Oleh Admin</span>
+                    <span class="font-medium md:text-ms text-sm">Menunggu Konfirmasi Pembayaran Oleh Admin</span>
                 </div>
             </div>
             @foreach ($pendingCarts as $cart)
                 <div class="flex items-center space-x-4 mb-3 pb-2 @if(!$loop->last || $loop->first && !$loop->last) border-b border-gray-200 @endif">
                     <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md" />
                     <div class="flex-1">
-                        <h2 class="text-md font-semibold text-gray-700 capitalize">{{ $cart->course->title }}</h2>
-                        <p class="text-sm font-semibold text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                        <h2 class="text-md font-medium text-gray-700 capitalize">{{ $cart->course->title }}</h2>
+                        <p class="text-sm font-medium text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
                         <p class="text-xs text-gray-600">status : <span class="text-yellow-500">pending</span></p>
                     </div>
                 </div>
             @endforeach
         </div>
     @else
-        <p class="mt-3 text-center text-sm text-gray-500 italic">tidak ada data pembayaran yang sedang menunggu konfirmasi</p>
+        <p class="mt-3 text-center text-sm text-gray-500">tidak ada data pembayaran yang sedang menunggu konfirmasi</p>
     @endif
     
 </div>

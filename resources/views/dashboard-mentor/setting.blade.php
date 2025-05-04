@@ -28,7 +28,7 @@
 
         <!-- Email -->
         <div class="mb-4">
-            <label for="email">Email</label>
+            <label for="email" class="block text-sm font-medium text-gray-700 font-semibold">Email</label>
             <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="p-2 mt-1 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700" required>
             @error('email')
                 <p class="text-red-500 text-xs">{{ $message }}</p>

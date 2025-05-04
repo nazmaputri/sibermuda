@@ -18,14 +18,23 @@
             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-80 h-35">
         </div>
         <!-- Informasi Kursus -->
-        <div class="ml-4 w-2/3 md:ml-4 mt-1 space-y-1">
+        <div class="md:ml-4 md:w-2/3 w-full mt-1 space-y-1">
             <h2 class="text-lg font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
             <p class="text-gray-700 mb-2 text-sm">{{ $course->description }}</p>
-            <p class="text-gray-600 text-sm">Mentor : <span class="capitalize">{{ $course->mentor->name }}<span></p>
-            <p class="text-gray-600 text-sm">Harga : <span class="text-red-500">Rp {{ number_format($course->price, 0, ',', '.') }}</span></p>
+                <div class="flex flex-wrap">
+                    <span class="w-24 text-sm text-gray-700">Mentor</span><span class="mr-1">:</span>
+                    <span class="text-gray-700 text-sm">{{ Str::limit($course->mentor->name ?? 'Tidak Ada Mentor', 25, '...') }}</span>
+                </div>
+                <div class="flex flex-wrap">
+                    <span class="w-24 text-sm text-gray-700">Harga</span><span class="mr-1">:</span>
+                    <span class="text-gray-700 text-sm">Rp {{ number_format($course->price, 0, ',', '.') }}</span>
+                </div>
+                <div class="flex flex-wrap">
+                    <span class="w-24 text-sm text-gray-700">Masa Aktif</span><span class="mr-1">:</span>
+                    <span class="text-gray-700 text-sm">{{ $course->duration }}</span>
+                </div>
             <!-- <p class="text-gray-600 text-sm">Kapasitas : {{ $course->capacity }} peserta</p>  -->
             <!-- <p class="text-gray-600 text-sm">Tanggal Mulai : {{ $course->start_date }}</p> -->
-            <p class="text-gray-600 text-sm">Masa Aktif : {{ $course->duration }}</p>
         </div>
     </div>
 
@@ -183,9 +192,18 @@
 
                                 <!-- Detail Kuis -->
                                 <div x-show="open" x-transition class="mt-3 text-sm text-gray-700 space-y-2">
-                                    <p><span class="font-semibold">Deskripsi:</span> {{ $quiz->description ?: 'Tidak ada deskripsi' }}</p>
-                                    <p><span class="font-semibold">Durasi:</span> {{ $quiz->duration }} menit</p>
-                                    <p><span class="font-semibold">Total Pertanyaan:</span> {{ $quiz->questions->count() }} soal</p>
+                                    <div class="flex flex-wrap">
+                                        <span class="w-24 text-sm text-gray-700">Deskripsi</span><span class="mr-1">:</span>
+                                        <span class="text-gray-700 text-sm">{{ $quiz->description ?: 'Tidak ada deskripsi' }}</span>
+                                    </div>
+                                    <div class="flex flex-wrap">
+                                        <span class="w-24 text-sm text-gray-700">Durasi</span><span class="mr-1">:</span>
+                                        <span class="text-gray-700 text-sm">{{ $quiz->duration }} menit</span>
+                                    </div>
+                                    <div class="flex flex-wrap">
+                                        <span class="w-24 text-sm text-gray-700">Total Soal</span><span class="mr-1">:</span>
+                                        <span class="text-gray-700 text-sm">{{ $quiz->questions->count() }} soal</span>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -215,7 +233,7 @@
                         @forelse ($participants as $index => $participant)
                         <tr class="bg-white hover:bg-gray-50 user-row text-sm">
                             <td class="py-2 px-4 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $index + 1 }}</td>
-                            <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ $participant->user->name }}</td>
+                            <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ Str::limit($participant->user->name, 30, '...') }}</td>
                             <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ $participant->user->email }}</td>
                             <td class="py-2 text-center text-green-500 text-sm border-b border-r border-gray-200">{{ $participant->transaction_status }}</td>
                         </tr>
@@ -227,9 +245,9 @@
                     </tbody>
                 </table>
                 </div>
-                <div class="mt-4">
-                    {{ $participants->links() }}
-                </div>
             </div> 
+            <div class="mt-4">
+                {{ $participants->links() }}
+            </div>
     </div>
 @endsection

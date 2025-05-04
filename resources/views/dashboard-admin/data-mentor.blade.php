@@ -48,7 +48,7 @@
                     @foreach ($users as $index => $user)
                         <tr class="bg-white hover:bg-gray-50 user-row" data-role="{{ $user->role }}">
                             <td class="px-4 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $startNumber + $index }}</td>
-                            <td class="px-4 text-gray-600 text-sm border-b border-gray-200">{{ $user->name }}</td>
+                            <td class="px-4 text-gray-600 text-sm border-b border-gray-200">{{ Str::limit($user->name, 50, '...') }}</td>
                             <td class="px-4 text-center text-gray-600 text-sm border-b border-gray-200">
                             @php
                                 $statusText = [

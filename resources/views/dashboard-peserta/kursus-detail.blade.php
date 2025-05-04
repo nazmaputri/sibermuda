@@ -25,8 +25,8 @@
                 @endif
             </div>
             <div class="ml-4 md:w-2/3 w-full space-y-1">
-                <h2 class="text-lg font-semibold capitalize text-gray-700">{{ $course->title }}</h2>
-                <p class="text-gray-700 text-md">{{ $course->description }}</p>
+                <h2 class="text-lg font-medium capitalize text-gray-700">{{ $course->title }}</h2>
+                <p class="text-gray-700 text-sm">{{ $course->description }}</p>
                 <div class="text-gray-600 text-sm space-y-1">
                 <div class="flex flex-wrap">
                     <span class="w-24 capitalize">Mentor</span><span class="mr-1">:</span>

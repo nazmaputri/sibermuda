@@ -2,6 +2,14 @@
 @section('title', 'Chat')
 @section('content')
 
+<div class="mb-3 flex justify-start">
+    <a href="{{ route('courses.index') }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+    </a>
+</div>
+
 <div x-data="{ openSidebar: false }" class="relative h-[75vh] flex flex-col lg:flex-row border border-gray-200 rounded-md">
     <!-- Sidebar untuk layar kecil -->
     <aside
@@ -30,6 +38,12 @@
                 <h3 class="text-gray-700 font-medium">{{ $chat->student->name }}</h3>
                 <p class="text-gray-500 text-sm truncate">Pesan terbaru...</p>
             </div>
+            <!-- Tambahkan elemen notifikasi jika ada pesan yang belum dibaca -->
+            @if ($chat->unreadMessagesCount > 0)
+                <span class="ml-auto inline-flex items-center justify-center w-5 h-5 text-white text-xs bg-sky-400 rounded-full">
+                    {{ $chat->unreadMessagesCount }}
+                </span>
+            @endif
         </a>
         @endforeach
 
@@ -43,14 +57,14 @@
                         class="flex items-center p-2 bg-gray-100 rounded-lg cursor-pointer hover:bg-gray-200 mt-2">
                         <img src="{{ asset('storage/default-profile.jpg') }}" class="w-10 h-10 rounded-full" alt="profile-user"/>
                         <div class="ml-4">
-                            <h3 class="text-gray-700 font-medium">{{ $student->name }}</h3>
-                            <p class="text-gray-500 text-sm">Mulai chat baru...</p>
+                            <h3 class="text-gray-700 text-sm">{{ Str::limit($student->name, 12) }}</h3>
+                            <p class="text-gray-500 text-xs">Mulai chat baru...</p>
                         </div>
                     </a>
                     @endif
                 @endforeach
             @else
-                <p class="text-gray-500 mt-4">Belum ada peserta yang membeli kursus ini.</p>
+                <p class="text-gray-500 mt-4 text-sm">Belum ada peserta yang membeli kursus ini.</p>
             @endif
         </div>
     </aside>
@@ -61,13 +75,19 @@
 
         @foreach ($chats as $chat)
         <a href="{{ route('chat.mentor', ['courseId' => $chat->course_id, 'chatId' => $chat->id]) }}"
-            class="flex items-center p-2 rounded-lg cursor-pointer
+            class="flex items-center p-2 rounded-lg cursor-pointer bg-white hover:bg-gray-100
             {{ $activeChat && $activeChat->id == $chat->id ? 'bg-sky-100' : '' }}">
             <img src="{{ $chat->student->photo ? asset('storage/' . $chat->student->photo) : asset('storage/default-profile.jpg') }}" class="w-10 h-10 rounded-full" alt="profile peserta" />
             <div class="ml-4">
                 <h3 class="text-gray-700 font-medium">{{ $chat->student->name }}</h3>
                 <p class="text-gray-500 text-sm truncate">Pesan terbaru...</p>
             </div>
+            <!-- Tambahkan elemen notifikasi jika ada pesan yang belum dibaca -->
+            @if ($chat->unreadMessagesCount > 0)
+                <span class="ml-auto inline-flex items-center justify-center w-5 h-5 text-white text-xs bg-sky-400 rounded-full">
+                    {{ $chat->unreadMessagesCount }}
+                </span>
+            @endif
         </a>
         @endforeach
 
@@ -87,7 +107,7 @@
                     @endif
                 @endforeach
             @else
-                <p class="text-gray-500 mt-4">Belum ada peserta yang membeli kursus ini.</p>
+                <p class="text-gray-500 mt-4 text-sm">Belum ada peserta yang membeli kursus ini.</p>
             @endif
         </div>
     </aside>
@@ -168,7 +188,7 @@
                 </button>
             </div>
         <div class="flex-1 flex items-center justify-center p-4">
-            <p class="text-gray-500">Pilih peserta untuk memulai chat.</p>
+            <p class="text-gray-500 text-sm">Pilih peserta untuk memulai chat.</p>
         </div>
         @endif
     </main>
