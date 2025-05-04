@@ -8,7 +8,7 @@
                 <h2 class="text-xl font-semibold text-gray-600">
                     Rp. {{ number_format($totalAllRevenue, 0, ',', '.') }}
                 </h2>
-                <p class="text-md font-semibold text-gray-600">
+                <p class="text-md text-gray-600">
                     Pendapatan Keseluruhan
                 </p>
             </div>
@@ -48,7 +48,7 @@
                 <h2 class="text-xl font-semibold text-gray-600">
                     Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
                 </h2>
-                <p class="text-md font-semibold text-gray-600">
+                <p class="text-md text-gray-600">
                     Pendapatan Bulan Ini
                 </p>
             </div>
@@ -187,8 +187,8 @@
                 <thead class="bg-sky-100 text-gray-700">
                     <tr class="bg-gray-100 text-sm text-600">
                         <th class="px-4 py-2 border-t border-b border-l border-gray-200 text-center rounded-tl-lg">No</th>
-                        <th class="px-4 py-2 border-t border-b border-gray-200 text-left">Nama User</th>
-                        <th class="px-4 py-2 border-t border-b border-gray-200 text-left">Judul Kursus</th>
+                        <th class="px-4 py-2 border-t border-b border-gray-200 text-center">Nama Peserta</th>
+                        <th class="px-4 py-2 border-t border-b border-gray-200 text-center">Judul Kursus</th>
                         <th class="px-4 py-2 border-t border-b border-gray-200 text-center">Harga</th>
                         <th class="px-4 py-2 border-t border-b border-r border-gray-200 text-center rounded-tr-lg">Tanggal</th>
                     </tr>

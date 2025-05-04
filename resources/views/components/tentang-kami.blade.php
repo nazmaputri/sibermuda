@@ -38,7 +38,7 @@
 
 <section id="about" class="bg-white py-12">
     <div class="container mx-auto px-4">
-        <div class="flex lg:space-x-12 items-center">
+        <div class="flex lg:space-x-12 items-center pb-4">
 
             <!-- Image Section -->
             <!-- <div class="md:w-1/3 order-1 lg:order-1 mb-6 lg:mb-0 flex justify-center" data-aos="fade-left">
@@ -61,17 +61,84 @@
                 
             </div>
         </div>
+
+        <!-- Accordion -->
+        <div class="grid grid-cols-1 gap-4 md:mx-14" id="accordion">
+            <!-- Card 1 -->
+            <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+                <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-medium focus:outline-none"
+                  onclick="toggleFeature(this)">
+                  <span>Akses Materi Pembelajaran Terlengkap</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 transform rotate-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </button>
+                <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
+                  <p class="text-gray-600">
+                    Sibermuda.Idn menyediakan akses ke berbagai materi pembelajaran dari berbagai bidang studi yang memungkinkan siswa untuk belajar dengan cara yang lebih terstruktur dan efektif.
+                  </p>
+               </div>
+            </div>
+                
+            <!-- Card 2 -->
+            <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+                <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-medium focus:outline-none"
+                  onclick="toggleFeature(this)">
+                  <span>Pembelajaran Interaktif dan Menyenangkan</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 transform rotate-0">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+                </button>
+                <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
+                  <p class="text-gray-600">
+                      Dengan fitur pembelajaran interaktif, Sibermuda menjadikan proses belajar lebih menyenangkan dan tidak membosankan. Siswa dapat berinteraksi dengan materi melalui tugas akhir yang membuat mereka lebih terlibat dalam proses belajar.
+                  </p>
+                </div>
+            </div>
+                
+            <!-- Card 3 -->
+            <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+              <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-medium focus:outline-none"
+                onclick="toggleFeature(this)">
+                <span>Fasilitas untuk Mentor dan Peserta</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 transform rotate-0">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                </svg>
+              </button>
+              <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
+                <p class="text-gray-600">
+                    Sibermuda.Idn tidak hanya menyediakan fasilitas untuk peserta, tetapi juga untuk mentor. Mentor dapat menggunakan platform ini untuk membuat materi baik melalui video youtube maupun google drive
+                </p>
+              </div>
+            </div>
+                
+            <!-- Card 4 -->
+            <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
+              <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-medium focus:outline-none"
+                onclick="toggleFeature(this)">
+                  <span>Sertifikat Digital Setelah Selesai Kursus</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transition-transform duration-300 transform rotate-0">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                    </svg>
+              </button>
+              <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
+                <p class="text-gray-600">
+                  Setelah menyelesaikan kursus, siswa akan mendapatkan sertifikat digital yang dapat digunakan sebagai bukti kompetensi mereka. Sertifikat ini dapat menjadi nilai tambah untuk karier di dunia digital.
+                </p>
+              </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <section id="founder" class="py-12 max-w-6xl mx-auto px-4 md:px-8">
-    <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-right">Founder</h2>
-    <p class="text-md text-gray-700 text-center mb-3" data-aos="fade-right">Kenali para founder yang berpengalaman di dunia teknologi yang juga memiliki semangat tinggi dalam berbagi ilmu. </p>
+    <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-6" data-aos="fade-right">Founder</h2>
+    <p class="text-md text-gray-700 text-center mb-3 md:mb-5" data-aos="fade-right">Kenali para founder yang berpengalaman di dunia teknologi yang juga memiliki semangat tinggi dalam berbagi ilmu. </p>
 
     <div class="grid grid-cols-1 gap-6" data-aos="fade-right">
     <!-- Card 1 -->
     <div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-4 text-left flex flex-col md:flex-row h-auto">
+        <div class="bg-white rounded-2xl p-4 text-left flex flex-col md:flex-row h-auto">
             <!-- Foto di kiri (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pr-4 mb-4 md:mb-0">
                 <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
@@ -101,7 +168,7 @@
 
     <!-- Card 2 -->
     <div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-4 text-left flex flex-col md:flex-row-reverse h-auto">
+        <div class="bg-white rounded-2xl p-4 text-left flex flex-col md:flex-row-reverse h-auto">
             <!-- Foto di kanan (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pl-4 mb-4 md:mb-0">
                 <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
@@ -131,7 +198,7 @@
 
     <!-- Card 3 -->
     <div>
-        <div class="bg-white rounded-2xl border border-gray-200 p-4 text-left flex flex-col md:flex-row h-auto">
+        <div class="bg-white rounded-2xl p-4 text-left flex flex-col md:flex-row h-auto">
             <!-- Foto di kiri (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pr-4 mb-4 md:mb-0">
                 <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
@@ -164,49 +231,23 @@
 <section class="py-12 max-w-7xl mx-auto px-4 md:px-8">
     <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-right">Mentor Kami</h2>
 
-    <div class="swiper mySwiper">
+    <div class="swiper mySwiper md:mx-14">
       <div class="swiper-wrapper" data-aos="fade-right">
-        <!-- Card 1 -->
-        <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow border border-gray-200 p-4 text-center">
-            <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
-            <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
-            <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
+        @foreach($mentor as $mentor)
+          <div class="swiper-slide">
+            <div class="bg-white rounded-2xl shadow border border-gray-200 h-[320px] p-4 text-center">
+              <img 
+                src="{{ asset('storage/' . ($mentor->photo ?? 'default-profile.jpg')) }}" 
+                alt="{{ $mentor->name }}" 
+                class="rounded-xl mb-3 w-full max-h-64 mx-auto object-contain">
+              <h3 class="text-md font-semibold text-gray-700">{{ $mentor->name }}</h3>
+            </div>
           </div>
-        </div>
-
-        <!-- Card 2 -->
-        <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow border border-gray-200 p-4 text-center">
-            <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
-            <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
-            <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow border border-gray-200 p-4 text-center">
-            <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
-            <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
-            <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
-          </div>
-        </div>
-
-        <!-- Card 3 -->
-        <div class="swiper-slide">
-          <div class="bg-white rounded-2xl shadow border border-gray-200 p-4 text-center">
-            <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl mb-4 w-full h-64 object-cover">
-            <h3 class="text-lg font-semibold text-midnight">Rama Ahmed</h3>
-            <p class="text-sm text-gray-500">Founder & CEO Sibermuda / Penetration Tester / Content Creator</p>
-          </div>
-        </div>
-
-        <!-- Tambahkan card tambahan jika perlu -->
+        @endforeach
       </div>
 
-        <!-- Navigasi panah manual -->
-        <div class="flex justify-center gap-4 mt-4" data-aos="fade-right">
+      <!-- Navigasi panah manual -->
+      <div class="flex justify-center gap-4 mt-4" data-aos="fade-right">
         <button class="swiper-button-prev-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
             <!-- Icon kiri -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -219,7 +260,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
         </button>
-        </div>
+      </div>
     </div>
 </section>
 

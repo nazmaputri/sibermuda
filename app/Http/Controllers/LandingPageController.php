@@ -6,6 +6,7 @@ use App\Models\Course;
 use App\Models\MateriVideo;
 use App\Models\Materi;
 use App\Models\Rating;
+use App\Models\User;
 use App\Models\RatingKursus;
 use App\Models\Discount;
 use Carbon\Carbon;
@@ -45,7 +46,9 @@ class LandingPageController extends Controller
 
     public function tentangkami()
     {
-        return view('components.tentang-kami');
+        $mentor = User::where('role', 'mentor')->get();
+
+        return view('components.tentang-kami', compact('mentor'));
     }
     
     public function detail($id)

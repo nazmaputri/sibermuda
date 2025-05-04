@@ -13,10 +13,10 @@
 <div class="bg-white p-8 rounded-lg shadow-md border border-gray-200">
     <!-- container detail kursus -->
     <div class="flex flex-col sm:flex-row mb-4 space-y-4 sm:space-y-0 sm:space-x-4">
-        <div class="w-full sm:w-1/4 md:w-1/5">
+        <div class="w-full lg:w-1/3">
             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-full h-auto">
         </div>
-        <div class="w-full sm:w-2/3 space-y-1">
+        <div class="w-full md:2/3 space-y-1">
             @if(!empty($course->title))
                 <h2 class="text-md font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
             @endif
@@ -96,7 +96,7 @@
                     <div>
                         <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
                             <span class="text-gray-700 font-semibold mr-2 text-sm">{{ sprintf('%02d', $loop->iteration) }}.</span>
-                            <h4 class="text-sm font-semibold text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
+                            <h4 class="text-sm font-medium text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
                             <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 transition-transform duration-300 ease-in-out text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -115,7 +115,7 @@
                                     <li class="text-sm text-gray-700">
                                         @if($course->is_purchased || ($loop->first && $materi->is_preview))
                                         <div class="border p-4 rounded-md shadow-md">
-                                            <h4 class="font-semibold mb-2 text-gray-700">{{ $video->title }}</h4>
+                                            <h4 class="font-medium mb-2 text-gray-700">{{ $video->title }}</h4>
                                             @if ($video->link)
                                             <iframe 
                                                 src="https://drive.google.com/file/d/{{ $video->link }}/preview" 
@@ -128,7 +128,7 @@
                                             @else
                                             <p class="text-red-500">Video tidak tersedia.</p>
                                             @endif 
-                                            <p class="font-semibold mt-3 text-gray-700">{{ $video->description }}</p>
+                                            <p class="font-medium mt-3 text-gray-700">{{ $video->description }}</p>
                                         </div>
                                         @else
                                             🔒 <span class="text-gray-500">{{ $video->title }} (Terkunci)</span>
@@ -141,7 +141,7 @@
                                     <li class="text-sm text-gray-700">
                                         @if($course->is_purchased || ($loop->first && $materi->is_preview))
                                             <div class="border p-4 rounded-md shadow-md bg-gray-100">
-                                                <h3 class="font-semibold mb-2 text-gray-800">{{ $youtube->title }}</h3>
+                                                <h3 class="font-medium mb-2 text-gray-800">{{ $youtube->title }}</h3>
                                                 @if ($youtube->link)
                                                     <iframe
                                                         width="100%" height="250"
@@ -208,7 +208,7 @@
 
 <!-- Section Ulasan Pengguna -->
 <div class="bg-white p-8 rounded-lg shadow-md mt-10 border border-gray-200">
-    <h3 class="text-md font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Ulasan Pengguna</h3>
+    <h3 class="text-md font-medium text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Ulasan Pengguna</h3>
     <!-- card rating -->
     <div class="space-y-6">
     <!-- Jika tidak ada ulasan -->
@@ -227,7 +227,7 @@
                         <img src="{{ $r->user->profile_photo ? asset('storage/' . $r->user->profile_photo) : asset('storage/default-profile.jpg') }}" 
                             alt="User Profile" class="w-6 h-6 rounded-full object-cover">
                         <div>
-                            <h4 class="text-sm font-semibold text-gray-700">{{ $r->user->name }}</h4>
+                            <h4 class="text-sm font-medium text-gray-700">{{ $r->user->name }}</h4>
                             <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($r->created_at)->format('d F Y') }}</span>
                         </div>
                     </div>

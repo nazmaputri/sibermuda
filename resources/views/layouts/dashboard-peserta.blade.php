@@ -292,7 +292,7 @@
                                     emptyMessage.classList.add('hidden');
                                     list.innerHTML = data.map(item => `
                                         <div class="p-2 text-sm border-b hover:bg-gray-100">
-                                            <div class="font-semibold text-gray-700">Pembelian Dikonfirmasi</div>
+                                            <div class="font-medium text-gray-700">Pembelian Dikonfirmasi</div>
                                             <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
                                             <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
                                         </div>
@@ -346,7 +346,7 @@
                     @if(Auth::check())
                         <div class="hidden md:block flex flex-col">
                             <p class="text-gray-800 font-semibold mr-2 text-sm">{{ Str::limit(Auth::user()->name, 9, '') }}</p>
-                            <p class="text-gray-600 text-sm">{{ Auth::user()->role }}</p>
+                            <p class="text-gray-600 text-xs">Peserta</p>
                         </div>
                     @else
                         <p class="text-gray-800 font-semibold mr-2">Guest</p>

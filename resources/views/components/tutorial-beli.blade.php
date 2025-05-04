@@ -35,27 +35,27 @@
   <div class="text-center mb-10 mt-8 md:mt-12" data-aos="fade-up">
     <h2 class="font-bold text-midnight mb-2 text-xl md:text-2xl">Tingkatkan Skillmu di Era Digital</h2>
     <p class="text-gray-600 text-base">Gabung bersama ribuan pelajar lain, raih sertifikat, dan buka peluang karier baru dengan kursus online Sibermuda.</p>
-    <div class="h-1 bg-midnight w-1/5 rounded-2xl mx-auto mt-2"></div> <!-- garis setengah lebar -->
+    <div class="h-1 bg-midnight w-1/5 md:w-[10%] rounded-2xl mx-auto mt-2"></div> <!-- garis setengah lebar -->
   </div>
 
   <!-- Feature Cards -->
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-aos="fade-up">
-  <div class="bg-white rounded-2xl shadow-md p-6 text-center border-t-4 border-blue-400">
+  <div class="bg-white rounded-2xl shadow-md p-6 text-center border-t-4 border-blue-400 transform transition-transform hover:scale-105">
     <div class="text-blue-400 text-3xl font-bold mb-2">01</div>
     <h3 class="font-semibold md:text-lg text-md mb-1 text-midnight">Daftar & Login</h3>
     <p class="text-sm text-gray-600">Buat akun terlebih dahulu lalu masuk ke platform untuk mulai belajar.</p>
   </div>
-  <div class="bg-white rounded-2xl shadow-md p-6 text-center border-t-4 border-blue-400">
+  <div class="bg-white rounded-2xl shadow-md p-6 text-center border-t-4 border-blue-400 transform transition-transform hover:scale-105">
     <div class="text-blue-400 text-3xl font-bold mb-2">02</div>
     <h3 class="font-semibold md:text-lg text-md mb-1 text-midnight">Pilih Kursus</h3>
     <p class="text-sm text-gray-600">Pilih kursus yang kamu minati dan tambahkan ke keranjang.</p>
   </div>
-  <div class="bg-white rounded-2xl shadow-md p-6 text-center border-t-4 border-blue-400">
+  <div class="bg-white rounded-2xl shadow-md p-6 text-center border-t-4 border-blue-400 transform transition-transform hover:scale-105">
     <div class="text-blue-400 text-3xl font-bold mb-2">03</div>
     <h3 class="font-semibold md:text-lg text-md mb-1 text-midnight">Beli & Konfirmasi</h3>
     <p class="text-sm text-gray-600">Lakukan pembayaran dan tunggu konfirmasi dari admin.</p>
   </div>
-  <div class="bg-white rounded-2xl shadow-md p-6 text-center border-t-4 border-blue-400">
+  <div class="bg-white rounded-2xl shadow-md p-6 text-center border-t-4 border-blue-400 transform transition-transform hover:scale-105">
     <div class="text-blue-400 text-3xl font-bold mb-2">04</div>
     <h3 class="font-semibold md:text-lg text-md mb-1 text-midnight">Belajar & Sertifikat</h3>
     <p class="text-sm text-gray-600">Setelah dikonfirmasi, kamu bisa mulai belajar dan selesaikan tugas akhir sebelum mengunduh sertifikat.</p>

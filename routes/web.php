@@ -166,6 +166,7 @@ Route::middleware(['auth:mentor'])->group(function () {
     Route::post('/rating/{id}/toggle-display', [RatingKursusController::class, 'toggleDisplay'])->name('toggle.displaymentor');
     Route::delete('/rating/{id}', [RatingKursusController::class, 'destroy'])->name('ratingmentor.destroy');
     Route::get('/settings-mentor', [SettingController::class, 'mentor'])->name('settings.mentor');
+    Route::post('/settings', [SettingController::class, 'update']);
 
     //Kursus
     Route::resource('courses', CourseController::class);

@@ -18,7 +18,7 @@
             <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="rounded-lg w-80 h-35">
         </div>
         <!-- Informasi Kursus -->
-        <div class="ml-4 md:w-2/3 w-full md:ml-4 mt-1 space-y-1">
+        <div class="md:ml-4 md:w-2/3 w-full mt-1 space-y-1">
             <h2 class="text-lg font-semibold text-gray-700 mb-2 capitalize">{{ $course->title }}</h2>
             <p class="text-gray-700 mb-2 text-sm">{{ $course->description }}</p>
                 <div class="flex flex-wrap">

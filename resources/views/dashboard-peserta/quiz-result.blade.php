@@ -21,7 +21,7 @@
                 
                     <!-- Tanggal Ujian (Paling Atas) -->
                     <p class="text-sm text-gray-700 mt-2">
-                        Tanggal Mengerjakan : {{ \Carbon\Carbon::parse($startTime)->format('d M Y') }}
+                        Tanggal Mengerjakan : {{ \Carbon\Carbon::parse($startTime)->translatedFormat('d F Y') }}
                     </p>
                 
                     <!-- Menggunakan Flexbox untuk mengatur Total Soal dan Skor agar bersebelahan -->
@@ -51,17 +51,17 @@
                 <div class="lg:w-2/3 md:max-h-[55vh] bg-white shadow-md rounded-lg border p-6 overflow-y-auto scrollbar-hide max-h-[calc(100vh-200px)]">
                     <h2 class="text-lg font-semibold text-gray-700 mb-4 border-b-2 pb-2">Detail Jawaban</h2>
                     @foreach ($results as $result)
-                        <div class="border-b border-gray-200 py-4">
-                            <p class="font-semibold text-gray-700">{{ $result['question'] }}</p>
+                        <div class="border-b border-gray-200 py-2">
+                            <p class="font-medium text-gray-700">{{ $result['question'] }}</p>
                             <p class="mt-1">
-                                <span class="font-medium text-gray-600">Jawaban Anda :</span>
-                                <span class="{{ $result['is_correct'] ? 'text-green-500' : 'text-red-500' }}">
+                                <span class="text-sm text-gray-600">Jawaban Anda :</span>
+                                <span class="{{ $result['is_correct'] ? 'text-green-500 text-sm' : 'text-red-500 text-sm' }}">
                                     {{ $result['submitted_answer'] ?? 'Tidak dijawab' }}
                                 </span>
                             </p>
                             <p class="mt-1">
-                                <span class="font-medium text-gray-600">Jawaban Benar :</span>
-                                <span class="text-green-500">{{ $result['correct_answer'] }}</span>
+                                <span class="text-sm text-gray-600">Jawaban Benar :</span>
+                                <span class="text-green-500 text-sm">{{ $result['correct_answer'] }}</span>
                             </p>
                         </div>
                     @endforeach

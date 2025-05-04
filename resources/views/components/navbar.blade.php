@@ -54,7 +54,7 @@
         </div>
         <div>
           <a href="{{ route('tentang.kami') }}"
-            class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('tentang.kami') ? 'border-b-2 border-midnight' : '' }}"
+            class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('tentang.kami') ? 'font-semibold border-midnight' : '' }}"
             id="link-about">
             Tentang
           </a>

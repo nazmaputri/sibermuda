@@ -40,14 +40,32 @@ class SettingController extends Controller
     
     public function update(Request $request)
     {
-        // Validasi data
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'password' => 'nullable|confirmed|min:8',
             'phone_number' => 'nullable|string|max:15',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
-        ]);
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa string.',
+            'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+            
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+            
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'password.min' => 'Kata sandi harus memiliki minimal 8 karakter.',
+            
+            'phone_number.string' => 'Nomor telepon harus berupa string.',
+            'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 15 karakter.',
+            
+            'photo.image' => 'File yang diupload harus berupa gambar.',
+            'photo.mimes' => 'Gambar harus memiliki format: jpeg, png, jpg, gif, svg.',
+            'photo.max' => 'Ukuran gambar maksimal 2MB.',
+        ]);        
 
         // Ambil user yang sedang login
         $user = Auth::user();
