@@ -15,13 +15,13 @@
 <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
 
     <!-- Judul Halaman -->
-    <h1 class="text-xl text-center text-gray-700 font-semibold mb-4 border-b-2 pb-2 capitalize">Detail Materi : {{ $materi->judul }}</h1>
+    <h1 class="text-lg text-center text-gray-700 font-semibold mb-4 border-b-2 pb-2 capitalize">Detail Materi : {{ $materi->judul }}</h1>
 
     <!-- Nama Kursus -->
-    <p class="mt-2 text-gray-700"><span class="font-semibold">Kursus :</span> {{ $materi->course->title ?? 'Kursus tidak tersedia' }}</p>
+    <p class="mt-2 text-gray-700 text-sm"><span class="font-medium">Kursus :</span> {{ $materi->course->title ?? 'Kursus tidak tersedia' }}</p>
 
     <!-- Detail Materi -->
-    <p class="text-gray-700">{{ $materi->deskripsi ?? 'Tidak ada deskripsi' }}</p>
+    <p class="text-gray-700 text-sm">{{ $materi->deskripsi ?? 'Tidak ada deskripsi' }}</p>
 
     <!-- Video Section -->
     <div class="mt-2">
@@ -33,7 +33,7 @@
                 {{-- Google Drive Videos --}}
                 @if ($materi->videos->isNotEmpty())
                     <div>
-                        <h2 class="text-base font-semibold text-gray-700 mb-2">Video G-Drive</h2>
+                        <h2 class="text-sm font-medium text-gray-700 mb-2">Video G-Drive</h2>
                         <div class="grid grid-cols-1 gap-4">
                             @foreach ($materi->videos as $video)
                                 <div x-data="{ open: false }" 
@@ -41,7 +41,7 @@
                                 class="bg-white border rounded-lg p-2.5 flex flex-col self-start transition-colors duration-300">
                                     <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
                                     <div class="flex items-center space-x-2">
-                                        <span class="text-gray-500">{{ $loop->iteration }}.</span>
+                                        <span class="text-gray-700 font-medium">{{ $loop->iteration }}.</span>
                                         <h3 class="text-sm font-medium text-gray-700">{{ $video->title }}</h3>
                                     </div>
                                         <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,9 +58,9 @@
                                                 class="rounded-lg shadow-md">
                                             </iframe>
                                         @else
-                                            <p class="text-red-500">Video Google Drive tidak tersedia.</p>
+                                            <p class="text-red-500 text-sm">Video Google Drive tidak tersedia.</p>
                                         @endif
-                                        <p class="text-gray-700 mt-2">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
+                                        <p class="text-gray-700 mt-2 text-sm">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
                                     </div>
                                 </div>
                             @endforeach
@@ -71,7 +71,7 @@
                 {{-- YouTube Videos --}}
                 @if ($materi->youtube->isNotEmpty())
                     <div>
-                        <h2 class="text-base font-semibold text-gray-700 mb-2">Video YouTube</h2>
+                        <h2 class="text-sm font-medium text-gray-700 mb-2">Video YouTube</h2>
                         <div class="grid grid-cols-1 gap-4">
                             @foreach ($materi->youtube as $yt)
                                 <div x-data="{ open: false }" 
@@ -79,7 +79,7 @@
                                 class="bg-white border rounded-lg p-2.5 flex flex-col self-start transition-colors duration-300" >
                                     <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
                                     <div class="flex items-center space-x-2">
-                                        <span class="text-gray-500">{{ $loop->iteration }}.</span>
+                                        <span class="text-gray-700 font-medium">{{ $loop->iteration }}.</span>
                                         <h3 class="text-sm font-medium text-gray-700">{{ $yt->title }}</h3>
                                     </div>
                                         <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -97,9 +97,9 @@
                                                 class="rounded-lg shadow-md">
                                             </iframe>
                                         @else
-                                            <p class="text-red-500">Video YouTube tidak tersedia.</p>
+                                            <p class="text-red-500 text-sm">Video YouTube tidak tersedia.</p>
                                         @endif
-                                        <p class="text-gray-700 mt-2">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
+                                        <p class="text-gray-700 mt-2 text-sm">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
                                     </div>
                                 </div>
                             @endforeach

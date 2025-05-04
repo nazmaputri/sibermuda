@@ -14,7 +14,7 @@
 <div class="container mx-auto">
     <!-- Card Detail User -->
     <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-6 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
             <!-- Kolom Kiri: Foto Profil, Nama, Role -->
             <div class="flex flex-col items-center space-y-3">
                 <!-- Foto Profil -->
@@ -26,11 +26,11 @@
                 <p class="text-lg text-gray-700 font-semibold text-center md:text-left">{{ Str::limit($user->name, 35, '...') }}</p>
 
                 <!-- Role -->
-                <p class="text-gray-700 text-sm text-center md:text-left">{{ ucfirst($user->role) }}</p>
+                <p class="text-gray-700 text-sm text-center md:text-left">Peserta</p>
             </div>
 
             <!-- Kolom Kanan: Informasi Lainnya -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <div class="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                 <!-- Email -->
                 <div>
                     <h4 class="font-semibold text-gray-700 text-sm">Email:</h4>
@@ -66,7 +66,7 @@
 
     <div class="bg-white shadow-lg rounded-lg border border-gray-200 p-6 mb-6">
         <div class="text-left mb-4 border-b-2 border-gray-300 pb-2">
-            <h2 class="text-lg font-semibold text-gray-700">Kursus Yang Diikuti</h2>
+            <h2 class="text-md font-semibold text-gray-700">Kursus Yang Diikuti</h2>
         </div>
         <div class="overflow-x-auto">
             <div class="min-w-full w-64">

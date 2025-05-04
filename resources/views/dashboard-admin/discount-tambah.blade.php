@@ -4,7 +4,7 @@
 <div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
     <!-- Wrapper div dengan background putih, padding, dan shadow -->
     <div class="">
-        <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Diskon</h2>
+        <h2 class="text-lg font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Diskon</h2>
 
         <!-- Formulir Diskon -->
         <form action="{{ route('discount.store') }}" method="POST" class="mt-4 grid grid-col-1 md:grid-cols-2 space-x-3">
@@ -12,8 +12,8 @@
 
             <!-- Kode Kupon -->
             <div class="mb-4">
-                <label class="block text-gray-700 pb-2 font-semibold">Kode Diskon</label>
-                <input type="text" name="coupon_code" maxlength="12" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror" placeholder="Masukkan kode kupon">
+                <label class="block text-gray-700 pb-2 font-medium">Kode Diskon</label>
+                <input type="text" name="coupon_code" class="border p-2 w-full text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror" placeholder="Masukkan kode kupon">
                 @error('coupon_code')
                     <p class="text-red-500 text-sm mt-1" id="coupon_code-error">{{ $message }}</p>
                 @enderror
@@ -21,8 +21,8 @@
 
             <!-- Persen Diskon -->
             <div class="mb-4">
-                <label class="block text-gray-700 pb-2 font-semibold">Persen Diskon (%)</label>
-                <input type="number" name="discount_percentage" min="1" max="100" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('discount_percentage') border-red-500 @enderror" placeholder="Masukkan persentase diskon">
+                <label class="block text-gray-700 pb-2 font-medium">Persen Diskon (%)</label>
+                <input type="number" name="discount_percentage" min="1" max="100" class="border p-2 w-full text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('discount_percentage') border-red-500 @enderror" placeholder="Masukkan persentase diskon">
                 @error('discount_percentage')
                     <p class="text-red-500 text-sm mt-1" id="discount_percentage-error">{{ $message }}</p>
                 @enderror
@@ -30,8 +30,8 @@
 
             <!-- Tanggal Mulai -->
             <div class="mb-4">
-                <label class="block text-gray-700 pb-2 font-semibold">Tanggal Mulai</label>
-                <input type="date" name="start_date" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
+                <label class="block text-gray-700 pb-2 font-medium">Tanggal Mulai</label>
+                <input type="date" name="start_date" class="border p-2 w-full text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
                 @error('start_date')
                     <p class="text-red-500 text-sm mt-1" id="start_date-error">{{ $message }}</p>
                 @enderror
@@ -39,8 +39,8 @@
 
             <!-- Tanggal Berakhir -->
             <div class="mb-4">
-                <label class="block text-gray-700 pb-2 font-semibold">Tanggal Berakhir</label>
-                <input type="date" name="end_date" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
+                <label class="block text-gray-700 pb-2 font-medium">Tanggal Berakhir</label>
+                <input type="date" name="end_date" class="border p-2 w-full text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
                 @error('end_date')
                     <p class="text-red-500 text-sm mt-1" id="end_date-error">{{ $message }}</p>
                 @enderror
@@ -48,8 +48,8 @@
 
             <!-- Jam Mulai -->
             <div class="mb-4">
-                <label class="block text-gray-700 pb-2 font-semibold">Jam Mulai</label>
-                <input type="time" name="start_time" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_time') border-red-500 @enderror">
+                <label class="block text-gray-700 pb-2 font-medium">Jam Mulai</label>
+                <input type="time" name="start_time" class="border p-2 w-full text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_time') border-red-500 @enderror">
                 @error('start_time')
                     <p class="text-red-500 text-sm mt-1" id="start_time-error">{{ $message }}</p>
                 @enderror
@@ -57,8 +57,8 @@
 
             <!-- Jam Berakhir -->
             <div class="mb-4">
-                <label class="block text-gray-700 pb-2 font-semibold">Jam Berakhir</label>
-                <input type="time" name="end_time" class="border px-4 py-2 w-full text-sm text-gray-700 rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_time') border-red-500 @enderror">
+                <label class="block text-gray-700 pb-2 font-medium">Jam Berakhir</label>
+                <input type="time" name="end_time" class="border p-2 w-full text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_time') border-red-500 @enderror">
                 @error('end_time')
                     <p class="text-red-500 text-sm mt-1" id="end_time-error">{{ $message }}</p>
                 @enderror
@@ -76,7 +76,7 @@
 
             <!-- Dropdown Pilih Kursus -->
             <div id="courseSelection" class="mt-4" x-data="{ open: false, selectedCourses: [], searchTerm: '' }" x-show="!applyToAll">
-                <label class="block text-gray-700 pb-2 font-semibold">Pilih Kursus</label>
+                <label class="block text-gray-700 pb-2 font-medium">Pilih Kursus</label>
 
                 <div class="relative">
                     <!-- Button untuk membuka dropdown -->
@@ -94,7 +94,7 @@
                     <div x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg">
                         <div class="p-2">
                             <input type="text" placeholder="Cari kursus..." x-model="searchTerm"
-                                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                                class="w-full text-sm text-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                         </div>
                         <ul class="max-h-40 overflow-y-auto">
                             @foreach($courses as $course)
@@ -123,10 +123,10 @@
 
             <!-- Tombol -->
             <div class="col-span-1 md:col-span-2 mt-6 flex justify-end space-x-2">
-                <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-md">
+                <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
                     Batal
                 </a>
-                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-md">
+                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-md">
                     Simpan
                 </button>
             </div>

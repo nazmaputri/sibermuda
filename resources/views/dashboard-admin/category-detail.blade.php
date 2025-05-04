@@ -25,7 +25,7 @@
         <div class="w-full md:w-2/3 space-y-2 mt-4 md:mt-0 md:ml-4">
             <h2 class="text-md text-gray-700 font-semibold mb-2 capitalize">{{ $category->name }}</h2>
             <p class="text-sm text-gray-700 mb-2">{{ $category->description }}</p>
-            <p class="text-sm text-gray-600">Total kursus : {{ $category->courses->count() }} kursus</p>
+            <p class="text-sm text-gray-700">Total kursus : {{ $category->courses->count() }} kursus</p>
         </div>
     </div>  
 </div>

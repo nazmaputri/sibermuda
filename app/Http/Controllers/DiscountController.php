@@ -146,7 +146,7 @@ class DiscountController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'coupon_code' => 'required|unique:discounts,coupon_code',
+            'coupon_code' => 'required|unique:discounts,coupon_code|max:12',
             'discount_percentage' => 'required|integer|min:1|max:100',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -157,6 +157,7 @@ class DiscountController extends Controller
         ], [
             'coupon_code.required' => 'Kode kupon wajib diisi.',
             'coupon_code.unique' => 'Kode kupon sudah digunakan, silakan gunakan kode lain.',
+            'coupon_code.max'      => 'Kode kupon maksimal 12 karakter.',
             'discount_percentage.required' => 'Persentase diskon wajib diisi.',
             'discount_percentage.integer' => 'Persentase diskon harus berupa angka.',
             'discount_percentage.min' => 'Persentase diskon minimal 1%.',

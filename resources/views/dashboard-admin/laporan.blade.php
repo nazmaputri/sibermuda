@@ -207,7 +207,7 @@
                             <td class="px-4 py-2 border-b border-gray-200 -center text-green-600">
                                 Rp. {{ number_format(optional($purchase)->harga_course, 0, ',', '.') }}
                             </td>                            
-                            <td class="px-4 py-2 text-center border-b border-gray-200 border-r">{{ $purchase->created_at->format('d F Y') }}</td>
+                            <td class="px-4 py-2 text-center border-b border-gray-200 border-r">{{ $purchase->created_at->translatedFormat('d F Y') }}</td>
                         </tr>
                     @endforeach
                     @endif

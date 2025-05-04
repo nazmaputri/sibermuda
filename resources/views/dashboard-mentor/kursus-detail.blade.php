@@ -77,7 +77,7 @@
     </div>
                     
     <div class="text-right">
-        <a href="{{ route('materi.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
+        <a href="{{ route('materi.create', ['courseId' => $course->id]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-medium py-2 px-4 rounded-md">
             <!-- Ikon muncul pada semua ukuran layar -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -92,7 +92,7 @@
         <div class="min-w-full w-64">
             <table class="min-w-full mt-4 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-gray-100 text-sm text-gray-500">
+                    <tr class="bg-gray-100 text-sm text-gray-600">
                         <th class="px-4 py-2 border-b border-t border-l border-gray-200 rounded-tl-lg">No</th>
                         <th class="px-4 py-2  border-b border-t border-gray-200">Judul</th>
                         <th class="px-4 py-2  border-b border-t border-gray-200">Kursus</th>
@@ -112,8 +112,8 @@
                     @foreach ($materi as $index => $materiItem)
                         <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500">
                             <td class="px-4 py-2 text-center border-b border-l  border-gray-200">{{ $startNumber + $index }}</td>
-                            <td class="px-4 py-2 border-b border-gray-200">{{ $materiItem->judul }}</td>
-                            <td class="px-4 py-2 border-b border-gray-200">{{ $materiItem->course->title ?? 'Kursus tidak ditemukan' }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200">{{ Str::limit($materiItem->judul, 45) }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200">{{ Str::limit($materiItem->course->title ?? 'Kursus tidak ditemukan', 20) }}</td>
                             <td class="py-2 px-4 text-center border-b  border-r border-gray-200">
                             <div class="flex items-center justify-center space-x-4">
                                 <!-- Toggle preview -->
@@ -184,7 +184,7 @@
                 $quizExists = $course->quizzes()->exists(); // Cek apakah sudah ada kuis
             @endphp
             <a href="{{ route('quiz.create', ['courseId' => $course->id]) }}" 
-            class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md @if ($quizExists) cursor-not-allowed opacity-50 @endif"
+            class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-medium py-2 px-4 rounded-md @if ($quizExists) cursor-not-allowed opacity-50 @endif"
             @if ($quizExists) onclick="return false;" @endif>
                 <!-- Ikon muncul pada semua ukuran layar -->
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -210,7 +210,7 @@
                         @foreach($quizzes as $index => $quiz)
                         <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-600">
                             <td class="px-2 py-2 text-center border-b border-l  border-gray-200">{{ $startNumber + $index }}</td>
-                            <td class="px-4 py-2 text-center border-b border-gray-200">{{ $quiz->title }}</td>
+                            <td class="px-4 py-2 text-center border-b border-gray-200">{{ Str::limit($quiz->title, 45) }}</td>
                             <td class="px-4 py-2 text-center border-b border-gray-200">{{ $quiz->duration }} menit</td>
                             <td class="px-4 py-2 border-b  border-r border-gray-200">
                                 <div class="flex items-center justify-center space-x-6">
@@ -259,14 +259,14 @@
     <!-- Section Tugas Akhir -->
     <div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
         <div class="mb-2 flex items-center justify-between p-1 border-b-2">
-            <h2 class="text-xl font-semibold text-gray-700 pt-2">Tugas Akhir</h2>                                                     
+            <h2 class="text-lg font-semibold text-gray-700 pt-2">Tugas Akhir</h2>                                                     
         </div>
         <div class="text-right">
             @php
                 $finalTaskExists = $course->finalTask()->exists(); // Cek apakah sudah ada tugas akhir
             @endphp
             <a href="{{ route('finaltask.create', ['courseId' => $course->id]) }}" 
-            class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md @if ($finalTaskExists) cursor-not-allowed opacity-50 @endif"
+            class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-medium py-2 px-4 rounded-md @if ($finalTaskExists) cursor-not-allowed opacity-50 @endif"
             @if ($finalTaskExists) onclick="return false;" @endif>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -279,7 +279,7 @@
             <div class="min-w-full w-64">
                 <table class="min-w-full mt-4 border-separate border-spacing-0">
                     <thead>
-                        <tr class="bg-gray-100 text-gray-500 text-sm">
+                        <tr class="bg-gray-100 text-gray-600 text-sm">
                             <th class="px-2 py-2 text-center border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
                             <th class="px-4 py-2 border-b border-t border-gray-200">Judul</th>
                             <th class="px-4 py-2 border-b border-t border-gray-200">Deskripsi</th>
@@ -290,8 +290,8 @@
                         @forelse($finalTasks as $index => $task)
                         <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500">
                             <td class="px-2 py-2 text-center border-b border-l border-gray-200">{{ $startNumber + $index }}</td>
-                            <td class="px-4 py-2 border-b border-gray-200">{{ $task->judul }}</td>
-                            <td class="px-4 py-2 border-b border-gray-200">{{ $task->desc }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200">{{ Str::limit($task->judul, 45) }}</td>
+                            <td class="px-4 py-2 border-b border-gray-200">{{ Str::limit($task->desc, 45) }}</td>
                             <td class="px-4 py-2 border-b border-r border-gray-200">
                                 <div class="flex items-center justify-center space-x-6">
                                     <a href="{{ route('finaltask.detail', ['course' => $course->id, 'id' => $task->id]) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
@@ -334,7 +334,7 @@
         <div class="min-w-full w-64">
             <table class="min-w-full mt-2 border-separate border-spacing-0" id="courseTable">
                 <thead>
-                    <tr class="bg-gray-100 text-gray-500 text-sm">
+                    <tr class="bg-gray-100 text-gray-600 text-sm">
                         <th class="py-2 px-2 border-b border-t border-l border-gray-200 rounded-tl-lg">No</th>
                         <th class="py-2 px-4 border-b border-t border-gray-200">Nama Peserta</th>
                         <th class="py-2 px-4 border-b border-t border-gray-200">Email</th>
@@ -373,7 +373,7 @@
         <div class="min-w-full w-64">
             <table class="min-w-full text-sm mt-2 border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-gray-100 text-gray-500">
+                    <tr class="bg-gray-100 text-gray-600">
                         <th class="px-2 py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">No</th>
                         <th class="px-4 py-2 border-b border-t border-gray-200">Nama</th>
                         <th class="px-4 py-2 border-b border-t border-gray-200">Rating</th>
@@ -384,7 +384,7 @@
                 </thead>
                 <tbody>
                     @forelse ($ratings as $index => $rating)
-                    <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500">
+                    <tr class="bg-white hover:bg-gray-50 user-row text-sm text-gray-500 text-sm">
                         <td class="text-center px-4 py-2 border-b border-l border-gray-200">{{ $index + 1 }}</td>
                         <td class="px-4 py-2 border-b border-gray-200">{{ $rating->user->name }}</td>
                         <td class="px-4 py-2 border-b border-gray-200 text-center">
@@ -401,7 +401,7 @@
                                     ? ['label' => 'Ditampilkan', 'bg' => 'bg-green-200/50', 'border' => 'border-green-300', 'text' => 'text-green-500']
                                     : ['label' => 'Disembunyikan', 'bg' => 'bg-red-200/50', 'border' => 'border-red-300', 'text' => 'text-red-500'];
                             @endphp
-                            <span class="inline-block min-w-[120px] px-2 py-0.5 rounded-xl border-2 text-center
+                            <span class="inline-block min-w-[120px] px-2 py-0.5 rounded-xl border-2 text-center text-sm
                                 {{ $displayStatus['bg'] }} {{ $displayStatus['border'] }} {{ $displayStatus['text'] }}">
                                 {{ $displayStatus['label'] }}
                             </span>

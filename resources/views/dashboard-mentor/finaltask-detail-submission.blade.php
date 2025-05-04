@@ -17,26 +17,26 @@
     @endpush
     
     <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-gray-200">
-        <h1 class="text-lg font-semibold text-center text-gray-700 mb-6 border-b pb-3">Detail Jawaban Tugas Akhir</h1>
+    <h1 class="text-lg font-semibold text-gray-700 mb-4 border-b-2 text-center">Detail Jawaban Tugas Akhir</h1>
     
         <div class="space-y-3 text-sm md:text-base text-gray-700">
-            <div class="flex flex-wrap items-start">
-                <span class="font-semibold w-24">Nama</span><span class="mr-2">:</span>
+            <div class="flex flex-wrap items-start text-sm">
+                <span class="font-medium w-24">Nama</span><span class="mr-2">:</span>
                 <span>{{ $submission->user->name }}</span>
             </div>
-            <div class="flex flex-wrap items-start">
-                <span class="font-semibold w-24">Judul</span><span class="mr-2">:</span>
+            <div class="flex flex-wrap items-start text-sm">
+                <span class="font-medium w-24">Judul</span><span class="mr-2">:</span>
                 <span>{{ $submission->title }}</span>
             </div>
-            <div class="flex flex-wrap items-start">
-                <span class="font-semibold w-24">Deskripsi</span><span class="mr-2">:</span>
+            <div class="flex flex-wrap items-start text-sm">
+                <span class="font-medium w-24">Deskripsi</span><span class="mr-2">:</span>
                 <span>{{ $submission->description }}</span>
             </div>
         </div>
     
         <div class="mt-3">
             <div class="flex flex-wrap items-start mb-2">
-                <span class="font-semibold w-24 text-gray-700">Foto</span><span class="mr-2">:</span>
+                <span class="font-medium w-24 text-gray-700 text-sm">Foto</span><span class="mr-2">:</span>
             </div>
     
             @if ($submission->photo && count($submission->photo))

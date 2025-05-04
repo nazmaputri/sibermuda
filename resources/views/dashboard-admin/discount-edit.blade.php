@@ -2,7 +2,7 @@
 @section('title', 'Edit Diskon')
 @section('content')
 <div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
-    <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Edit Diskon</h2>
+    <h2 class="text-lg font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Edit Diskon</h2>
 
     <form action="{{ route('discount.update', $discount->id) }}" method="POST" class="mt-4 grid grid-col-1 md:grid-cols-2 space-x-3">
         @csrf
@@ -10,8 +10,8 @@
 
         <!-- Kode Kupon -->
         <div class="mb-4">
-            <label class="block text-gray-600 font-semibold">Kode Diskon</label>
-            <input type="text" name="coupon_code" maxlength="12" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror">
+            <label class="block text-gray-700 font-medium">Kode Diskon</label>
+            <input type="text" name="coupon_code" maxlength="12" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border p-2 mt-2 text-sm text-gray-700 w-full rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror">
             @error('coupon_code')
                 <p class="text-red-500 text-sm mt-1" id="coupon_code-error">{{ $message }}</p>
             @enderror
@@ -19,8 +19,8 @@
 
         <!-- Persen Diskon -->
         <div class="mb-4">
-            <label class="block text-gray-600 font-semibold">Persen Diskon (%)</label>
-            <input type="number" name="discount_percentage" min="1" max="100" value="{{ old('discount_percentage', $discount->discount_percentage) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('discount_percentage') border-red-500 @enderror">
+            <label class="block text-gray-700 font-medium">Persen Diskon (%)</label>
+            <input type="number" name="discount_percentage" min="1" max="100" value="{{ old('discount_percentage', $discount->discount_percentage) }}" class="border p-2 mt-2 text-sm text-gray-700 w-full rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('discount_percentage') border-red-500 @enderror">
             @error('discount_percentage')
                 <p class="text-red-500 text-sm mt-1" id="discount_percentage-error">{{ $message }}</p>
             @enderror
@@ -28,8 +28,8 @@
 
         <!-- Tanggal Mulai -->
         <div class="mb-4">
-            <label class="block text-gray-600 font-semibold">Tanggal Mulai</label>
-            <input type="date" name="start_date" value="{{ old('start_date', $discount->start_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
+            <label class="block text-gray-700 font-medium">Tanggal Mulai</label>
+            <input type="date" name="start_date" value="{{ old('start_date', $discount->start_date) }}" class="border p-2 mt-2 text-sm text-gray-700 w-full rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
             @error('start_date')
                 <p class="text-red-500 text-sm mt-1" id="start_date-error">{{ $message }}</p>
             @enderror
@@ -37,8 +37,8 @@
 
         <!-- Tanggal Berakhir -->
         <div class="mb-4">
-            <label class="block text-gray-600 font-semibold">Tanggal Berakhir</label>
-            <input type="date" name="end_date" value="{{ old('end_date', $discount->end_date) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
+            <label class="block text-gray-700 font-medium">Tanggal Berakhir</label>
+            <input type="date" name="end_date" value="{{ old('end_date', $discount->end_date) }}" class="border p-2 mt-2 text-sm text-gray-700 w-full rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror" min="{{ \Carbon\Carbon::today()->toDateString() }}">
             @error('end_date')
                 <p class="text-red-500 text-sm mt-1" id="end_date-error">{{ $message }}</p>
             @enderror
@@ -46,8 +46,8 @@
 
         <!-- Jam Mulai -->
         <div class="mb-4">
-            <label class="block text-gray-600 font-semibold">Jam Mulai</label>
-            <input type="time" name="start_time" value="{{ old('start_time', $discount->start_time) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_time') border-red-500 @enderror">
+            <label class="block text-gray-700 font-medium">Jam Mulai</label>
+            <input type="time" name="start_time" value="{{ old('start_time', $discount->start_time) }}" class="border p-2 mt-2 text-sm text-gray-700 w-full rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_time') border-red-500 @enderror">
             @error('start_time')
                 <p class="text-red-500 text-sm mt-1" id="start_time-error">{{ $message }}</p>
             @enderror
@@ -55,8 +55,8 @@
 
         <!-- Jam Berakhir -->
         <div class="mb-4">
-            <label class="block text-gray-600 font-semibold">Jam Berakhir</label>
-            <input type="time" name="end_time" value="{{ old('end_time', $discount->end_time) }}" class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_time') border-red-500 @enderror">
+            <label class="block text-gray-700 font-medium">Jam Berakhir</label>
+            <input type="time" name="end_time" value="{{ old('end_time', $discount->end_time) }}" class="border p-2 mt-2 text-sm text-gray-700 w-full rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_time') border-red-500 @enderror">
             @error('end_time')
                 <p class="text-red-500 text-sm mt-1" id="end_time-error">{{ $message }}</p>
             @enderror
@@ -67,14 +67,14 @@
             <input type="hidden" name="apply_to_all" value="0">
             <label class="flex items-center space-x-2">
                 <input type="checkbox" name="apply_to_all" id="applyToAll" value="1" {{ $discount->apply_to_all ? 'checked' : '' }}
-                    class="rounded border-gray-300 text-blue-600 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                    class="rounded border-gray-300 text-blue-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                 <span class="text-gray-700">Terapkan ke semua kursus</span>
             </label>
         </div>
 
         <!-- Dropdown Pilih Kursus (jika tidak berlaku untuk semua) -->
         <div id="courseSelection" class="mt-4" x-data="{ open: false, selectedCourses: @json($discount->course_ids ?? []) }" x-show="!$refs.applyToAll.checked">
-            <label class="block text-gray-600 font-semibold">Pilih Kursus</label>
+            <label class="block text-gray-700 font-medium">Pilih Kursus</label>
             <div class="relative">
                 <button @click="open = !open" type="button"
                     class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
@@ -103,10 +103,10 @@
 
         <!-- Tombol -->
         <div class="col-span-1 md:col-span-2 mt-6 flex justify-end space-x-2">
-            <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg">
+            <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-lg">
                 Batal
             </a>
-            <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg">
+            <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-lg">
                 Simpan
             </button>
         </div>
