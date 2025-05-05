@@ -38,15 +38,15 @@
     
     @if($discount && now()->lt($end_datetime))
         <section id="promo" class="bg-red-600 text-white px-4 py-2 text-center pt-[90px] fixed w-full z-40">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 pb-3 mx-14">
+            <div class="max-w-7xl flex flex-col md:flex-row items-center justify-between gap-4 pb-3 mx-2 md:mx-14">
                 <!-- Promo text -->
-                <div class="text-sm sm:text-base font-semibold">
+                <div class="text-sm sm:text-base font-medium">
                     Promo Diskon {{ $discount->discount_percentage }}%! <br class="md:hidden" />
                     <span class="font-normal">Berlaku sampai {{ \Carbon\Carbon::parse($discount->end_date)->locale('id')->translatedFormat('d F Y') }}!</span>
                 </div>
 
                 <!-- Countdown -->
-                <div class="flex items-center gap-2 text-sm sm:text-base font-bold" id="countdown">
+                <div class="flex items-center gap-2 text-sm sm:text-base font-medium" id="countdown">
                     <span><span id="days">00</span><span class="text-xs font-normal ml-1">Hari</span></span>
                     <span><span id="hours">00</span><span class="text-xs font-normal ml-1">Jam</span></span>
                     <span><span id="minutes">00</span><span class="text-xs font-normal ml-1">Menit</span></span>
@@ -60,7 +60,7 @@
                     </button>
                     <div class="relative inline-block">
                         <button
-                            class="bg-sky-500 text-white font-semibold px-3 py-1 rounded hover:bg-sky-400 text-sm"
+                            class="bg-sky-500 text-white font-medium px-3 py-1 rounded hover:bg-sky-400 text-sm"
                             onclick="copyToClipboard(this, '{{ $discount->coupon_code }}')">
                             SALIN
                         </button>

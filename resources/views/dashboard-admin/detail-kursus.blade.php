@@ -40,7 +40,7 @@
 
     <!-- Silabus -->
     <div class="mt-10">
-        <h3 class="text-lg font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
+        <h3 class="text-md font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Materi Kursus</h3>
         <div class="space-y-6">
             @if($course->materi->isEmpty())
                 <div class="col-span-full text-center items-center justify-center flex flex-col">
@@ -56,11 +56,11 @@
                     <!-- Judul Materi dengan Toggle Dropdown -->
                     <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
                         <!-- Menambahkan nomor urut di sebelah kiri judul -->
-                        <span class="text-gray-700 text-sm font-semibold mr-2">
+                        <span class="text-gray-700 text-sm font-medium mr-2">
                             {{ sprintf('%02d', $loop->iteration) }}.
                         </span>
                         
-                        <h4 class="text-sm font-semibold text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
+                        <h4 class="text-sm font-medium text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
                                                 
                         <!-- Tombol Toggle -->
                         <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 text-gray-600 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,7 +80,7 @@
                                 {{-- Google Drive Videos --}}
                                 @foreach ($materi->videos as $video)
                                     <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                        <h3 class="font-semibold text-sm text-gray-700 mb-1.5">{{ $video->title }}</h3>
+                                        <h3 class="font-medium text-sm text-gray-700 mb-1.5">{{ $video->title }}</h3>
                                         @if ($video->link)
                                             <iframe
                                                 src="https://drive.google.com/file/d/{{ $video->link }}/preview"

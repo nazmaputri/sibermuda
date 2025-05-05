@@ -185,6 +185,10 @@ class QuizController extends Controller
                 }
             }
 
+            // Redirect ke halaman course.show setelah berhasil
+            return redirect()->route('courses.show', ['course' => $course->id])
+            ->with('success', 'Kuis berhasil ditambahkan.');
+
         } catch (\Exception $e) {
             return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil diupdate');
         }

@@ -75,7 +75,7 @@
     <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6 mb-6 mt-10">
         <div class="flex flex-col items-center mb-4">
           <div class="flex items-center space-x-4">
-            <h2 class="text-xl font-semibold pb-1 text-gray-700">
+            <h2 class="text-lg font-medium pb-1 text-gray-700">
               Laporan Perkembangan Pengguna Bulanan
             </h2>
             <select id="yearFilter" class="p-1 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-200">

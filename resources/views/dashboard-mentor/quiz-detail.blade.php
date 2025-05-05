@@ -14,10 +14,10 @@
     <!-- Card Wrapper untuk Kuis -->
     <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
         <!-- Judul Kuis -->
-        <h1 class="text-xl text-gray-700 text-center font-semibold mb-3 border-b-2 pb-2 capitalize">{{ $quiz->title }}</h1>
+        <h1 class="text-lg text-gray-700 text-center font-semibold mb-3 border-b-2 pb-2 capitalize">{{ $quiz->title }}</h1>
 
         <!-- Deskripsi Kuis -->
-        <p class="text-gray-700 mb-2 text-md">
+        <p class="text-gray-700 mb-2 text-sm">
             {{ $quiz->description ?? 'Tidak ada deskripsi untuk kuis ini.' }}
         </p>
 
@@ -38,7 +38,7 @@
                 <!-- Header Soal -->
                 <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
                     <div class="flex items-start">
-                        <span class="text-sm text-gray-700 font-semibold mr-2">{{ $index + 1 }}.</span>
+                        <span class="text-sm text-gray-700 font-medium mr-2">{{ $index + 1 }}.</span>
                         <p class="text-sm font-medium text-gray-700 capitalize">{{ $question->question }}</p>
                     </div>
                     <!-- Icon Dropdown -->
@@ -49,10 +49,10 @@
 
                 <!-- Dropdown Content -->
                 <div x-show="open" x-collapse class="mt-4 overflow-hidden">
-                    <p class="text-sm font-semibold text-gray-500 mb-2">Jawaban:</p>
+                    <p class="text-sm font-medium text-gray-500 mb-2">Jawaban:</p>
                     <ul class="list-none space-y-2">
                         @foreach($question->answers as $answer)
-                        <li class="p-2 border border-gray-200 rounded-md text-sm {{ $answer->is_correct ? 'bg-green-50 text-green-600 font-semibold' : 'bg-gray-50 text-gray-600' }}">
+                        <li class="p-2 border border-gray-200 rounded-md text-sm {{ $answer->is_correct ? 'bg-green-50 text-green-600 font-medium' : 'bg-gray-50 text-gray-600' }}">
                             {{ $answer->answer }}
                         </li>
                         @endforeach
@@ -70,7 +70,7 @@
             @if(isset($materiId))
                 {{-- Jika sedang membuat kuis biasa --}}
                 <a href="{{ route('materi.show', ['courseId' => $course->id, 'materiId' => $materi->id]) }}"
-                class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg">
+                class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-lg">
                     Kembali
                 </a>
             @else

@@ -17,11 +17,11 @@
         <h1 class="text-lg font-semibold text-gray-700 mb-4 border-b-2 text-center">Detail Tugas Akhir</h1>
         <div class="space-y-2 text-sm text-gray-600">
             <div class="flex flex-wrap">
-                <span class="font-semibold w-16 min-w-[0]">Judul</span><span class="mr-1">:</span>
+                <span class="font-medium w-16 min-w-[0]">Judul</span><span class="mr-1">:</span>
                 <span class="">{{ $finalTask->judul }}</span>
             </div>
             <div class="flex flex-wrap">
-                <span class="font-semibold w-16 min-w-[0]">Deskripsi</span><span class="mr-1">:</span>
+                <span class="font-medium w-16 min-w-[0]">Deskripsi</span><span class="mr-1">:</span>
                 <span class="">{{ $finalTask->desc }}</span>
             </div>
         </div>
@@ -29,7 +29,7 @@
 
     <!-- Table: Peserta yang sudah mengumpulkan -->
     <div class="bg-white rounded-lg shadow p-6 mb-8 border border-gray-200">
-        <h2 class="text-lg text-gray-700 font-semibold mb-4">Peserta yang Telah Mengumpulkan</h2>
+        <h2 class="text-md text-gray-700 font-semibold mb-4">Peserta yang Telah Mengumpulkan</h2>
         <div class="overflow-x-auto">
            <div class="min-w-full w-64">
            <table class="min-w-full border-separate border-spacing-0">

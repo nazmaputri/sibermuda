@@ -4,7 +4,7 @@
 <div class="container mx-auto">
     <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <!-- Judul Halaman -->
-        <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Kuis</h2>
+        <h2 class="text-lg font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Kuis</h2>
 
         {{-- @if ($errors->any())
             <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
@@ -17,12 +17,12 @@
         @endif --}}
 
         <!-- Form Tambah Kuis -->
-        <form action="{{ route('quiz.store', ['courseId' => $courseId]) }}" method="POST" class="space-y-6">    
+        <form action="{{ route('quiz.store', ['courseId' => $courseId]) }}" method="POST" class="space-y-3">    
     @csrf
     <!-- Input untuk Judul Kuis -->
      <div>
-        <label for="title" class="block text-gray-700 font-semibold mb-2">Judul Kuis</label>
-        <input type="text" name="title" id="title" class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-600 @error('title') border-red-500 @enderror" placeholder="Masukkan judul kuis" value="{{ old('title') }}">
+        <label for="title" class="block text-gray-700 font-medium mb-1">Judul Kuis</label>
+        <input type="text" name="title" id="title" class="w-full p-2 border text-sm rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700 @error('title') border-red-500 @enderror" placeholder="Masukkan judul kuis" value="{{ old('title') }}">
         @error('title')
             <div class="text-red-600 text-sm mt-1 error-message" id="error-title">{{ $message }}</div>
         @enderror
@@ -30,8 +30,8 @@
 
     <!-- Input untuk Deskripsi Kuis -->
     <div>
-        <label for="description" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
-        <textarea name="description" id="description" rows="5" class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-600 @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kuis">{{ old('description') }}</textarea>
+        <label for="description" class="block text-gray-700 font-medium mb-1">Deskripsi</label>
+        <textarea name="description" id="description" rows="5" class="w-full p-2 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700 @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kuis">{{ old('description') }}</textarea>
         @error('description')
             <div class="text-red-600 text-sm mt-1 error-message" id="error-description">{{ $message }}</div>
         @enderror
@@ -39,28 +39,28 @@
 
     <!-- Input untuk Waktu Pengerjaan Kuis -->
     <div>
-        <label for="duration" class="block text-gray-700 font-semibold mb-2">Durasi (menit)</label>
-        <input type="number" name="duration" id="duration" class="w-full p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-600 @error('duration') border-red-500 @enderror" placeholder="Masukkan durasi kuis (menit)" value="{{ old('duration') }}" min="1">
+        <label for="duration" class="block text-gray-700 font-medium mb-1">Durasi (menit)</label>
+        <input type="number" name="duration" id="duration" class="w-full p-2 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700 @error('duration') border-red-500 @enderror" placeholder="Masukkan durasi kuis (menit)" value="{{ old('duration') }}" min="1">
         @error('duration')
             <div class="text-red-600 text-sm mt-1 error-message" id="error-duration">{{ $message }}</div>
         @enderror
     </div>
     <!-- Daftar Soal Dinamis -->
     <div id="questions-container">
-        <h3 class="text-md font-semibold mb-1 text-gray-700">Soal dan Jawaban</h3>
+        <h3 class="text-md font-medium mb-1 text-gray-700">Soal dan Jawaban</h3>
 
         <!-- Soal Template (untuk cloning) -->
         <template id="question-template">
             <div class="question-item border p-4 mb-4 rounded bg-white">
                 <!-- Menampilkan Nomor Soal -->
                 <div class="mb-3">
-                    <span class="text-md text-gray-700 font-semibold">Soal <span class="question-number"></span></span>
+                    <span class="text-md text-gray-700 font-medium">Soal <span class="question-number"></span></span>
                 </div>
 
                 <!-- Input Pertanyaan -->
                 <div class="mb-3">
-                    <label class="block text-gray-700 font-semibold mb-2">Soal</label>
-                    <input type="text" name="questions[0][question]" class="w-full p-2 border rounded question-input focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-600" placeholder="Masukkan teks soal" value="{{ old('questions.0.question') }}" >
+                    <label class="block text-gray-700 font-medium mb-2">Soal</label>
+                    <input type="text" name="questions[0][question]" class="w-full p-2 text-sm border rounded question-input focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700" placeholder="Masukkan teks soal" value="{{ old('questions.0.question') }}" >
                     @error('questions.*.question')
                         <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
                     @enderror
@@ -68,11 +68,11 @@
 
                 <!-- Input Jawaban Pilihan Ganda -->
                 <div class="answers-container">
-                    <label class="block text-gray-700 font-semibold mb-2">Jawaban Pilihan Ganda</label>
+                    <label class="block text-gray-700 font-medium mb-2">Jawaban Pilihan Ganda</label>
                     @for ($i = 0; $i < 4; $i++)
                         <div class="flex items-center mb-2">
                             <input type="radio" name="questions[0][correct_answer]" value="{{ $i }}" class="mr-2 answer-radio">
-                            <input type="text" name="questions[0][answers][]" class="w-full text-gray-600 p-2 border focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 rounded answer-input" placeholder="Masukkan jawaban" value="{{ old('questions.0.answers.' . $i) }}" >
+                            <input type="text" name="questions[0][answers][]" class="w-full text-sm text-gray-700 p-2 border focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 rounded answer-input" placeholder="Masukkan jawaban" value="{{ old('questions.0.answers.' . $i) }}" >
                             @error('questions.*.answers.*')
                                 <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
                             @enderror
@@ -84,7 +84,7 @@
                 </div>
 
                 <!-- Tombol Hapus Soal -->
-                <button type="button" onclick="removeQuestion(this)" class="text-white px-2 py-1 bg-red-400 hover:bg-red-300 text-sm rounded font-semibold mt-2">Hapus Soal</button>
+                <button type="button" onclick="removeQuestion(this)" class="text-white px-2 py-1 bg-red-400 hover:bg-red-300 text-sm rounded font-medium mt-2">Hapus</button>
             </div>
         </template>
 
@@ -92,7 +92,7 @@
         <div id="question-list"></div>
 
         <!-- Tombol Tambah Soal -->
-        <button type="button" onclick="addQuestion()" class="mt-1 bg-green-400 hover:bg-green-300 text-white font-semibold py-2 px-4 text-sm rounded">
+        <button type="button" onclick="addQuestion()" class="mt-1 bg-green-400 hover:bg-green-300 text-white font-medium py-2 px-4 text-sm rounded">
             Tambah Soal
         </button>
     </div>
@@ -101,10 +101,10 @@
     <div class="mt-6 flex justify-end space-x-2">
             {{-- Jika sedang membuat tugas akhir --}}
             <a href="{{ route('courses.show', ['course' => $course->id]) }}"
-            class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-md">
+            class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
                 Batal
             </a>
-        <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-md">
+        <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-md">
             Simpan
         </button>
     </div>

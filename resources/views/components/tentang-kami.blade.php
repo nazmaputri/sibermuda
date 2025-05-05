@@ -158,7 +158,7 @@
                     <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
                         <i class="fab fa-youtube"></i>
                     </a>
-                    <a href="https://www.instagram.com" target="_blank" class="text-gray-600 hover:text-pink-500 text-xl">
+                    <a href="https://www.instagram.com/ramahmdrr?igsh=MWNsa2gybmg2ZDlydQ==" target="_blank" class="text-gray-600 hover:text-pink-500 text-xl">
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div>
@@ -185,10 +185,13 @@
                     <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
+                    <a href="github.com/learningbydoing08" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="www.youtube.com/@learningbydoing_official" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
                         <i class="fab fa-youtube"></i>
                     </a>
-                    <a href="https://www.instagram.com" target="_blank" class="text-gray-600 hover:text-pink-500 text-xl">
+                    <a href="https://www.instagram.com/kiwkiwramadan_?igsh=MW9jcXJzbzNtN25oeg==" target="_blank" class="text-gray-600 hover:text-pink-500 text-xl">
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div>
