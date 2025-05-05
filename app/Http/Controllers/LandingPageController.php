@@ -143,6 +143,9 @@ class LandingPageController extends Controller
 
         $courses = Course::where('status', 'published')->get();
 
+        $totalMentor = User::where('role', 'mentor')->count();
+        $totalStudent = User::where('role', 'student')->count();
+
         // Menghitung rating rata-rata untuk setiap kursus dari tabel rating_kursus
         foreach ($courses as $course) {
             $course->video_count = MateriVideo::whereIn('materi_id', 
@@ -161,7 +164,7 @@ class LandingPageController extends Controller
         $ratings = Rating::all();
         
         // Kirim data ke view
-        return view('welcome', compact('category', 'courses', 'ratings', 'discount', 'start_datetime', 'end_datetime'));
+        return view('welcome', compact('category', 'courses', 'ratings', 'discount', 'start_datetime', 'end_datetime', 'totalMentor', 'totalStudent'));
     }
 
 }

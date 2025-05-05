@@ -26,21 +26,15 @@
 
     <!-- Button Group -->
     <div class="flex items-center gap-x-1 md:gap-x-2 ms-auto py-1 md:order-3 md:col-span-3">
-    <!-- Tombol Account -->
-        <a href="/register" type="button" class="group py-2 px-4 md:border-1 md:hover:bg-midnight border border-midnight md:border-midnight inline-flex items-center gap-x-2 text-sm font-medium rounded-xl md:rounded-full focus:outline-none transition ease-in-out duration-300">
-            <!-- Teks Account hanya tampil di layar medium ke atas -->
-            <span class="hidden md:block text-midnight group-hover:text-white transition-colors duration-300">Daftar</span>
-            
-            <!-- Ikon hanya tampil di layar kecil -->
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-midnight block md:hidden w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-            </svg>
+      <!-- Tombol Account hanya muncul di layar menengah keatas -->
+        <a href="/register" type="button"
+          class="hidden md:inline-flex group py-2 px-4 md:border-1 md:hover:bg-midnight border border-midnight md:border-midnight items-center gap-x-2 text-sm font-medium rounded-xl md:rounded-full focus:outline-none transition ease-in-out duration-300">
+            <!-- Teks Daftar -->
+            <span class="text-midnight group-hover:text-white transition-colors duration-300">Daftar</span>
         </a>
         <a href="/login" type="button" class="group py-2 px-4 border-white bg-midnight border hover:border-midnight hover:bg-white inline-flex items-center gap-x-2 text-sm font-medium rounded-xl md:rounded-full focus:outline-none transition ease-in-out duration-300">
-
             <!-- Teks Account hanya tampil di layar medium ke atas -->
             <span class="hidden md:block text-white group-hover:text-midnight hover:border-midnight transition-colors duration-300">Masuk</span>
-
             <!-- Ikon hanya tampil di layar kecil -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-white group-hover:text-midnight block md:hidden w-5 h-5 transition-colors duration-300">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963  0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15  9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -60,12 +54,12 @@
     <div id="hs-navbar-hcail" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6 bg-navbar-default md:bg-transparent rounded-lg pl-4 pb-4 pt-2 z-50 mt-2" aria-labelledby="hs-navbar-hcail-collapse">
       <div class="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
         <div>
-          <a href="{{ route('landingpage') }}" class="relative inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:translate-y-[-2px] " href="#" aria-current="page" id="link-home">
+          <a href="{{ route('landingpage') }}" class="relative inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:translate-y-0.5 {{ request()->routeIs('landingpage') ? 'font-semibold border-midnight' : '' }}" href="#" aria-current="page">
             Beranda
           </a>
         </div>
         <div>
-          <a href="{{ route('tentang.kami') }}"class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('tentang.kami') ? 'font-semibold border-midnight' : '' }}"id="link-about">
+          <a href="{{ route('tentang.kami') }}"class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('tentang.kami') ? 'font-semibold border-midnight' : '' }}">
             Tentang
           </a>
         </div>
@@ -75,7 +69,9 @@
           </a>
         </div>
         <div>
-          <a href="/category" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:translate-y-[-2px]"id="link-category">Kategori</a>
+          <a href="{{ route('category') }}" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:translate-y-0.5 {{ request()->routeIs('category') ? 'font-semibold border-midnight' : '' }}">
+            Kategori
+          </a>
         </div>
       </div>
     </div>

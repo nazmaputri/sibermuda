@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Protest+Guerrilla&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -47,28 +47,28 @@
                 Temukan berbagai kategori menarik dengan kursus berkualitas untuk meningkatkan keterampilan Anda.
             </p>
         </div>
-                <div class="space-y-12 px-6 py-10">
-                    @foreach($category as $index => $categoryItem)
-                        @php
-                            $isEven = $index % 2 === 0;
-                        @endphp
-                        <div class="flex flex-col md:flex-row {{ $isEven ? '' : 'md:flex-row-reverse' }} items-center bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden" data-aos="fade-up">
-                            <!-- Gambar -->
-                            <div class="md:w-1/2 p-6">
-                                <img src="{{ asset('storage/' . $categoryItem->image_path) }}" alt="{{ $categoryItem->name }}" class="w-full md:w-[350px] h-[300px] rounded-md shadow-sm" />
-                            </div>
+    <div class="space-y-12 px-6 py-10">
+        @foreach($category as $index => $categoryItem)
+            @php
+            $isEven = $index % 2 === 0;
+        @endphp
+        <div class="flex flex-col md:flex-row {{ $isEven ? '' : 'md:flex-row-reverse' }} items-center bg-white border border-gray-300 rounded-lg shadow-md overflow-hidden" data-aos="fade-up">
+            <!-- Gambar -->
+            <div class="md:w-1/2 p-6">
+                <img src="{{ asset('storage/' . $categoryItem->image_path) }}" alt="{{ $categoryItem->name }}" class="w-full h-auto md:h-72 object-contain md:object-cover rounded-md shadow-sm" />
+            </div>
                             
-                            <!-- Konten -->
-                            <div class="md:w-1/2 p-6">
-                                <h4 class="text-2xl font-bold text-gray-800 mb-2">{{ $categoryItem->name }}</h4>
-                                <p class="text-gray-600 mb-4 text-sm">{{ $categoryItem->description }}</p>
-                                <a href="{{ route('category.detail', $categoryItem->slug) }}" class="inline-block bg-[#08072a] text-white px-6 py-2 rounded-md shadow-md hover:bg-opacity-90 transition duration-300">
-                                    Lihat Kursus
-                                </a>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>                          
+            <!-- Konten -->
+            <div class="md:w-1/2 p-6">
+                <h4 class="text-2xl font-semibold text-gray-700 mb-2">{{ $categoryItem->name }}</h4>
+                <p class="text-gray-600 mb-4 text-sm">{{ $categoryItem->description }}</p>
+                <a href="{{ route('category.detail', $categoryItem->slug) }}" class="inline-block bg-[#08072a] text-sm text-white px-6 py-2 rounded-md shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
+                    Lihat Kursus
+                </a>
+            </div>
+        </div>
+        @endforeach
+    </div>                          
     </div>
     <style>
         /* Tailwind Custom CSS untuk menyembunyikan scrollbar */
@@ -89,7 +89,7 @@
     </style>
 </section>
 
-@include('components.footer') <!-- Menambahkan Navbar -->
+@include('components.footer') <!-- Menambahkan Footer -->
 
 <!-- AOS JS -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
@@ -103,54 +103,5 @@
 
 <!-- Swiper JS untuk slider card mentor -->
 <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-<script>
-    function toggleFeature(button) {
-        const card = button.closest('.card');
-        const content = card.querySelector('.feature-content');
-        const svg = button.querySelector('svg');
-        const isOpen = content.classList.contains('max-h-[200px]');
-                
-        // Tutup semua card
-        document.querySelectorAll('.feature-content').forEach(c => {
-            c.classList.remove('max-h-[200px]', 'opacity-100');
-            c.classList.add('max-h-0', 'opacity-0');
-        });
-                
-    // Hapus border-sky-400 dari semua card
-    document.querySelectorAll('.card').forEach(c => {
-        c.classList.remove('border-[#08072a]');
-    });
-                
-    // Jika belum terbuka, buka konten yang diklik
-    if (!isOpen) {
-        content.classList.remove('max-h-0', 'opacity-0');
-        content.classList.add('max-h-[200px]', 'opacity-100'); // Sesuaikan max-height dengan tinggi konten
-        card.classList.add('border-[#08072a]');
-        svg.classList.add('rotate-180');
-    } else {
-        svg.classList.remove('rotate-180');
-      }
-    }
-
-    const swiper = new Swiper(".mySwiper", {
-      slidesPerView: 1,
-      spaceBetween: 20,
-      navigation: {
-        nextEl: '.swiper-button-next-custom',
-        prevEl: '.swiper-button-prev-custom',
-      },
-      breakpoints: {
-        640: {
-          slidesPerView: 1.2,
-        },
-        768: {
-          slidesPerView: 2,
-        },
-        1024: {
-          slidesPerView: 3,
-        }
-      }
-    });
-</script>
 </body>
 </html>

@@ -19,7 +19,7 @@
                 Kami percaya, mereka yang telah lulus dari Sibermuda punya cerita sukses yang menginspirasi.
             </p>
         </div>
-        <div class="overflow-x-auto hide-scrollbar">
+        <div class="overflow-x-auto scrollbar-hide">
         @if ($ratings->isEmpty())
             <div class="text-center text-gray-500 text-md" data-aos="fade-down">
                 Belum ada rating
@@ -38,7 +38,7 @@
                                 <!-- Nama dan Rating -->
                                 <div class="ml-4">
                                     <!-- Nama User -->
-                                    <h4 class="text-md font-semibold text-midnight">{{ $rating->nama }}</h4>
+                                    <h4 class="text-md font-medium text-midnight">{{ $rating->nama }}</h4>
                                     <div class="flex items-center">
                                         <!-- Menampilkan bintang berdasarkan rating -->
                                         @for ($i = 0; $i < 5; $i++)
@@ -48,7 +48,7 @@
                                     <h4 class="text-xs text-gray-600 mt-1">{{ \Carbon\Carbon::parse($rating->created_at)->translatedFormat('d F Y') }}</h4>
                                 </div>
                             </div>
-                            <p class="text-gray-700">{{ $rating->comment }}</p>
+                            <p class="text-gray-700 text-sm">{{ $rating->comment }}</p>
                         </div>
                     @endif
                 @endforeach
@@ -56,7 +56,7 @@
             @endif
         </div>
         
-        <div id="openRatingBtn" class="mb-6 text-center" data-aos="zoom-in-up">
+        <div id="openRatingBtn" class="mb-6 mt-4 text-center" data-aos="zoom-in-up">
             <button class="text-md px-6 py-2 rounded-full bg-white border border-gray-700 hover:bg-[#08072a] hover:text-white mt-2 text-midnight font-semibold shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
                 Berikan Rating Sibermuda
             </button>

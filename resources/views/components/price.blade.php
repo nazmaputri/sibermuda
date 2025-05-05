@@ -5,7 +5,7 @@
             <h3 class="text-xl md:text-2xl font-['poppins'] font-semibold text-[#08072a]" data-aos="fade-down">Rekomendasi Kursus Sibermuda</h3>
             <p class="text-lg  text-gray-700 mt-2" data-aos="fade-down">Pilih kursus yang sesuai dengan kebutuhan Anda.</p>
         </div>
-        <div class="overflow-x-auto hide-scrollbar py-5">
+        <div class="overflow-x-auto scrollbar-hide py-5">
             <div class="flex space-x-6">
                 @foreach($courses as $course)
                     <div class="flex">
@@ -90,14 +90,14 @@
       </h1>
       <div class="flex gap-8 mt-4">
         <div class="text-center">
-          <p class="text-3xl font-bold text-blue-600">50</p>
-          <p class="text-blue-500">Mentor Profesional</p>
+            <p class="text-3xl font-bold text-blue-600">{{ $totalMentor }}</p>
+            <p class="text-blue-500">Mentor Profesional</p>
         </div>
         <div class="text-center">
-          <p class="text-3xl font-bold text-blue-600">1200</p>
-          <p class="text-blue-500">Peserta Terdaftar</p>
+            <p class="text-3xl font-bold text-blue-600">{{ $totalStudent }}</p>
+            <p class="text-blue-500">Peserta Terdaftar</p>
         </div>
-      </div>
+       </div>
       <a href="{{ route('tutorial.beli') }}" class="mt-6 flex gap-4">
         <button class="border border-white px-5 py-2 rounded-md hover:bg-white hover:text-black transition-transform duration-300 ease-in-out transform hover:scale-105">Lihat Cara Pembelian</button>
       </a>

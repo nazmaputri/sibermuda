@@ -37,11 +37,11 @@
             <div class="flex flex-col items-center sm:items-start">
                 <h4 class="font-semibold mb-4">Navigasi</h4>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="#home" class="hover:text-blue-200 transition">Beranda</a></li>
-                    <li><a href="#about" class="hover:text-blue-200 transition">Tentang</a></li>
-                    <li><a href="#category" class="hover:text-blue-200 transition">Kategori</a></li>
-                    <li><a href="#price" class="hover:text-blue-200 transition">Harga</a></li>
-                    <li><a href="#rating" class="hover:text-blue-200 transition">Rating</a></li>
+                    <li><a href="{{ route('landingpage') }}" class="hover:text-blue-200 transition">Beranda</a></li>
+                    <li><a href="{{ route('tentang.kami') }}" class="hover:text-blue-200 transition">Tentang</a></li>
+                    <li><a href="{{ route('category') }}" class="hover:text-blue-200 transition">Kategori</a></li>
+                    <li><a href="{{ route('visi.misi') }}" class="hover:text-blue-200 transition">Visi</a></li>
+                    <li><a href="{{ route('register') }}" class="hover:text-blue-200 transition">Daftar</a></li>
                     <li><a href="/login" class="hover:text-blue-200 transition">Masuk</a></li>
                 </ul>
             </div>

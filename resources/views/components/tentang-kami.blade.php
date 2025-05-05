@@ -75,7 +75,7 @@
                 </button>
                 <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
                   <p class="text-gray-600">
-                    Sibermuda.Idn menyediakan akses ke berbagai materi pembelajaran dari berbagai bidang studi yang memungkinkan siswa untuk belajar dengan cara yang lebih terstruktur dan efektif.
+                    Sibermuda.Idn menyediakan akses ke berbagai materi pembelajaran dari berbagai bidang studi yang memungkinkan peserta untuk belajar dengan cara yang lebih terstruktur dan efektif.
                   </p>
                </div>
             </div>
@@ -91,7 +91,7 @@
                 </button>
                 <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
                   <p class="text-gray-600">
-                      Dengan fitur pembelajaran interaktif, Sibermuda menjadikan proses belajar lebih menyenangkan dan tidak membosankan. Siswa dapat berinteraksi dengan materi melalui tugas akhir yang membuat mereka lebih terlibat dalam proses belajar.
+                      Dengan fitur pembelajaran interaktif, Sibermuda menjadikan proses belajar lebih menyenangkan dan tidak membosankan. peserta dapat berinteraksi dengan materi melalui tugas akhir yang membuat mereka lebih terlibat dalam proses belajar.
                   </p>
                 </div>
             </div>
@@ -123,7 +123,7 @@
               </button>
               <div class="feature-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out px-4 pb-3  bg-white rounded-b-lg opacity-0">
                 <p class="text-gray-600">
-                  Setelah menyelesaikan kursus, siswa akan mendapatkan sertifikat digital yang dapat digunakan sebagai bukti kompetensi mereka. Sertifikat ini dapat menjadi nilai tambah untuk karier di dunia digital.
+                  Setelah menyelesaikan kursus, peserta akan mendapatkan sertifikat digital yang dapat digunakan sebagai bukti kompetensi mereka. Sertifikat ini dapat menjadi nilai tambah untuk karier di dunia digital.
                 </p>
               </div>
             </div>
@@ -212,7 +212,7 @@
                 <h3 class="text-lg md:text-2xl font-semibold text-midnight">Delika Pratiwi</h3>
                 <p class="text-sm text-gray-500 mb-2">Chief Academy Officer</p>
                 <p class="text-gray-600 text-md">
-                Kak Delika Pratiwi adalah seorang backend developer yang berpengalaman dan juga mengajar sebagai guru backend di sebuah sekolah. Ia mengajarkan konsep-konsep pengembangan backend kepada siswa, membekali mereka dengan keterampilan teknis yang diperlukan untuk berkembang di dunia pemrograman dan teknologi.
+                Kak Delika Pratiwi adalah seorang backend developer yang berpengalaman dan juga mengajar sebagai guru backend di sebuah sekolah. Ia mengajarkan konsep-konsep pengembangan backend kepada peserta, membekali mereka dengan keterampilan teknis yang diperlukan untuk berkembang di dunia pemrograman dan teknologi.
                 </p>
                 <div class="flex space-x-4 mt-2">
                     <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
