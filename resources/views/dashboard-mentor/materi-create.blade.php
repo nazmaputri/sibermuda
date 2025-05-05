@@ -101,7 +101,6 @@
                         <div>
                             <template x-for="(item, index) in materiYoutube" :key="'youtube-' + index">
                                 <div class="border p-4 rounded bg-white mb-2 space-y-2">
-<<<<<<< HEAD
                                     <input type="hidden" :name="type[]" x-model="item.type">
                                     <input type="hidden" :name="id[]" :value="item.id">
 
@@ -113,19 +112,18 @@
 
                                     <label>Link Materi YouTube</label>
                                     <input type="text" :name="link[]" x-model="item.link" class="w-full border p-2 rounded">
-=======
+
                                     <input type="hidden" :name="`youtube_type[]`" x-model="item.type">
                                     <input type="hidden" :name="`youtube_id[]`" :value="item.id">
 
-                                    <label class="block text-gray-700 font-semibold mb-2">Judul Link Materi YouTube</label>
+                                    {{-- <label class="block text-gray-700 font-semibold mb-2">Judul Link Materi YouTube</label>
                                     <input type="text" :name="`youtube_title[]`" x-model="item.title" class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400">
 
                                     <label class="block text-gray-700 font-semibold mb-2">Deskripsi Link Materi YouTube</label>
                                     <textarea :name="`youtube_description[]`" x-model="item.description" class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400"></textarea>
 
                                     <label class="block text-gray-700 font-semibold mb-2">Link Materi YouTube</label>
-                                    <input type="text" :name="`youtube_link[]`" x-model="item.link" class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400">
->>>>>>> 5646704aaa75be727699d833183b2dfaa6c9ad10
+                                    <input type="text" :name="`youtube_link[]`" x-model="item.link" class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400"> --}}
 
                                     <div class="text-right" x-show="materiYoutube.length > 1">
                                         <button type="button" @click="removeMateri('youtube', index)" class="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>

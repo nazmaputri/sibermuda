@@ -21,7 +21,13 @@ class LandingPageController extends Controller
 
     public function categorylp()
     {
-        return view('components.course');
+        $category = Category::all();
+        return view('components.course', compact('category'));
+    }
+
+    public function visi()
+    {
+        return view('components.visi');
     }
 
     public function price()
@@ -98,26 +104,25 @@ class LandingPageController extends Controller
         ));
     }
     
-    public function category($name)
+    public function category($slug)
     {
         // Mendapatkan kategori dengan kursus yang statusnya 'approved' atau 'published'
         $category = Category::with(['courses' => function ($query) {
             $query->whereIn('status', ['approved', 'published']);
-        }])->where('name', $name)->firstOrFail();
-    
+        }])->where('slug', $slug)->firstOrFail();
+
         // Mengambil kursus dari kategori yang ditemukan
         $courses = $category->courses;
-    
+
         // Menghitung rata-rata rating untuk setiap kursus
         foreach ($courses as $course) {
-            // Menghitung rata-rata rating dan membatasi maksimal 5
             $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
-            $course->average_rating = min($averageRating, 5);  // Membatasi nilai rating maksimal 5
+            $course->average_rating = min($averageRating ?? 0, 5); // Cegah null
         }
-    
+
         // Mengirimkan data ke view
         return view('category-detail', compact('category', 'courses'));
-    }    
+    }
     
     public function lp()
     {
@@ -152,11 +157,11 @@ class LandingPageController extends Controller
             $course->average_rating = min($averageRating, 5);  // Membatasi nilai rating maksimal 5 
         }
 
-        $categories = Category::all();
+        $category = Category::select('id', 'name', 'slug')->get();
         $ratings = Rating::all();
         
         // Kirim data ke view
-        return view('welcome', compact('categories', 'courses', 'ratings', 'discount', 'start_datetime', 'end_datetime'));
+        return view('welcome', compact('category', 'courses', 'ratings', 'discount', 'start_datetime', 'end_datetime'));
     }
 
 }

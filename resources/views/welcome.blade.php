@@ -150,7 +150,6 @@
 
     @include('components.home', ['hasPromo' => $discount && now()->lt($end_datetime)])
     @include('components.about')
-    @include('components.course')
     @include('components.price')
     @include('components.rating')
     @include('components.footer')
