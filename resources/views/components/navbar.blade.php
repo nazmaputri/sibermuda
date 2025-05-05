@@ -16,7 +16,7 @@
     <div class="md:col-span-3 flex items-center gap-2">
       <!-- Logo -->
        <div class="">
-        <img src="{{ asset('storage/login.png') }}" alt="image description" class="rounded-full bg-white w-10 h-10">
+        <img src="{{ asset('storage/login2.png') }}" alt="image description" class="rounded-full bg-white w-10 h-10">
        </div>
       <!-- End Logo -->
 
