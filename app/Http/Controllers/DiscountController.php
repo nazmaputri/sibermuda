@@ -46,7 +46,7 @@ class DiscountController extends Controller
     {
         // Validasi data
         $request->validate([
-            'coupon_code' => 'required|string',
+            'coupon_code' => 'required|string|max:12',
             'discount_percentage' => 'required|numeric|min:1|max:100',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -59,6 +59,7 @@ class DiscountController extends Controller
             'discount_percentage.numeric' => 'Persentase diskon harus berupa angka.',
             'discount_percentage.min' => 'Persentase diskon minimal 1%.',
             'discount_percentage.max' => 'Persentase diskon maksimal 100%.',
+            'coupon_code.max'      => 'Kode kupon maksimal 12 karakter.',
             'start_date.required' => 'Tanggal mulai wajib diisi.',
             'start_date.date' => 'Format tanggal mulai tidak valid.',
             'end_date.required' => 'Tanggal berakhir wajib diisi.',

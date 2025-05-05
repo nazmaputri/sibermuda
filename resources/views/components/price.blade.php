@@ -51,7 +51,7 @@
                                         @endif
                                     @endfor
                                     <!-- Jumlah Rating -->
-                                    <span class="ml-2 text-yellow-500 font-medium text-sm">{{ number_format($course->average_rating, 1) }} / 5</span>
+                                    <span class="ml-2 text-yellow-500 font-bold text-sm">{{ number_format($course->average_rating, 1) }} / 5</span>
                                 </div>                 
                         
                                 <!-- Harga Kursus -->

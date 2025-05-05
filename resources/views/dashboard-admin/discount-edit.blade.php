@@ -11,7 +11,7 @@
         <!-- Kode Kupon -->
         <div class="mb-4">
             <label class="block text-gray-700 font-medium">Kode Diskon</label>
-            <input type="text" name="coupon_code" maxlength="12" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border p-2 mt-2 text-sm text-gray-700 w-full rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror">
+            <input type="text" name="coupon_code" value="{{ old('coupon_code', $discount->coupon_code) }}" class="border p-2 mt-2 text-sm text-gray-700 w-full rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('coupon_code') border-red-500 @enderror">
             @error('coupon_code')
                 <p class="text-red-500 text-sm mt-1" id="coupon_code-error">{{ $message }}</p>
             @enderror
@@ -64,7 +64,7 @@
 
         <!-- Terapkan ke Semua Kursus -->
         <div class="mt-4">
-            <input type="hidden" name="apply_to_all" value="0">
+            <input type="hidden" name="apply_to_all" value="0d">
             <label class="flex items-center space-x-2">
                 <input type="checkbox" name="apply_to_all" id="applyToAll" value="1" {{ $discount->apply_to_all ? 'checked' : '' }}
                     class="rounded border-gray-300 text-blue-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
