@@ -26,6 +26,7 @@ class LoginController extends Controller
 
     public function prosesLogin(Request $request)
     {
+        // Validasi input dasar
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|string',
@@ -34,23 +35,34 @@ class LoginController extends Controller
             'email.email' => 'Format email tidak valid.',
             'password.required' => 'Password harus diisi.',
         ]);
-    
+
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput($request->except('password'));
         }
-    
+
+        // Ambil user berdasarkan email
         $user = User::where('email', $request->email)->first();
-    
+
+        // Jika user tidak ditemukan
         if (!$user) {
             return back()->withErrors(['email' => 'Email tidak ditemukan.'])
                 ->withInput($request->except('password'));
         }
-    
+
+        // Cek apakah user adalah admin
+        if ($user->role !== 'admin') {
+            return back()->withErrors(['email' => 'Akses hanya diperbolehkan untuk admin.'])
+                ->withInput($request->except('password'));
+        }
+
+        // Cek password
         if (!Hash::check($request->password, $user->password)) {
             return back()->withErrors(['password' => 'Password salah.'])
                 ->withInput($request->except('password'));
         }
 
+        // Login admin
+        Auth::guard('admin')->login($user);
         $request->session()->regenerate();
 
         return redirect()->route('welcome-admin');
@@ -153,8 +165,7 @@ class LoginController extends Controller
                 'google' => 'Gagal login dengan Google. Coba lagi nanti.',
             ]);
         }
-    }
-    
+    } 
 
     public function login(Request $request)
     {
@@ -198,10 +209,6 @@ class LoginController extends Controller
         $request->session()->regenerate();
     
         switch ($user->role) {
-            case 'admin':
-                Auth::guard('admin')->login($user);
-                return redirect()->route('welcome-admin');
-    
             case 'mentor':
                 Auth::guard('mentor')->login($user);
                 return redirect()->route('welcome-mentor');

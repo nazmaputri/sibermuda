@@ -26,16 +26,13 @@ use Illuminate\Support\Facades\Route;
 //LandingPage
 Route::get('/', [LandingPageController::class, 'lp'])->name('landingpage');
 Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kursus.detail');
-Route::get('/category/{name}', [LandingPageController::class, 'category'])->name('category.detail');
+Route::get('/category/{slug}', [LandingPageController::class, 'category'])->name('category.detail');
 Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
 Route::get('/beli-kursus/{id}', [KeranjangController::class, 'handlePurchase'])->name('beli.kursus');
 Route::get('/tutorialbeli', [LandingPageController::class, 'tutorialbeli'])->name('tutorial.beli');
 Route::get('/tentangkami', [LandingPageController::class, 'tentangkami'])->name('tentang.kami');
-// Route::get('/home', [LandingPageController::class, 'index'])->name('home');
-// Route::get('/category', [LandingPageController::class, 'categorylp'])->name('category');
-// Route::get('/price', [LandingPageController::class, 'price'])->name('price');
-// Route::get('/about', [LandingPageController::class, 'about'])->name('about');
-// Route::get('/rating', [LandingPageController::class, 'rating'])->name('rating');
+Route::get('/visi', [LandingPageController::class, 'visi'])->name('visi.misi');
+Route::get('/category', [LandingPageController::class, 'categorylp'])->name('category');
 
 //Verifikasi Email
 Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');

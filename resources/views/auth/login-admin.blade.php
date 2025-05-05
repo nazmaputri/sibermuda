@@ -46,11 +46,21 @@
         
         <!-- Gambar di sebelah kiri, hanya tampil di md ke atas -->
         <div class="hidden md:block">
-            <img src="{{ asset('storage/belajar-with-laptop.jpg') }}" alt="Login Image" class="h-full w-full object-contain">
+            <img src="{{ asset('storage/login2.png') }}" alt="Login Image" class="h-full w-full object-contain">
         </div>
 
         <!-- Form Login di sebelah kanan -->
         <div id="login-container" class="w-full p-8 space-y-6 opacity-0 scale-90">
+            <div class="flex items-center gap-2 mb-4 text-midnight items-center justify-center text-center">
+                <a href="{{ route('landingpage') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01-.58 4.138l-5.58 3.114-5.58-3.114a12.083 12.083 0 01-.58-4.138L12 14z" />
+                    </svg>
+                </a>
+                <h2 class="text-3xl font-semibold">Masuk</h2>
+            </div>
+            <p class="mb-2 text-gray-600 text-center">Selamat datang Admin</p>    
 
             {{-- Form Login --}}
             <form action="{{ route('prosesLogin') }}" method="POST" class="space-y-4" id="form">

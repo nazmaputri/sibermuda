@@ -267,40 +267,6 @@
     </div>
 </section>
 
-<section class="py-16 px-4 bg-white">
-  <div class="max-w-6xl mx-auto">
-    <!-- Judul -->
-    <h2 class="text-xl md:text-2xl font-['poppins'] text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-up">Visi & Misi Kami</h2>
-
-    <!-- Misi -->
-    <div class="flex flex-col md:flex-row items-center bg-white border border-gray-200 rounded-2xl shadow mb-8" data-aos="fade-up">
-      <div class="md:w-1/3 p-6">
-        <div class="w-40 h-40 mx-auto md:mx-0 rounded-full overflow-hidden">
-          <img src="{{ asset('storage/visi.jpg') }}" alt="Visi Image" class="object-cover w-full h-full">
-        </div>
-      </div>
-      <div class="md:w-3/3 p-6 text-center md:text-left">
-        <h3 class="md:text-2xl text-xl font-semibold text-midnight mb-2">Visi</h3>
-        <p class="text-gray-600">Menjadi pionir dalam pengembangan dan pemberdayaan generasi muda di bidang teknologi siber, menciptakan ekosistem inovatif yang mendukung keterampilan, kreativitas, dan pemahaman mendalam tentang dunia digital. Kami berkomitmen untuk memfasilitasi pembelajaran dan kolaborasi, sehingga generasi muda dapat menjadi pemimpin yang tangguh dan beretika dalam menghadapi tantangan teknologi masa depan.</p>
-      </div>
-    </div>
-
-    <!-- Visi -->
-    <div class="flex flex-col md:flex-row-reverse items-center bg-white border border-gray-200 rounded-2xl shadow" data-aos="fade-up">
-      <div class="md:w-1/3 p-6">
-        <div class="w-40 h-40 mx-auto md:mx-0 rounded-full overflow-hidden">
-          <img src="{{ asset('storage/misi.jpg') }}" alt="Misi Image" class="object-cover w-full h-full">
-        </div>
-      </div>
-      <div class="md:w-3/3 p-6 text-center md:text-left">
-        <h3 class="md:text-2xl text-xl font-semibold text-midnight mb-2">Misi</h3>
-        <p class="text-gray-600">Menyediakan pendidikan teknologi siber yang komprehensif, mendorong inovasi dan kreativitas melalui kolaborasi, membangun kesadaran akan etika digital, menjalin kemitraan strategis, serta memberikan dukungan berkelanjutan bagi generasi muda untuk sukses di dunia teknologi.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-
 @include('components.footer') <!-- Menambahkan Navbar -->
 
 <!-- AOS JS -->
