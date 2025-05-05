@@ -214,5 +214,10 @@ Route::middleware('auth:mentor,student')->group(function () {
     Route::get('/chat/start/{courseId}/{studentId?}', [ChatController::class, 'startChat'])->name('chat.start');
 });
 
+// Route jika halaman tidak ditemukan notfound
+Route::fallback(function () {
+    abort(404);
+});
+
 require __DIR__.'/auth.php';
 

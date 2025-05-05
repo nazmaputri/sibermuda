@@ -2,12 +2,12 @@
   <!-- Background motif bisa ditambahkan pakai pseudo-element atau SVG pattern jika perlu -->
   <div class="md:flex md:items-center md:justify-between">
     <div class="text-center md:text-left">
-      <h2 class="text-lg md:text-2xl font-bold leading-tight">
+      <h2 class="text-lg md:text-2xl font-semibold leading-tight">
       Belajar Tanpa Batas, <br />Berkembang Tanpa Henti!!
       </h2>
     </div>
     <div class="mt-6 md:mt-0 md:ml-8 flex justify-center md:justify-end">
-      <a href="/login" class="group inline-flex items-center px-6 py-3 bg-[#171738] text-white font-semibold rounded-xl hover:bg-opacity-95 transform transition-transform duration-300 group-hover:translate-x-2">
+      <a href="/login" class="group inline-flex items-center px-6 py-3 bg-[#171738] text-white font-medium rounded-xl hover:bg-opacity-95 transform transition-transform duration-300 group-hover:translate-x-2">
         Daftar Sekarang
         <svg class="w-4 h-4 ml-2 transform transition-transform duration-300 group-hover:translate-x-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
@@ -48,7 +48,7 @@
             <!-- Kontak & Sosial Media -->
             <div class="flex flex-col items-center sm:items-start">
                 <h4 class="font-semibold mb-4">Kontak Kami</h4>
-                <p class="text-sm">Email : Sibermuda@gmail.com</p>
+                <p class="text-sm">Email : support@sibermuda.id</p>
                 @php
                     $adminPhone = \App\Models\User::where('role', 'admin')->first()?->phone_number ?? 'Belum ada nomor';
                 @endphp

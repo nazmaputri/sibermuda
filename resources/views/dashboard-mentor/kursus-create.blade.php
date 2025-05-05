@@ -3,7 +3,7 @@
 @section('content')
 <div class="container mx-auto"> 
     <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-        <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Kursus</h2>
+        <h2 class="text-lg font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Kursus</h2>
 
         <!-- Form Tambah Kursus -->
         <form action="{{ route('courses.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -13,7 +13,7 @@
                 <div>
                     <!-- Input untuk Judul -->
                     <div class="mb-4">
-                        <label for="title" class="block font-semibold text-gray-700 pb-2">Judul Kursus</label>
+                        <label for="title" class="block font-medium text-gray-700 pb-2">Judul Kursus</label>
                         <input type="text" name="title" id="title" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('title') border-red-500 @enderror" placeholder="Masukkan judul kursus" value="{{ old('title') }}">
                         @error('title')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -22,7 +22,7 @@
 
                     <!-- Input untuk Start_date -->
                     <div class="mb-4">
-                        <label for="start_date" class="block font-semibold text-gray-700 pb-2">Tanggal Mulai</label>
+                        <label for="start_date" class="block font-medium text-gray-700 pb-2">Tanggal Mulai</label>
                         <input type="date" name="start_date" id="start_date" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('start_date') border-red-500 @enderror" placeholder="Masukkan Waktu Mulai" min="{{ \Carbon\Carbon::today()->toDateString() }}">
                         <small class="text-gray-600">Jika tidak di isi maka "Akses seumur hidup"</small>
                         @error('start_date')
@@ -32,7 +32,7 @@
 
                     <!-- Input untuk End_date -->
                     <div class="mb-4">
-                        <label for="end_date" class="block font-semibold text-gray-700 pb-2">Tanggal Selesai</label>
+                        <label for="end_date" class="block font-medium text-gray-700 pb-2">Tanggal Selesai</label>
                         <input type="date" name="end_date" id="end_date" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('end_date') border-red-500 @enderror" placeholder="Masukkan Waktu Selesai" min="{{ \Carbon\Carbon::today()->toDateString() }}">
                         <small class="text-gray-600">Jika tidak di isi maka "Akses seumur hidup"</small>
                         @error('end_date')
@@ -42,7 +42,7 @@
 
                     <!-- Input untuk Deskripsi -->
                     <div class="mb-1">
-                        <label for="description" class="block font-semibold text-gray-700 pb-2">Deskripsi</label>
+                        <label for="description" class="block font-medium text-gray-700 pb-2">Deskripsi</label>
                         <textarea name="description" id="description" rows="4" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kursus">{{ old('description') }}</textarea>
                         @error('description')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -55,7 +55,7 @@
                 <div>
                     <!-- Input untuk Kategori -->
                     <div x-data="{ open: false, selected: '', selectedId: '', categories: @js($categories) }" class="relative mb-4">
-                        <label for="category_id" class="block font-semibold text-gray-700 pb-2">Kategori Kursus</label>
+                        <label for="category_id" class="block font-medium text-gray-700 pb-2">Kategori Kursus</label>
 
                         <!-- Display Selected -->
                         <button @click="open = !open" type="button"
@@ -86,7 +86,7 @@
 
                     <!-- Input untuk Harga -->
                     <div class="mb-4">
-                        <label for="price" class="block font-semibold text-gray-700 pb-2">Harga</label>
+                        <label for="price" class="block font-medium text-gray-700 pb-2">Harga</label>
                         <input type="text" name="price" id="price" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('price') border-red-500 @enderror" placeholder="Masukkan harga kursus.contoh:3000 " value="{{ old('price') }}">
                         @error('price')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -95,7 +95,7 @@
 
                     <!-- Input untuk Kapasitas -->
                     <div class="mb-4">
-                        <label for="capacity" class="block font-semibold text-gray-700 pb-2">Kapasitas Peserta</label>
+                        <label for="capacity" class="block font-medium text-gray-700 pb-2">Kapasitas Peserta</label>
                         <input type="number" name="capacity" id="capacity" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('capacity') border-red-500 @enderror" placeholder="Masukkan kapasitas kursus" value="{{ old('capacity') }}">
                         <small class="text-gray-600">Jika tidak di isi maka kapasitasnya tidak terbatas</small>
                         @error('capacity')
@@ -105,14 +105,14 @@
 
                     <!-- Input untuk Foto -->
                     <div class="mb-4">
-                        <label for="image" class="block font-semibold text-gray-700 pb-2">Foto Kursus</label>
+                        <label for="image" class="block font-medium text-gray-700 pb-2">Foto Kursus</label>
                         <input type="file" name="image" id="image" class="w-full p-2 text-sm text-gray-700 border rounded">
                         <small class="text-gray-600">Format gambar yang diperbolehkan: jpg, png, jpeg</small>
                     </div>
                     
                     <div class="mt-4">
                         <label for="chat-toggle" class="flex items-center cursor-pointer">
-                            <span class="mr-3 text-gray-700 font-semibold">Aktifkan Fitur Chat</span>
+                            <span class="mr-3 text-gray-700 font-medium">Aktifkan Fitur Chat</span>
                             <!-- Toggle Switch -->
                             <div class="relative ">
                                 <input type="checkbox" name="chat" id="chat-toggle" class="hidden peer" {{ old('chat', $course->chat ?? false) ? 'checked' : '' }} value="1"/>
@@ -123,12 +123,12 @@
                     
                         <!-- Pesan saat fitur chat diaktifkan -->
                         <div id="chat-status" class="mt-1 hidden">
-                            <p class="text-green-500 font-semibold">Fitur Chat Aktif!</p>
+                            <p class="text-green-500 font-medium">Fitur Chat Aktif!</p>
                         </div>
                     
                         <!-- Pesan saat fitur chat dinonaktifkan -->
                         <div id="chat-status-inactive" class="mt-1 hidden">
-                            <p class="text-red-500 font-semibold">Fitur Chat Dinonaktifkan!</p>
+                            <p class="text-red-500 font-medium">Fitur Chat Dinonaktifkan!</p>
                         </div>
                     </div>
                 </div>
@@ -136,10 +136,10 @@
 
             <!-- Tombol Submit -->
             <div class="mt-6 flex justify-end space-x-2">
-                <a href="{{ route('courses.index') }}" class="bg-red-400 hover:bg-red-300 text-white font-bold py-2 px-4 rounded-md">
+                <a href="{{ route('courses.index') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
                     Batal
                 </a>
-                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-bold py-2 px-4 rounded-md">
+                <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-md">
                     Tambah 
                 </button>
             </div>
