@@ -6,7 +6,7 @@
 <div class="container mx-auto">
     <div class="bg-white rounded-lg shadow-md p-6 border border-gray-200">
         <!-- Judul Halaman -->
-        <h2 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Edit Tugas Akhir</h2>
+        <h2 class="text-lg font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Edit Tugas Akhir</h2>
 
         <form action="{{ route('finaltask.update', ['course' => $course->id, 'id' => $finalTask->id]) }}" method="POST" class="space-y-6">
            @csrf
@@ -16,7 +16,7 @@
 
             <!-- Input untuk Judul -->
             <div>
-                <label for="judul" class="block text-gray-700 font-semibold mb-2">Judul Tugas Akhir</label>
+                <label for="judul" class="block text-gray-700 font-medium mb-2">Judul Tugas Akhir</label>
                 <input type="text" name="judul" id="judul"
                     class="w-full text-sm text-gray-700 p-2 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('judul') border-red-500 @enderror"
                     placeholder="Masukkan judul tugas akhir" value="{{ old('judul', $finalTask->judul) }}">
@@ -27,7 +27,7 @@
 
             <!-- Input untuk Deskripsi -->
             <div>
-                <label for="desc" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
+                <label for="desc" class="block text-gray-700 font-medium mb-2">Deskripsi</label>
                 <textarea name="desc" id="desc" rows="5"
                     class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('desc') border-red-500 @enderror"
                     placeholder="Masukkan deskripsi tugas akhir">{{ old('desc', $finalTask->desc) }}</textarea>
@@ -39,11 +39,11 @@
             <!-- Tombol Submit -->
             <div class="mt-6 flex justify-end space-x-2">
                 <a href="{{ route('courses.show', ['course' => $course]) }}"
-                    class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg">
+                    class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-lg">
                     Batal
                 </a>
                 <button type="submit"
-                    class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg">
+                    class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-lg">
                     Simpan
                 </button>
             </div>
