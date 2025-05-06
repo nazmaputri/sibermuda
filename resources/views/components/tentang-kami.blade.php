@@ -38,7 +38,7 @@
 
 <section id="about" class="bg-white py-12">
     <div class="container mx-auto px-4">
-        <div class="flex lg:space-x-12 items-center pb-4">
+        <div class="flex items-center pb-4">
 
             <!-- Image Section -->
             <!-- <div class="md:w-1/3 order-1 lg:order-1 mb-6 lg:mb-0 flex justify-center" data-aos="fade-left">
@@ -46,7 +46,7 @@
             </div>             -->
 
             <!-- Text Content -->
-            <div class="md:px-12 space-y-6" data-aos="fade-right">
+            <div class="md:px-8 space-y-6" data-aos="fade-right">
                 <!-- Title -->
                 <div class="mb-6 mt-8 md:mt-12">
                     <h3 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90">
@@ -63,7 +63,7 @@
         </div>
 
         <!-- Accordion -->
-        <div class="grid grid-cols-1 gap-4 md:mx-14" id="accordion">
+        <div class="grid grid-cols-1 gap-4 md:mx-8" id="accordion">
             <!-- Card 1 -->
             <div class="card h-full flex flex-col bg-white border-2 border-gray-300 rounded-lg transition-all duration-300 ease-in-out" data-aos="fade-up">
                 <button class="flex justify-between items-center w-full px-4 py-2 text-md text-left text-gray-700 font-medium focus:outline-none"
@@ -131,14 +131,14 @@
     </div>
 </section>
 
-<section id="founder" class="py-12 max-w-6xl mx-auto px-4 md:px-8">
+<section id="founder" class="py-12 max-w-7xl mx-auto px-4 md:px-10">
     <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-6" data-aos="fade-right">Founder</h2>
     <p class="text-md text-gray-700 text-center mb-3 md:mb-5" data-aos="fade-right">Kenali para founder yang berpengalaman di dunia teknologi yang juga memiliki semangat tinggi dalam berbagi ilmu. </p>
 
     <div class="grid grid-cols-1 gap-6" data-aos="fade-right">
     <!-- Card 1 -->
     <div>
-        <div class="bg-white rounded-2xl p-4 text-left flex flex-col md:flex-row h-auto">
+        <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row h-auto">
             <!-- Foto di kiri (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pr-4 mb-4 md:mb-0">
                 <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
@@ -168,7 +168,7 @@
 
     <!-- Card 2 -->
     <div>
-        <div class="bg-white rounded-2xl p-4 text-left flex flex-col md:flex-row-reverse h-auto">
+        <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row-reverse h-auto">
             <!-- Foto di kanan (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pl-4 mb-4 md:mb-0">
                 <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
@@ -201,7 +201,7 @@
 
     <!-- Card 3 -->
     <div>
-        <div class="bg-white rounded-2xl p-4 text-left flex flex-col md:flex-row h-auto">
+        <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row h-auto">
             <!-- Foto di kiri (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pr-4 mb-4 md:mb-0">
                 <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
@@ -221,7 +221,7 @@
                     <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
                         <i class="fab fa-youtube"></i>
                     </a>
-                    <a href="https://www.instagram.com" target="_blank" class="text-gray-600 hover:text-pink-500 text-xl">
+                    <a href="https://www.instagram.com/delikapratiwi?igsh=Z2gyZDNiamNxbWFk" target="_blank" class="text-gray-600 hover:text-pink-500 text-xl">
                         <i class="fab fa-instagram"></i>
                     </a>
                 </div>
@@ -234,7 +234,7 @@
 <section class="py-12 max-w-7xl mx-auto px-4 md:px-8">
     <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-right">Mentor Kami</h2>
 
-    <div class="swiper mySwiper md:mx-14">
+    <div class="swiper mySwiper md:mx-10">
       <div class="swiper-wrapper" data-aos="fade-right">
         @foreach($mentor as $mentor)
           <div class="swiper-slide">

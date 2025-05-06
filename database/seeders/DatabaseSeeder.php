@@ -75,5 +75,47 @@ class DatabaseSeeder extends Seeder
         //     'stars' => '2',
         //     'comment' => 'test',
         // ]);
+
+        // RatingKursus::create([
+        //     'user_id' => '1',
+        //     'course_id' => '1',
+        //     'stars' => '2',
+        //     'comment' => 'test',
+        // ]);
+
+        // RatingKursus::create([
+        //     'user_id' => '1',
+        //     'course_id' => '1',
+        //     'stars' => '2',
+        //     'comment' => 'test',
+        // ]);
+
+        // RatingKursus::create([
+        //     'user_id' => '1',
+        //     'course_id' => '1',
+        //     'stars' => '2',
+        //     'comment' => 'test',
+        // ]);
+
+        // RatingKursus::create([
+        //     'user_id' => '1',
+        //     'course_id' => '1',
+        //     'stars' => '2',
+        //     'comment' => 'test',
+        // ]);
+
+        // RatingKursus::create([
+        //     'user_id' => '1',
+        //     'course_id' => '1',
+        //     'stars' => '2',
+        //     'comment' => 'test',
+        // ]);
+
+        // RatingKursus::create([
+        //     'user_id' => '1',
+        //     'course_id' => '1',
+        //     'stars' => '2',
+        //     'comment' => 'loremmmm ipsummm dolor sit amettttt',
+        // ]);
     }
 }
