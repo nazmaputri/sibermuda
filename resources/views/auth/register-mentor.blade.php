@@ -64,6 +64,15 @@
                 </h4>
             </div> 
 
+            <div class="flex items-center p-3 mb-4 text-sm text-yellow-600 rounded-lg bg-yellow-100 md:mt-3 mt-2" role="alert">
+                <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                </svg>
+                <span class="sr-only">Info</span>
+                <div>
+                    <span class="font-medium md:text-ms text-sm">Setelah mendaftar, akun Anda akan diverifikasi terlebih dahulu oleh admin sebelum dapat digunakan. Harap tunggu 1x24 jam</span>
+                </div>
+            </div>
             <!-- Notifikasi Sukses -->
             @if (session('success'))
                 <div class="bg-green-100 text-green-700 p-4 rounded mb-4">
@@ -243,16 +252,6 @@
              <!-- </div> -->
             </div>
             </form>
-
-            <div class="flex items-center p-3 mb-4 text-sm text-yellow-600 rounded-lg bg-yellow-100 md:mt-3 mt-2" role="alert">
-                <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
-                </svg>
-                <span class="sr-only">Info</span>
-                <div>
-                    <span class="font-medium md:text-ms text-sm">Setelah mendaftar, akun Anda akan diverifikasi terlebih dahulu oleh admin sebelum dapat digunakan. Harap tunggu 1x24 jam</span>
-                </div>
-            </div>
         </div>
 </div>
 
