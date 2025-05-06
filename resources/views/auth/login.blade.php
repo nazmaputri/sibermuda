@@ -52,7 +52,7 @@
 
     <!-- Kanan (Form) -->
     <div class="w-full md:w-1/2 p-4">
-        <div class="flex items-center gap-2 mb-4 text-midnight items-center justify-center text-center">
+        <div class="flex items-center gap-2 mb-4 text-midnight justify-center text-center">
             <a href="{{ route('landingpage') }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -118,7 +118,7 @@
             </div>
 
             <div class="flex justify-end">
-                <a href="{{ route('forgot') }}" class="text-sm font-semibold text-midnight hover:underline">Lupa kata sandi?</a>
+                <a href="{{ route('forgot') }}" class="text-sm  text-midnight underline">Lupa kata sandi?</a>
             </div>
 
             <div class="flex justify-center">

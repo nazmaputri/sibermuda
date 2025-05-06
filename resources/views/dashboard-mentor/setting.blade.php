@@ -38,30 +38,50 @@
         <!-- Password -->
         <div class="mb-4 relative">
             <label for="password" class="block font-medium text-gray-700">Masukkan Kata Sandi Baru</label>
-            <input type="password" name="password" id="password" class="p-2 mt-1 block w-full border-gray-200 text-sm border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700">
-            <span class="absolute top-1/2 right-3 mt-3 transform -translate-y-1/2 cursor-pointer text-gray-500" id="togglePassword">
-                <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-                    <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                    <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
-                </svg>
-            </span>
+            
+            <div class="relative">
+                <input type="password" name="password" id="password"
+                    class="p-2 pr-10 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                
+                <!-- Icon Mata -->
+                <div class="absolute inset-y-0 right-2 flex items-center cursor-pointer" id="togglePassword">
+                    <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 20" class="h-5 w-5 text-gray-500">
+                        <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                        <path fill-rule="evenodd"
+                            d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+
             @error('password')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mb-4 relative">
-            <label for="password_confirmation" class="block font-medium text-gray-700">Konfirmasi Kata Sandi Baru</label>
-            <input type="password" name="password_confirmation" id="password_confirmation" class="p-2 mt-1 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700">
-            <span class="absolute top-1/2 right-1 transform -translate-x-1/2 cursor-pointer text-gray-500" id="toggleConfirmPassword">
-                <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-                    <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                    <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
-                </svg>
-            </span>
+       <!-- Password Confirmation -->
+       <div class="mb-4 relative">
+            <label for="password_confirmation" class="block font-medium text-gray-700">Masukkan Kata Sandi Baru</label>
+            
+            <div class="relative">
+                <input type="password" name="password_confirmation" id="password_confirmation"
+                    class="p-2 pr-10 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                
+                <!-- Icon Mata -->
+                <div class="absolute inset-y-0 right-2 flex items-center cursor-pointer" id="toggleConfirmPassword">
+                    <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                        viewBox="0 0 20 20" class="h-5 w-5 text-gray-500">
+                        <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                        <path fill-rule="evenodd"
+                            d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </div>
+            </div>
+
             @error('password_confirmation')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror
         </div>
 

@@ -237,13 +237,14 @@
     <div class="swiper mySwiper md:mx-10">
       <div class="swiper-wrapper" data-aos="fade-right">
         @foreach($mentor as $mentor)
-          <div class="swiper-slide">
-            <div class="bg-white rounded-2xl shadow border border-gray-200 h-[320px] p-4 text-center">
+          <div class="swiper-slide" data-aos="fade-right">
+            <div class="bg-white rounded-2xl shadow border border-gray-200 h-[350px] p-4 text-center">
               <img 
                 src="{{ asset('storage/' . ($mentor->photo ?? 'default-profile.jpg')) }}" 
                 alt="{{ $mentor->name }}" 
                 class="rounded-xl mb-3 w-full max-h-64 mx-auto object-contain">
               <h3 class="text-md font-semibold text-gray-700">{{ $mentor->name }}</h3>
+              <p class="text-gray-600 text-md">Mentor Of ...</p>
             </div>
           </div>
         @endforeach

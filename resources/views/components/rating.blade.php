@@ -12,7 +12,7 @@
 <section id="rating" class="bg-white py-16 mx-4">
     <div class="container mx-auto px-2 md:px-12">
         <div class="mb-6 text-center">
-            <h3 class="text-xl md:text-2xl font-semibold text-[#08072a]" data-aos="fade-down">
+            <h3 class="text-xl md:text-2xl font-semibold text-midnight" data-aos="fade-down">
                 Kata Mereka Tentang Sibermuda
             </h3>
             <p class="text-md text-gray-700 mt-2" data-aos="fade-down">
@@ -21,7 +21,7 @@
         </div>
         <div class="overflow-x-auto scrollbar-hide">
         @if ($ratings->isEmpty())
-            <div class="text-center text-gray-500 text-md" data-aos="fade-down">
+            <div class="text-center text-gray-500 text-sm" data-aos="fade-down">
                 Belum ada rating
             </div>
         @else
@@ -57,8 +57,8 @@
         </div>
         
         <div id="openRatingBtn" class="mb-6 mt-4 text-center" data-aos="zoom-in-up">
-            <button class="text-md px-6 py-2 rounded-full bg-white border border-gray-700 hover:bg-[#08072a] hover:text-white mt-2 text-midnight font-semibold shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
-                Berikan Rating Sibermuda
+            <button class="text-sm px-6 py-2 rounded-full bg-white border border-gray-700 hover:bg-midnight hover:text-white mt-2 text-midnight font-semibold shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
+                Beri Rating Sibermuda
             </button>
         </div>
 
@@ -123,7 +123,7 @@
                 </div>
 
                 <!-- Submit Button -->
-                <button type="submit" class="bg-[#08072a] text-white px-4 py-2 rounded-md hover:bg-opacity-90 focus:outline-none flex items-center gap-2 transition-transform duration-300 ease-in-out transform hover:scale-105">
+                <button type="submit" class="bg-midnight text-white px-4 py-2 rounded-md hover:bg-opacity-90 focus:outline-none flex items-center gap-2 transition-transform duration-300 ease-in-out transform hover:scale-105">
                     Kirim
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="white" viewBox="0 0 50 50">
                         <path d="M46.137,6.552c-0.75-0.636-1.928-0.727-3.146-0.238l-0.002,0C41.708,6.828,6.728,21.832,5.304,22.445c-0.259,0.09-2.521,0.934-2.288,2.814c0.208,1.695,2.026,2.397,2.248,2.478l8.893,3.045c0.59,1.964,2.765,9.21,3.246,10.758c0.3,0.965,0.789,2.233,1.646,2.494c0.752,0.29,1.5,0.025,1.984-0.355l5.437-5.043l8.777,6.845l0.209,0.125c0.596,0.264,1.167,0.396,1.712,0.396c0.421,0,0.825-0.079,1.211-0.237c1.315-0.54,1.841-1.793,1.896-1.935l6.556-34.077C47.231,7.933,46.675,7.007,46.137,6.552z M22,32l-3,8l-3-10l23-17L22,32z"></path>

@@ -164,7 +164,7 @@
 <!-- Modal Overlay -->
 <div id="registration-modal" class="fixed px-4 inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
     <!-- Modal Box -->
-    <div id="modal-box" class="bg-white w-full max-w-sm md:max-w-md mx-auto rounded-2xl shadow-2xl px-8 py-6 relative transform scale-90 opacity-0 transition-all duration-300 ease-out">
+    <div id="modal-box" class="bg-white w-full max-w-sm md:max-w-md mx-auto rounded-2xl shadow-2xl px-6 py-6 relative transform scale-90 opacity-0 transition-all duration-300 ease-out">
         <!-- Tombol Close -->
         <button id="close-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-600 text-2xl font-medium">
             &times;
@@ -176,17 +176,19 @@
 
         <!-- Formulir -->
         <form id="wa-form" class="text-sm text-gray-700 space-y-3">
-            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+            <div class="">
                 <p class="font-semibold">Nama Lengkap:</p>
-                <p class="text-gray-700">{{ Auth::user()->name }}</p>
+                <p class="text-gray-700 border-b border-gray-200">{{ Auth::user()->name }}</p>
             </div>
-            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+
+            <div class="">
                 <p class="font-semibold">Email:</p>
-                <p class="text-gray-700">{{ Auth::user()->email }}</p>
+                <p class="text-gray-700 border-b border-gray-200">{{ Auth::user()->email }}</p>
             </div>
-            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+           
+            <div>
                 <p class="font-semibold">No Telepon:</p>
-                <p class="text-gray-700">{{ Auth::user()->phone_number }}</p>
+                <p class="text-gray-700 border-b border-gray-200">{{ Auth::user()->phone_number }}</p>
             </div>
 
             @php
@@ -196,29 +198,35 @@
                 $courseList = implode(', ', $courseTitles);
             @endphp
 
+            <input type="hidden" id="name" value="{{ Auth::user()->name }}">
+            <input type="hidden" id="email" value="{{ Auth::user()->email }}">
+            <input type="hidden" id="no_telp" value="{{ Auth::user()->phone_number }}">
             <input type="hidden" id="nama-kursus" value="{{ $courseList }}">
             <input type="hidden" id="total-harga" value="Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}">
 
-            <p class="font-semibold">Kursus:</p>
-            <p class="text-gray-700 border-b border-gray-200 py-1">{{ $courseList }}</p>
+            <div>
+                <p class="font-semibold">Kursus:</p>
+                <p class="text-gray-700 border-b border-gray-200 py-1">{{ $courseList }}</p>
+            </div>
            
-            <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
+            <div>
                 <p class="font-semibold">Total Harga:</p>
-                <p class="text-red-400 font-semibold">Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}</p>
+                <p class="text-red-400 font-semibold border-b border-gray-200">Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}</p>
             </div>
-            <div class="flex justify-between space-x-10 py-1 mb-2 border-b border-gray-200">
+            
+            <div>
                 <p class="font-semibold">No Rek. Admin:</p>
-                <p class="text-gray-700">0895365544316 (Dana/Bank)</p>
+                <p class="text-gray-700 mb-2 border-b border-gray-200">0895365544316 (Dana/Bank)</p>
             </div>
-
-            <p class="text--sm text-gray-600">*Refresh halaman ini jika kamu sudah kirim bukti pembayaran</p>
+            
+            <p class="text-sm text-gray-600">*Refresh halaman ini jika kamu sudah kirim bukti pembayaran</p>
 
             <!-- Tombol WhatsApp -->
             <div class="mt-4">
             <a id="kirim-wa"
                href="#"
                target="_blank"
-               class="block text-center bg-green-500 hover:bg-green-400 text-white font-semibold py-2 rounded-lg w-full transition-all duration-200">
+               class="block text-center bg-green-500 hover:bg-green-400 text-white font-medium py-2 px-1 rounded-lg w-full transition-all duration-200">
                 Kirim Bukti Pembayaran via WhatsApp
             </a>
             </div>

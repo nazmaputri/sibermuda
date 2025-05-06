@@ -11,6 +11,16 @@ Route::post('login', [LoginController::class, 'login']);
 
 //Forgot password
 Route::get('forgot-password', [LoginController::class, 'forgot'])->name('forgot');
+Route::get('/success-forgot-password', function () {
+    return view('auth.success-forgot-password'); // 'dummy' adalah nama file blade yang berada di folder resources/views
+});
+Route::get('/reset-password', function () {
+    return view('auth.reset-password'); // 'dummy' adalah nama file blade yang berada di folder resources/views
+});
+Route::get('/success-reset-password', function () {
+    return view('auth.success-reset-password'); // 'dummy' adalah nama file blade yang berada di folder resources/views
+});
+
 
 // Route untuk login dengan Google
 Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
