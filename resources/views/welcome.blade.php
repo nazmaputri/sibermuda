@@ -49,7 +49,7 @@
 
                 <!-- Kode Promo -->
                 <div class="flex items-center gap-2">
-                    <button class="bg-white text-red-600 font-bold px-3 py-1 rounded hover:bg-gray-100 text-sm">
+                    <button class="bg-white text-red-600 font-semibold px-3 py-1 rounded hover:bg-gray-100 text-sm">
                         {{ $discount->coupon_code }}
                     </button>
                     <div class="relative inline-block">

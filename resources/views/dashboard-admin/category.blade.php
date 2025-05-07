@@ -86,10 +86,11 @@
             </tbody>
         </table>
         </div>
-        <!-- Pagination untuk kursus -->
-        <div class="mt-4">
-            {{ $categories->links() }} 
-        </div>
+    </div>
+
+     <!-- Pagination untuk kategori -->
+     <div class="mt-4">
+        {{ $categories->links() }} 
     </div>
 
     <!-- Daftar Kursus (Awalnya disembunyikan) -->

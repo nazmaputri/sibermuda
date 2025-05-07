@@ -342,6 +342,9 @@
                     <!-- Dropdown notifikasi -->
                     <div id="notification-dropdown"
                         class="absolute right-0 top-10 md:top-12 bg-white shadow-lg border border-gray-200 rounded-md w-60 md:w-96 hidden z-30">
+                        <p id="notification-empty" class="text-center pt-2.5 text-sm text-gray-500 hidden">
+                            Belum ada notifikasi
+                        </p>
                         <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
                         </div>
@@ -355,6 +358,7 @@
                         const countSpan = document.getElementById('notification-count');
                         const notificationList = document.getElementById('notification-list');
                         const markAsReadBtn = document.getElementById('mark-as-read');
+                        const emptyMessage = document.getElementById('notification-empty');
                     
                         // Toggle dropdown & ambil notifikasi saat dibuka
                         button.addEventListener('click', function (event) {
@@ -379,36 +383,39 @@
                         function fetchNotifications() {
                             const url = "{{ route('admin.notifications') }}";
                             console.log("Fetching notifications from:", url);
-                    
+
                             fetch(url)
                                 .then(response => response.json())
                                 .then(data => {
                                     console.log("Data notifikasi:", data);
                                     notificationList.innerHTML = '';
                                     let unreadCount = data.notifications.length;
-                    
+
                                     if (unreadCount > 0) {
                                         badge.classList.remove('hidden');
-                                        badge.classList.add('block');
                                         countSpan.textContent = unreadCount;
+
+                                        // Tampilkan notifikasi, sembunyikan pesan kosong
+                                        emptyMessage.classList.add('hidden');
+
+                                        data.notifications.forEach(notif => {
+                                            const div = document.createElement('div');
+                                            div.classList.add('p-2', 'border-b', 'text-sm', 'text-gray-700', 'hover:bg-gray-100');
+
+                                            const link = document.createElement('a');
+                                            link.href = notif.url;
+                                            link.innerHTML = notif.message;
+                                            link.classList.add('block', 'w-full');
+
+                                            div.appendChild(link);
+                                            notificationList.appendChild(div);
+                                        });
+
                                     } else {
                                         badge.classList.add('hidden');
+                                        // Tampilkan pesan kosong jika tidak ada notifikasi
+                                        emptyMessage.classList.remove('hidden');
                                     }
-                    
-                                    data.notifications.forEach(notif => {
-                                        const div = document.createElement('div');
-                                        div.classList.add('p-2', 'border-b', 'text-sm', 'text-gray-700', 'hover:bg-gray-100');
-
-                                        // Buat elemen link agar bisa diklik dan diarahkan
-                                        const link = document.createElement('a');
-                                        link.href = notif.url; // Ambil dari controller
-                                        link.innerHTML = notif.message;
-                                        link.classList.add('block', 'w-full');
-
-                                        div.appendChild(link);
-                                        notificationList.appendChild(div);
-                                    });
-
                                 })
                                 .catch(error => {
                                     console.error("Gagal mengambil notifikasi:", error);

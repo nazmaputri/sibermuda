@@ -126,7 +126,7 @@
             md:mt-16 mt-10
         @endif">
             <!-- Kontainer Kursus -->
-            <div class="flex flex-col lg:flex-row bg-white shadow-lg overflow-hidden border rounded-xl">
+            <div class="flex flex-col lg:flex-row bg-white shadow-lg overflow-hidden border rounded-xl md:mx-4">
                 <!-- Detail Kursus -->
                 <div class="lg:w-2/3 w-full flex flex-col rounded-xl p-8 text-left">
                     <div>
@@ -276,9 +276,9 @@
     </section>
 
     <!-- Informasi Kursus -->
-    <section class="bg-white p-10">        
-        <div class="flex items-center justify-center px-4">
-            <div class="w-full text-center">
+    <section class="bg-white p-2 md:mx-16">        
+        <div class="flex items-center justify-center px-4 mt-2">
+            <div class="w-full text-center mt-2 md:mt-8">
                 <h2 class="md:text-2xl text-xl font-semibold text-gray-700 mb-2" data-aos="zoom-in">
                     Yuk Beli Kursusnya Sekarang Untuk Akses Materinya!
                 </h2>
@@ -311,7 +311,7 @@
             </div>
         </div>       
         
-        <div class="mt-8 pt-6 px-6 lg:px-8 md:space-y-6 space-y-3">
+        <div class="mt-8 pt-6 px-2 lg:px-2 md:space-y-6 space-y-3">
             <div class="">
                 <!-- Judul -->
                 <h3 class="text-xl font-semibold text-gray-700 my-4">Yang Akan Didapatkan</h3>
@@ -352,88 +352,87 @@
             @if ($filteredRatings->isEmpty())
                 <p class="text-gray-500 mt-2">Belum ada rating</p>
             @else
-                <div 
-                    x-data="{
-                        scrollEl: null,
-                        scrollAmount: 320,
-                        autoScrollInterval: null,
-                        init() {
-                            this.scrollEl = this.$refs.slider;
-                            this.startAutoScroll();
-                        },
-                        scrollLeft() {
-                            this.scrollEl.scrollBy({ left: -this.scrollAmount, behavior: 'smooth' });
-                        },
-                        scrollRight() {
-                            this.scrollEl.scrollBy({ left: this.scrollAmount, behavior: 'smooth' });
-                        },
-                        startAutoScroll() {
-                            this.autoScrollInterval = setInterval(() => this.scrollRight(), 3000);
-                        },
-                        stopAutoScroll() {
-                            clearInterval(this.autoScrollInterval);
-                        }
-                    }"
-                    x-init="init()"
-                    class="relative mt-4"
-                >
-                    <!-- Tombol Kiri -->
-                    <button @click="scrollLeft" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-gray-50 text-gray-700 p-2 rounded-full shadow hover:bg-gray-100">
-                        &#8592;
-                    </button>
+                <div class="mt-4">
+                    <!-- Swiper Container -->
+                    <div class="swiper mySwiper px-8">
+                        <div class="swiper-wrapper">
+                            @foreach ($filteredRatings as $rating)
+                                <div class="swiper-slide min-w-[300px] max-w-[300px] h-[150px] border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow duration-300 ease-in-out" data-aos="zoom-in-up">
+                                    <!-- Nama, Foto & Tanggal -->
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <img src="{{ asset('storage/default-profile.jpg') }}" alt="Foto Profil" class="w-6 h-6 rounded-full object-cover">
+                                        <div>
+                                            <h4 class="text-sm font-semibold text-gray-800">{{ $rating->user->name }}</h4>
+                                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($rating->created_at)->format('d F Y') }}</span>
+                                        </div>
+                                    </div>
 
-                    <!-- Slider -->
-                    <div 
-                        x-ref="slider"
-                        @mouseover="stopAutoScroll()"
-                        @mouseout="startAutoScroll()"
-                        class="flex overflow-x-auto no-scrollbar scroll-smooth space-x-4 px-8"
-                    >
-                        @foreach ($filteredRatings as $rating)
-                        <div class="min-w-[300px] max-w-[300px] h-[150px] flex-shrink-0 border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow duration-300 ease-in-out" data-aos="zoom-in-up">
-                            <!-- Nama, Foto & Tanggal -->
-                            <div class="flex items-center space-x-2">
-                                <img src="{{ asset('storage/default-profile.jpg') }}" alt="Foto Profil" class="w-6 h-6 rounded-full object-cover">
-                                <div>
-                                    <h4 class="text-sm font-semibold text-gray-800">{{ $rating->user->name }}</h4>
-                                    <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($rating->created_at)->format('d F Y') }}</span>
+                                    <!-- Rating Bintang -->
+                                    <div class="flex items-center space-x-1 mb-1">
+                                        @for ($i = 0; $i < 5; $i++)
+                                            <span class="{{ $i < $rating->stars ? 'text-yellow-500' : 'text-gray-300' }}">&starf;</span>
+                                        @endfor
+                                    </div>
+
+                                    <!-- Komentar -->
+                                    <p class="text-gray-700 text-sm overflow-hidden text-ellipsis line-clamp-3">
+                                        {{ $rating->comment }}
+                                    </p>
                                 </div>
-                            </div>
-
-                            <!-- Rating Bintang -->
-                            <div class="flex items-center space-x-1">
-                                @for ($i = 0; $i < 5; $i++)
-                                    <span class="{{ $i < $rating->stars ? 'text-yellow-500' : 'text-gray-300' }}">&starf;</span>
-                                @endfor
-                            </div>
-
-                            <!-- Komentar -->
-                            <p class="text-gray-700 text-sm overflow-hidden text-ellipsis line-clamp-3">
-                                {{ $rating->comment }}
-                            </p>
-                            </div>
-
-                                @endforeach
-                            </div>
-
-                            <!-- Tombol Kanan -->
-                            <button @click="scrollRight" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-gray-50 text-gray-700 p-2 rounded-full shadow hover:bg-gray-100">
-                                &#8594;
-                            </button>
+                            @endforeach
                         </div>
-                    @endif
+                    </div>
+
+                    <!-- Navigasi panah manual -->
+                    <div class="flex justify-center gap-4 mt-4" data-aos="fade-right">
+                        <button class="swiper-button-prev-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
+                            <!-- Icon kiri -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button class="swiper-button-next-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
+                            <!-- Icon kanan -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
+            @endif
+            </div>
     </section>
 
 @include('components.footer') <!-- Menambahkan Footer -->
 
 <!-- AOS JS -->
 <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script>
     // Initialize AOS animation
     AOS.init({
         duration: 1000, 
         once: true,    
+    });
+
+    // Inisialisasi Swiper
+    document.addEventListener('DOMContentLoaded', function () {
+        new Swiper('.mySwiper', {
+        slidesPerView: 'auto',
+        spaceBetween: 16,
+        loop: true,
+        autoplay: {
+            delay: 3000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: '.swiper-button-next-custom',
+            prevEl: '.swiper-button-prev-custom',
+        },
+        });
     });
 </script>
 </body>
