@@ -77,7 +77,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center text-gray-500 py-4 text-sm border-l border-r border-b">Belum ada rating</td>
+                            <td colspan="6" class="text-center text-gray-600 py-4 text-sm border-l border-r border-b">Belum ada rating</td>
                         </tr>
                         @endforelse
                     </tbody>

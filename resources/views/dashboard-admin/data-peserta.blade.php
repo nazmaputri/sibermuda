@@ -87,7 +87,7 @@
                     @endforeach
                     @if ($users->isEmpty())
                         <tr>
-                            <td colspan="4" class="text-center text-gray-500 py-4 text-sm border-b border-l border-r border-gray-200">Belum ada materi untuk kursus ini.</td>
+                            <td colspan="4" class="text-center text-gray-600 py-4 text-sm border-b border-l border-r border-gray-200">Belum ada peserta.</td>
                         </tr>
                     @endif
                 </tbody>

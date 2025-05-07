@@ -50,7 +50,7 @@ class DashboardAdminController extends Controller
             if ($purchase && $purchase->user && $purchase->course) {
                 $notifications[] = [
                     'type' => 'pembelian',
-                    'message' => "User <b>{$purchase->user->name}</b> membeli kursus <b>{$purchase->course->title}</b>",
+                    'message' => "User <span class='font-medium'>{$purchase->user->name}</span> membeli kursus <span class='font-medium'>{$purchase->course->title}</span>",
                     'id' => 'payment_' . $payment->id,
                     'url' => route('detaildata-peserta', ['id' => $purchase->user->id]),
                 ];
