@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 
+//Forgot password
+Route::get('forgot-password', [LoginController::class, 'forgot'])->name('forgot');
+
 // Route untuk login dengan Google
 Route::get('login/google', [LoginController::class, 'redirectToGoogle'])->name('login.google');
 

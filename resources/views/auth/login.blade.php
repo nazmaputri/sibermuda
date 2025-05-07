@@ -117,9 +117,9 @@
                     @enderror
             </div>
 
-            <!-- <div class="flex justify-end">
-                <a href="#" class="text-sm text-midnight hover:underline">Lupa kata sandi?</a>
-            </div> -->
+            <div class="flex justify-end">
+                <a href="{{ route('forgot') }}" class="text-sm font-semibold text-midnight hover:underline">Lupa kata sandi?</a>
+            </div>
 
             <div class="flex justify-center">
                 {!! htmlFormSnippet() !!}

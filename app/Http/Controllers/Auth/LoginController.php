@@ -18,6 +18,12 @@ use Illuminate\Auth\Events\Verified;
 class LoginController extends Controller
 {
 
+    //Forgot Password
+    public function forgot()
+    {
+        return view('auth.forgot-password');
+    }
+
     //Login Admin
     public function loginAdmin()
     {
