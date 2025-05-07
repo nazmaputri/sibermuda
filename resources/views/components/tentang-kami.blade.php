@@ -141,7 +141,7 @@
         <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row h-auto">
             <!-- Foto di kiri (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pr-4 mb-4 md:mb-0">
-                <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
+                <img src="{{ asset('storage/default-profile.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
             </div>
 
             <!-- Teks di kanan -->
@@ -171,7 +171,7 @@
         <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row-reverse h-auto">
             <!-- Foto di kanan (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pl-4 mb-4 md:mb-0">
-                <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
+                <img src="{{ asset('storage/default-profile.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
             </div>
 
             <!-- Teks di kiri -->
@@ -204,7 +204,7 @@
         <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row h-auto">
             <!-- Foto di kiri (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pr-4 mb-4 md:mb-0">
-                <img src="{{ asset('storage/mentor.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
+                <img src="{{ asset('storage/default-profile.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
             </div>
 
             <!-- Teks di kanan -->
@@ -232,39 +232,93 @@
 </section>
 
 <section class="py-12 max-w-7xl mx-auto px-4 md:px-8">
-    <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-right">Mentor Kami</h2>
+  <h2 class="text-xl md:text-2xl text-center font-semibold text-midnight text-opacity-90 mb-8" data-aos="fade-right">
+    Mentor Kami
+  </h2>
 
-    <div class="swiper mySwiper md:mx-10">
-      <div class="swiper-wrapper" data-aos="fade-right">
-        @foreach($mentor as $mentor)
-          <div class="swiper-slide">
-            <div class="bg-white rounded-2xl shadow border border-gray-200 h-[320px] p-4 text-center">
-              <img 
-                src="{{ asset('storage/' . ($mentor->photo ?? 'default-profile.jpg')) }}" 
-                alt="{{ $mentor->name }}" 
-                class="rounded-xl mb-3 w-full max-h-64 mx-auto object-contain">
-              <h3 class="text-md font-semibold text-gray-700">{{ $mentor->name }}</h3>
+  <div class="swiper mySwiper md:mx-10">
+    <div class="swiper-wrapper" data-aos="fade-right">
+      @foreach($mentor as $index => $m)
+        <div class="swiper-slide">
+          <div class="bg-white rounded-2xl shadow-lg border border-gray-200 h-[320px] p-4 text-center relative">
+            <!-- Gambar mentor -->
+            <img 
+              src="{{ asset('storage/' . ($m->photo ?? 'default-profile.jpg')) }}" 
+              alt="{{ $m->name }}" 
+              class="rounded-xl mb-3 w-full max-h-48 mx-auto object-contain">
+
+            <!-- Sekat bawah gambar -->
+            <div class="absolute bottom-0 left-0 right-0 bg-white border-t-2 border-gray-200 py-4 px-4">
+              <h3 class="text-md font-semibold text-gray-700">{{ $m->name }}</h3>
+
+              @php
+                $courses = $m->courses;
+              @endphp
+
+              @if($courses->count() === 1)
+                <p class="text-sm text-gray-500 italic mt-1">
+                  <strong>Mentor of</strong> {{ $courses->first()->title }}
+                </p>
+              @elseif($courses->count() > 1)
+                <p id="course-title-{{ $index }}" class="text-sm text-gray-500 italic mt-1 min-h-[1.5rem]">
+                  <strong>Mentor of </strong><span id="course-text-{{ $index }}"></span>
+                  <span class="inline-block w-[1px] h-[1em] bg-gray-500 animate-pulse align-middle ml-0.5"></span>
+                </p>
+
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const courses{{ $index }} = {!! json_encode($courses->pluck('title')) !!};
+                    const target{{ $index }} = document.getElementById('course-text-{{ $index }}');
+                    let courseIndex{{ $index }} = 0;
+
+                    function typeText{{ $index }}(text, callback) {
+                      let i = 0;
+                      target{{ $index }}.textContent = '';
+                      function typeChar() {
+                        if (i < text.length) {
+                          target{{ $index }}.textContent += text.charAt(i);
+                          i++;
+                          setTimeout(typeChar, 80); // kecepatan ketik per huruf
+                        } else if (callback) {
+                          setTimeout(callback, 2000); // jeda sebelum ganti kursus
+                        }
+                      }
+                      typeChar();
+                    }
+
+                    function loopCourses{{ $index }}() {
+                      typeText{{ $index }}(courses{{ $index }}[courseIndex{{ $index }}], () => {
+                        courseIndex{{ $index }} = (courseIndex{{ $index }} + 1) % courses{{ $index }}.length;
+                        loopCourses{{ $index }}();
+                      });
+                    }
+
+                    setTimeout(loopCourses{{ $index }}, 1000);
+                  });
+                </script>
+              @else
+                <p class="text-sm text-gray-400 italic mt-1">No course available</p>
+              @endif
             </div>
           </div>
-        @endforeach
-      </div>
-
-      <!-- Navigasi panah manual -->
-      <div class="flex justify-center gap-4 mt-4" data-aos="fade-right">
-        <button class="swiper-button-prev-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
-            <!-- Icon kiri -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-        </button>
-        <button class="swiper-button-next-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
-            <!-- Icon kanan -->
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-        </button>
-      </div>
+        </div>
+      @endforeach
     </div>
+
+    <!-- Navigasi panah -->
+    <div class="flex justify-center gap-4 mt-4" data-aos="fade-right">
+      <button class="swiper-button-prev-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <button class="swiper-button-next-custom p-2 rounded-full border border-gray-200 bg-white/80 text-midnight hover:bg-gray-100 shadow">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
 </section>
 
 @include('components.footer') <!-- Menambahkan Navbar -->

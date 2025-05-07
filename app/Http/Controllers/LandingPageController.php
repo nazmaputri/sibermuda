@@ -52,10 +52,10 @@ class LandingPageController extends Controller
 
     public function tentangkami()
     {
-        $mentor = User::where('role', 'mentor')->get();
-
+        $mentor = User::where('role', 'mentor')->with('courses')->get();
+    
         return view('components.tentang-kami', compact('mentor'));
-    }
+    }    
     
     public function detail($id)
     {
