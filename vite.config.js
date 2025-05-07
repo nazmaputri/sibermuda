@@ -4,12 +4,14 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.js'],
+            input: [
+            'resources/css/app.css', 
+            'resources/js/app.js',  
+            'resources/js/alert.js',
+            'resources/js/delete-confirm.js',
+            'resources/js/bootstrap.js',
+            ],
             refresh: true,
         }),
     ],
-    build: {
-        outDir: '../public_html/build', // Output langsung ke public_html/build
-        emptyOutDir: true, // Membersihkan folder sebelum build baru
-    },
 });

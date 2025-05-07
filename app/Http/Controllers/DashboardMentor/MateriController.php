@@ -147,12 +147,11 @@ class MateriController extends Controller
      */
     private function extractYoutubeVideoId(string $url): ?string
     {
-        // akan menangkap 11 karakter ID video
-        preg_match(
-            '/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/.*v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/',
-            $url, $m
-        );
-        return $m[1] ?? null;
+        $pattern = '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([a-zA-Z0-9_-]{11})%';
+        if (preg_match($pattern, $url, $matches)) {
+            return $matches[1];
+        }
+        return null;
     }
 
     /**

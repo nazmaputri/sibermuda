@@ -301,10 +301,10 @@ class DashboardAdminController extends Controller
 
         // 3. Ambil peserta untuk kursus itu, hanya yang sukses bayar
         $user = auth()->user();
-        $participants = Purchase::where('user_id', $user->id)
-                                ->where('status', 'success')
-                                ->where('course_id', $courseId)
-                                ->paginate(5);
+        $participants = Purchase::where('course_id', $courseId)
+                        ->where('status', 'success')
+                        ->with('user')
+                        ->paginate(5);
 
         return view('dashboard-admin.detail-kursus', compact('course', 'category', 'participants'));
     }

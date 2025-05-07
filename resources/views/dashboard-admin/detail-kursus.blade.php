@@ -235,7 +235,7 @@
                             <td class="py-2 px-4 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $index + 1 }}</td>
                             <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ Str::limit($participant->user->name, 30, '...') }}</td>
                             <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ $participant->user->email }}</td>
-                            <td class="py-2 text-center text-green-500 text-sm border-b border-r border-gray-200">{{ $participant->transaction_status }}</td>
+                            <td class="py-2 text-center text-green-500 text-sm border-b border-r border-gray-200">{{ $participant->status }}</td>
                         </tr>
                         @empty
                         <tr>
