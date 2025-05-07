@@ -39,7 +39,7 @@
 <!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
 <x-loading-screen />
 
-<div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden">
+<div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden" id="register-container">
     
         <!-- Kiri (Logo) -->
         <div class="hidden md:flex md:w-1/2 md:my-10 bg-midnight rounded rounded-2xl items-center justify-center">
@@ -47,7 +47,7 @@
         </div>
 
          <!-- Form Login di sebelah kanan -->
-         <div id="register-container" class="w-full md:w-1/2 p-4">
+         <div class="w-full md:w-1/2 p-4">
             
          <div class="flex flex-col items-center justify-center space-y-2">
                 <div class="flex items-center gap-2 mb-4 text-midnight items-center justify-center text-center">
