@@ -43,7 +43,7 @@
                 <tbody>
                 @if($discounts->isEmpty())
                     <tr>
-                        <td colspan="5" class="py-2 px-2 text-center text-gray-700 text-sm border-l border-b border-r">
+                        <td colspan="5" class="py-2 px-2 text-center text-gray-600 text-sm border-l border-b border-r">
                             Tidak ada data diskon yang tersedia
                         </td>
                     </tr>

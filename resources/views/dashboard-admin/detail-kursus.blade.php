@@ -235,7 +235,28 @@
                             <td class="py-2 px-4 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $index + 1 }}</td>
                             <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ Str::limit($participant->user->name, 30, '...') }}</td>
                             <td class="py-2 px-4 text-gray-600 text-sm border-b border-gray-200">{{ $participant->user->email }}</td>
-                            <td class="py-2 text-center text-green-500 text-sm border-b border-r border-gray-200">{{ $participant->status }}</td>
+                            <td class="py-2 px-2 text-center text-sm border-b border-r border-gray-200">
+                                @php
+                                    $statusClass = '';
+                                    $statusLabel = '';
+                                    
+                                    // Menentukan status dan kelas warna berdasarkan status
+                                    if ($participant->status == 'pending') {
+                                        $statusClass = 'bg-yellow-200/50 border-yellow-300 text-yellow-500';
+                                        $statusLabel = 'Pending';
+                                    } elseif ($participant->status == 'success') {
+                                        $statusClass = 'bg-green-200/50 border-green-300 text-green-500';
+                                        $statusLabel = 'Success';
+                                    } elseif ($participant->status == 'paid') {
+                                        $statusClass = 'bg-red-200/50 border-red-300 text-red-500';
+                                        $statusLabel = 'Paid';
+                                    }
+                                @endphp
+                                <span class="inline-block max-w-[120px] px-2 py-0.5 rounded-xl border-2 text-center 
+                                    {{ $statusClass }}">
+                                    {{ $statusLabel }}
+                                </span>
+                            </td>
                         </tr>
                         @empty
                         <tr>

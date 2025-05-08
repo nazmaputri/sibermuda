@@ -20,21 +20,19 @@
         body {
             font-family: "Poppins", sans-serif !important;
         }
-        @layer utilities {
-            @keyframes zoom-in {
-                0% {
-                    transform: scale(0.8);
-                    opacity: 0;
-                }
-                100% {
-                    transform: scale(1);
-                    opacity: 1;
-                }
+        @keyframes zoom-in {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
             }
 
             .animate-zoom-in {
-                animation: zoom-in 0.5s ease-out forwards;
-            }
+            animation: zoom-in 0.5s ease-out forwards;
         }
     </style>
         
@@ -42,9 +40,9 @@
 </head>
 <body class="bg-white min-h-screen flex items-center justify-center">
 <!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
-<!-- <x-loading-screen /> -->
+<x-loading-screen />
 
-<div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden">
+<div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden animate-zoom-in" id="login-container">
     <!-- Kiri (Logo) -->
     <div class="hidden md:flex md:w-1/2 bg-midnight rounded rounded-2xl items-center justify-center">
         <img src="{{ asset('storage/login2.png') }}" alt="Logo" class="w-70 h-70 transform transition-transform hover:scale-105">
@@ -63,7 +61,7 @@
         </div>
         <p class="mb-2 text-gray-600 text-center">Selamat datang di Sibermuda Kursus</p>
 
-        <form action="{{ route('login') }}" method="POST" class="space-y-4">
+        <form action="{{ route('login') }}" method="POST" class="space-y-4" id="form">
             @csrf
 
             <!-- Email Field (Dengan efek floating label) -->
@@ -128,10 +126,10 @@
                 <p class="text-red-500 text-sm mt-1 text-center">{{ $message }}</p>
             @enderror
 
-            <button type="submit" class="w-full bg-midnight text-white py-3 rounded-lg hover:bg-opacity-90">Masuk</button>
+            <button type="submit" id="btn-submit" class="inline-flex justify-center items-center w-full bg-midnight text-white py-3 rounded-lg hover:bg-opacity-90">Masuk</button>
         </form>
 
-        <div class="flex items-center justify-center my-4">
+            <div class="flex items-center justify-center my-4">
                 <div class="border-t border-gray-300 flex-grow mr-4"></div>
                 <p class="text-gray-700 text-center">Atau</p>
                 <div class="border-t border-gray-300 flex-grow ml-4"></div>
@@ -170,16 +168,6 @@
     </div>
 </div>
 <script>
-    //untuk mengatur flash message dari backend
-    document.addEventListener('DOMContentLoaded', function () {
-        const flashMessage = document.getElementById('flash-message');
-            if (flashMessage) {
-                setTimeout(() => {
-                    flashMessage.remove();
-            }, 3000); // Hapus pesan setelah 3 detik
-        }
-    });
-    
     // Pengaturan untuk membuka/menutup input password
     function toggleVisibility() {
     const input = document.getElementById('password');

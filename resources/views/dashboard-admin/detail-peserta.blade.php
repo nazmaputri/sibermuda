@@ -120,7 +120,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-2 px-2 text-gray-400 border-l border-b border-r">Belum ada kursus yang dibeli</td>
+                                <td colspan="4" class="text-center py-2 px-2 text-gray-600 border-l border-b border-r">Belum ada kursus yang dibeli</td>
                             </tr>
                         @endforelse
                     </tbody>

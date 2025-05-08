@@ -297,7 +297,7 @@
                   });
                 </script>
               @else
-                <p class="text-sm text-gray-400 italic mt-1">No course available</p>
+                <p class="text-sm text-gray-400 italic mt-1">belum ada kursus</p>
               @endif
             </div>
           </div>

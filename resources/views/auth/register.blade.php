@@ -18,21 +18,19 @@
         body {
             font-family: "Poppins", sans-serif !important;
         }
-        @layer utilities {
-            @keyframes zoom-in {
-                0% {
-                    transform: scale(0.8);
-                    opacity: 0;
-                }
-                100% {
-                    transform: scale(1);
-                    opacity: 1;
-                }
+        @keyframes zoom-in {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
             }
 
             .animate-zoom-in {
-                animation: zoom-in 0.5s ease-out forwards;
-            }
+            animation: zoom-in 0.5s ease-out forwards;
         }
     </style>
 </head>
@@ -40,7 +38,7 @@
 <!-- include elemen loading-screen, untuk animasi saat halaman sedang loading -->
 <x-loading-screen />
 
-    <div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden">
+    <div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden animate-zoom-in"id="register-container">
 
         <!-- Kiri (Logo) -->
     <div class="hidden md:flex md:w-1/2 bg-midnight rounded rounded-2xl items-center justify-center">
@@ -305,9 +303,9 @@
     
     // Saat DOM sudah siap, tambahkan class animasi zoom-in ke kontainer
     document.addEventListener('DOMContentLoaded', () => {
-        const loginContainer = document.getElementById('login-container');
+        const registerContainer = document.getElementById('register-container');
         setTimeout(() => {
-            loginContainer.classList.add('animate-zoom-in');
+            registerContainer.classList.add('animate-zoom-in');
         }, 100); // delay sedikit agar smooth
     });
 </script>
