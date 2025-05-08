@@ -25,7 +25,7 @@
                 </svg>
             </div> -->
             <div class="flex items-center justify-center">
-                <img src="{{ asset('storage/forgot-password.png') }}" alt="Logo" class="w-60 h-60 object-cover transform transition-transform hover:scale-105">
+                <img src="{{ asset('storage/forgot-password.png') }}" alt="Logo" class="w-60 h-60 object-cover animate-ping-and-bounce">
             </div>
             <div class="w-full p-4">
                 <h1 class="text-3xl font-semibold text-midnight mb-2 text-center">Request Reset Kata Sandi Berhasil!</h1>

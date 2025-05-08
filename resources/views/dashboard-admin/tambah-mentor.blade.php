@@ -10,7 +10,7 @@
             @csrf
             <input type="hidden" name="added_by_admin" value="true">
             <!-- Nama Lengkap -->
-            <div>
+            <div class="order-1 md:order-none">
                 <label for="name" class="block font-medium  text-gray-700 pb-2">Nama Lengkap</label>
                 <input type="text" name="name" id="name" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('name') border-red-500 @enderror" placeholder="Masukkan nama lengkap">
                 @error('name')
@@ -19,7 +19,7 @@
             </div>
 
             <!-- Email -->
-            <div>
+            <div class="order-2 md:order-none">
                 <label for="email" class="block font-medium text-gray-700 pb-2">Email</label>
                 <input type="email" name="email" id="email" class="anti-autofill w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('email') border-red-500 @enderror" placeholder="Masukkan Email" value="{{ old('email') }}" autocomplete="off" {{-- atau coba: autocomplete="new-password" --}} readonly  onfocus="this.removeAttribute('readonly');"
                 >
@@ -29,7 +29,7 @@
             </div>
 
             <!-- Nomor Telepon -->
-            <div>
+            <div class="order-3 md:order-none">
                 <label for="phone_number" class="block font-medium text-gray-700 pb-2">Nomor Telepon</label>
                 <input type="text" name="phone_number" id="phone_number" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('phone_number') border-red-500 @enderror" placeholder="Masukkan nomor telepon">
                 @error('phone_number')
@@ -38,47 +38,70 @@
             </div>
 
             <!-- Password -->
-            <div class="relative">
+            <div class="relative order-4 md:order-none">
                 <label for="password" class="block font-medium text-gray-700 pb-2">Kata Sandi</label>
-                <input type="password" name="password" id="password" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('password') border-red-500 @enderror" placeholder="Masukkan password">
-                <span class="absolute right-3 mt-2.5 cursor-pointer text-gray-500" id="togglePassword">
-                    <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-                        <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                        <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
-                    </svg>
-                </span>
+                
+                <div class="relative">
+                    <input type="password" name="password" id="password"
+                        class="w-full px-4 py-2 pr-10 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('password') border-red-500 @enderror"
+                        placeholder="Masukkan kata sandi">
+                    
+                    <!-- Icon Mata -->
+                    <div class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500" id="togglePassword">
+                        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20" class="h-5 w-5">
+                            <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                            <path fill-rule="evenodd"
+                                d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+
                 @error('password')
                     <p class="text-red-500 text-sm mt-1" id="password-error">{{ $message }}</p>
                 @enderror
             </div>
 
             <!-- Deskripsi Pengalaman -->
-            <div class="">
+            <div class="order-6 md:order-none">
                 <label for="experience" class="block font-medium text-gray-700 pb-2">Deskripsi Pengalaman</label>
                 <textarea name="experience" id="experience" rows="4" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('experience') border-red-500 @enderror" placeholder="Deskripsikan pengalaman"></textarea>
                 @error('experience')
                     <p class="text-red-500 text-sm mt-1" id="experience-error">{{ $message }}</p>
                 @enderror
             </div>
+
             <!-- Konfirmasi Password -->
-            <div class="relative">
+            <div class="relative order-5 md:order-none">
                 <label for="password_confirmation" class="block font-medium text-gray-700 pb-2">Konfirmasi Kata Sandi</label>
-                <input type="password" name="password_confirmation" id="password_confirmation" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('password_confirmation') border-red-500 @enderror" placeholder="Masukkan konfirmasi password">
-                <span class="absolute mt-2.5 right-3 cursor-pointer text-gray-500" id="toggleConfirmPassword">
-                    <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
-                        <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                        <path fill-rule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clip-rule="evenodd" />
-                    </svg>
-                </span>
+                
+                <div class="relative">
+                    <input type="password" name="password_confirmation" id="password_confirmation"
+                        class="w-full px-4 py-2 pr-10 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('password') border-red-500 @enderror"
+                        placeholder="Masukkan konfirmasi kata sandi">
+                    
+                    <!-- Icon Mata -->
+                    <div class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500" id="toggleConfirmPassword">
+                        <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                            viewBox="0 0 20 20" class="h-5 w-5">
+                            <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
+                            <path fill-rule="evenodd"
+                                d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+
                 @error('password_confirmation')
-                    <p class="text-red-500 text-sm mt-1" id="password_confirmation-error">{{ $message }}</p>
+                    <p class="text-red-500 text-sm mt-1" id="password-error">{{ $message }}</p>
                 @enderror
             </div>
 
             <!-- Hidden Role -->
             <input type="hidden" name="role" value="mentor">
             <!-- Submit Button -->
-            <div class="col-span-1 md:col-span-2 flex justify-end space-x-4">
+            <div class="order-7 col-span-1 md:col-span-2 flex justify-end space-x-4">
                 <a href="{{ route('datamentor-admin') }}" class="bg-red-400 text-white font-medium py-2 px-6 rounded-md hover:bg-red-300">Batal</a>
                 <button type="submit" class="bg-sky-400 text-white font-medium py-2 px-6 rounded-md hover:bg-sky-300">
                     Tambah
