@@ -116,7 +116,7 @@
             </div>
 
             <div class="flex justify-end">
-                <a href="{{ route('forgot') }}" class="text-sm  text-midnight underline">Lupa kata sandi?</a>
+                <a href="{{ route('password.request') }}" class="text-sm  text-midnight underline">Lupa kata sandi?</a>
             </div>
 
             <div class="flex justify-center">

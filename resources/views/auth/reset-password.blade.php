@@ -37,7 +37,7 @@
             </div>
             <p class="text-center text-gray-600 mb-5 text-sm">Silahkan masukkan password baru untuk melakukan reset password</p>
 
-            <form action="" method="POST" class="space-y-4">
+            <form action="{{ route('password.update') }}" method="POST" class="space-y-4">
                 @csrf
                  <!-- Password Field (Dengan efek floating label) -->
                  <div class="relative w-full mb-4">

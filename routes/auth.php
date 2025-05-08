@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\PasswordController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -10,13 +11,12 @@ Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 
 //Forgot password
-Route::get('forgot-password', [LoginController::class, 'forgot'])->name('forgot');
-Route::get('/success-forgot-password', function () {
-    return view('auth.success-forgot-password'); // 'dummy' adalah nama file blade yang berada di folder resources/views
-});
-Route::get('/reset-password', function () {
-    return view('auth.reset-password'); // 'dummy' adalah nama file blade yang berada di folder resources/views
-});
+Route::get('/forgot-password', [PasswordController::class, 'showForgotForm'])->name('password.request');
+Route::post('/forgot-password', [PasswordController::class, 'sendResetLink'])->name('password.email');
+
+Route::get('/reset-password/{token}', [PasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/reset-password', [PasswordController::class, 'resetPassword'])->name('password.update');
+
 Route::get('/success-reset-password', function () {
     return view('auth.success-reset-password'); // 'dummy' adalah nama file blade yang berada di folder resources/views
 });
