@@ -100,7 +100,24 @@
                     <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md"/>
                     <div class="flex-1 space-y-1">
                         <h2 class="text-md font-medium text-gray-700 capitalize">{{ $cart->course->title }}</h2>
-                        <p class="text-sm font-medium text-red-400">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+                        @if($cart->final_price < $cart->course->price)
+                            <p class="text-sm font-medium text-red-500">
+                                Rp. {{ number_format($cart->final_price, 0, ',', '.') }}
+                                <span class="line-through text-gray-400 text-xs ml-2">
+                                    Rp. {{ number_format($cart->course->price, 0, ',', '.') }}
+                                </span>
+
+                                @if($cart->applied_discount)
+                                    <span class="ml-2 text-[10px] text-red-600 font-semibold bg-red-100 px-2 py-0.5 rounded-sm">
+                                        -{{ $cart->applied_discount->discount_percentage }}%
+                                    </span>
+                                @endif
+                            </p>
+                        @else
+                            <p class="text-sm font-medium text-gray-700">
+                                Rp. {{ number_format($cart->course->price, 0, ',', '.') }}
+                            </p>
+                        @endif
                         <form action="{{ route('cart.remove', $cart->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
@@ -116,22 +133,25 @@
         <!-- Sidebar total & checkout -->
         <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
             <!-- Input Kupon -->
-            <div class="flex space-x-2 items-center mt-1 pb-4">
+            <div class="flex space-x-2 items-center mt-1 pb-2">
                 <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
                 <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
             </div>
 
             <!-- Total Harga -->
-            <div class="mt-3">
+            <div class="md:pt-2 pt-1">
                 <div class="flex justify-between items-center flex-wrap gap-2">
                     <h3 class="font-semibold text-gray-700 text-sm">
                         Total:
                     </h3>
                     <div class="flex items-center space-x-2">
-                        @if ($couponCode && $totalPriceAfterDiscount < $subtotal)
-                            <span class="text-gray-500 line-through text-sm">
-                                Rp {{ number_format($subtotal, 0, ',', '.') }}
+                        @if ($totalPriceAfterDiscount < $subtotal)
+                            <span class="ml-1 text-red-600 text-[10px] font-semibold bg-red-100 px-1 py-0.5 rounded-sm">
+                                - Rp.{{ number_format($subtotal - $totalPriceAfterDiscount, 0, ',', '.') }}
                             </span>
+                            <!-- <span class="text-gray-500 line-through text-xs">
+                                Rp {{ number_format($subtotal, 0, ',', '.') }}
+                            </span> -->
                         @endif
                         <span id="total-price" class="text-red-500 font-semibold text-sm">
                             Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}

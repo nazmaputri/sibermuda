@@ -62,43 +62,57 @@
             @enderror
         </div>
 
-        <!-- Terapkan ke Semua Kursus -->
-        <div class="mt-4">
-            <input type="hidden" name="apply_to_all" value="0d">
-            <label class="flex items-center space-x-2">
-                <input type="checkbox" name="apply_to_all" id="applyToAll" value="1" {{ $discount->apply_to_all ? 'checked' : '' }}
-                    class="rounded border-gray-300 text-blue-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
-                <span class="text-gray-700">Terapkan ke semua kursus</span>
-            </label>
-        </div>
-
-        <!-- Dropdown Pilih Kursus (jika tidak berlaku untuk semua) -->
-        <div id="courseSelection" class="mt-4" x-data="{ open: false, selectedCourses: @json($discount->course_ids ?? []) }" x-show="!$refs.applyToAll.checked">
+        <div x-data="{
+            open: false,
+            selectedCourses: @json($discount->course_ids ?? []),
+            applyToAllChecked: {{ $discount->apply_to_all ? 'true' : 'false' }}
+        }">
             <label class="block text-gray-700 font-medium">Pilih Kursus</label>
             <div class="relative">
                 <button @click="open = !open" type="button"
                     class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
-                    <span class="block overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300">
-                        <span x-text="selectedCourses.length > 0 ? selectedCourses.join(', ') : 'Pilih Kursus'"></span>
+                    <span class="block max-h-10 overflow-y-auto whitespace-normal break-words text-left scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300">
+                        <span x-text="applyToAllChecked ? 'Semua Kursus Dipilih' : (selectedCourses.length > 0 ? selectedCourses.join(', ') : 'Pilih Kursus')"></span>
                     </span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                     </svg>
                 </button>
+
                 <div x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg">
                     <ul class="max-h-40 overflow-y-auto">
+
+                        <!-- Terapkan ke Semua Kursus -->
+                        <li class="px-4 py-2 border-b">
+                            <label class="flex items-center space-x-2">
+                                <input type="hidden" name="apply_to_all" value="0">
+                                <input type="checkbox" name="apply_to_all" value="1"
+                                    x-model="applyToAllChecked"
+                                    class="rounded border border-dashed text-gray-700 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                                <span class="text-gray-700">Terapkan ke semua kursus</span>
+                            </label>
+                        </li>
+
+                        <!-- Daftar Kursus -->
                         @foreach($courses as $course)
-                            <li class="px-4 py-2 text-sm text-gray-700  hover:bg-blue-100 cursor-pointer"
-                                @click="if(selectedCourses.includes('{{ $course->title }}')) { selectedCourses.splice(selectedCourses.indexOf('{{ $course->title }}'), 1); } else { selectedCourses.push('{{ $course->title }}'); }">
+                            <li class="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                                @click="if(!applyToAllChecked) {
+                                    if(selectedCourses.includes('{{ $course->title }}')) {
+                                        selectedCourses.splice(selectedCourses.indexOf('{{ $course->title }}'), 1);
+                                    } else {
+                                        selectedCourses.push('{{ $course->title }}');
+                                    }
+                                }">
                                 <input type="checkbox" name="courses[]" value="{{ $course->title }}" class="mr-2"
-                                    x-bind:checked="selectedCourses.includes('{{ $course->title }}')">
+                                    x-bind:checked="selectedCourses.includes('{{ $course->title }}')"
+                                    :disabled="applyToAllChecked">
                                 {{ $course->title }}
                             </li>
                         @endforeach
                     </ul>
                 </div>
             </div>
-            <p class="text-sm text-gray-500 mt-1">* Klik untuk memilih kursus.</p>
+            <p class="text-sm text-gray-500 mt-1">* Pilih beberapa kursus atau terapkan ke semua.</p>
         </div>
 
         <!-- Tombol -->

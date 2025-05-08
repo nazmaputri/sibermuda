@@ -37,8 +37,10 @@
         <p class="text-3xl md:text-5xl font-semibold mb-4 font-['Roboto'] text-gray-700">
           Bersama <span class="">Sibermuda.Idn</span>
         </p>
-        <p class="text-lg mb-4 text-gray-600">
-          Kursus online berkualitas dengan pendekatan praktis dan dukungan mentor yang siap membimbingmu.
+        <!-- teks mengetik -->
+        <p class="text-lg mb-4 text-gray-600 min-h-[3rem]">
+          <span id="typing-text"></span>
+          <span class="inline-block w-[1px] h-[1em] bg-gray-600 animate-pulse align-middle ml-0.5"></span>
         </p>
         <a href="{{ ('login') }}">
           <button class="text-sm px-6 py-2 rounded-md bg-midnight border border-gray-700 hover:bg-midnight text-midnigt mt-2 text-white font-medium shadow-md hover:bg-opacity-90 transition-transform duration-300 ease-in-out transform hover:scale-105">
@@ -143,3 +145,35 @@
         </div>
     </div>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const text = "Kursus online berkualitas dengan pendekatan praktis dan dukungan mentor yang siap membimbingmu.";
+    const target = document.getElementById('typing-text');
+    let i = 0;
+    let isDeleting = false;
+
+    function typeLoop() {
+      if (!isDeleting) {
+        target.textContent = text.substring(0, i + 1);
+        i++;
+        if (i < text.length) {
+          setTimeout(typeLoop, 50); // kecepatan ketik
+        } else {
+          isDeleting = true;
+          setTimeout(typeLoop, 2000); // jeda setelah selesai ngetik
+        }
+      } else {
+        target.textContent = text.substring(0, i - 1);
+        i--;
+        if (i > 0) {
+          setTimeout(typeLoop, 25); // kecepatan hapus
+        } else {
+          isDeleting = false;
+          setTimeout(typeLoop, 500); // jeda sebelum mulai ngetik lagi
+        }
+      }
+    }
+
+    typeLoop();
+  });
+</script>

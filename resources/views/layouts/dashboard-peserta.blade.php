@@ -244,7 +244,7 @@
 
                         <!-- Badge notifikasi -->
                         <span id="notification-badge"
-                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-semibold rounded-full w-4 h-4 flex items-center justify-center hidden">
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">
                             <span id="notification-count">0</span>
                         </span>
                     </button>
