@@ -25,8 +25,9 @@ class PasswordController extends Controller
         $status = Password::sendResetLink($request->only('email'));
 
         return $status === Password::RESET_LINK_SENT
-            ? back()->with('status', __($status))
+            ? redirect()->route('success-forgot-password')->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
+    
     }
 
     // Tampilkan form reset password dari link email
@@ -34,7 +35,7 @@ class PasswordController extends Controller
     {
         return view('auth.reset-password', [
             'token' => $token,
-            'email' => $request->email,
+            'email' => $request->query('email') // pastikan email dikirim lewat URL (query string)
         ]);
     }
 
@@ -47,20 +48,39 @@ class PasswordController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
+        // Reset password menggunakan token dan email
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
+            function ($user, $password) use ($request) {
+                if (!$user) {
+                    // Log jika token tidak valid
+                    Log::error('Invalid token or email during password reset: ' . $request->email);
+                    return back()->withErrors(['email' => 'Token reset tidak valid.']);
+                }
+
+                // Update password di database
                 $user->forceFill([
                     'password' => Hash::make($password),
                 ])->save();
-        
-                event(new PasswordReset($user));
-            }
-        );        
 
-        return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
-            : back()->withErrors(['email' => [__($status)]]);
+                // Trigger event password reset
+                event(new PasswordReset($user));
+
+                // Log keberhasilan
+                Log::info('Password successfully reset for user: ' . $user->email);
+            }
+        );
+
+        // Cek status apakah password berhasil direset
+        if ($status === Password::PASSWORD_RESET) {
+            return redirect()->route('success-reset-password')
+                             ->with('status', __('Password berhasil direset.'));
+        }
+
+        // Jika gagal, kembalikan dengan pesan error
+        Log::error('Password reset failed with status: ' . $status);
+        return back()->withErrors(['email' => [__($status)]])
+                     ->withInput($request->only('email'));
     }
 }
 
