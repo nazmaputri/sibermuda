@@ -11,7 +11,7 @@
             @if($user->photo)
                 <img src="{{ Storage::url($user->photo) }}" alt="Foto Profil" class="w-28 h-28 rounded-full mt-2 mx-auto">
             @endif
-            <input type="file" name="photo" id="photo" class="p-2 mt-2 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm">
+            <input type="file" name="photo" id="photo" class="p-2 mt-2 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm" placeholder="Masukkan foto profil">
             @error('photo')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror
@@ -20,7 +20,7 @@
         <!-- Nama -->
         <div class="mb-4">
             <label for="name" class="block font-medium text-gray-700">Nama</label>
-            <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" required>
+            <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"  placeholder="Masukkan nama">
             @error('name')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror
@@ -29,7 +29,7 @@
         <!-- Email -->
         <div class="mb-4">
             <label for="email" class="block font-medium text-gray-700">Email</label>
-            <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" required>
+            <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"  placeholder="Masukkan email">
             @error('email')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror
@@ -38,7 +38,7 @@
         <!-- No Telepon -->
          <div class="mb-4">
             <label for="phone_number" class="block font-medium text-gray-700">No Telepon</label>
-            <input type="number" name="phone_number" id="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" required>
+            <input type="number" name="phone_number" id="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="p-2 mt-1 text-sm text-gray-700 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"  placeholder="Masukkan nomor telepon">
             @error('phone_number')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror
@@ -46,11 +46,11 @@
 
         <!-- Password -->
         <div class="mb-4 relative">
-            <label for="password" class="block font-medium text-gray-700">Masukkan Kata Sandi Baru</label>
+            <label for="password" class="block font-medium text-gray-700">Kata Sandi</label>
             
             <div class="relative">
                 <input type="password" name="password" id="password"
-                    class="p-2 pr-10 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                    class="p-2 pr-10 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan kata sandi">
                 
                 <!-- Icon Mata -->
                 <div class="absolute inset-y-0 right-2 flex items-center cursor-pointer" id="togglePassword">
@@ -71,11 +71,11 @@
 
        <!-- Password Confirmation -->
        <div class="mb-4 relative">
-            <label for="password_confirmation" class="block font-medium text-gray-700">Masukkan Kata Sandi Baru</label>
+            <label for="password_confirmation" class="block font-medium text-gray-700">Konfirmasi Kata Sandi</label>
             
             <div class="relative">
                 <input type="password" name="password_confirmation" id="password_confirmation"
-                    class="p-2 pr-10 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                    class="p-2 pr-10 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan konfirmasi kata sandi">
                 
                 <!-- Icon Mata -->
                 <div class="absolute inset-y-0 right-2 flex items-center cursor-pointer" id="toggleConfirmPassword">

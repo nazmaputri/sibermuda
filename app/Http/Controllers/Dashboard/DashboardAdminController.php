@@ -393,7 +393,7 @@ class DashboardAdminController extends Controller
             $purchasesQuery->whereMonth('created_at', $selectedMonth);
         }
     
-        $revenues = $purchasesQuery->get();
+        $revenues = $purchasesQuery->paginate(5);
     
         // Hitung total pendapatan berdasarkan filter yang diterapkan (bulan dan kursus)
         $totalFilteredRevenue = $revenues->sum(function ($purchase) {

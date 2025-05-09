@@ -64,28 +64,33 @@
                 @enderror
             </div>
 
-            <!-- Terapkan ke Semua Kursus -->
-            <div class="mt-4">
-                <input type="hidden" name="apply_to_all" value="0">
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" name="apply_to_all" id="applyToAll" value="1"
-                        class="rounded border-gray-300 text-blue-600 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
-                    <span class="text-gray-700">Terapkan ke semua kursus</span>
-                </label>
-            </div>
+           <!-- Dropdown Pilih Kursus -->
+            <div id="courseSelection" class=""
+                x-data="{ open: false, selectedCourses: [], searchTerm: '', applyToAll: false }">
+                <input type="hidden" name="apply_to_all" :value="applyToAll ? 1 : 0">
 
-            <!-- Dropdown Pilih Kursus -->
-            <div id="courseSelection" class="mt-4" x-data="{ open: false, selectedCourses: [], searchTerm: '' }" x-show="!applyToAll">
                 <label class="block text-gray-700 pb-2 font-medium">Pilih Kursus</label>
 
-                <div class="relative">
-                    <!-- Button untuk membuka dropdown -->
+                <div class="relative w-full max-w-full">
+                    <!-- Tombol untuk membuka dropdown -->
                     <button @click="open = !open" type="button"
-                        class="border px-4 py-2 text-gray-700 w-full rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
-                        <span class="block overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300">
-                            <span x-text="selectedCourses.length > 0 ? selectedCourses.join(', ') : 'Pilih Kursus'"></span>
-                        </span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+                        class="border px-4 py-2 text-gray-700 w-full rounded bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 overflow-hidden">
+
+                        <div class="flex-1 w-full max-w-full md:max-w-full overflow-x-auto max-h-10 scrollbar-hide">
+                            <span class="block text-left text-sm">
+                                <template x-if="applyToAll">
+                                    <span class="font-medium text-gray-700">Terapkan ke semua kursus</span>
+                                </template>
+                                <template x-if="!applyToAll && selectedCourses.length > 0">
+                                    <span x-text="selectedCourses.join(', ')"></span>
+                                </template>
+                                <template x-if="!applyToAll && selectedCourses.length === 0">
+                                    <span>Pilih Kursus</span>
+                                </template>
+                            </span>
+                        </div>
+                        <!-- Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 ml-1 shrink-0" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                         </svg>
                     </button>
@@ -96,29 +101,44 @@
                             <input type="text" placeholder="Cari kursus..." x-model="searchTerm"
                                 class="w-full text-sm text-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                         </div>
-                        <ul class="max-h-40 overflow-y-auto">
+
+                        <ul class="max-h-48 overflow-y-auto text-sm text-gray-700">
+
+                            <!-- Opsi Terapkan ke Semua Kursus -->
+                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer border border-dashed">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" x-model="applyToAll"
+                                        class="text-midnight focus:ring-gray-400 rounded">
+                                    <span class="font-medium text-gray-700">Terapkan ke semua kursus</span>
+                                </label>
+                            </li>
+
+                            <!-- Daftar Kursus -->
                             @foreach($courses as $course)
                                 @php
-                                    // Cek apakah kursus memiliki diskon aktif
                                     $hasActiveDiscount = $course->discounts->where('start_date', '<=', \Carbon\Carbon::now())
-                                                                        ->where('end_date', '>=', \Carbon\Carbon::now())
-                                                                        ->count() > 0;
+                                                            ->where('end_date', '>=', \Carbon\Carbon::now())->count() > 0;
                                 @endphp
-                                <li class="px-4 py-2 hover:bg-blue-100 cursor-pointer text-gray-700 text-sm">
-                                    <input type="checkbox" name="courses[]" value="{{ $course->id }}" 
-                                        class="mr-2 text-gray-700"
-                                        x-bind:disabled="{{ $hasActiveDiscount ? 'true' : 'false' }}"
-                                        x-bind:checked="selectedCourses.includes('{{ $course->title }}')">
-                                    {{ $course->title }}
-                                    @if($hasActiveDiscount)
-                                        <span class="text-xs text-red-500 ml-2">Diskon Aktif</span>
-                                    @endif
+                                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                                    <label class="flex items-center">
+                                        <input type="checkbox"
+                                            :value="'{{ $course->title }}'"
+                                            x-model="selectedCourses"
+                                            :disabled="applyToAll || {{ $hasActiveDiscount ? 'true' : 'false' }}"
+                                            name="courses[]"
+                                            value="{{ $course->id }}"
+                                            class="mr-2 text-gray-700">
+                                        <span>{{ $course->title }}</span>
+                                        @if($hasActiveDiscount)
+                                            <span class="text-xs text-red-500 ml-2">Diskon Aktif</span>
+                                        @endif
+                                    </label>
                                 </li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
-                <p class="text-sm text-gray-500 mt-1">* Klik untuk memilih, gunakan CTRL untuk multi-select.</p>
+                <p class="text-sm text-gray-500 mt-1">* Pilih beberapa kursus atau terapkan ke semua.</p>
             </div>
 
             <!-- Tombol -->
