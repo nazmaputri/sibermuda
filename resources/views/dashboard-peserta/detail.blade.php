@@ -208,7 +208,7 @@
 
 <!-- Section Ulasan Pengguna -->
 <div class="bg-white p-8 rounded-lg shadow-md mt-10 border border-gray-200">
-    <h3 class="text-md font-medium text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Ulasan Pengguna</h3>
+    <h3 class="text-md font-semibold text-gray-700 mb-6 border-b-2 border-gray-300 pb-2">Ulasan Pengguna</h3>
     <!-- card rating -->
     <div class="space-y-6">
     <!-- Jika tidak ada ulasan -->

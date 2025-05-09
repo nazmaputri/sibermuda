@@ -146,12 +146,12 @@
                     </h3>
                     <div class="flex items-center space-x-2">
                         @if ($totalPriceAfterDiscount < $subtotal)
-                            <span class="ml-1 text-red-600 text-[10px] font-semibold bg-red-100 px-1 py-0.5 rounded-sm">
+                            <!-- <span class="ml-1 text-red-600 text-[10px] font-semibold bg-red-100 px-1 py-0.5 rounded-sm">
                                 - Rp.{{ number_format($subtotal - $totalPriceAfterDiscount, 0, ',', '.') }}
-                            </span>
-                            <!-- <span class="text-gray-500 line-through text-xs">
-                                Rp {{ number_format($subtotal, 0, ',', '.') }}
                             </span> -->
+                            <span class="text-gray-500 line-through text-[12px] font-medium">
+                                Rp {{ number_format($subtotal, 0, ',', '.') }}
+                            </span>
                         @endif
                         <span id="total-price" class="text-red-500 font-semibold text-sm">
                             Rp {{ number_format($totalPriceAfterDiscount, 0, ',', '.') }}

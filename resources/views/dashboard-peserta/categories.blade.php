@@ -104,7 +104,7 @@
                                     </span>
                                 </p>
                             @else
-                                <p class="text-gray-700 inline-flex items-center text-sm rounded-xl font-semibold mx-3">
+                                <p class="text-red-500 inline-flex items-center text-sm rounded-xl font-semibold mx-3">
                                     Rp. {{ number_format($course->price, 0, ',', '.') }}
                                 </p>
                             @endif

@@ -88,9 +88,9 @@
 
         <div class="flex justify-end space-x-4">
             <!-- Tombol Batal -->
-            <a href="{{ route('welcome-peserta') }}" class="bg-red-400 text-white font-bold py-2 px-6 rounded-lg hover:bg-red-300 text-sm">Batal</a>
+            <a href="{{ route('welcome-peserta') }}" class="bg-red-400 text-white font-medium py-2 px-6 rounded-lg hover:bg-red-300 text-sm">Batal</a>
             <!-- Tombol Simpan -->
-            <button type="submit" class="bg-sky-400 text-white font-bold py-2 px-6 rounded-lg hover:bg-sky-300 text-sm">Simpan</button>
+            <button type="submit" class="bg-sky-400 text-white font-medium py-2 px-6 rounded-lg hover:bg-sky-300 text-sm">Simpan</button>
         </div>              
     </form>
 
