@@ -118,7 +118,7 @@
                                 $hasActiveDiscount = $course->discounts->where('start_date', '<=', \Carbon\Carbon::now())
                                                         ->where('end_date', '>=', \Carbon\Carbon::now())->count() > 0;
                             @endphp
-                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" x-show="'{{ Str::lower($course->title) }}'.includes(searchTerm.toLowerCase())">
                                 <label class="flex items-center">
                                     <input type="checkbox"
                                         :disabled="applyToAll || {{ $hasActiveDiscount ? 'true' : 'false' }}"

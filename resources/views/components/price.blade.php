@@ -23,19 +23,19 @@
                                 <h1 class="text-lg font-semibold text-gray-800 mb-2">{{ Str::limit($course->title, 23, '...') }}</h1>
                                 
                                 <!-- Nama Mentor -->
-                                <p class="text-sm text-gray-600 mb-2">
+                                <p class="text-sm text-gray-600 mb-1">
                                     Mentor : {{ $course->mentor ? $course->mentor->name : 'Mentor tidak ditemukan' }}
                                 </p>                        
                                 
                                 <!-- Rating -->
-                                <div class="flex">
+                                <div class="flex items-center mb-1">
                                     @for ($i = 0; $i < 5; $i++)
                                         @if ($i < floor($course->average_rating)) <!-- Rating Penuh -->
-                                            <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-yellow-500 align-middle" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
                                             </svg>
                                         @elseif ($i < ceil($course->average_rating)) <!-- Rating Setengah -->
-                                            <svg class="w-4 h-4" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 align-middle" viewBox="0 0 20 20">
                                                 <defs>
                                                     <linearGradient id="half-star-{{ $i }}">
                                                         <stop offset="50%" stop-color="rgb(234,179,8)" /> <!-- Kuning -->
@@ -45,13 +45,13 @@
                                                 <path fill="url(#half-star-{{ $i }})" d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
                                             </svg>
                                         @else <!-- Rating Kosong -->
-                                            <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-4 h-4 text-gray-300 align-middle" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
                                             </svg>
                                         @endif
                                     @endfor
                                     <!-- Jumlah Rating -->
-                                    <span class="ml-2 text-yellow-500 text-sm">{{ number_format($course->average_rating, 1) }} / 5</span>
+                                    <span class="ml-2 text-yellow-500 text-xs leading-none mt-0.5">{{ number_format($course->average_rating, 1) }} / 5</span>
                                 </div>                 
                         
                                 <!-- Harga Kursus -->
@@ -60,7 +60,7 @@
                                         @php
                                             $discountPercentage = 100 - (($course->discounted_price / $course->price) * 100);
                                         @endphp
-                                        <p class="text-red-500 inline-flex text-sm rounded-xl font-semibold mx-3">
+                                        <p class="text-red-500 inline-flex text-sm rounded-xl font-semibold space-x-3">
                                             Rp. {{ number_format($course->discounted_price, 0, ',', '.') }}
                                             <span class="line-through text-gray-400 text-sm ml-2">
                                                 Rp. {{ number_format($course->price, 0, ',', '.') }}
@@ -70,7 +70,7 @@
                                             </span>
                                         </p>
                                     @else
-                                        <p class="text-gray-700 inline-flex text-sm rounded-xl font-semibold mx-3">
+                                        <p class="text-gray-700 inline-flex text-sm rounded-xl font-semibold">
                                             Rp. {{ number_format($course->price, 0, ',', '.') }}
                                         </p>
                                     @endif 
@@ -95,7 +95,7 @@
 
     <div class="absolute inset-0 bg-black/50"></div>
     <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-center h-full text-white">
-      <p class="text-white uppercase tracking-widest text-sm font-medium mb-4">Selamat Datang di Sibermuda!</p>
+      <p class="text-white uppercase tracking-widest text-sm font-medium mb-4">Tunggu apalagi?</p>
       <h1 class="text-3xl md:text-5xl font-semibold leading-tight">
       Mulailah Bangun Masa Depanmu<br />
       Bersama <span class="text-white">Sibermuda!</span> 

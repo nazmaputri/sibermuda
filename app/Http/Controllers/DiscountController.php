@@ -42,7 +42,6 @@ class DiscountController extends Controller
         return view('dashboard-admin.discount-edit', compact('discount', 'courses'));
     }
 
-    // Memperbarui data diskon
     public function update(Request $request, $id)
     {
         // Validasi data
@@ -53,14 +52,16 @@ class DiscountController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'start_time' => 'required',
             'end_time' => 'required',
+            'apply_to_all' => 'nullable|boolean',
+            'courses' => 'nullable|array',
         ], [
             'coupon_code.required' => 'Kode kupon wajib diisi.',
             'coupon_code.string' => 'Kode kupon harus berupa teks.',
+            'coupon_code.max' => 'Kode kupon maksimal 12 karakter.',
             'discount_percentage.required' => 'Persentase diskon wajib diisi.',
             'discount_percentage.numeric' => 'Persentase diskon harus berupa angka.',
             'discount_percentage.min' => 'Persentase diskon minimal 1%.',
             'discount_percentage.max' => 'Persentase diskon maksimal 100%.',
-            'coupon_code.max'      => 'Kode kupon maksimal 12 karakter.',
             'start_date.required' => 'Tanggal mulai wajib diisi.',
             'start_date.date' => 'Format tanggal mulai tidak valid.',
             'end_date.required' => 'Tanggal berakhir wajib diisi.',
@@ -68,24 +69,64 @@ class DiscountController extends Controller
             'end_date.after_or_equal' => 'Tanggal berakhir harus setelah atau sama dengan tanggal mulai.',
             'start_time.required' => 'Waktu mulai wajib diisi.',
             'end_time.required' => 'Waktu berakhir wajib diisi.',
+            'apply_to_all.boolean' => 'Nilai apply to all harus berupa benar atau salah.',
+            'courses.array' => 'Kursus harus berupa array.',
         ]);
 
         $discount = Discount::findOrFail($id);
+        $applyToAll = (bool) $request->input('apply_to_all');
+
+        // Jika tidak apply to all, wajib pilih minimal satu kursus
+        if (! $applyToAll) {
+            if (! $request->has('courses') || count($request->input('courses')) === 0) {
+                return back()
+                    ->withInput()
+                    ->withErrors(['courses' => 'Mohon pilih minimal satu kursus atau centang "Terapkan ke semua kursus".']);
+            }
+        }
+
+        // Cek konflik kursus aktif (sama seperti di method store)
+        if (! $applyToAll) {
+            $today = Carbon::now();
+            $selected = $request->input('courses', []);
+            $activeDiscounts = Discount::where('id', '!=', $discount->id)
+                ->where('apply_to_all', false)
+                ->whereDate('start_date', '<=', $today)
+                ->whereDate('end_date', '>=', $today)
+                ->get();
+
+            foreach ($selected as $courseId) {
+                foreach ($activeDiscounts as $d) {
+                    if ($d->courses->contains($courseId)) {
+                        return back()
+                            ->withInput()
+                            ->withErrors([
+                                'courses' => 'Kursus ID ' . $courseId . ' sudah memiliki diskon aktif.'
+                            ]);
+                    }
+                }
+            }
+        }
+
+        // Update field diskon
         $discount->coupon_code = $request->coupon_code;
         $discount->discount_percentage = $request->discount_percentage;
         $discount->start_date = $request->start_date;
         $discount->end_date = $request->end_date;
         $discount->start_time = $request->start_time;
         $discount->end_time = $request->end_time;
-        $discount->apply_to_all = $request->has('apply_to_all') && $request->apply_to_all == 1 ? 1 : 0;
+        $discount->apply_to_all = $applyToAll;
         $discount->save();
 
-        // Jika diskon tidak berlaku untuk semua kursus, perbarui relasi kursus
-        // if (!$discount->apply_to_all) {
-        //     $discount->courses()->sync($request->input('courses', []));
-        // } else {
-        //     $discount->courses()->detach();
-        // }
+        // Update relasi kursus
+        if ($applyToAll) {
+            // Terapkan ke semua kursus
+            $allCourseIds = Course::pluck('id')->toArray();
+            $discount->courses()->sync($allCourseIds);
+        } else {
+            // Terapkan hanya ke kursus terpilih
+            $discount->courses()->sync($request->input('courses', []));
+        }
 
         return redirect()->route('discount')->with('success', 'Data diskon berhasil diperbarui.');
     }

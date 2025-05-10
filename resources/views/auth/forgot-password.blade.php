@@ -35,7 +35,7 @@
                 </svg>
                 <h2 class="text-3xl font-semibold text-center text-midnight mb-2">Lupa Kata Sandi</h2>
             </div>
-            <p class="text-center text-gray-600 mb-5 text-sm">Silakan masukkan alamat email Anda dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda.</p>
+            <p class="text-center text-gray-600 mb-5 text-sm">Silahkan masukkan alamat email Anda dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi Anda.</p>
 
             <form action="" method="POST" class="space-y-4">
                 @csrf

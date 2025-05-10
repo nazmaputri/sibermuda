@@ -39,7 +39,7 @@
         }
 
         .given-text {
-            font-size: {{ isset($is_pdf) && $is_pdf ? '24px' : '16px' }};
+            font-size: {{ isset($is_pdf) && $is_pdf ? '20px' : '16px' }};
             margin: 10px 0;
             font-weight: bold;
             color: #003942;

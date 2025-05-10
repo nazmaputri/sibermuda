@@ -55,18 +55,18 @@
                             </div>
                             <div class="p-3 flex flex-col flex-grow">
                                 <h1 class="text-base font-semibold text-gray-800 mb-1">{{ $course->title }}</h1>
-                                <p class="text-xs text-gray-600 mb-1.5 capitalize">
+                                <p class="text-sm text-gray-600 mb-1.5 capitalize">
                                     Mentor: {{ $course->mentor ? $course->mentor->name : 'Mentor tidak ditemukan' }}
                                 </p>
                                 <div class="flex items-center mb-1.5">
                                     <div class="flex">
                                         @for ($i = 0; $i < 5; $i++)
                                             @if ($i < floor($course->average_rating))
-                                                <svg class="w-3 h-3 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <svg class="w-4 h-4 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
                                                 </svg>
                                             @elseif ($i < ceil($course->average_rating))
-                                                <svg class="w-3 h-3" viewBox="0 0 20 20">
+                                                <svg class="w-4 h-4" viewBox="0 0 20 20">
                                                     <defs>
                                                         <linearGradient id="half-star-{{ $i }}">
                                                             <stop offset="50%" stop-color="rgb(234,179,8)" />
@@ -76,7 +76,7 @@
                                                     <path fill="url(#half-star-{{ $i }})" d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
                                                 </svg>
                                             @else
-                                                <svg class="w-3 h-3 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
+                                                <svg class="w-4 h-4 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
                                                     <path d="M9.049 2.927a1 1 0 011.902 0l1.715 4.993 5.274.406a1 1 0 01.593 1.75l-3.898 3.205 1.473 4.74a1 1 0 01-1.516 1.11L10 15.347l-4.692 3.783a1 1 0 01-1.516-1.11l1.473-4.74-3.898-3.205a1 1 0 01.593-1.75l5.274-.406L9.049 2.927z"></path>
                                                 </svg>
                                             @endif
@@ -88,7 +88,7 @@
                                         @php
                                             $discountPercentage = 100 - (($course->discounted_price / $course->price) * 100);
                                         @endphp
-                                        <p class="text-red-500 inline-flex text-sm rounded-xl font-semibold mx-3">
+                                        <p class="text-red-500 inline-flex text-sm rounded-xl font-semibold space-x-3">
                                             Rp. {{ number_format($course->discounted_price, 0, ',', '.') }}
                                             <span class="line-through text-gray-400 text-sm ml-2">
                                                 Rp. {{ number_format($course->price, 0, ',', '.') }}
@@ -98,7 +98,7 @@
                                             </span>
                                         </p>
                                     @else
-                                        <p class="text-gray-700 inline-flex text-sm rounded-xl font-semibold mx-3">
+                                        <p class="text-gray-700 inline-flex text-sm rounded-xl font-semibold space-x-3">
                                             Rp. {{ number_format($course->price, 0, ',', '.') }}
                                         </p>
                                     @endif 
