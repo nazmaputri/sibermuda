@@ -155,6 +155,9 @@
                     <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
                         <i class="fab fa-linkedin"></i>
                     </a>
+                     <a href="https://www.tiktok.com/@ramahmdr?is_from_webapp=1&sender_device=pc" target="_blank" class="text-gray-600 hover:text-gray-800 text-xl">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
                     <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
                         <i class="fab fa-youtube"></i>
                     </a>
@@ -185,7 +188,7 @@
                     <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="github.com/learningbydoing08" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
+                    <a href="github.com/learningbydoing08" target="_blank" class="text-gray-600 hover:text-gray-800 text-xl">
                         <i class="fab fa-github"></i>
                     </a>
                     <a href="www.youtube.com/@learningbydoing_official" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
@@ -215,7 +218,7 @@
                 Kak Delika Pratiwi adalah seorang backend developer yang berpengalaman dan juga mengajar sebagai guru backend di sebuah sekolah. Ia mengajarkan konsep-konsep pengembangan backend kepada peserta, membekali mereka dengan keterampilan teknis yang diperlukan untuk berkembang di dunia pemrograman dan teknologi.
                 </p>
                 <div class="flex space-x-4 mt-2">
-                    <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
+                    <a href="https://www.linkedin.com/in/delikapratiwi" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
                         <i class="fab fa-linkedin"></i>
                     </a>
                     <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
