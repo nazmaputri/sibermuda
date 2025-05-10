@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 //LandingPage
 Route::get('/', [LandingPageController::class, 'lp'])->name('landingpage');
-Route::get('/course/{id}', [LandingPageController::class, 'detail'])->name('kursus.detail');
+Route::get('/course/{slug}', [LandingPageController::class, 'detail'])->name('kursus.detail');
 Route::get('/category/{slug}', [LandingPageController::class, 'category'])->name('category.detail');
 Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
 Route::get('/beli-kursus/{id}', [KeranjangController::class, 'handlePurchase'])->name('beli.kursus');
@@ -164,7 +164,7 @@ Route::middleware(['auth:mentor'])->group(function () {
     Route::delete('/rating/{id}', [RatingKursusController::class, 'destroy'])->name('ratingmentor.destroy');
     Route::get('/settings-mentor', [SettingController::class, 'mentor'])->name('settings.mentor');
     Route::post('/settings', [SettingController::class, 'update']);
-
+    
     //Kursus
     Route::resource('courses', CourseController::class);
 

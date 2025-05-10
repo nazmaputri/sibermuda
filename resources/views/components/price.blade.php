@@ -9,7 +9,7 @@
             <div class="flex space-x-6">
                 @foreach($courses as $course)
                     <div class="flex">
-                    <a href="{{ route('kursus.detail', $course->id) }}" class="block rounded-lg transition-transform transform hover:scale-105 duration-300">
+                    <a href="{{ route('kursus.detail', $course->slug) }}" class="block rounded-lg transition-transform transform hover:scale-105 duration-300">
                         <!-- Card Kursus -->
                         <div class="bg-white border border-gray-300 rounded-lg shadow-md  hover:shadow-lg h-full w-72 flex flex-col overflow-hidden" data-aos="zoom-in">
                             <!-- Gambar Kursus -->

@@ -50,65 +50,61 @@ class SettingController extends Controller
             'name.required' => 'Nama wajib diisi.',
             'name.string' => 'Nama harus berupa string.',
             'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
-            
+    
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Email tidak valid.',
             'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
-            
+    
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'password.min' => 'Kata sandi harus memiliki minimal 8 karakter.',
-            
+    
             'phone_number.string' => 'Nomor telepon harus berupa string.',
             'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 15 karakter.',
-            
+    
             'photo.image' => 'File yang diupload harus berupa gambar.',
             'photo.mimes' => 'Gambar harus memiliki format: jpeg, png, jpg, gif, svg.',
             'photo.max' => 'Ukuran gambar maksimal 2MB.',
-        ]);        
-
-        // Ambil user yang sedang login
+        ]);
+    
         $user = Auth::user();
-
-        // Update data user
+    
+        // Update field umum
         $user->name = $request->name;
-        $user->phone_number = $request->phone_number;
         $user->email = $request->email;
-
-        // Jika password diisi, update password
-        if ($request->filled('password')) {
+        $user->phone_number = $request->phone_number;
+    
+        // Hanya update password jika ada input baru
+        if (!empty($request->password)) {
             $user->password = Hash::make($request->password);
         }
-
-        // Cek jika ada gambar baru
+    
+        // Update foto jika diunggah
         if ($request->hasFile('photo')) {
-            // Hapus gambar lama jika ada
+            // Hapus foto lama
             if ($user->photo) {
                 Storage::disk('public')->delete($user->photo);
             }
-
-            // Simpan gambar baru dan dapatkan pathnya
+    
+            // Simpan foto baru
             $user->photo = $request->file('photo')->store('images/profile', 'public');
         }
-
-        // Simpan perubahan user
+    
         $user->save();
-
-        // Redirect berdasarkan role user
-        if ($user->hasRole('admin')) {
-            // Jika user adalah admin
+    
+        // Redirect sesuai role
+        if ($user->role === 'admin') {
             return redirect()->route('welcome-admin')->with('success', 'Profil berhasil diperbarui!');
-        } elseif ($user->hasRole('mentor')) {
-            // Jika user adalah mentor
+        } elseif ($user->role === 'mentor') {
             return redirect()->route('welcome-mentor')->with('success', 'Profil berhasil diperbarui!');
-        } elseif ($user->hasRole('student')) {
-            // Jika user adalah peserta
+        } elseif ($user->role === 'student') {
             return redirect()->route('welcome-peserta')->with('success', 'Profil berhasil diperbarui!');
         }
-
-        // Jika role tidak ditemukan, arahkan ke halaman default
-        return redirect()->route('welcome-admin')->with('success', 'Profil berhasil diperbarui!');
+    
+        // Default redirect jika role tidak dikenali
+        return redirect('/')->with('success', 'Profil berhasil diperbarui!');
     }
+    
 
     public function updatePeserta(Request $request)
     {

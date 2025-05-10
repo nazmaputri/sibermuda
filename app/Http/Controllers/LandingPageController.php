@@ -57,31 +57,31 @@ class LandingPageController extends Controller
         return view('components.tentang-kami', compact('mentor'));
     }    
     
-    public function detail($id)
+    public function detail($slug)
     {
         $today = Carbon::now();
-
+    
+        // Ambil kursus berdasarkan slug dan relasi diskon yang aktif
+        $course = Course::with(['discounts' => function ($query) use ($today) {
+            $query->whereDate('start_date', '<=', $today)
+                  ->whereDate('end_date', '>=', $today);
+        }])->where('slug', $slug)->firstOrFail();
+    
         // Cek diskon yang berlaku untuk semua kursus
         $discount = Discount::whereDate('start_date', '<=', $today)
             ->whereDate('end_date', '>=', $today)
             ->where('apply_to_all', true)
             ->first();
-
-        // Ambil kursus dan diskon spesifik untuk kursus tersebut yang aktif
-        $course = Course::with(['discounts' => function ($query) use ($today) {
-            $query->whereDate('start_date', '<=', $today)
-                ->whereDate('end_date', '>=', $today);
-        }])->findOrFail($id);
-
-        // Cari diskon aktif untuk kursus tertentu (jika ada)
-        $activeDiscount = $course->discounts->first(); // Ambil diskon pertama jika ada, pastikan diskon aktif
-
-        // Jika ada diskon aktif untuk kursus, gunakan diskon tersebut, jika tidak, gunakan diskon untuk semua kursus
+    
+        // Ambil diskon aktif khusus untuk kursus ini (jika ada)
+        $activeDiscount = $course->discounts->first();
+    
+        // Gunakan diskon khusus jika tersedia
         if ($activeDiscount) {
             $discount = $activeDiscount;
         }
-
-        // Tentukan waktu mulai dan selesai diskon
+    
+        // Waktu mulai & akhir diskon
         if ($discount) {
             $start_datetime = Carbon::parse($discount->start_date . ' ' . $discount->start_time);
             $end_datetime = Carbon::parse($discount->end_date . ' ' . $discount->end_time);
@@ -89,14 +89,15 @@ class LandingPageController extends Controller
             $start_datetime = null;
             $end_datetime = null;
         }
-
-        $ratings = RatingKursus::where('course_id', $id)->with('user')->get();
-
+    
+        // Ambil rating berdasarkan course_id
+        $ratings = RatingKursus::where('course_id', $course->id)->with('user')->get();
+    
         // Harga & Diskon
         $originalPrice = $course->price;
         $discountPercentage = $discount ? $discount->discount_percentage : 0;
         $discountedPrice = $originalPrice * (1 - $discountPercentage / 100);
-
+    
         return view('kursus-detail', compact(
             'course', 'ratings', 'discount',
             'start_datetime', 'end_datetime',
@@ -118,6 +119,26 @@ class LandingPageController extends Controller
         foreach ($courses as $course) {
             $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
             $course->average_rating = min($averageRating ?? 0, 5); // Cegah null
+
+            $activeDiscount = Discount::where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where(function ($query) use ($course) {
+                $query->where('apply_to_all', false)
+                    ->whereHas('courses', function ($q) use ($course) {
+                        $q->where('course_id', $course->id);
+                    });
+            })
+            ->first();
+
+            // Hitung harga setelah diskon jika diskon hanya berlaku pada kursus tertentu
+            if ($activeDiscount) {
+            $discountPercentage = $activeDiscount->discount_percentage;
+            $discountedPrice = $course->price - ($course->price * $discountPercentage / 100);
+            $course->discounted_price = $discountedPrice;
+            } else {
+            // Jika diskon berlaku untuk semua (apply_to_all = true), jangan tampilkan harga diskon
+            $course->discounted_price = null;
+            }
         }
 
         // Mengirimkan data ke view

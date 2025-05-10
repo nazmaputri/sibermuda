@@ -48,7 +48,7 @@
                 @forelse ($category->courses as $course)
                 <!-- container card kursus -->
                 <div class="w-72">
-                    <a href="{{ route('kursus.detail', $course->id) }}" class="block bg-white rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:scale-105 h-full">
+                    <a href="{{ route('kursus.detail', $course->slug) }}" class="block bg-white rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:scale-105 h-full">
                         <div class="overflow-hidden h-full flex flex-col">
                             <div class="w-full">
                                 <img src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}" class="w-full h-36 object-cover">
@@ -84,9 +84,24 @@
                                         <span class="text-yellow-500 text-xs ml-2">{{ number_format($course->average_rating, 1) }} / 5</span>
                                     </div>
                                 </div>
-                                <p class="inline-flex items-center text-sm">
-                                    <span class="text-red-500 inline-flex items-center text-sm p-1 rounded-lg font-semibold">Rp. {{ number_format($course->price, 0, ',', '.') }}</span>
-                                </p>
+                                    @if($course->discounted_price)
+                                        @php
+                                            $discountPercentage = 100 - (($course->discounted_price / $course->price) * 100);
+                                        @endphp
+                                        <p class="text-red-500 inline-flex text-sm rounded-xl font-semibold mx-3">
+                                            Rp. {{ number_format($course->discounted_price, 0, ',', '.') }}
+                                            <span class="line-through text-gray-400 text-sm ml-2">
+                                                Rp. {{ number_format($course->price, 0, ',', '.') }}
+                                            </span>
+                                            <span class="text-xs ml-2 font-medium text-red-500 p-0.5 bg-red-100 rounded-sm">
+                                            - {{ $discountPercentage }}%!
+                                            </span>
+                                        </p>
+                                    @else
+                                        <p class="text-gray-700 inline-flex text-sm rounded-xl font-semibold mx-3">
+                                            Rp. {{ number_format($course->price, 0, ',', '.') }}
+                                        </p>
+                                    @endif 
                             </div>
                         </div>
                     </a>

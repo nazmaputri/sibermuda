@@ -4,15 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use App\Models\Discount;
 use Carbon\Carbon;
 
 class Course extends Model
 {
     use HasFactory;
+    use Sluggable;
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
         'category_id',
         'price',
@@ -24,6 +27,15 @@ class Course extends Model
         'mentor_id',
         'status'
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     public function students()
     {

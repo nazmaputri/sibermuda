@@ -52,7 +52,7 @@
                 @php
                     $adminPhone = \App\Models\User::where('role', 'admin')->first()?->phone_number ?? 'Belum ada nomor';
                 @endphp
-                <p class="text-sm">Telp : +62 {{ $adminPhone }}</p>
+                <p class="text-sm">Telp : +{{ $adminPhone }}</p>
             </div>
         </div>
 
