@@ -47,11 +47,19 @@
                     <img src="{{ asset('storage/' . $cart->course->image_path) }}" alt="Course Image" class="w-24 h-24 object-cover rounded-md" />
                     <div class="flex-1">
                         <h2 class="text-md font-medium text-gray-700 capitalize">{{ $cart->course->title }}</h2>
-                        <p class="text-sm font-medium text-red-500">Rp. {{ number_format($cart->course->price, 0, ',', '.') }}</p>
+            
+                        @foreach($purchasesWithPrices as $purchase)
+                            @if($purchase->course_id == $cart->course_id)
+                                <p class="text-sm font-medium text-red-500">
+                                    Rp. {{ number_format($purchase->harga_course, 0, ',', '.') }}
+                                </p>
+                            @endif
+                        @endforeach
+            
                         <p class="text-xs text-gray-600">status : <span class="text-yellow-500">pending</span></p>
                     </div>
                 </div>
-            @endforeach
+            @endforeach        
         </div>
     @else
         <p class="mt-3 text-center text-sm text-gray-500">tidak ada data pembayaran yang sedang menunggu konfirmasi</p>

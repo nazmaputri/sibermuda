@@ -4,17 +4,17 @@
     <div class="bg-white border border-gray-200 p-8 rounded-lg shadow-md">
 
         <!-- Pemberitahuan Diskon (Tetap Ada di Atas Keranjang) -->
-        @if($couponDiscount)
+        @if($globalDiscount)
         <div class="bg-yellow-100 text-yellow-700 p-4 mb-4 rounded-lg">
             <h3 class="font-bold text-lg">
-            🎉 Kode Kupon Aktif: <span>{{ $couponDiscount->coupon_code }}</span>
+            🎉 Kode Kupon Aktif: <span>{{ $globalDiscount->coupon_code }}</span>
             </h3>
             <p class="text-sm">
-            Diskon <strong>{{ $couponDiscount->discount_percentage }}%</strong>  
+            Diskon <strong>{{ $globalDiscount->discount_percentage }}%</strong>  
             hingga  
             <span id="discount-end">
-                {{ \Carbon\Carbon::parse($couponDiscount->end_date)->translatedFormat('d F Y') }}
-                {{ $couponDiscount->end_time }}
+                {{ \Carbon\Carbon::parse($globalDiscount->end_date)->translatedFormat('d F Y') }}
+                {{ $globalDiscount->end_time }}
             </span>.
             </p>
             <div class="text-red-600 font-semibold text-sm mt-2" id="countdown-timer"></div>
@@ -132,11 +132,11 @@
 
         <!-- Sidebar total & checkout -->
         <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
-            <!-- Input Kupon -->
-            <div class="flex space-x-2 items-center mt-1 pb-2">
-                <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon" value="{{ $couponCode ?? '' }}">
-                <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
-            </div>
+        <!-- Input Kupon -->
+        <div class="flex space-x-2 items-center mt-1 pb-2">
+            <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon">
+            <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
+        </div>
 
             <!-- Total Harga -->
             <div class="md:pt-2 pt-1">

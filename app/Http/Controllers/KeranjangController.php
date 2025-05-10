@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Keranjang;
 use App\Models\Discount;
-use App\Models\Payment;
+use App\Models\Course;
 use App\Models\Purchase;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +44,14 @@ class KeranjangController extends Controller
                 $pendingTransactions[] = $purchase->course_id;
             }
         }
+
+        $purchasesWithPrices = $purchases->map(function ($purchase) {
+            // Ambil harga kursus dari tabel courses
+            $course = Course::find($purchase->course_id);
+            $purchase->course_price = $course ? $course->price : 0;
+            $purchase->harga_course = $purchase->harga_course; // Harga yang dibayar peserta
+            return $purchase;
+        });
             
         // Filter keranjang yang tidak dalam transaksi pending
         $availableCarts = $carts->filter(function ($cart) use ($pendingTransactions) {
@@ -65,11 +73,21 @@ class KeranjangController extends Controller
         $couponCode = $request->query('coupon');
         $couponDiscount = null;
 
-        // Ambil kupon global jika ada
+        // Ambil diskon global untuk ditampilkan di banner
+        $globalDiscount = Discount::where('start_date', '<=', now())
+        ->where('end_date', '>=', now())
+        ->where('apply_to_all', true)
+        ->first();
+
+        // Ambil diskon global yang valid jika user masukkan kode kupon
+        $couponDiscount = null;
+        if ($couponCode) {
         $couponDiscount = Discount::where('start_date', '<=', now())
-            ->where('end_date',   '>=', now())
+            ->where('end_date', '>=', now())
             ->where('apply_to_all', true)
+            ->where('coupon_code', $couponCode)
             ->first();
+        }
 
         // Ambil semua diskon spesifik
         $courseSpecificDiscounts = Discount::where('start_date', '<=', now())
@@ -120,46 +138,61 @@ class KeranjangController extends Controller
         ->value('phone_number');
     
         return view('dashboard-peserta.keranjang', compact(
-            'availableCarts','carts', 'couponDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'subtotal', 'courseSpecificDiscounts', 'availableCount', 'pendingCount'
+            'availableCarts','carts', 'couponDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'subtotal', 'courseSpecificDiscounts', 'availableCount', 'pendingCount', 'globalDiscount', 'purchasesWithPrices'
            
         ));
     }
 
-    // Menampilkan keranjang dengan status pending
     public function keranjangpending(Request $request)
     {
-        // Ambil data transaksi yang statusnya pending
-        $pendingTransactions = [];
-
+        // Ambil data pembelian dengan status pending
         $purchases = Purchase::where('user_id', auth()->id())
-            ->with('payment') // pastikan relasi payment sudah didefinisikan di model
+            ->whereHas('payment', function ($query) {
+                $query->where('transaction_status', 'pending');
+            })
+            ->with('payment') // Pastikan relasi payment sudah didefinisikan di model
             ->get();
-            
-        foreach ($purchases as $purchase) {
-            if ($purchase->payment && $purchase->payment->transaction_status === 'pending') {
-                $pendingTransactions[] = $purchase->course_id;
+    
+        // Ambil harga kursus dari tabel courses dan harga yang dibayar dari tabel purchases
+        $purchasesWithPrices = $purchases->map(function ($purchase) {
+            // Cek apakah harga_course ada sebelum mengaksesnya
+            $purchase->harga_course = $purchase->harga_course ?? 0; // Default ke 0 jika tidak ada
+    
+            // Ambil harga kursus dari tabel courses
+            $course = Course::find($purchase->course_id);
+            if ($course) {
+                $purchase->course_price = $course->price;
+            } else {
+                $purchase->course_price = 0; // Default ke 0 jika course tidak ditemukan
             }
-        }
-
+    
+            return $purchase;
+        });
+    
         // Ambil data keranjang user
         $carts = Keranjang::where('user_id', Auth::id())
-            ->with('course')
+            ->with('course') // Pastikan relasi course sudah didefinisikan di model
             ->get();
-
+    
+        // Ambil course yang dalam status pending transaksi
+        $pendingTransactions = $purchases->filter(function ($purchase) {
+            return $purchase->payment && $purchase->payment->transaction_status === 'pending';
+        })->pluck('course_id')->toArray();
+    
         // Filter keranjang yang dalam transaksi pending
         $pendingCarts = $carts->filter(function ($cart) use ($pendingTransactions) {
             return in_array($cart->course_id, $pendingTransactions);
         });
-
+    
         // Filter keranjang yang tidak dalam transaksi pending
         $availableCarts = $carts->filter(function ($cart) use ($pendingTransactions) {
             return !in_array($cart->course_id, $pendingTransactions);
         });
-
+    
         $availableCount = $availableCarts->count();
         $pendingCount = $pendingCarts->count();
-
-        return view('dashboard-peserta.keranjang-pending', compact('pendingCarts', 'pendingCount', 'availableCount'));
+    
+        return view('dashboard-peserta.keranjang-pending', compact('pendingCarts', 'pendingCount', 'availableCount', 'purchasesWithPrices'));
     }
     
     // Menambahkan kursus ke keranjang (hanya bisa ditambahkan sekali)

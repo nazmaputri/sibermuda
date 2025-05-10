@@ -103,48 +103,47 @@ class DiscountController extends Controller
     {
         $couponCode = $request->coupon_code;
         $courseId = $request->course_id;
-
+    
         // Cari diskon berdasarkan kode kupon
         $discount = Discount::where('coupon_code', $couponCode)->first();
-
+    
         // Jika kupon tidak ditemukan
         if (!$discount) {
-            return response()->json(['message' => 'Kupon tidak valid'], 400);
+            return redirect()->route('cart.index')->with('error', 'Kupon tidak valid');
         }
-
+    
         // Cek apakah kupon masih dalam periode yang berlaku
         $now = Carbon::now();
         $startDateTime = Carbon::parse($discount->start_date . ' ' . $discount->start_time);
         $endDateTime = Carbon::parse($discount->end_date . ' ' . $discount->end_time);
-
+    
         if ($now->lt($startDateTime) || $now->gt($endDateTime)) {
-            return response()->json(['warning' => 'Kupon sudah kadaluarsa atau belum aktif'], 400);
+            return redirect()->route('cart.index')->with('error', 'Kupon sudah kadaluarsa atau belum aktif');
         }
-
+    
         // Ambil kursus berdasarkan ID
         $course = Course::find($courseId);
         
         if (!$course) {
-            return response()->json(['warning' => 'Kursus tidak ditemukan'], 400);
+            return redirect()->route('cart.index')->with('error', 'Kursus tidak ditemukan');
         }
-
+    
         // Cek apakah kupon berlaku untuk semua kursus atau hanya kursus tertentu
         if (!$discount->apply_to_all && !$discount->courses->contains($courseId)) {
-            return response()->json(['warning' => 'Kupon tidak berlaku untuk kursus ini'], 400);
+            return redirect()->route('cart.index')->with('error', 'Kupon tidak berlaku untuk kursus ini');
         }
-
+    
         // Hitung harga setelah diskon
         $discountAmount = ($course->price * $discount->discount_percentage) / 100;
         $discountedPrice = max($course->price - $discountAmount, 0); // Pastikan harga tidak negatif
-
-        return response()->json([
+    
+        return redirect()->route('cart.index')->with('success', 'Diskon berhasil diterapkan')->with([
             'original_price' => $course->price,
             'discount_percentage' => $discount->discount_percentage,
             'discounted_price' => $discountedPrice,
-            'success' => 'Diskon berhasil diterapkan'
         ]);
-    }
-
+    }    
+       
     public function store(Request $request)
     {
         $request->validate([

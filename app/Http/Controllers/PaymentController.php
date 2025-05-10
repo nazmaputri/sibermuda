@@ -32,7 +32,7 @@ class PaymentController extends Controller
                 ->pluck('course_id')
                 ->toArray();
     
-            // Filter keranjang yang tidak memiliki course dalam status pending
+            // Ambil keranjang yang belum dibeli
             $keranjangItems = Keranjang::where('user_id', $user->id)
                 ->with('course')
                 ->get()
@@ -42,51 +42,73 @@ class PaymentController extends Controller
                 return response()->json(['success' => false, 'message' => 'Semua kursus di keranjang sedang dalam transaksi pending'], 400);
             }
     
-            // Cek dan ambil diskon
+            // Ambil diskon
             $couponCode = $request->input('coupon_code');
-            $discount = null;
-    
+            $couponDiscount = null;
             if ($couponCode) {
-                $discount = Discount::where('coupon_code', $couponCode)
+                $couponDiscount = Discount::where('coupon_code', $couponCode)
                     ->where('start_date', '<=', now())
                     ->where('end_date', '>=', now())
+                    ->where('apply_to_all', true)
                     ->first();
             }
     
-            $totalAmount = 0;
+            $courseSpecificDiscounts = Discount::where('start_date', '<=', now())
+                ->where('end_date', '>=', now())
+                ->where('apply_to_all', false)
+                ->get();
+    
             $hargaPerItem = [];
-    
             foreach ($keranjangItems as $item) {
-                $originalPrice = $item->course->price;
-                $price = $originalPrice;
+                $course = $item->course;
+                $price = $course->price;
+                $courseDiscount = null;
     
-                if ($discount && ($discount->apply_to_all || $discount->courses->contains($item->course->id))) {
-                    $price -= ($originalPrice * $discount->discount_percentage / 100);
+                foreach ($courseSpecificDiscounts as $discount) {
+                    if ($discount->courses->contains($course->id)) {
+                        $courseDiscount = $discount;
+                        break;
+                    }
                 }
     
-                $totalAmount += $price;
-                $hargaPerItem[$item->id] = $price;
+                if ($courseDiscount) {
+                    $finalPrice = $price - ($price * ($courseDiscount->discount_percentage / 100));
+                } elseif ($couponDiscount) {
+                    $finalPrice = $price - ($price * ($couponDiscount->discount_percentage / 100));
+                } else {
+                    $finalPrice = $price;
+                }
+    
+                $hargaPerItem[$item->id] = $finalPrice;
             }
     
             $orderId = 'ORDER-' . time();
+            $purchases = [];
     
-            $payment = Payment::create([
+            foreach ($keranjangItems as $item) {
+                $course = $item->course;
+                $price = $hargaPerItem[$item->id];
+    
+                $purchase = Purchase::create([
+                    'user_id'        => $user->id,
+                    'course_id'      => $course->id,
+                    'status'         => 'pending',
+                    'harga_course'   => $price,
+                    'transaction_id' => $orderId, // disimpan di purchases
+                ]);
+    
+                $purchases[] = $purchase;
+            }
+    
+            $totalAmount = collect($purchases)->sum('harga_course');
+    
+            Payment::create([
                 'user_id'            => $user->id,
                 'transaction_id'     => $orderId,
                 'payment_type'       => 'whatsapp',
                 'transaction_status' => 'pending',
                 'amount'             => $totalAmount
             ]);
-    
-            foreach ($keranjangItems as $item) {
-                Purchase::create([
-                    'user_id'        => $user->id,
-                    'course_id'      => $item->course_id,
-                    'transaction_id' => $orderId,
-                    'status'         => 'pending',
-                    'harga_course'   => $hargaPerItem[$item->id],
-                ]);
-            }
     
             return response()->json([
                 'success'   => true,
@@ -98,10 +120,11 @@ class PaymentController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal menyimpan data.',
-                'error' => $e->getMessage(),
+                'error'   => $e->getMessage(),
             ]);
         }
     }
+    
 
     // public function updateStatus($id)
     // {

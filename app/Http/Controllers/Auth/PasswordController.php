@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class PasswordController extends Controller
@@ -47,40 +48,34 @@ class PasswordController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
         ]);
-
-        // Reset password menggunakan token dan email
+    
+        // Proses reset password
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) use ($request) {
-                if (!$user) {
-                    // Log jika token tidak valid
-                    Log::error('Invalid token or email during password reset: ' . $request->email);
-                    return back()->withErrors(['email' => 'Token reset tidak valid.']);
-                }
-
-                // Update password di database
+            function ($user, $password) {
+                // Update password user
                 $user->forceFill([
                     'password' => Hash::make($password),
                 ])->save();
-
-                // Trigger event password reset
+    
+                // Trigger event
                 event(new PasswordReset($user));
-
-                // Log keberhasilan
+    
                 Log::info('Password successfully reset for user: ' . $user->email);
             }
         );
-
-        // Cek status apakah password berhasil direset
+    
+        // Cek hasil reset
         if ($status === Password::PASSWORD_RESET) {
             return redirect()->route('success-reset-password')
                              ->with('status', __('Password berhasil direset.'));
         }
-
-        // Jika gagal, kembalikan dengan pesan error
-        Log::error('Password reset failed with status: ' . $status);
+    
+        // Gagal reset
+        Log::error('Password reset failed for email: ' . $request->email . ' | Status: ' . $status);
         return back()->withErrors(['email' => [__($status)]])
                      ->withInput($request->only('email'));
     }
+    
 }
 

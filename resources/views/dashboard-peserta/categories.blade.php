@@ -97,17 +97,23 @@
                                 Rp. {{ number_format($course->discounted_price ?? $course->price, 0, ',', '.') }}
                             </p>   --}}
                             @if($course->discounted_price)
+                                @php
+                                    $discountPercentage = 100 - (($course->discounted_price / $course->price) * 100);
+                                @endphp
                                 <p class="text-red-500 inline-flex items-center text-sm rounded-xl font-semibold mx-3">
                                     Rp. {{ number_format($course->discounted_price, 0, ',', '.') }}
                                     <span class="line-through text-gray-400 text-sm ml-2">
                                         Rp. {{ number_format($course->price, 0, ',', '.') }}
+                                    </span>
+                                    <span class="text-xs ml-2 font-medium text-red-500 p-0.5 bg-red-100 rounded-sm">
+                                       - {{ $discountPercentage }}%!
                                     </span>
                                 </p>
                             @else
                                 <p class="text-gray-700 inline-flex items-center text-sm rounded-xl font-semibold mx-3">
                                     Rp. {{ number_format($course->price, 0, ',', '.') }}
                                 </p>
-                            @endif
+                            @endif  
                             <div class="items-center mt-1 flex-grow">
                                 <div class="flex my-2 mx-3">
                                     @for ($i = 0; $i < 5; $i++)

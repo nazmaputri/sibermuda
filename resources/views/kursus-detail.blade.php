@@ -54,24 +54,26 @@
                 </div>
 
                 <!-- Kode Promo -->
-                <div class="flex items-center gap-2">
-                    <button class="bg-white text-red-600 font-bold px-3 py-1 rounded hover:bg-gray-100 text-sm">
-                        {{ $discount->coupon_code }}
-                    </button>
-                    <div class="relative inline-block">
-                        <button
-                            class="bg-sky-500 text-white font-medium px-3 py-1 rounded hover:bg-sky-400 text-sm"
-                            onclick="copyToClipboard(this, '{{ $discount->coupon_code }}')">
-                            SALIN
+                @if($discount->apply_to_all)
+                    <div class="flex items-center gap-2">
+                        <button class="bg-white text-red-600 font-bold px-3 py-1 rounded hover:bg-gray-100 text-sm">
+                            {{ $discount->coupon_code }}
                         </button>
+                        <div class="relative inline-block">
+                            <button
+                                class="bg-sky-500 text-white font-medium px-3 py-1 rounded hover:bg-sky-400 text-sm"
+                                onclick="copyToClipboard(this, '{{ $discount->coupon_code }}')">
+                                SALIN
+                            </button>
 
-                        <div
-                            class="absolute left-1/2 translate-x-[-50%] mt-2 px-3 py-1 bg-black text-white text-xs rounded shadow-md opacity-0 pointer-events-none transition-opacity duration-300"
-                            id="copy-toast">
-                            Disalin!
+                            <div
+                                class="absolute left-1/2 translate-x-[-50%] mt-2 px-3 py-1 bg-black text-white text-xs rounded shadow-md opacity-0 pointer-events-none transition-opacity duration-300"
+                                id="copy-toast">
+                                Disalin!
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
             </div>
         </section>
 

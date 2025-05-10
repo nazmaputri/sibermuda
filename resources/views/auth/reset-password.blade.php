@@ -39,6 +39,9 @@
 
             <form action="{{ route('password.update') }}" method="POST" class="space-y-4">
                 @csrf
+                    <input type="hidden" name="token" value="{{ $token }}">
+                    <input type="hidden" name="email" value="{{ request('email') }}">
+                    
                  <!-- Password Field (Dengan efek floating label) -->
                  <div class="relative w-full mb-4">
                         <input 

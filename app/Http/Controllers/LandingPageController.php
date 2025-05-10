@@ -151,6 +151,26 @@ class LandingPageController extends Controller
             $course->video_count = MateriVideo::whereIn('materi_id', 
             Materi::where('course_id', $course->id)->pluck('id')
         )->count();
+
+            $activeDiscount = Discount::where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->where(function ($query) use ($course) {
+                $query->where('apply_to_all', false)
+                    ->whereHas('courses', function ($q) use ($course) {
+                        $q->where('course_id', $course->id);
+                    });
+            })
+            ->first();
+
+            // Hitung harga setelah diskon jika diskon hanya berlaku pada kursus tertentu
+            if ($activeDiscount) {
+            $discountPercentage = $activeDiscount->discount_percentage;
+            $discountedPrice = $course->price - ($course->price * $discountPercentage / 100);
+            $course->discounted_price = $discountedPrice;
+            } else {
+            // Jika diskon berlaku untuk semua (apply_to_all = true), jangan tampilkan harga diskon
+            $course->discounted_price = null;
+            }
         
             $course->quiz_count = $course->quizzes()->count();
             // $course->pdf_count = $course->pdfMaterials()->count();

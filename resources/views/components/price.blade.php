@@ -55,13 +55,25 @@
                                 </div>                 
                         
                                 <!-- Harga Kursus -->
-                                <p class="inline-flex items-center text-xl mt-1 rounded-2xl font-bold">
                                     <!-- menerima variabel untuk menampilkan harga setelah ada diskon -->
-                                    <!-- @if ($course->price_after_discount < $course->price) 
-                                        <span class="text-gray-500 line-through">Rp {{ number_format($course->price, 0, ',', '.') }}</span> 
-                                    @endif -->
-                                    <span class="text-red-400 inline-flex items-center text-sm rounded-xl font-semibold">Rp. {{ number_format($course->price, 0, ',', '.') }}</span>
-                                </p>
+                                    @if($course->discounted_price)
+                                        @php
+                                            $discountPercentage = 100 - (($course->discounted_price / $course->price) * 100);
+                                        @endphp
+                                        <p class="text-red-500 inline-flex text-sm rounded-xl font-semibold mx-3">
+                                            Rp. {{ number_format($course->discounted_price, 0, ',', '.') }}
+                                            <span class="line-through text-gray-400 text-sm ml-2">
+                                                Rp. {{ number_format($course->price, 0, ',', '.') }}
+                                            </span>
+                                            <span class="text-xs ml-2 font-medium text-red-500 p-0.5 bg-red-100 rounded-sm">
+                                            - {{ $discountPercentage }}%!
+                                            </span>
+                                        </p>
+                                    @else
+                                        <p class="text-gray-700 inline-flex text-sm rounded-xl font-semibold mx-3">
+                                            Rp. {{ number_format($course->price, 0, ',', '.') }}
+                                        </p>
+                                    @endif 
                             </div>
                         </div>
                     </a>
