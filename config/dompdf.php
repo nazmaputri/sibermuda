@@ -15,6 +15,16 @@ return [
 
     'public_path' => null,  // Override the public path if needed
 
+    // custom font untuk sertifikat (dari line 18-26, intan yg nambahin)
+    'font_dir' => storage_path('fonts/'),
+
+    'custom_font_dir' => storage_path('fonts/'),
+    'custom_font_data' => [
+        'vivaldi' => [
+            'R' => 'vivaldi.ttf',
+        ],
+    ],
+
     /*
      * Dejavu Sans font is missing glyphs for converted entities, turn it off if you need to show € and £.
      */

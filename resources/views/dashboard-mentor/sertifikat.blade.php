@@ -2,150 +2,80 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Sertifikat Kelulusan</title>
-    <!-- Import font dari Google Fonts -->
+    <title>Sertifikat</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-
-        @page {
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
         }
 
         body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background-image: url('{{ isset($is_pdf) && $is_pdf ? public_path('storage/bg-sertif.png') : asset('storage/bg-sertif.png') }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
-        .container {
-            width: 1123px;
-            height: 794px;
-            position: relative;
-            background-color: #fff;
+        @font-face {
+            font-family: 'Vivaldi';
+            src: url('{{ storage_path('fonts/vivaldi.ttf') }}') format('truetype');
+            font-weight: normal;
+            font-style: normal;
         }
 
-        .top-image {
-            position: absolute;
-            top: 0;
+        .content {
+            text-align: center;
+            max-width: 90%;
+            margin: 0 auto;
+            /* padding-top: {{ isset($is_pdf) && $is_pdf ? '100px' : '200px' }}; */
+            margin-top: {{ isset($is_pdf) && $is_pdf ? '40vh' : '50vh' }};
         }
 
-        .left-top {
-            left: 0;
-        }
-
-        .right-top {
-            right: 0;
-        }
-
-        .bottom-image {
-            position: absolute;
-            bottom: 0;
-        }
-
-        .left-bottom {
-            left: 0;
-        }
-
-        .right-bottom {
-            right: 0;
-        }
-
-        .signature {
-            position: absolute;
-            bottom: 50px;
-            left: 50px;
-            right: 50px;
-            width: calc(100% - 100px);
-        }
-
-        h1 {
-            color: #2563eb;
-            font-size: 32px;
-            margin: 0;
-        }
-
-        .subtitle {
-            color: #2563eb;
-            font-size: 20px;
+        .given-text {
+            font-size: {{ isset($is_pdf) && $is_pdf ? '24px' : '16px' }};
+            margin: 10px 0;
             font-weight: bold;
-            margin: 5px 0;
+            color: #003942;
         }
 
-        .recipient {
-            font-size: 24px;
-            color: #374151;
+        .name {
+            font-size: {{ isset($is_pdf) && $is_pdf ? '34px' : '24px' }};
+            color: #003942;
             font-weight: bold;
             text-transform: uppercase;
-            border-bottom: 2px solid #2563eb;
             display: inline-block;
-            padding-bottom: 5px;
-            margin: 10px 0;
+            padding-bottom: 8px;
+            padding-top: 8px;
+            margin: 20px 0px;
         }
 
+        .course-detail {
+            font-size: {{ isset($is_pdf) && $is_pdf ? '22px' : '16px' }};
+            color: #003942;
+        }
+
+        .tanggal {
+            font-size: 16px;
+            color: #003942;
+            padding-top: 16px;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-
-        {{-- Background kiri atas --}}
-        <div class="top-image left-top">
-            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kiri-atas.jpg') : asset('storage/kiri-atas.jpg') }}"
-                 style="width: 200px;" alt="kiri-atas">
-        </div>
-
-        {{-- Background kanan atas --}}
-        <div class="top-image right-top">
-            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kanan-atas.jpg') : asset('storage/kanan-atas.jpg') }}"
-                 style="width: 250px;" alt="kanan-atas">
-        </div>
-
-        {{-- Konten Utama --}}
-        <div class="content" style="text-align: center; padding-top: {{ isset($is_pdf) && $is_pdf ? '100px' : '200px' }};">
-            <h1 style="color: #2563eb; font-size: {{ isset($is_pdf) && $is_pdf ? '50px' : '32px' }}; margin: 0;">SERTIFIKAT</h1>
-            <p style="color: #2563eb; font-size: {{ isset($is_pdf) && $is_pdf ? '36px' : '20px' }}; font-weight: bold; margin: 10px 0;">KELULUSAN</p>
-            <p style="font-size: {{ isset($is_pdf) && $is_pdf ? '24px' : '16px' }}; margin: 10px 0;">Diberikan kepada :</p>
-            <p style="font-size: {{ isset($is_pdf) && $is_pdf ? '34px' : '24px' }}; color: #374151; font-weight: bold; text-transform: uppercase; border-bottom: 3px solid #2563eb; display: inline-block; padding-bottom: 8px; margin: 20px 0;">
-                {{ $participant_name }}
-            </p>
-            <p style="font-size: {{ isset($is_pdf) && $is_pdf ? '22px' : '16px' }};">Atas penyelesaian kursus <strong>{{ $course_title }}</strong> dalam kategori {{ $course_category }}.</p>
-        </div>
-
-        {{-- Background kiri bawah --}}
-        <div class="bottom-image left-bottom">
-            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kiri-bawah.jpg') : asset('storage/kiri-bawah.jpg') }}"
-                 style="width: 250px;" alt="kiri-bawah">
-        </div>
-
-        {{-- Background kanan bawah --}}
-        <div class="bottom-image right-bottom">
-            <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/kanan-bawah.jpg') : asset('storage/kanan-bawah.jpg') }}"
-                 style="width: 250px;" alt="kanan-bawah">
-        </div>
-
-        {{-- Tanda Tangan --}}
-        <div class="signature">
-            <table style="width: 100%;">
-                <tr>
-                    {{-- <td style="text-align: center;">
-                        <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/tanda-tangan.png') : asset('storage/tanda-tangan.png') }}"
-                             style="width: 120px;" alt="tanda-tangan">
-                        <div style="border-top: 2px solid #9ca3af; width: 200px; margin: 10px auto 5px;"></div>
-                        <p style="font-size: 16px; font-weight: bold; color: #374151;">
-                            {{ $signature_title_right ?? 'Mentor' }}
-                        </p>
-                    </td> --}}
-                    <td style="text-align: center;">
-                        <img src="{{ isset($is_pdf) && $is_pdf ? public_path('storage/ttd.jpg') : asset('storage/ttd.jpg') }}"
-                             style="width: 120px;" alt="tanda-tangan">
-                        <div style="border-top: 2px solid #9ca3af; width: 200px; margin: 10px auto 5px;"></div>
-                        <p style="font-size: 16px; font-weight: bold; color: #374151;">
-                            {{ $signature_title_left ?? 'Direktur' }}
-                        </p>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
+    <div class="content" style="text-align: center; padding-top: {{ isset($is_pdf) && $is_pdf ? '280px' : '280px' }};">
+        <p class="given-text">Diberikan kepada :</p>
+        <p class="name" style="font-family: 'Vivaldi', cursive;">{{ $participant_name }}</p>
+        <p class="course-detail">
+            Atas penyelesaian kursus <strong>{{ $course_title }}</strong> dalam kategori {{ $course_category }}.
+        </p>
+        <p class="tanggal">Tanggal</p>
     </div>
 </body>
 </html>
