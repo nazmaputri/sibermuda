@@ -15,14 +15,16 @@ class DiscountController extends Controller
     {
         $search = $request->input('search');
 
-        $discounts = Discount::when($search, function ($query, $search) {
-            return $query->where(function ($q) use ($search) {
-                $q->where('coupon_code', 'like', '%' . $search . '%')
-                ->orWhere('discount_percentage', 'like', '%' . $search . '%')
-                ->orWhere('start_date', 'like', '%' . $search . '%')
-                ->orWhere('end_date', 'like', '%' . $search . '%');
-            });
-        })->paginate(5);
+        $discounts = Discount::with('courses') // Ambil relasi courses
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('coupon_code', 'like', '%' . $search . '%')
+                        ->orWhere('discount_percentage', 'like', '%' . $search . '%')
+                        ->orWhere('start_date', 'like', '%' . $search . '%')
+                        ->orWhere('end_date', 'like', '%' . $search . '%');
+                });
+            })
+            ->paginate(5);
 
         return view('dashboard-admin.discount', compact('discounts', 'search'));
     }

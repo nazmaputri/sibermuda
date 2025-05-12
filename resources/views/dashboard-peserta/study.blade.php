@@ -39,7 +39,7 @@
         <div class="lg:col-span-3">
             @foreach ($course->materi as $materi)
             <div x-show="selected == '{{ $materi->id }}'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
-                <h3 class="text-lg font-medium text-gray-700 mb-2">{{ $materi->judul }}</h3>
+                <h3 class="text-md font-medium text-gray-700 mb-2">{{ $materi->judul }}</h3>
                 <p class="text-gray-700 mb-4">{{ $materi->deskripsi }}</p>
 
                 <!-- Video -->
@@ -50,7 +50,7 @@
                         {{-- Google Drive Videos --}}
                         @foreach ($materi->videos as $video)
                             <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                <h3 class="font-medium text-gray-700 mb-4">{{ $video->title }}</h3>
+                                <h3 class="font-medium text-gray-700 mb-4 text-sm">{{ $video->title }}</h3>
     
                                 @if ($video->link)
                                     <iframe
@@ -60,9 +60,9 @@
                                         allowfullscreen
                                         class="rounded-lg shadow-md">
                                     </iframe>
-                                    <p class="text-gray-700 mt-2">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
+                                    <p class="text-gray-700 mt-2 text-sm">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
-                                    <p class="text-red-500">Video Google Drive tidak tersedia.</p>
+                                    <p class="text-gray-700 text-sm">Video Google Drive tidak tersedia.</p>
                                 @endif
                             </li>
                         @endforeach
@@ -70,7 +70,7 @@
                         {{-- YouTube Videos --}}
                         @foreach ($materi->youtube as $yt)
                             <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                <h3 class="font-medium mb-4 text-gray-700">{{ $yt->title }}</h3>
+                                <h3 class="font-medium mb-4 text-gray-700 text-sm">{{ $yt->title }}</h3>
     
                                 @if ($yt->link)
                                     <iframe
@@ -81,9 +81,9 @@
                                         allowfullscreen
                                         class="rounded-lg shadow-md">
                                     </iframe>
-                                    <p class="text-gray-700 mt-2">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
+                                    <p class="text-gray-700 mt-2 text-sm">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
-                                    <p class="text-red-500">Video YouTube tidak tersedia.</p>
+                                    <p class="text-gray-700">Video YouTube tidak tersedia.</p>
                                 @endif
                             </li>
                         @endforeach
@@ -97,7 +97,7 @@
                 <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
                     <h3 class="text-lg font-medium text-center text-gray-700 mb-4">Tugas Akhir</h3>
 
-                    <div class="space-y-2 text-sm text-gray-600">
+                    <div class="space-y-2 text-sm text-gray-700">
                         <div class="flex flex-wrap">
                             <span class="font-medium w-16 min-w-[0]">Judul</span><span class="mr-1">:</span>
                             <span class="">{{ $finalTask->judul }}</span>
@@ -156,11 +156,11 @@
                                         </tr>
                                     @elseif($finalTask && !$finalTaskHistory)
                                         <tr>
-                                            <td colspan="4" class="text-center py-4 text-gray-500">Belum ada riwayat tugas akhir yang dikerjakan.</td>
+                                            <td colspan="4" class="text-center py-4 text-gray-700">Belum ada riwayat tugas akhir yang dikerjakan.</td>
                                         </tr>
                                     @else
                                         <tr>
-                                            <td colspan="4" class="text-center py-4 text-gray-500">Tidak ada tugas akhir untuk course ini.</td>
+                                            <td colspan="4" class="text-center py-4 text-gray-700">Belum ada tugas akhir untuk kursus ini.</td>
                                         </tr>
                                     @endif
                                     </tbody>
@@ -179,7 +179,7 @@
                     @endif
                 </div>
             @else
-                <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border text-center text-gray-500">
+                <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border text-center text-gray-700 text-sm">
                     Tugas akhir belum tersedia.
                 </div>
             @endif
@@ -202,13 +202,13 @@
                         @if ($userQuizResult)
                             <form method="POST" action="{{ route('quiz.retake', $quiz->id) }}" class="quiz-retake" data-title="{{ $quiz->title }}">
                                 @csrf
-                                <button type="submit" class="bg-amber-400 text-white px-2 py-1 rounded hover:bg-amber-300">
+                                <button type="submit" class="bg-amber-400 text-white px-2 py-1 rounded hover:bg-amber-300 text-sm">
                                     Kerjakan Kuis Lagi
                                 </button>
                             </form>
                         @else
                             <a href="{{ route('quiz.show', $quiz->id) }}"
-                            class="quiz-link bg-blue-400 text-white px-2 py-1 rounded hover:bg-blue-300"
+                            class="quiz-link bg-blue-400 text-white px-2 py-1 rounded hover:bg-blue-300 text-sm"
                             data-quiz-title="{{ $quiz->title }}"
                             data-quiz-url="{{ route('quiz.show', $quiz->id) }}"
                             data-quiz-duration="{{ $quiz->duration }}">
@@ -236,9 +236,9 @@
                         <table class="min-w-full border-separate border-spacing-0 text-sm text-center">
                             <thead class="bg-gray-100 text-gray-600">
                                 <tr>
-                                    <th class="px-4 py-2 border-t border-l border-b border-gray-200 rounded-tl-lg">Judul Kuis</th>
-                                    <th class="px-4 py-2 border-t border-b border-gray-200">Nilai</th>
-                                    <th class="px-4 py-2 border-t border-b border-r rounded-tr-lg border-gray-200">Tanggal</th>
+                                    <th class="px-4 py-2 border-t border-l border-b border-gray-200 rounded-tl-lg text-sm">Judul Kuis</th>
+                                    <th class="px-4 py-2 border-t border-b border-gray-200 text-sm">Nilai</th>
+                                    <th class="px-4 py-2 border-t border-b border-r rounded-tr-lg border-gray-200 text-sm">Tanggal</th>
                                     {{-- <th class="px-4 py-2 border-t border-b border-r border-gray-200 rounded-tr-lg">Aksi</th> --}}
                                 </tr>
                             </thead>
@@ -248,9 +248,12 @@
                                         $quiz = \App\Models\Quiz::find($history->quiz_id);
                                     @endphp
                                     <tr class="bg-white hover:bg-gray-50 text-gray-600">
-                                        <td class="px-4 py-2 border-b border-l border-gray-200">{{ $quiz->title ?? 'Kuis Tidak Ditemukan' }}</td>
-                                        <td class="px-4 py-2 border-b border-gray-200 text-green-600 font-medium">{{ $history->nilai }}</td>
-                                        <td class="px-4 py-2 border-b border-r border-gray-200">{{ \Carbon\Carbon::parse($history->completed_at)->translatedFormat('d F Y, H:i') }}</td>
+                                        <td class="px-4 py-2 border-b border-l border-gray-200 text-sm">{{ $quiz->title ?? 'Kuis Tidak Ditemukan' }}</td>
+                                        <td class="px-4 py-2 border-b border-gray-200 font-medium text-sm
+                                            {{ $history->nilai < 70 ? 'text-red-500' : 'text-green-500' }}">
+                                            {{ $history->nilai }}
+                                        </td>
+                                        <td class="px-4 py-2 border-b border-r border-gray-200 text-sm">{{ \Carbon\Carbon::parse($history->completed_at)->translatedFormat('d F Y, H:i') }}</td>
                                         {{-- <td class="px-4 py-2 border-b border-r border-gray-200 text-center">
                                             <a href="{{ route('quiz.result', ['quizId' => $quiz->id, 'courseId' => $quiz->course_id]) }}"
                                                 class="text-white p-1 rounded-md bg-blue-400 hover:bg-blue-300"

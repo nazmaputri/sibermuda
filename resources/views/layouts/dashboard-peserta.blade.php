@@ -345,7 +345,7 @@
                     <!-- Nama dan Role -->
                     @if(Auth::check())
                         <div class="hidden md:block flex flex-col">
-                            <p class="text-gray-800 font-semibold mr-2 text-sm">{{ Str::limit(Auth::user()->name, 9, '') }}</p>
+                            <p class="text-gray-800 font-semibold mr-2 text-sm">{{ Str::limit(Auth::user()->name, 9) }}</p>
                             <p class="text-gray-600 text-xs">Peserta</p>
                         </div>
                     @else
@@ -450,7 +450,11 @@
     if (nomorAdmin) {
         document.getElementById('waLink').setAttribute('href', 'https://wa.me/' + nomorAdmin);
     } else {
-        alert('Nomor admin tidak ditemukan!');
+            Swal.fire({
+            icon: 'error',
+            title: 'Oops!',
+            text: 'Nomor admin tidak ditemukan!',
+        });
     }
 </script>   
 

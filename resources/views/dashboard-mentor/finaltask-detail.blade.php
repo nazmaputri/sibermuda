@@ -29,7 +29,7 @@
 
     <!-- Table: Peserta yang sudah mengumpulkan -->
     <div class="bg-white rounded-lg shadow p-6 mb-8 border border-gray-200">
-        <h2 class="text-md text-gray-700 font-semibold mb-4">Peserta yang Telah Mengumpulkan</h2>
+        <h2 class="text-md text-gray-700 font-semibold mb-4">Peserta yang Telah Mengumpulkan Tugas</h2>
         <div class="overflow-x-auto">
            <div class="min-w-full w-64">
            <table class="min-w-full border-separate border-spacing-0">

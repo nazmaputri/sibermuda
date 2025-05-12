@@ -8,18 +8,18 @@
                 <h1 class="text-xl font-semibold text-gray-700">{{ $quiz->title }}</h1>
                 <p class="text-gray-600 text-sm">{{ $quiz->course->title }}</p>
             </div>
-            <div id="timer" class="mt-2 text-xl font-semibold border py-2 px-4 text-red-500"></div>
+            <div id="timer" class="mt-2 text-md font-semibold border py-2 px-4 text-red-500"></div>
         </div>
         
         <!-- Wrapper -->
-        <div x-data="{ open: window.innerWidth >= 768 }" class="flex flex-col md:flex-row gap-4 mt-4 relative">
+        <div x-data="{ open: window.innerWidth >= 768 }" class="flex flex-col md:flex-row gap-2 mt-4 relative">
             <!-- Sidebar Nomor Soal -->
             <div class="relative md:w-1/4">
                 <!-- Tombol Toggle (ada di atas sidebar) -->
-            <div class="mb-7 md:mb-0 md:hidden">
+            <div class="mb-1 md:mb-0 md:hidden">
             <button 
                     @click="open = !open"
-                    class="fixed z-40 md:hidden bg-blue-400 hover:bg-blue-300 text-white p-1 rounded-sm"
+                    class="z-40 md:hidden bg-blue-400 hover:bg-blue-300 text-white p-1 rounded-sm"
                     aria-label="Toggle Nomor Soal">
                     <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
@@ -49,7 +49,7 @@
                         @foreach($quiz->questions as $key => $question)
                         <button
                             @click="if(window.innerWidth < 768) open = false"
-                            class="question-number border border-gray-300 rounded p-0.5 text-sm text-center hover:bg-blue-400 hover:text-white transition flex items-center justify-center"
+                            class="question-number border border-gray-300 text-gray-700 rounded p-0.5 text-sm text-center hover:bg-blue-400 hover:text-white transition flex items-center justify-center"
                             data-question-id="{{ $question->id }}"
                             data-answered="false">
                             {{ $key + 1 }}

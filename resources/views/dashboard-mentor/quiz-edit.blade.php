@@ -130,7 +130,7 @@
                 </div>
 
                 <!-- Tombol Hapus Soal -->
-                <button type="button" onclick="removeQuestion(this)" class="text-white px-2 py-1 bg-red-400 hover:bg-red-300 text-sm rounded font-medium mt-2">Hapus soal</button>
+                <button type="button" onclick="removeQuestion(this)" class="text-white px-2 py-1 bg-red-400 hover:bg-red-300 text-sm rounded font-medium mt-2">Hapus</button>
             </div>
         </template>
 

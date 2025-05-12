@@ -35,15 +35,17 @@
                         <!-- Skor -->
                         <div class="flex flex-col items-center text-center">
                             <p class="text-lg text-gray-700">Skor :</p>
-                            <p class="text-2xl font-semibold text-blue-500">{{ $score }}</p>
-                        </div>                        
+                            <p class="text-2xl font-semibold {{ $score < 70 ? 'text-red-500' : 'text-green-500' }}">
+                                {{ $score }}
+                            </p>
+                        </div>                      
                     </div>                    
                 
                     <!-- Status Lulus atau Tidak -->
                     @if ($score >= 70)
-                        <p class="text-green-500 text-center mt-4">Selamat, Anda lulus kuis ini!</p>
+                        <p class="text-green-500 text-center mt-4 text-sm">Selamat, Anda lulus kuis ini!</p>
                     @else
-                        <p class="text-red-500 text-center mt-4">Maaf, Anda belum lulus kuis ini.</p>
+                        <p class="text-red-500 text-center mt-4 text-sm">Maaf, Anda belum lulus kuis ini.</p>
                     @endif
                 </div>                             
 

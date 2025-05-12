@@ -96,7 +96,7 @@
                                     </div>
                                 </div>
                             </template>
-                            <button type="button" @click="addMateri('drive')" class="inline-flex items-center gap-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-white rounded-md text-sm shadow transition">+ Tambah Materi Drive</button>
+                            <button type="button" @click="addMateri('drive')" class="inline-flex items-center gap-2 px-4 py-2 bg-green-400 hover:bg-green-300 text-white rounded-md text-sm shadow transition">Tambah Materi Drive</button>
                         </div>
 
                         <!-- YouTube -->
@@ -132,7 +132,7 @@
                                     </div>
                                 </div>
                             </template>
-                            <button type="button" @click="addMateri('youtube')" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-400 hover:bg-blue-300 text-white rounded-md text-sm shadow transition">+ Tambah Materi YouTube</button>
+                            <button type="button" @click="addMateri('youtube')" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-400 hover:bg-blue-300 text-white rounded-md text-sm shadow transition">Tambah Materi YouTube</button>
                         </div>
                     </div>
                 </div>

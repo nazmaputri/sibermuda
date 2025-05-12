@@ -141,10 +141,10 @@
 
         <!-- Tombol -->
         <div class="col-span-1 md:col-span-2 mt-6 flex justify-end space-x-2">
-            <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-lg">
+            <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
                 Batal
             </a>
-            <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-lg">
+            <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-md">
                 Simpan
             </button>
         </div>

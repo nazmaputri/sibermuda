@@ -58,16 +58,16 @@
                                 <div class="flex items-center justify-center space-x-6">
                                 <!-- Tombol Lihat Detail -->
                                 <a href="#" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat"
-                                    onclick="openDiscountModal(
-                                    '{{ $discount->id }}',
-                                    '{{ $discount->coupon_code }}',
-                                    '{{ $discount->discount_percentage }}',
-                                    '{{ $discount->start_date }}',
-                                    '{{ $discount->end_date }}',
-                                    '{{ $discount->start_time }}',
-                                    '{{ $discount->end_time }}',
-                                    {{ $discount->apply_to_all ? 'true' : 'false' }}
-                                )">
+                                    data-id="{{ $discount->id }}"
+                                    data-coupon-code="{{ $discount->coupon_code }}"
+                                    data-discount-percentage="{{ $discount->discount_percentage }}"
+                                    data-start-date="{{ $discount->start_date }}"
+                                    data-end-date="{{ $discount->end_date }}"
+                                    data-start-time="{{ $discount->start_time }}"
+                                    data-end-time="{{ $discount->end_time }}"
+                                    data-apply-to-all="{{ $discount->apply_to_all ? 'true' : 'false' }}"
+                                    data-courses="{{ json_encode($discount->courses->pluck('title')) }}"
+                                    onclick="openDiscountModal(this)">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -109,14 +109,16 @@
 <div id="discountModal" class="fixed inset-0 px-4 flex items-center text-left justify-center bg-black bg-opacity-50 hidden z-[1000]">
     <div id="modal-box" class="bg-white p-4 rounded-xl mx-4 w-full max-w-sm md:max-w-xl mx-auto relative transform scale-90 opacity-0 transition-all duration-300 ease-out">
         <!-- Tombol Close -->
-        <button onclick="closeDiscountModal()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-600 text-2xl font-bold">
-            &times;
+        <button onclick="closeDiscountModal()" class="absolute top-4 right-4 text-gray-600 hover:text-gray-500 text-xl font-medium">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 8.586L15.95 2.636a1 1 0 111.414 1.414L11.414 10l5.95 5.95a1 1 0 01-1.414 1.414L10 11.414l-5.95 5.95a1 1 0 01-1.414-1.414L8.586 10 2.636 4.05a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
+            </svg>
         </button>
         <!-- Judul -->
         <h3 class="text-xl font-semibold text-center text-gray-700 mb-2">Detail Diskon</h3>
         <div class="w-16 h-1 bg-gray-600 mx-auto mb-4 rounded"></div>
         <!-- Layout detail kursus -->
-        <div class="space-y-2 mt-4 text-gray-700 text-sm">
+        <div class="space-y-2 mt-4 text-gray-700 text-sm max-h-[70vh] overflow-y-auto pr-2">
             <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
                 <p class="font-semibold">Kode Diskon : </p>
                 <p class="text-gray-700"><span id="modalCouponCode"></span></p>
@@ -124,6 +126,10 @@
             <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
                 <p class="font-semibold">Terapkan ke semua kursus :</p>
                 <p class="text-gray-700"><span id="modalApplyToAll"></span></p>
+            </div>
+            <div id="modalCoursesContainer" class="mt-2 hidden">
+                <p class="font-semibold text-gray-700">Kursus yang mendapat diskon:</p>
+                <ul id="modalCoursesList" class="list-disc ml-6 text-gray-700 text-sm mt-1 space-y-1"></ul>
             </div>
             <div class="flex justify-between space-x-10 py-1 border-b border-gray-200">
                 <p class="font-semibold">Potongan:</p>
@@ -150,7 +156,22 @@
 </div>
 
 <script>
-    function openDiscountModal(id, couponCode, discountPercentage, startDate, endDate, startTime, endTime, applyToAll) {
+    function openDiscountModal(element) {
+        // Ambil data dari atribut data-*
+        const id = element.dataset.id;
+        const couponCode = element.dataset.couponCode;
+        const discountPercentage = element.dataset.discountPercentage;
+        const startDate = element.dataset.startDate;
+        const endDate = element.dataset.endDate;
+        const startTime = element.dataset.startTime;
+        const endTime = element.dataset.endTime;
+        const applyToAll = element.dataset.applyToAll === 'true'; // Mengonversi ke boolean
+        const courseList = JSON.parse(element.dataset.courses); // Mengubah JSON string menjadi array
+
+        console.log({
+            id, couponCode, discountPercentage, startDate, endDate, startTime, endTime, applyToAll, courseList
+        });
+
         // Isi data ke modal
         document.getElementById('modalCouponCode').textContent = couponCode;
         document.getElementById('modalDiscountPercentage').textContent = discountPercentage;
@@ -166,7 +187,22 @@
         });
         document.getElementById('modalStartTime').textContent = startTime;
         document.getElementById('modalEndTime').textContent = endTime;
-        document.getElementById('modalApplyToAll').textContent = applyToAll ? 'Yes' : 'No';
+        document.getElementById('modalApplyToAll').textContent = applyToAll ? 'Ya' : 'Tidak';
+
+        const coursesContainer = document.getElementById('modalCoursesContainer');
+        const coursesList = document.getElementById('modalCoursesList');
+        coursesList.innerHTML = ''; // Clear list first
+
+        if (!applyToAll && Array.isArray(courseList)) {
+            coursesContainer.classList.remove('hidden');
+            courseList.forEach(course => {
+                const li = document.createElement('li');
+                li.textContent = course;
+                coursesList.appendChild(li);
+            });
+        } else {
+            coursesContainer.classList.add('hidden');
+        }
 
         const modal = document.getElementById('discountModal');
         const modalBox = document.getElementById('modal-box');

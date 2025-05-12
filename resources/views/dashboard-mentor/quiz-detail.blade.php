@@ -37,12 +37,12 @@
             >
                 <!-- Header Soal -->
                 <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
-                    <div class="flex items-start">
+                     <div class="flex items-start flex-1">
                         <span class="text-sm text-gray-700 font-medium mr-2">{{ $index + 1 }}.</span>
-                        <p class="text-sm font-medium text-gray-700 capitalize">{{ $question->question }}</p>
+                        <p class="text-sm font-medium text-gray-700 capitalize break-words">{{ $question->question }}</p>
                     </div>
                     <!-- Icon Dropdown -->
-                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </div>
