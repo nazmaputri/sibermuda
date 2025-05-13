@@ -36,12 +36,13 @@ class DiscountController extends Controller
         return view('dashboard-admin.discount-tambah', compact('courses'));
     }    
     
-    // Menampilkan form edit diskon
     public function edit($id)
     {
         $discount = Discount::findOrFail($id);
         $courses = Course::all();
-        return view('dashboard-admin.discount-edit', compact('discount', 'courses'));
+        $courseTitles = $discount->courses->pluck('title')->toArray(); // Ambil nama kursus terkait dengan diskon
+        $courseIds = $discount->courses->pluck('id')->toArray(); // Ambil ID kursus terkait dengan diskon
+        return view('dashboard-admin.discount-edit', compact('discount', 'courses', 'courseTitles', 'courseIds'));
     }
 
     public function update(Request $request, $id)
