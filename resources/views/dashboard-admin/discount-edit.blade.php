@@ -66,7 +66,6 @@
         <div x-data="{
             open: false,
             selectedCourseIds: @json($courseIds),
-
             selectedCourseTitles: @json($discount->course_titles ?? []),  // Menyimpan nama kursus yang dipilih
             applyToAllChecked: {{ $discount->apply_to_all ? 'true' : 'false' }},
             searchTerm: '',
@@ -119,7 +118,7 @@
                             <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" x-show="'{{ Str::lower($course->title) }}'.includes(searchTerm.toLowerCase())">
                                 <label class="flex items-center">
                                     <input type="checkbox"
-                                        :disabled="(applyToAllChecked && !{{ $isEditingThisCourse ? 'true' : 'false' }}) && !{{ $isPartOfOtherDiscount ? 'true' : 'false' }}"
+                                        :disabled="applyToAllChecked && !{{ $isEditingThisCourse ? 'true' : 'false' }}"
                                         @change="
                                             if ($event.target.checked) {
                                                 selectedCourseIds.push({{ $course->id }});

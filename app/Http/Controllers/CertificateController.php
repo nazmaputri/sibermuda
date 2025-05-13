@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\MateriUSer;
 use App\Models\FinalTaskUser;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class CertificateController extends Controller
@@ -83,6 +84,43 @@ class CertificateController extends Controller
     
         $course = $purchase->course;
     
+        $cyberKeywords = [
+            'cyber security', 'siber', 'cybersecurity', 
+            'cyber', 'Cyber Security', 'CyberSecurity', 
+            'Cybersecurity', 'Cyber'
+        ];
+
+        $categoryName = strtolower($course->category->name ?? '');
+
+        $isCyberSecurity = collect($cyberKeywords)
+            ->map(fn($item) => strtolower($item))
+            ->contains($categoryName);
+
+        $completionDate = null;
+
+        if ($isCyberSecurity) {
+            // Ambil created_at dari final_task_user yang status-nya approved
+            $completionDate = DB::table('final_task_user')
+                ->where('user_id', $userId)
+                ->where('course_id', $courseId)
+                ->where('certificate_status', 'approved')
+                ->value('created_at');
+        } else {
+            // Ambil created_at dari materi_user yang nilainya >= 75
+            $completionDate = DB::table('materi_user')
+            ->where('user_id', $userId)
+            ->where('courses_id', $courseId)
+            ->where('nilai', '>=', 75)
+            ->orderBy('created_at', 'asc') // ← ambil yang paling awal
+            ->value('created_at');
+
+        }
+
+        // Format tanggal jika tidak null
+        $completionDateFormatted = $completionDate 
+            ? \Carbon\Carbon::parse($completionDate)->translatedFormat('d F Y') 
+            : 'Tanggal Tidak Diketahui';
+
         // Data untuk sertifikat
         $data = [
             'participant_name'       => $purchase->user->name,
@@ -93,7 +131,8 @@ class CertificateController extends Controller
             'mentor_name'            => $course->mentor->name ?? 'Tidak Diketahui',
             'signature_title_left'   => 'Direktur Kursus',
             'signature_title_right'  => 'Mentor Kursus',
-            'is_pdf'                 => true // ← agar image tampil saat diunduh
+            'completion_date' => $completionDateFormatted,
+            'is_pdf'                 => true // ← agar image tampil saat diunduh  
         ];
     
         // Buat PDF menggunakan DOMPDF

@@ -16,18 +16,18 @@
                     <!-- Input untuk Judul Materi -->
                     <div class="mb-4">
                         <label for="judul" class="block text-gray-700 font-medium mb-2">Judul Materi</label>
-                        <input type="text" name="judul" id="judul" class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan judul materi" value="{{ old('judul') }}">
+                        <input type="text" name="judul" id="judul" class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('judul') border-red-500 @enderror" placeholder="Masukkan judul materi" value="{{ old('judul') }}">
                         @error('judul')
-                            <div class="text-red-600">{{ $message }}</div>
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <!-- Input untuk Deskripsi Materi -->
                     <div class="mb-4">
                         <label for="deskripsi" class="block text-gray-700 font-medium mb-2">Deskripsi Materi</label>
-                        <textarea name="deskripsi" id="deskripsi" rows="3" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan deskripsi materi">{{ old('deskripsi') }}</textarea>
+                        <textarea name="deskripsi" id="deskripsi" rows="3" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('deskripsi') border-red-500 @enderror" placeholder="Masukkan deskripsi materi">{{ old('deskripsi') }}</textarea>
                         @error('deskripsi')
-                            <div class="text-red-600">{{ $message }}</div>
+                            <div class="text-red-500 text-sm">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
@@ -152,4 +152,23 @@
     </div>
 </div>
 
+<script>
+    // Menambahkan event listener untuk setiap input yang ada
+    const inputs = document.querySelectorAll('input, textarea, select');
+
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            // Menghapus kelas border merah saat input mulai diubah
+            if (this.classList.contains('border-red-500')) {
+                this.classList.remove('border-red-500');
+            }
+
+            // Menghapus pesan error jika ada
+            const errorMessage = this.nextElementSibling;
+            if (errorMessage && errorMessage.classList.contains('text-red-500')) {
+                errorMessage.style.display = 'none';
+            }
+        });
+    });
+</script>
 @endsection

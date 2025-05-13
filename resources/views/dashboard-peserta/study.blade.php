@@ -44,7 +44,7 @@
 
                 <!-- Video -->
                 @if($materi->videos->isEmpty() && $materi->youtube->isEmpty())
-                <p class="text-gray-700">Tidak ada video untuk materi ini.</p>
+                <p class="text-gray-700 text-sm">Tidak ada video untuk materi ini.</p>
                 @else
                     <ul class="mt-4 space-y-4">
                         {{-- Google Drive Videos --}}
@@ -250,7 +250,7 @@
                                     <tr class="bg-white hover:bg-gray-50 text-gray-600">
                                         <td class="px-4 py-2 border-b border-l border-gray-200 text-sm">{{ $quiz->title ?? 'Kuis Tidak Ditemukan' }}</td>
                                         <td class="px-4 py-2 border-b border-gray-200 font-medium text-sm
-                                            {{ $history->nilai < 70 ? 'text-red-500' : 'text-green-500' }}">
+                                            {{ $history->nilai < 75 ? 'text-red-500' : 'text-green-500' }}">
                                             {{ $history->nilai }}
                                         </td>
                                         <td class="px-4 py-2 border-b border-r border-gray-200 text-sm">{{ \Carbon\Carbon::parse($history->completed_at)->translatedFormat('d F Y, H:i') }}</td>

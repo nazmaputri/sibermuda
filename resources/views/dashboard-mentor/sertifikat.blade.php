@@ -52,7 +52,7 @@
             text-transform: uppercase;
             display: inline-block;
             padding-bottom: 8px;
-            padding-top: 8px;
+            padding-top: 12px;
             margin: 20px 0px;
         }
 
@@ -75,7 +75,7 @@
         <p class="course-detail">
             Atas penyelesaian kursus <strong>{{ $course_title }}</strong> dalam kategori {{ $course_category }}.
         </p>
-        <p class="tanggal">Tanggal</p>
+        <p class="tanggal">{{ $completion_date }}</p>
     </div>
 </body>
 </html>

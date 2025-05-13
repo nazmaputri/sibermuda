@@ -42,7 +42,7 @@
 <div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden" id="register-container">
     
         <!-- Kiri (Logo) -->
-        <div class="hidden md:flex md:w-1/2 md:my-10 bg-midnight rounded rounded-2xl items-center justify-center">
+        <div class="hidden md:flex md:w-1/2 md:my-10 bg-midnight rounded rounded-3xl items-center justify-center">
             <img src="{{ asset('storage/login2.png') }}" alt="Logo" class="w-70 h-70 transform transition-transform hover:scale-105">
         </div>
 
@@ -70,7 +70,7 @@
                 </svg>
                 <span class="sr-only">Info</span>
                 <div>
-                    <span class="font-medium md:text-ms text-sm">Setelah mendaftar, akun Anda akan diverifikasi terlebih dahulu oleh admin sebelum dapat digunakan. Harap tunggu 1x24 jam</span>
+                    <span class="font-medium md:text-ms text-sm">Setelah mendaftar, akun kamu akan diverifikasi terlebih dahulu oleh admin sebelum dapat digunakan. Harap tunggu 1x24 jam</span>
                 </div>
             </div>
             <!-- Notifikasi Sukses -->
