@@ -145,6 +145,7 @@ class QuizController extends Controller
             'duration' => 'required|integer',
             'questions' => 'required|array|min:1',
             'questions.*.question' => 'required|string',
+            'questions.*.answers.*' => 'required',
             'questions.*.answers' => 'required|array|min:4|max:4',
             'questions.*.correct_answer' => 'required|integer|min:0|max:3',
         ], [
@@ -153,6 +154,7 @@ class QuizController extends Controller
             'duration.required' => 'Durasi harus diisi.',
             'questions.required' => 'Anda harus menambahkan soal.',
             'questions.*.question.required' => 'Soal tidak boleh kosong.',
+            'questions.*.answers.*.required' => 'Setiap jawaban wajib diisi.',
             'questions.*.answers.required' => 'Jawaban tidak boleh kosong.',
             'questions.*.answers.min' => 'Harus ada 4 jawaban untuk setiap soal.',
             'questions.*.correct_answer.required' => 'Jawaban yang benar harus dipilih.',
@@ -211,6 +213,7 @@ class QuizController extends Controller
             'duration' => 'required|integer',
             'questions' => 'required|array|min:1',
             'questions.*.question' => 'required|string',
+            'questions.*.answers.*' => 'required',
             'questions.*.answers' => 'required|array|min:4|max:4', // Harus tepat 4 jawaban
             'questions.*.correct_answer' => 'required|integer|min:0|max:3',
         ], [
@@ -219,6 +222,7 @@ class QuizController extends Controller
             'duration.required' => 'Durasi kuis wajib diisi.',
             'questions.required' => 'Harus ada soal yang ditambahkan.',
             'questions.*.question.required' => 'Setiap soal harus diisi.',
+            'questions.*.answers.*.required' => 'Setiap jawaban wajib diisi.',
             'questions.*.answers.required' => 'Setiap soal harus memiliki 4 jawaban.',
             'questions.*.answers.min' => 'Setiap soal harus memiliki tepat 4 jawaban.',
             'questions.*.answers.max' => 'Setiap soal hanya boleh memiliki 4 jawaban.',

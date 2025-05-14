@@ -3,9 +3,14 @@
     <div class="container mx-auto px-2 md:px-12">
         <div class="mb-6 text-center">
             <h3 class="text-xl md:text-2xl font-['poppins'] font-semibold text-[#08072a]" data-aos="fade-down">Rekomendasi Kursus Sibermuda</h3>
-            <p class="text-lg  text-gray-700 mt-2" data-aos="fade-down">Pilih kursus yang sesuai dengan kebutuhan Anda.</p>
+            <p class="text-md  text-gray-700 mt-2" data-aos="fade-down">Pilih kursus yang sesuai dengan kebutuhanmu.</p>
         </div>
         <div class="overflow-x-auto scrollbar-hide py-5">
+            @if($courses->isEmpty())
+                <div class="flex justify-center items-center text-gray-500 text-sm" data-aos="fade-down">
+                    Belum ada rekomendasi.
+                </div>
+            @else
             <div class="flex space-x-6">
                 @foreach($courses as $course)
                     <div class="flex">
@@ -79,6 +84,7 @@
                     </a>
                     </div>
                 @endforeach
+                @endif
             </div>
         </div>
     </div>
@@ -102,11 +108,11 @@
       </h1>
       <div class="flex gap-8 mt-4">
         <div class="text-center">
-            <p class="text-3xl font-bold text-white">{{ $totalMentor }}</p>
+            <p class="text-md md:text-xl font-bold text-white">{{ $totalMentor }}</p>
             <p class="text-white">Mentor Profesional</p>
         </div>
         <div class="text-center">
-            <p class="text-3xl font-bold text-white">{{ $totalStudent }}</p>
+            <p class="text-md md:text-xl font-bold text-white">{{ $totalStudent }}</p>
             <p class="text-white">Peserta Terdaftar</p>
         </div>
        </div>

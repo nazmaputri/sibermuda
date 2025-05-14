@@ -18,7 +18,7 @@
 <body class="bg-white min-h-screen flex items-center justify-center">
     <div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden items-center justify-center">
             <!-- Kiri (Logo) -->
-            <div class="hidden md:flex md:w-1/2 bg-midnight rounded rounded-2xl items-center justify-center">
+            <div class="hidden md:flex md:w-1/2 bg-midnight rounded rounded-3xl items-center justify-center">
                 <img src="{{ asset('storage/login2.png') }}" alt="Logo" class="w-70 h-70 transform transition-transform hover:scale-105">
             </div>
             <!-- <div class="flex items-center justify-center mb-3">
