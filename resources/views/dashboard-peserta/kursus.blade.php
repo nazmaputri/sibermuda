@@ -16,7 +16,7 @@
                     <nav class="text-sm mt-auto whitespace-nowrap overflow-x-auto">
                         <ol class="flex space-x-2 text-gray-600 mt-2">
                             <li>
-                                <a href="{{ route('detail-kursus', $course->id) }}" class="hover:text-sky-500 hover:underline">Detail</a>
+                                <a href="{{ route('detail-kursus', $course->slug) }}" class="hover:text-sky-500 hover:underline">Detail</a>
                             </li>
                             <li class="flex items-center">
                                 <span>
@@ -26,7 +26,7 @@
                                 </span>
                             </li>
                             <li>
-                                <a href="{{ route('study-peserta', ['id' => $course->id]) }}" class="hover:text-yellow-500 hover:underline">Belajar</a>
+                                <a href="{{ route('study-peserta', ['slug' => $course->slug]) }}" class="hover:text-yellow-500 hover:underline">Belajar</a>
                             </li>
                             <li class="flex items-center">
                                 <span>
@@ -37,7 +37,7 @@
                             </li>
                             <li>
                                 @if ($course->isChatActive)
-                                    <a href="{{ route('chat.student', $course->id) }}" class="hover:text-green-500 hover:underline">Chat</a>
+                                    <a href="{{ route('chat.start', $course->slug) }}" class="hover:text-green-500 hover:underline">Chat</a>
                                 @else
                                     <span class="text-gray-400 cursor-not-allowed" title="Chat tidak tersedia untuk kursus ini">Chat</span>
                                 @endif

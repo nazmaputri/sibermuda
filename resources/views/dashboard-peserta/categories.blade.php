@@ -136,7 +136,7 @@
                                 <div class="flex w-full h-[30px]">
                                     <div class="w-1/2 {{ $isPurchased ? 'bg-green-500 hover:bg-green-400' : 'bg-red-500 hover:bg-red-400' }} flex justify-center items-center p-4">
                                         @if (!$isPurchased)
-                                            <form action="{{ route('cart.add', ['id' => $course->id]) }}" method="POST">
+                                            <form action="{{ route('cart.add', ['slug' => $course->slug]) }}" method="POST">
                                                 @csrf
                                                 <button type="submit" class="flex items-center space-x-3 text-white">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="w-5 h-5">
@@ -153,7 +153,7 @@
                                     </div>
 
                                     <div class="w-1/2 bg-sky-400 hover:bg-sky-300 flex justify-center items-center p-4">
-                                        <a href="{{ route('kursus-peserta', ['id' => $course->id, 'categoryId' => $course->category->id]) }}" 
+                                        <a href="{{ route('kursus-peserta', ['slug' => $course->slug, 'categorySlug' => $course->category->slug]) }}"
                                         class="text-white py-1.5 px-5 rounded-lg flex items-center space-x-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                                             <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />

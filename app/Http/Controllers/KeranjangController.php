@@ -196,26 +196,32 @@ class KeranjangController extends Controller
     }
     
     // Menambahkan kursus ke keranjang (hanya bisa ditambahkan sekali)
-    public function addToCart(Request $request, $courseId)
+    public function addToCart(Request $request, $slug)
     {
+        // Ambil course berdasarkan slug
+        $course = Course::where('slug', $slug)->firstOrFail();
+        $courseId = $course->id;
+
         // Cek apakah kursus sedang ada di tabel purchases dengan status pending
         $pendingPurchase = Purchase::where('user_id', Auth::id())
-        ->where('course_id', $courseId)
-        ->where('status', 'pending')
-        ->first();
+            ->where('course_id', $courseId)
+            ->where('status', 'pending')
+            ->first();
 
         if ($pendingPurchase) {
             return redirect()->route('keranjang-pending')->with('warning', 'Kursus ini sedang menunggu konfirmasi admin.');
         }
-        
+
         // Cek apakah kursus sudah ada di keranjang user
-        $existingCart = Keranjang::where('user_id', Auth::id())->where('course_id', $courseId)->first();
+        $existingCart = Keranjang::where('user_id', Auth::id())
+            ->where('course_id', $courseId)
+            ->first();
 
         if ($existingCart) {
             return redirect()->route('cart.index')->with('warning', 'Kursus ini sudah ada di keranjang Anda.');
         }
 
-        // Jika belum ada, tambahkan ke keranjang
+        // Tambahkan ke keranjang
         Keranjang::create([
             'user_id' => Auth::id(),
             'course_id' => $courseId,

@@ -38,10 +38,10 @@ class DashboardPesertaController extends Controller
         return response()->json($successPurchases);
     }
 
-    public function detail($id)
+    public function detail($slug)
     {
-        // Ambil satu data kursus berdasarkan ID
-        $course = Course::find($id);
+        // Ambil course berdasarkan slug
+        $course = Course::where('slug', $slug)->first();
 
         // Jika kursus tidak ditemukan, kembalikan halaman 404
         if (!$course) {
@@ -50,7 +50,7 @@ class DashboardPesertaController extends Controller
 
         // Cek apakah user sudah memberikan rating untuk kursus ini
         $hasRated = DB::table('rating_kursus')
-            ->where('course_id', $id)
+            ->where('course_id', $course->id)
             ->where('user_id', auth()->id())
             ->exists();
 
@@ -147,21 +147,25 @@ class DashboardPesertaController extends Controller
         return view('dashboard-peserta.chat');
     }
 
-    public function kursus($id, $categoryId)
+    public function kursus($slug, $categorySlug = null)
     {
-        // Ambil data kursus
-        $course = Course::findOrFail($id);
-        
-        // Ambil kategori yang terkait dengan kursus ini
-        $category = Category::findOrFail($categoryId);
-    
-        // Cek apakah user sudah membeli kursus ini melalui tabel purchases
-        $hasPurchased = Purchase::where('course_id', $course->id)
+        // Cari course berdasarkan slug → ambil id
+        $course = Course::where('slug', $slug)->firstOrFail();
+        $id = $course->id;
+
+        // Cari category berdasarkan slug → ambil id
+        $category = null;
+        if ($categorySlug) {
+            $category = Category::where('slug', $categorySlug)->firstOrFail();
+            $categoryId = $category->id;
+        }
+
+        // Cek apakah user sudah membeli kursus ini
+        $hasPurchased = Purchase::where('course_id', $id)
                                 ->where('user_id', auth('student')->id())
                                 ->where('status', 'success')
                                 ->exists();
 
-        // untuk membatasi menampilkan 3 rating perkursus, nanti ada button tampilkan lebih banyak untuk menampilkan 3 kursus lagi
         $initialLimit = 3;
         $rating = RatingKursus::where('course_id', $id)
                     ->with('user')
@@ -169,21 +173,19 @@ class DashboardPesertaController extends Controller
                     ->get();
 
         $totalCount = RatingKursus::where('course_id', $id)->count();
-    
-        // Ambil status pembelian dari tabel purchases
+
         $paymentStatus = null;
         if ($hasPurchased) {
             $course->is_purchased = true;
         } else {
-            $purchase = Purchase::where('course_id', $course->id)
+            $purchase = Purchase::where('course_id', $id)
                                 ->where('user_id', auth('student')->id())
                                 ->first();
             if ($purchase) {
                 $paymentStatus = $purchase->status;
             }
         }
-    
-        // Kirim data kursus dan kategori ke view
+
         return view('dashboard-peserta.detail', compact('course', 'paymentStatus', 'hasPurchased', 'category', 'rating', 'id', 'totalCount'));
     }
 
@@ -204,12 +206,13 @@ class DashboardPesertaController extends Controller
         return response()->json(['html' => $view]);
     }
     
-    public function study($id)
+   public function study($slug)
     {
-        // Ambil course dan materinya
-        $course = Course::with('materi')->findOrFail($id);
+        // Ambil course berdasarkan slug, lalu ambil id-nya
+        $course = Course::with('materi')->where('slug', $slug)->firstOrFail();
+        $id = $course->id; // ← ambil ID-nya untuk query lain
 
-        // Ambil riwayat kuis user yang terkait course ini
+        // Ambil riwayat kuis user
         $quizHistories = \DB::table('materi_user')
             ->where('user_id', auth()->id())
             ->where('courses_id', $id)
@@ -230,7 +233,6 @@ class DashboardPesertaController extends Controller
                 ->first();
         }
 
-        // Kirim data ke view
         return view('dashboard-peserta.study', compact('course', 'quizHistories', 'finalTask', 'finalTaskHistory'));
     }
 

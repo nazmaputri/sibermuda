@@ -69,82 +69,98 @@ class ChatController extends Controller
         return view('dashboard-mentor.chat', compact('chats', 'messages', 'activeChat', 'students', 'course'));
     }
       
-    public function chatStudent($courseId, $chatId = null)
+   public function chatStudent($slug, $chatId = null)
     {
         $user = auth()->user();
-    
-        // Ambil kursus yang terhubung dengan student
+        
+        // Ambil kursus berdasarkan slug, pastikan kursus yang dibeli dan statusnya sukses
         $course = Purchase::where('user_id', $user->id)
                             ->where('status', 'success')
-                            ->where('course_id', $courseId)
+                            ->whereHas('course', function ($query) use ($slug) {
+                                $query->where('slug', $slug);
+                            })
                             ->first()?->course;
 
+        // Jika kursus tidak ditemukan, redirect ke halaman courses.index dengan pesan error
         if (!$course) {
             return redirect()->route('courses.index')->with('error', 'You have not enrolled in this course.');
         }
-    
+        
         // Ambil mentor dari kursus yang sudah dibeli
         $mentorId = $course->mentor_id;
-    
+        
         // Ambil semua chat yang melibatkan student dan mentor
         $chats = Chat::where('student_id', $user->id)
-                     ->where('mentor_id', $mentorId)
-                     ->where('course_id', $courseId)  // Pastikan filter berdasarkan course_id
-                     ->with('mentor')
-                     ->get();
-    
+                    ->where('mentor_id', $mentorId)
+                    ->where('course_id', $course->id)  // Filter berdasarkan ID kursus yang tepat
+                    ->with('mentor')
+                    ->get();
+        
         // Tentukan chat aktif
         $activeChat = $chatId ? Chat::find($chatId) : $chats->first();
-    
+        
         // Jika tidak ada chat, arahkan untuk memulai chat baru
         if (!$activeChat) {
             return redirect()->route('chat.start', $user->id)->with('error', 'No chat found. Please start a new chat.');
         }
-    
+        
         // Ambil pesan-pesan yang sesuai dengan chat aktif
         $messages = $activeChat ? $activeChat->messages()
-            ->where('course_id', $courseId)  // Pastikan pesan hanya diambil untuk course_id yang benar
+            ->where('course_id', $course->id)  // Pastikan pesan hanya diambil untuk course_id yang benar
             ->with('sender') // Menampilkan informasi pengirim
             ->get() : [];
-    
+        
         // Passing data ke view
         return view('dashboard-peserta.chat', compact('chats', 'messages', 'activeChat', 'mentorId', 'course'));
     }
-    
-    public function sendMessage(Request $request, $chatId)
+
+   public function sendMessage(Request $request, $chatId)
     {
         // Validasi input pesan dan pastikan course_id disertakan
         $request->validate([
             'message' => 'required|string|max:1000',
             'course_id' => 'required|exists:courses,id', // Pastikan course_id valid
         ]);
-    
+
         // Periksa apakah chat dengan ID yang diberikan ada
         $chat = Chat::findOrFail($chatId);
-    
+
         // Validasi apakah user saat ini adalah bagian dari chat
         if (auth()->id() !== $chat->mentor_id && auth()->id() !== $chat->student_id) {
             abort(403, 'Unauthorized action.');
         }
-    
+
         // Simpan pesan baru dengan course_id
         $chat->messages()->create([
             'sender_id' => auth()->id(),
             'message' => $request->message,
             'course_id' => $request->course_id, // Menyimpan course_id bersama pesan
         ]);
-    
+
         // Tentukan route berdasarkan peran pengguna
         $roleRoute = auth()->user()->role == 'mentor' ? 'chat.mentor' : 'chat.student';
-    
-        // Redirect dengan menambahkan parameter courseId dan chatId
-        return redirect()->route($roleRoute, [
-            'courseId' => $chat->course_id, // Tambahkan courseId
-            'chatId' => $chat->id,         // Chat yang sedang aktif
-        ])->with([
-            'success' => 'Message sent successfully.',
-            'disable_swal' => true, // Tambahkan ini supaya pesannya tidak ditampilkan oleh sweetalert
-        ]);
+
+        // Redirect sesuai role
+        if ($roleRoute === 'chat.student') {
+            // Ambil slug berdasarkan course_id
+            $slug = Course::findOrFail($chat->course_id)->slug;
+
+            return redirect()->route('chat.student', [
+                'slug' => $slug,
+                'chatId' => $chat->id,
+            ])->with([
+                'success' => 'Message sent successfully.',
+                'disable_swal' => true, // Supaya pesan tidak ditampilkan oleh sweetalert
+            ]);
+        } else {
+            return redirect()->route('chat.mentor', [
+                'courseId' => $chat->course_id,
+                'chatId' => $chat->id,
+            ])->with([
+                'success' => 'Message sent successfully.',
+                'disable_swal' => true,
+            ]);
+        }
     }
     
     // public function startChat(Request $request, $studentId, $courseId)
@@ -168,10 +184,12 @@ class ChatController extends Controller
     //     ]);
     // }
 
-    public function startChat(Request $request, $courseId, $studentId = null)
+    public function startChat(Request $request, $slug, $studentId = null)
     {
         $authUser = auth()->user();
-        $course = Course::findOrFail($courseId);
+        
+        // Ambil course berdasarkan slug
+        $course = Course::where('slug', $slug)->firstOrFail();
 
         // Jika yang login adalah mentor
         if ($authUser->id === $course->mentor_id) {
@@ -179,30 +197,32 @@ class ChatController extends Controller
                 abort(400, 'Student ID diperlukan untuk mentor');
             }
 
+            // Buat chat jika belum ada
             $chat = Chat::firstOrCreate([
                 'mentor_id' => $authUser->id,
                 'student_id' => $studentId,
-                'course_id' => $courseId,
+                'course_id' => $course->id,
             ]);
 
+            // Redirect ke halaman chat mentor
             return redirect()->route('chat.mentor', [
-                'courseId' => $courseId,
+                'slug' => $slug,
                 'chatId' => $chat->id,
             ]);
         }
 
-        $course = Course::findOrFail($courseId); 
-
+        // Jika yang login adalah student
         $chat = Chat::firstOrCreate([
             'mentor_id' => $course->mentor_id,
             'student_id' => $authUser->id,
-            'course_id' => $courseId,
+            'course_id' => $course->id,
         ]);
-        
+
+        // Redirect ke halaman chat student
         return redirect()->route('chat.student', [
-            'courseId' => $courseId,
+            'slug' => $slug,
             'chatId' => $chat->id,
-        ]);        
+        ]);
     }
 
     

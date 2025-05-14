@@ -113,9 +113,9 @@ Route::middleware(['auth:student'])->group(function () {
     Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->middleware('verified')->name('welcome-peserta');
     Route::get('dashboard-peserta/daftar', [DashboardPesertaController::class, 'daftar'])->name('daftar-peserta');
     Route::get('dashboard-peserta/kursus', [DashboardPesertaController::class, 'kursusTerdaftar'])->name('daftar-kursus');
-    Route::get('/kursus-peserta/{id}/{categoryId?}', [DashboardPesertaController::class, 'kursus'])->name('kursus-peserta');
-    Route::get('dashboard-peserta/kursus/{id}', [DashboardPesertaController::class, 'detail'])->name('detail-kursus');
-    Route::get('dashboard-peserta/study/{id}', [DashboardPesertaController::class, 'study'])->name('study-peserta');
+    Route::get('/detail-kursus-peserta/{slug}/{categorySlug?}', [DashboardPesertaController::class, 'kursus'])->name('kursus-peserta');
+    Route::get('dashboard-peserta/kursus/{slug}', [DashboardPesertaController::class, 'detail'])->name('detail-kursus');
+    Route::get('dashboard-peserta/study/{slug}', [DashboardPesertaController::class, 'study'])->name('study-peserta');
     Route::get('dashboard-peserta/video', [DashboardPesertaController::class, 'video'])->name('video-peserta');
     Route::get('dashboard-peserta/quiz', [DashboardPesertaController::class, 'quiz'])->name('quiz-peserta');
     Route::get('dashboard-peserta/kategori', [DashboardPesertaController::class, 'kategori'])->name('kategori-peserta');
@@ -129,7 +129,7 @@ Route::middleware(['auth:student'])->group(function () {
 
     //Keranjang
     Route::get('/keranjang', [KeranjangController::class, 'index'])->name('cart.index');
-    Route::post('/keranjang/tambah/{id}', [KeranjangController::class, 'addToCart'])->name('cart.add');
+    Route::post('/keranjang/tambah/{slug}', [KeranjangController::class, 'addToCart'])->name('cart.add');
     Route::delete('/keranjang/hapus/{id}', [KeranjangController::class, 'removeFromCart'])->name('cart.remove');
 
     //Keranjang Pending
@@ -205,10 +205,10 @@ Route::get('/search', [SearchController::class, 'index'])->name('search.index');
 Route::get('/certificate/{courseId}', [CertificateController::class, 'showCertificate'])->name('certificate.show');
 
 Route::middleware('auth:mentor,student')->group(function () {
-    Route::get('chat/mentor/{courseId}/{chatId?}', [ChatController::class, 'chatMentor'])->name('chat.mentor');
-    Route::get('chat/student/{courseId}/{chatId?}', [ChatController::class, 'chatStudent'])->name('chat.student');
+    Route::get('chat/student/{slug}/{chatId?}', [ChatController::class, 'chatStudent'])->name('chat.student');
+    Route::get('chat/mentor/{slug}/{chatId?}', [ChatController::class, 'chatMentor'])->name('chat.mentor');
     Route::post('chat-send/{chatId}', [ChatController::class, 'sendMessage'])->name('chat.send');
-    Route::get('/chat/start/{courseId}/{studentId?}', [ChatController::class, 'startChat'])->name('chat.start');
+    Route::get('/chat/start/{slug}/{studentId?}', [ChatController::class, 'startChat'])->name('chat.start');
 });
 
 // Route jika halaman tidak ditemukan notfound
