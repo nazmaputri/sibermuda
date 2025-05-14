@@ -107,16 +107,18 @@
                             x-transition
                             class="mt-2"
                         >
-                            <p class="text-gray-600 mb-2 text-sm">{{ $materi->deskripsi }}</p>
+                            <p class="text-gray-700 mb-2 text-sm">{{ $materi->deskripsi }}</p>
 
                             <ul class="space-y-3">
                                 {{-- G-Drive Videos --}}
                                 @foreach($materi->videos as $index => $video)
                                     <li class="text-sm text-gray-700">
-                                        @if($course->is_purchased || ($loop->first && $materi->is_preview))
-                                        <div class="border p-4 rounded-md shadow-md">
-                                            <h4 class="font-medium mb-2 text-gray-700">{{ $video->title }}</h4>
-                                            @if ($video->link)
+                                        <div class="flex items-center space-x-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-green-500 flex-shrink-0">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
+                                            <h4 class=" text-gray-700 flex-1">{{ $video->title }}</h4>
+                                            <!-- @if ($video->link)
                                             <iframe 
                                                 src="https://drive.google.com/file/d/{{ $video->link }}/preview" 
                                                 width="100%" 
@@ -128,21 +130,20 @@
                                             @else
                                             <p class="text-red-500">Video tidak tersedia.</p>
                                             @endif 
-                                            <p class="font-medium mt-3 text-gray-700">{{ $video->description }}</p>
+                                            <p class="font-medium mt-3 text-gray-700">{{ $video->description }}</p> -->
                                         </div>
-                                        @else
-                                            🔒 <span class="text-gray-500">{{ $video->title }} (Terkunci)</span>
-                                        @endif
                                     </li>
                                 @endforeach
 
                                 {{-- YouTube Videos --}}
                                 @foreach ($materi->youtube as $index => $youtube)
                                     <li class="text-sm text-gray-700">
-                                        @if($course->is_purchased || ($loop->first && $materi->is_preview))
-                                            <div class="border p-4 rounded-md shadow-md bg-gray-100">
-                                                <h3 class="font-medium mb-2 text-gray-800">{{ $youtube->title }}</h3>
-                                                @if ($youtube->link)
+                                            <div class="flex items-center space-x-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-green-500 flex-shrink-0">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                </svg>
+                                                <h3 class=" text-gray-700 flex-1">{{ $youtube->title }}</h3>
+                                                <!-- @if ($youtube->link)
                                                     <iframe
                                                         width="100%" height="250"
                                                         src="https://www.youtube.com/embed/{{ $youtube->link }}"
@@ -154,11 +155,8 @@
                                                     <p class="text-gray-600 mt-2">{{ $youtube->description ?: 'Tidak ada deskripsi video' }}</p>
                                                 @else
                                                     <p class="text-red-500">Video YouTube tidak tersedia.</p>
-                                                @endif
+                                                @endif -->
                                             </div>
-                                        @else
-                                            🔒 <span class="text-gray-500">{{ $youtube->title }} (Terkunci)</span>
-                                        @endif
                                     </li>
                                 @endforeach
                             </ul>

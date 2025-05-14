@@ -126,7 +126,13 @@
 
         <!-- Total -->
         <div class="my-3 text-right text-md text-gray-700 font-semibold">
-            Total Pendapatan: <span class="text-red-500">Rp. {{ number_format($totalAllRevenue, 0, ',', '.') }}</span>
+            @if($selectedCourseId || $selectedMonth)
+                Total Pendapatan :
+                <span class="text-red-500">Rp. {{ number_format($totalFilteredRevenue, 0, ',', '.') }}</span>
+            @else
+                Total Pendapatan :
+                <span class="text-red-500">Rp. {{ number_format($totalAllRevenue, 0, ',', '.') }}</span>
+            @endif
         </div>
 
         <div class="overflow-x-auto">

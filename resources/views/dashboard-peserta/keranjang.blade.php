@@ -103,12 +103,12 @@
                         @if($cart->final_price < $cart->course->price)
                             <p class="text-sm font-medium text-red-500">
                                 Rp. {{ number_format($cart->final_price, 0, ',', '.') }}
-                                <span class="line-through text-gray-400 text-xs ml-2">
+                                <span class="line-through text-gray-400 text-xs ml-1">
                                     Rp. {{ number_format($cart->course->price, 0, ',', '.') }}
                                 </span>
 
                                 @if($cart->applied_discount)
-                                    <span class="ml-2 text-[10px] text-red-600 font-semibold bg-red-100 px-2 py-0.5 rounded-sm">
+                                    <span class="ml-2 text-[10px] text-red-500 font-semibold bg-red-100 px-2 py-0.5 rounded-sm">
                                         -{{ $cart->applied_discount->discount_percentage }}%
                                     </span>
                                 @endif
@@ -134,8 +134,8 @@
         <div class="bg-white border border-gray-200 p-3 rounded-lg shadow flex-1 max-h-40">
         <!-- Input Kupon -->
         <div class="flex space-x-2 items-center mt-1 pb-2">
-            <input type="text" id="coupon-code" class="border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 w-full sm:w-3/4 md:w-2/3 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon">
-            <button id="apply-coupon" class="bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
+            <input type="text" id="coupon-code" class="w-full basis-3/4 border border-gray-300 text-sm text-gray-700 rounded-lg p-1.5 focus:outline-none focus:ring-1 focus:ring-green-500" placeholder="Masukkan Kode Kupon">
+            <button id="apply-coupon" class="basis-1/4 bg-green-400 flex text-sm text-white p-1.5 px-3 font-semibold rounded-lg hover:bg-green-300">Gunakan</button>
         </div>
 
             <!-- Total Harga -->
@@ -195,7 +195,7 @@
         <div class="w-16 h-1 bg-gray-700 mx-auto mb-6 rounded"></div>
 
         <!-- Formulir -->
-        <form id="wa-form" class="text-sm text-gray-700 space-y-3">
+        <form id="wa-form" class="text-sm text-gray-700 space-y-3 max-h-[70vh] overflow-y-auto">
             <div class="">
                 <p class="font-semibold">Nama Lengkap:</p>
                 <p class="text-gray-700 border-b border-gray-200">{{ Auth::user()->name }}</p>
@@ -226,7 +226,11 @@
 
             <div>
                 <p class="font-semibold">Kursus:</p>
-                <p class="text-gray-700 border-b border-gray-200 py-1">{{ $courseList }}</p>
+                <ul class="list-disc list-inside text-gray-700 border-b border-gray-200 py-1">
+                    @foreach ($courseTitles as $title)
+                        <li>{{ $title }}</li>
+                    @endforeach
+                </ul>
             </div>
            
             <div>
@@ -305,7 +309,7 @@
         const nomorAdmin = @json($nomorAdmin); 
         const pesan = `Halo Admin, saya ingin mengkonfirmasi pembayaran untuk:\n\n` +
             `👤 Nama: ${name}\n📧 Email: ${email}\n📱 Telepon: ${telepon}\n\n` +
-            `💻 Kursus: ${kursus}\n💰 Total: Rp ${harga}\n\n` +
+            `💻 Kursus: ${kursus}\n💰 Total: ${harga}\n\n` +
             `Saya sudah melakukan pembayaran, berikut bukti transfernya.`;
 
         const whatsappUrl = `https://wa.me/${nomorAdmin}?text=${encodeURIComponent(pesan)}`;

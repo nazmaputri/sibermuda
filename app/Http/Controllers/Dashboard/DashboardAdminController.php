@@ -407,7 +407,7 @@ class DashboardAdminController extends Controller
             'revenues' => $revenues,
             'coursesRevenue' => $coursesRevenue,
             'selectedCourseId' => $selectedCourseId,
-            'totalRevenue' => $totalFilteredRevenue,
+            'totalFilteredRevenue' => $totalFilteredRevenue,
             'selectedMonth' => $selectedMonth,
             'totalAllRevenue' => $totalAllRevenue,
             'totalRevenue' => $totalRevenue

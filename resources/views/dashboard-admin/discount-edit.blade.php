@@ -64,18 +64,20 @@
 
         <!-- Pilih Kursus -->
         <div x-data="{
-                open: false,
-                selectedCourseIds: @json($discount->course_ids ?? []),  // Menyimpan ID kursus yang dipilih
-                selectedCourseTitles: @json($discount->course_titles ?? []),  // Menyimpan nama kursus yang dipilih
-                applyToAllChecked: {{ $discount->apply_to_all ? 'true' : 'false' }},
-                searchTerm: ''
-            }">
+            open: false,
+            selectedCourseIds: @json($courseIds),
+            selectedCourseTitles: @json($discount->course_titles ?? []),  // Menyimpan nama kursus yang dipilih
+            applyToAllChecked: {{ $discount->apply_to_all ? 'true' : 'false' }},
+            searchTerm: '',
+            editingDiscount: true, // Menandakan bahwa kita sedang mengedit diskon
+            discountId: {{ $discount->id }},
+        }">
             <label class="block text-gray-700 font-medium">Pilih Kursus</label>
             <div class="relative">
                 <button @click="open = !open" type="button"
                     class="border px-4 py-2 text-sm text-gray-700 w-full rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                     <span class="block max-h-10 overflow-y-auto whitespace-normal break-words text-left scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300">
-                        <span x-text="applyToAllChecked ? 'Semua Kursus Dipilih' : (selectedCourseTitles.length > 0 ? selectedCourseTitles.join(', ') : 'Pilih Kursus')"></span>
+                        <span x-text="applyToAllChecked ? 'Semua Kursus Dipilih' : (selectedCourseTitles.length > 0 ? selectedCourseTitles.join(', ') : '{{ implode(', ', $courseTitles) }}')"></span>
                     </span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -104,12 +106,19 @@
                         @foreach($courses as $course)
                             @php
                                 $hasActiveDiscount = $course->discounts->where('start_date', '<=', \Carbon\Carbon::now())
-                                                            ->where('end_date', '>=', \Carbon\Carbon::now())->count() > 0;
+                                                                    ->where('end_date', '>=', \Carbon\Carbon::now())
+                                                                    ->where('apply_to_all', false)
+                                                                    ->count() > 0;
+
+                                $isEditingThisCourse = in_array($course->id, $discount->course_ids ?? []);
+                                $isPartOfOtherDiscount = $course->discounts->where('apply_to_all', false)
+                                                                        ->where('id', '!=', $discount->id)
+                                                                        ->count() > 0;  // Memeriksa apakah kursus ini ada dalam diskon lain
                             @endphp
                             <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" x-show="'{{ Str::lower($course->title) }}'.includes(searchTerm.toLowerCase())">
                                 <label class="flex items-center">
                                     <input type="checkbox"
-                                        :disabled="applyToAllChecked || {{ $hasActiveDiscount ? 'true' : 'false' }}"
+                                        :disabled="applyToAllChecked && !{{ $isEditingThisCourse ? 'true' : 'false' }}"
                                         @change="
                                             if ($event.target.checked) {
                                                 selectedCourseIds.push({{ $course->id }});
@@ -120,7 +129,7 @@
                                             }
                                         "
                                         class="mr-2 text-gray-700"
-                                        :checked="selectedCourseIds.includes({{ $course->id }})">
+                                    :checked="selectedCourseIds.includes({{ (int) $course->id }})">
                                     <span>{{ $course->title }}</span>
                                     @if($hasActiveDiscount)
                                         <span class="text-xs text-red-500 ml-2">Diskon Aktif</span>
@@ -141,10 +150,10 @@
 
         <!-- Tombol -->
         <div class="col-span-1 md:col-span-2 mt-6 flex justify-end space-x-2">
-            <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-lg">
+            <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
                 Batal
             </a>
-            <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-lg">
+            <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-md">
                 Simpan
             </button>
         </div>

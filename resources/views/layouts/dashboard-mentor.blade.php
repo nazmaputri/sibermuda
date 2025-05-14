@@ -19,13 +19,6 @@
         body {
             font-family: 'Poppins', sans-serif !important;
         }
-
-        /* tambah ini agar kolom input tidak memiliki bg blue bawaan browser */
-        input:-webkit-autofill {
-            -webkit-box-shadow: 0 0 0px 1000px white inset !important;
-            box-shadow: 0 0 0px 1000px white inset !important;
-            -webkit-text-fill-color: #4B5563 !important; /* text-gray-600 */
-        }
     </style>
 </head>
 <body class="bg-white">

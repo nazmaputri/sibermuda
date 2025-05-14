@@ -65,11 +65,11 @@
          <!-- Tombol Rating di kanan bawah -->
          <div class="flex justify-end mt-6">
             @if(!$hasRated)
-            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-300 text-white font-semibold py-1.5 px-3 rounded-md text-sm">
+            <button id="ratingButton" class="bg-yellow-400 hover:bg-yellow-300 text-white font-medium py-1.5 px-3 rounded-md text-sm">
                 Beri Rating
             </button>
             @else
-            <button id="ratingdone" class="bg-gray-400 hover:bg-gray-300 text-white font-semibold py-1.5 px-3 rounded-md text-sm cursor-not-allowed">
+            <button id="ratingdone" class="bg-gray-400 hover:bg-gray-300 text-white font-medium py-1.5 px-3 rounded-md text-sm cursor-not-allowed">
                 Beri Rating
             </button>
             @endif
@@ -85,7 +85,7 @@
             @csrf
             <input type="hidden" name="course_id" value="{{ $course->id }}">
                 <div class="mb-4">
-                    <label for="stars" class="block text-sm font-medium text-gray-600 mb-2 font-semibold">Rating</label>
+                    <label for="stars" class="block text-sm font-medium text-gray-600 mb-2">Rating</label>
                     <div id="starRating" class="flex space-x-1">
                         @for ($i = 1; $i <= 5; $i++)
                             <svg data-value="{{ $i }}" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400 cursor-pointer hover:text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
@@ -117,14 +117,14 @@
                     });
                 </script>                
                 <div class="mb-4">
-                    <label for="comment" class="block text-sm text-gray-600 font-semibold">Komentar</label>
+                    <label for="comment" class="block text-sm text-gray-600 font-medium">Komentar</label>
                     <textarea name="comment" id="comment" class="w-full text-sm text-gray-700 border rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" rows="4" placeholder="Tulis komentar Anda (opsional)"></textarea>
                 </div>
                 <div class="flex justify-end">
-                    <button type="button" id="closeRatingModal" class="bg-red-400 hover:bg-red-300 text-white font-semibold py-2 px-4 rounded-lg mr-2 text-center text-sm">
+                    <button type="button" id="closeRatingModal" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md mr-2 text-center text-sm">
                         Batal
                     </button>
-                    <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-semibold py-2 px-4 rounded-lg text-center text-sm">
+                    <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-md text-center text-sm">
                         Kirim
                     </button>
                 </div>

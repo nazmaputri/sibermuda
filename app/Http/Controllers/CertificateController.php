@@ -113,31 +113,43 @@ class CertificateController extends Controller
             ->firstOrFail();
 
         $course = $purchase->course;
-        $categoryName = strtolower($course->category->name);
+    
+        $cyberKeywords = [
+            'cyber security', 'siber', 'cybersecurity', 
+            'cyber', 'Cyber Security', 'CyberSecurity', 
+            'Cybersecurity', 'Cyber'
+        ];
 
-        // Daftar kategori yang dianggap sebagai Cybersecurity
-        $cyberCategories = ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber'];
-        $normalizedCategory = str_replace(' ', '', $categoryName);
-        $isCybersecurity = in_array($normalizedCategory, array_map(fn($val) => str_replace(' ', '', strtolower($val)), $cyberCategories));
+        $categoryName = strtolower($course->category->name ?? '');
 
-        // Ambil tanggal penyelesaian berdasarkan kategori
-        if ($isCybersecurity) {
-            $finalTask = FinalTaskUser::where('user_id', $userId)
+        $isCyberSecurity = collect($cyberKeywords)
+            ->map(fn($item) => strtolower($item))
+            ->contains($categoryName);
+
+        $completionDate = null;
+
+        if ($isCyberSecurity) {
+            // Ambil created_at dari final_task_user yang status-nya approved
+            $completionDate = DB::table('final_task_user')
+                ->where('user_id', $userId)
                 ->where('course_id', $courseId)
                 ->where('certificate_status', 'approved')
-                ->first();
-
-            $completionDate = $finalTask?->completed_at;
+                ->value('created_at');
         } else {
-            $lastCompleted = DB::table('materi_user')
-                ->where('user_id', $userId)
-                ->where('courses_id', $courseId)
-                ->whereNotNull('completed_at')
-                ->orderByDesc('completed_at')
-                ->first();
+            // Ambil created_at dari materi_user yang nilainya >= 75
+            $completionDate = DB::table('materi_user')
+            ->where('user_id', $userId)
+            ->where('courses_id', $courseId)
+            ->where('nilai', '>=', 75)
+            ->orderBy('created_at', 'asc') // ← ambil yang paling awal
+            ->value('created_at');
 
-            $completionDate = $lastCompleted->completed_at ?? null;
         }
+
+        // Format tanggal jika tidak null
+        $completionDateFormatted = $completionDate 
+            ? \Carbon\Carbon::parse($completionDate)->translatedFormat('d F Y') 
+            : 'Tanggal Tidak Diketahui';
 
         // Data untuk sertifikat
         $data = [
@@ -150,7 +162,8 @@ class CertificateController extends Controller
             'completion_date'        => $completionDate ? Carbon::parse($completionDate)->format('d M Y') : 'Belum Selesai',
             'signature_title_left'   => 'Direktur Kursus',
             'signature_title_right'  => 'Mentor Kursus',
-            'is_pdf'                 => true
+            'completion_date' => $completionDateFormatted,
+            'is_pdf'                 => true // ← agar image tampil saat diunduh  
         ];
 
         // Buat PDF menggunakan DOMPDF

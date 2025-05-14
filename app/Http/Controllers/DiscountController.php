@@ -15,14 +15,16 @@ class DiscountController extends Controller
     {
         $search = $request->input('search');
 
-        $discounts = Discount::when($search, function ($query, $search) {
-            return $query->where(function ($q) use ($search) {
-                $q->where('coupon_code', 'like', '%' . $search . '%')
-                ->orWhere('discount_percentage', 'like', '%' . $search . '%')
-                ->orWhere('start_date', 'like', '%' . $search . '%')
-                ->orWhere('end_date', 'like', '%' . $search . '%');
-            });
-        })->paginate(5);
+        $discounts = Discount::with('courses') // Ambil relasi courses
+            ->when($search, function ($query, $search) {
+                return $query->where(function ($q) use ($search) {
+                    $q->where('coupon_code', 'like', '%' . $search . '%')
+                        ->orWhere('discount_percentage', 'like', '%' . $search . '%')
+                        ->orWhere('start_date', 'like', '%' . $search . '%')
+                        ->orWhere('end_date', 'like', '%' . $search . '%');
+                });
+            })
+            ->paginate(5);
 
         return view('dashboard-admin.discount', compact('discounts', 'search'));
     }
@@ -34,12 +36,13 @@ class DiscountController extends Controller
         return view('dashboard-admin.discount-tambah', compact('courses'));
     }    
     
-    // Menampilkan form edit diskon
     public function edit($id)
     {
         $discount = Discount::findOrFail($id);
         $courses = Course::all();
-        return view('dashboard-admin.discount-edit', compact('discount', 'courses'));
+        $courseTitles = $discount->courses->pluck('title')->toArray(); // Ambil nama kursus terkait dengan diskon
+        $courseIds = $discount->courses->pluck('id')->toArray(); // Ambil ID kursus terkait dengan diskon
+        return view('dashboard-admin.discount-edit', compact('discount', 'courses', 'courseTitles', 'courseIds'));
     }
 
     public function update(Request $request, $id)

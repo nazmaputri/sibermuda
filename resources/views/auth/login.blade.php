@@ -44,7 +44,7 @@
 
 <div class="w-full max-w-6xl flex bg-white md:space-x-10 rounded-xl overflow-hidden animate-zoom-in" id="login-container">
     <!-- Kiri (Logo) -->
-    <div class="hidden md:flex md:w-1/2 bg-midnight rounded rounded-2xl items-center justify-center">
+    <div class="hidden md:flex md:w-1/2 bg-midnight rounded rounded-3xl items-center justify-center">
         <img src="{{ asset('storage/login2.png') }}" alt="Logo" class="w-70 h-70 transform transition-transform hover:scale-105">
     </div>
 
@@ -57,7 +57,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01-.58 4.138l-5.58 3.114-5.58-3.114a12.083 12.083 0 01-.58-4.138L12 14z" />
                 </svg>
             </a>
-            <h2 class="text-3xl font-semibold">Masuk</h2>
+            <h2 class="text-3xl font-semibold text-midnight">Masuk</h2>
         </div>
         <p class="mb-2 text-gray-600 text-center">Selamat datang di Sibermuda Kursus</p>
 
