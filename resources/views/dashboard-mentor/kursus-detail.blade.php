@@ -59,7 +59,7 @@
 
                 <div class="flex flex-wrap">
                     <span class="w-24">Fitur Chat</span><span class="mr-1">:</span>
-                    <span class="{{ $course->chat ? 'text-green-500' : 'text-red-500' }}">
+                    <span class="{{ $course->chat ? 'text-green-500' : 'text-red-400' }}">
                         {{ $course->chat ? 'Aktif' : 'Tidak Aktif' }}
                     </span>
                 </div>

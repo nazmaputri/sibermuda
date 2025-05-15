@@ -52,8 +52,9 @@
             text-transform: uppercase;
             display: inline-block;
             padding-bottom: 8px;
-            padding-top: 12px;
+            padding-top: 8px;
             margin: 20px 0px;
+            font-family: 'vivaldi';
         }
 
         .course-detail {
@@ -71,7 +72,7 @@
 <body>
     <div class="content" style="text-align: center; padding-top: {{ isset($is_pdf) && $is_pdf ? '280px' : '280px' }};">
         <p class="given-text">Diberikan kepada :</p>
-        <p class="name" style="font-family: 'Vivaldi', cursive;">{{ $participant_name }}</p>
+        <p class="name" style="font-family: 'Vivaldi';">{{ $participant_name }}</p>
         <p class="course-detail">
             Atas penyelesaian kursus <strong>{{ $course_title }}</strong> dalam kategori {{ $course_category }}.
         </p>

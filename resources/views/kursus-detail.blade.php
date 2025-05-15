@@ -352,7 +352,7 @@
             @endphp
 
             @if ($filteredRatings->isEmpty())
-                <p class="text-gray-500 mt-2">Belum ada rating</p>
+                <p class="text-gray-500 mt-2 text-sm">Belum ada rating</p>
             @else
                 <div class="mt-4">
                     <!-- Swiper Container -->

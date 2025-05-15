@@ -9,15 +9,6 @@
         <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <!-- Gambar Kategori -->
-            <div class="mb-4">
-                <label for="image" class="block text-gray-700 font-medium mb-2">Gambar Kategori</label>
-                <input type="file" name="image" id="image" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('image') border-red-500 @enderror">
-                @error('image')
-                    <span class="text-red-500 text-sm"  id="image-error">{{ $message }}</span>
-                @enderror
-            </div>
-
             <!-- Nama Kategori -->
             <div class="mb-4">
                 <label for="name" class="block text-gray-700 font-medium mb-2">Nama Kategori</label>
@@ -33,6 +24,15 @@
                 <textarea name="description" id="description" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi kategori">{{ old('description') }}</textarea>
                 @error('description')
                     <span class="text-red-500 text-sm"  id="description-error">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Gambar Kategori -->
+            <div class="mb-4">
+                <label for="image" class="block text-gray-700 font-medium mb-2">Gambar Kategori</label>
+                <input type="file" name="image" id="image" class="w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('image') border-red-500 @enderror">
+                @error('image')
+                    <span class="text-red-500 text-sm"  id="image-error">{{ $message }}</span>
                 @enderror
             </div>
 

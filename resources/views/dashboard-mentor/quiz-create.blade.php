@@ -39,7 +39,7 @@
 
     <!-- Input untuk Waktu Pengerjaan Kuis -->
     <div>
-        <label for="duration" class="block text-gray-700 font-medium mb-1">Durasi (menit)</label>
+        <label for="duration" class="block text-gray-700 font-medium mb-1">Durasi</label>
         <input type="number" name="duration" id="duration" class="w-full p-2 text-sm border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700 @error('duration') border-red-500 @enderror" placeholder="Masukkan durasi kuis (menit)" value="{{ old('duration') }}" min="1">
         @error('duration')
             <div class="text-red-600 text-sm mt-1 error-message" id="error-duration">{{ $message }}</div>
@@ -70,13 +70,13 @@
                 <div class="answers-container">
                     <label class="block text-gray-700 font-medium mb-2">Jawaban Pilihan Ganda</label>
                     @for ($i = 0; $i < 4; $i++)
-                        <div class="flex items-center mb-2">
+                        <div class="flex items-center space-y-2">
                             <input type="radio" name="questions[0][correct_answer]" value="{{ $i }}" class="mr-2 answer-radio">
                             <input type="text" name="questions[0][answers][]" class="w-full text-sm text-gray-700 p-2 border focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 rounded answer-input" placeholder="Masukkan jawaban" value="{{ old('questions.0.answers.' . $i) }}" >
-                            @error('questions.*.answers.*')
-                                <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
-                            @enderror
                         </div>
+                        @error('questions.0.answers.' . $i)
+                            <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                        @enderror
                     @endfor
                     @error('questions.0.correct_answer')
                         <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
