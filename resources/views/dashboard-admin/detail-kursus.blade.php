@@ -80,7 +80,7 @@
                                 {{-- Google Drive Videos --}}
                                 @foreach ($materi->videos as $video)
                                     <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                        <h3 class="font-medium text-sm text-gray-700 mb-1.5">{{ $video->title }}</h3>
+                                        <h3 class="font-medium text-sm text-gray-700 mb-1.5">{{ $video->title ?: 'Tidak ada judul video' }}</h3>
                                         @if ($video->link)
                                             <iframe
                                                 src="https://drive.google.com/file/d/{{ $video->link }}/preview"
@@ -99,7 +99,7 @@
                                 {{-- YouTube Videos --}}
                                 @foreach ($materi->youtube as $yt)
                                     <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                        <h3 class="font-semibold text-gray-700 text-sm mb-1.5">{{ $yt->title }}</h3>
+                                        <h3 class="font-semibold text-gray-700 text-sm mb-1.5">{{ $yt->title ?: 'Tidak ada judul video' }}</h3>
                                         @if ($yt->link)
                                             <iframe
                                                 width="100%" height="480"
@@ -112,7 +112,7 @@
                                         @else
                                             <p class="text-gray-700 text-sm">Video YouTube tidak tersedia.</p>
                                         @endif
-                                        <p class="text-gray-700 mt-1.5">{{ $yt->description ?: 'Tidak ada deskripsi video Youtube' }}</p>
+                                        <p class="text-gray-700 text-sm mt-1.5">{{ $yt->description ?: 'Tidak ada deskripsi video Youtube' }}</p>
                                     </li>
                                 @endforeach
                             </ul>

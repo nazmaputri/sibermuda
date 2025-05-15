@@ -240,7 +240,7 @@
                         @endforeach
                         @if ($quizzes->isEmpty())
                         <tr>
-                            <td colspan="4" class="text-center py-2 text-sm text-gray-600 border-b border-l border-r border-gray-200">Belum ada tugas akhir untuk kursus ini.</td>
+                            <td colspan="4" class="text-center py-2 text-sm text-gray-500 border-b border-l border-r border-gray-200">Belum ada kuis untuk kursus ini.</td>
                         </tr>
                         @endif
                     </tbody>

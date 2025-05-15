@@ -94,8 +94,12 @@
                                     <input type="hidden" name="type[]" x-model="item.type">
                                     <input type="hidden" name="id[]" :value="item.id">
 
-                                    <label class="text-gray-700 font-medium mb-2">Judul Link Materi G-drive</label>
-                                    <input type="text" name="title[]" x-model="item.title" @input="delete $store.errors['title.' + index]" :class="{
+                                    <div class="mb-2">
+                                        <p class="font-medium text-gray-700 mb-2">Materi G-drive <span x-text="index + 1"></span></p>
+                                    </div>
+
+                                    <label class="text-gray-700 font-medium mb-2">Judul</label>
+                                    <input type="text" name="title[]" x-model="item.title" placeholder="Masukkan judul materi" @input="delete $store.errors['title.' + index]" :class="{
                                         'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
                                         'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['title.' + index],
                                         'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['title.' + index]
@@ -105,8 +109,8 @@
                                     </template>
 
                                     <div class="mt-2 space-y-2">
-                                        <label class="text-gray-700 font-medium mb-2">Deskripsi Link Materi G-drive</label>
-                                        <textarea name="description[]" x-model="item.description" @input="delete $store.errors['description.' + index]" :class="{
+                                        <label class="text-gray-700 font-medium mb-2">Deskripsi</label>
+                                        <textarea name="description[]" x-model="item.description" placeholder="Masukkan deskripsi materi" @input="delete $store.errors['description.' + index]" :class="{
                                             'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
                                             'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['description.' + index],
                                             'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['description.' + index]
@@ -116,8 +120,8 @@
                                         </template>
                                     </div>
 
-                                    <label class="text-gray-700 font-medium mb-2">Link Materi G-drive</label>
-                                    <input type="text" name="link[]" x-model="item.link" @input="delete $store.errors['link.' + index]" :class="{
+                                    <label class="text-gray-700 font-medium mb-2">Link</label>
+                                    <input type="text" name="link[]" x-model="item.link" placeholder="Masukkan link materi" @input="delete $store.errors['link.' + index]" :class="{
                                         'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
                                         'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['link.' + index],
                                         'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['link.' + index]
@@ -141,8 +145,10 @@
                                     <input type="hidden" :name="`youtube_type[]`" x-model="item.type">
                                     <input type="hidden" :name="`youtube_id[]`" :value="item.id">
 
-                                    <label class="block text-gray-700 font-medium mb-2">Judul Link Materi YouTube</label>
-                                    <input type="text" :name="`youtube_title[]`" x-model="item.title" @input="delete $store.errors['youtube_title.' + index]" :class="{
+                                    <p class="font-medium text-gray-700 mb-2">Materi Youtube <span x-text="index + 1"></span></p>
+
+                                    <label class="block text-gray-700 font-medium mb-2">Judul</label>
+                                    <input type="text" :name="`youtube_title[]`" x-model="item.title" placeholder="Masukkan judul materi" @input="delete $store.errors['youtube_title.' + index]" :class="{
                                         'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
                                         'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['youtube_title.' + index],
                                         'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['youtube_title.' + index]
@@ -151,8 +157,8 @@
                                         <p class="text-red-500 text-sm" x-text="$store.errors['youtube_title.' + index]"></p>
                                     </template>
 
-                                    <label class="block text-gray-700 font-medium mb-2">Deskripsi Link Materi YouTube</label>
-                                    <textarea :name="`youtube_description[]`" x-model="item.description" @input="delete $store.errors['youtube_description.' + index]" :class="{
+                                    <label class="block text-gray-700 font-medium mb-2">Deskripsi</label>
+                                    <textarea :name="`youtube_description[]`" x-model="item.description" placeholder="Masukkan deskripsi materi" @input="delete $store.errors['youtube_description.' + index]" :class="{
                                         'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
                                         'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['youtube_description.' + index],
                                         'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['youtube_description.' + index]
@@ -161,8 +167,8 @@
                                         <p class="text-red-500 text-sm" x-text="$store.errors['youtube_description.' + index]"></p>
                                     </template>
 
-                                    <label class="block text-gray-700 font-medium mb-2">Link Materi YouTube</label>
-                                    <input type="text" :name="`youtube_link[]`" x-model="item.link" @input="delete $store.errors['youtube_link.' + index]" :class="{
+                                    <label class="block text-gray-700 font-medium mb-2">Link</label>
+                                    <input type="text" :name="`youtube_link[]`" x-model="item.link" placeholder="Masukkan link materi" @input="delete $store.errors['youtube_link.' + index]" :class="{
                                         'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
                                         'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['youtube_link.' + index],
                                         'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['youtube_link.' + index]

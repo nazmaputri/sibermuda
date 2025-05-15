@@ -42,7 +42,7 @@
                                     <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
                                     <div class="flex items-center space-x-2">
                                         <span class="text-gray-700 font-medium">{{ $loop->iteration }}.</span>
-                                        <h3 class="text-sm font-medium text-gray-700">{{ $video->title }}</h3>
+                                        <h3 class="text-sm font-medium text-gray-700">{{ $video->title ?: 'Tidak ada judul video' }}</h3>
                                     </div>
                                         <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -80,7 +80,7 @@
                                     <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
                                     <div class="flex items-center space-x-2">
                                         <span class="text-gray-700 font-medium">{{ $loop->iteration }}.</span>
-                                        <h3 class="text-sm font-medium text-gray-700">{{ $yt->title }}</h3>
+                                        <h3 class="text-sm font-medium text-gray-700">{{ $yt->title ?: 'Tidak ada judul video' }}</h3>
                                     </div>
                                         <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
