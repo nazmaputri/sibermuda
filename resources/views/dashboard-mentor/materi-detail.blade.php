@@ -27,7 +27,7 @@
     <div class="mt-2">
 
         @if($materi->videos->isEmpty() && $materi->youtube->isEmpty())
-            <p class="text-gray-700">Tidak ada video untuk materi ini.</p>
+            <p class="text-gray-700 text-sm font-medium">Tidak ada video untuk materi ini.</p>
         @else
             <div class="space-y-4 text-sm">
                 {{-- Google Drive Videos --}}

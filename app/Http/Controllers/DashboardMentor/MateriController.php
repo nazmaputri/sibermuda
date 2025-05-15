@@ -186,11 +186,20 @@ class MateriController extends Controller
         $request->validate([
             'judul'         => 'required|string|max:255',
             'deskripsi'     => 'nullable|string',
+
             'title'         => 'nullable|array',
+            'title.*'       => 'nullable|string|max:255',
+
             'description'   => 'nullable|array',
+            'description.*' => 'nullable|string|max:500',
+
             'link'          => 'nullable|array',
+            'link.*'        => 'nullable|url',
+
             'type'          => 'nullable|array',
+
             'id'            => 'nullable|array',
+            'id.*'          => 'nullable|integer',
         ]);
 
         $materi = Materi::findOrFail($materiId);
@@ -285,8 +294,11 @@ class MateriController extends Controller
         // Hapus materi
         $materi->delete();
     
-        return redirect()->route('courses.show', ['course' => $courseId])
-            ->with('success', 'Materi beserta link video materi berhasil dihapus!');
-    }    
+        // Ambil course berdasarkan ID
+        $course = Course::findOrFail($courseId);
 
+        // Redirect menggunakan slug
+        return redirect()->route('courses.show', ['course' => $course->slug])
+            ->with('success', 'Materi berhasil dihapus!');
+        }    
 }

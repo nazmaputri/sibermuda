@@ -29,42 +29,59 @@
                         @enderror
                     </div>
                 </div>
-                <div x-data="{
-                    materiDrive: [
-                        @foreach ($materi->videos as $drive)
-                            {
-                                title: @js($drive->title),
-                                description: @js($drive->description),
-                                link: 'https://drive.google.com/file/d/{{ $drive->link }}/preview',
-                                type: 'drive'
-                            },
-                        @endforeach
-                    ],
-                    materiYoutube: [
-                        @foreach ($materi->youtube as $yt)
-                            {
-                                title: @js($yt->title),
-                                description: @js($yt->description),
-                                link: 'https://www.youtube.com/watch?v={{ $yt->link }}',
-                                type: 'youtube'
-                            },
-                        @endforeach
-                    ],
-                    addMateri(type) {
-                        if (type === 'drive') {
-                            this.materiDrive.push({ title: '', description: '', link: '', type: 'drive' });
-                        } else if (type === 'youtube') {
-                            this.materiYoutube.push({ title: '', description: '', link: '', type: 'youtube' });
+
+                <div 
+                    x-data="{
+                        materiDrive: @js(old('type') ? collect(old('type'))->map(function($type, $i) {
+                            if ($type === 'drive') {
+                                return [
+                                    'title' => old('title')[$i] ?? '',
+                                    'description' => old('description')[$i] ?? '',
+                                    'link' => old('link')[$i] ?? '',
+                                    'type' => 'drive'
+                                ];
+                            }
+                        })->filter()->values() : $materi->videos->map(function($drive) {
+                            return [
+                                'title' => $drive->title,
+                                'description' => $drive->description,
+                                'link' => 'https://drive.google.com/file/d/' . $drive->link . '/preview',
+                                'type' => 'drive'
+                            ];
+                        })),
+                        materiYoutube: @js(old('type') ? collect(old('type'))->map(function($type, $i) {
+                            if ($type === 'youtube') {
+                                return [
+                                    'title' => old('title')[$i] ?? '',
+                                    'description' => old('description')[$i] ?? '',
+                                    'link' => old('link')[$i] ?? '',
+                                    'type' => 'youtube'
+                                ];
+                            }
+                        })->filter()->values() : $materi->youtube->map(function($yt) {
+                            return [
+                                'title' => $yt->title,
+                                'description' => $yt->description,
+                                'link' => 'https://www.youtube.com/watch?v=' . $yt->link,
+                                'type' => 'youtube'
+                            ];
+                        })),
+                        addMateri(type) {
+                            if (type === 'drive') {
+                                this.materiDrive.push({ title: '', description: '', link: '', type: 'drive' });
+                            } else if (type === 'youtube') {
+                                this.materiYoutube.push({ title: '', description: '', link: '', type: 'youtube' });
+                            }
+                        },
+                        removeMateri(type, index) {
+                            if (type === 'drive') {
+                                this.materiDrive.splice(index, 1);
+                            } else if (type === 'youtube') {
+                                this.materiYoutube.splice(index, 1);
+                            }
                         }
-                    },
-                    removeMateri(type, index) {
-                        if (type === 'drive') {
-                            this.materiDrive.splice(index, 1);
-                        } else if (type === 'youtube') {
-                            this.materiYoutube.splice(index, 1);
-                        }
-                    }
-                }">
+                    }"
+                >
                     <input type="hidden" name="courses_id" value="{{ $course->id }}">
 
                     <div class="grid grid-cols-1 gap-4">
@@ -78,20 +95,41 @@
                                     <div>
                                         <label class="block text-gray-700 font-medium mb-2">Judul Link Materi G-drive</label>
                                         <input type="text" :name="`title[]`" x-model="item.title" placeholder="Masukkan judul"
-                                            class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                            :class="{
+                                                'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
+                                                'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['title.' + index],
+                                                'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['title.' + index]
+                                            }">
+                                        <template x-if="$store.errors['title.' + index]">
+                                            <p class="text-red-500 text-sm" x-text="$store.errors['title.' + index]"></p>
+                                        </template>
                                     </div>
 
                                     <div>
                                         <label class="block text-gray-700 font-medium mb-2">Deskripsi Link Materi G-drive</label>
                                         <textarea :name="`description[]`" x-model="item.description" rows="3"
                                             placeholder="Masukkan deskripsi materi"
-                                            class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"></textarea>
+                                            :class="{
+                                                'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
+                                                'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['description.' + index],
+                                                'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['description.' + index]
+                                            }"></textarea>
+                                        <template x-if="$store.errors['description.' + index]">
+                                            <p class="text-red-500 text-sm" x-text="$store.errors['description.' + index]"></p>
+                                        </template>
                                     </div>
 
                                     <div>
                                         <label class="block text-gray-700 font-medium mb-2">Link Materi G-drive</label>
                                         <input type="text" :name="`link[]`" x-model="item.link" placeholder="Masukkan link"
-                                            class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                            :class="{
+                                                'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
+                                                'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['link.' + index],
+                                                'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['link.' + index]
+                                            }">
+                                        <template x-if="$store.errors['link.' + index]">
+                                            <p class="text-red-500 text-sm" x-text="$store.errors['link.' + index]"></p>
+                                        </template>
                                     </div>
 
                                     <div class="text-left" x-show="materiDrive.length > 0">
@@ -118,20 +156,41 @@
                                     <div>
                                         <label class="block text-gray-700 font-medium mb-2">Judul Link Materi Youtube</label>
                                         <input type="text" :name="`title[]`" x-model="item.title" placeholder="Masukkan judul"
-                                            class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                            :class="{
+                                                'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
+                                                'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['title.' + index],
+                                                'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['title.' + index]
+                                            }">
+                                        <template x-if="$store.errors['title.' + index]">
+                                            <p class="text-red-500 text-sm" x-text="$store.errors['title.' + index]"></p>
+                                        </template>
                                     </div>
 
                                     <div>
                                         <label class="block text-gray-700 font-medium mb-2">Deskripsi Link Materi Youtube</label>
                                         <textarea :name="`description[]`" x-model="item.description" rows="3"
                                             placeholder="Masukkan deskripsi materi"
-                                            class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-gray-400"></textarea>
+                                            :class="{
+                                                'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
+                                                'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['description.' + index],
+                                                'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['description.' + index]
+                                            }"></textarea>
+                                        <template x-if="$store.errors['description.' + index]">
+                                            <p class="text-red-500 text-sm" x-text="$store.errors['description.' + index]"></p>
+                                        </template>
                                     </div>
 
                                     <div>
                                         <label class="block text-gray-700 font-medium mb-2">Link Materi Youtube</label>
                                         <input type="text" :name="`link[]`" x-model="item.link" placeholder="Masukkan link"
-                                            class="w-full p-2 border text-sm text-gray-700 rounded focus:outline-none focus:ring-2 focus:ring-gray-400">
+                                            :class="{
+                                                'w-full p-2 rounded text-sm text-gray-700 focus:outline-none': true,
+                                                'border border-red-500 focus:ring-red-500 focus:border-red-500': $store.errors['link.' + index],
+                                                'border border-gray-300 focus:ring-gray-400 focus:ring-1 focus:border-gray-400': !$store.errors['link.' + index]
+                                            }">
+                                        <template x-if="$store.errors['link.' + index]">
+                                            <p class="text-red-500 text-sm" x-text="$store.errors['link.' + index]"></p>
+                                        </template>
                                     </div>
 
                                     <div class="text-left" x-show="materiYoutube.length > 0">
@@ -182,6 +241,11 @@
                 errorMessage.style.display = 'none';
             }
         });
+    });
+
+    // TAMBAH INI UNTUK MENGINISIALISASI ERROR PADA ALPHINE JS, DAN JANGAN DIHAPUS KARENA INI PENTING UNTUK PESAN ERROR GAGAL VALIDASI!!!
+    document.addEventListener('alpine:init', () => {
+        Alpine.store('errors', @json($errors->toArray()));
     });
 </script>
 @endsection
