@@ -30,7 +30,7 @@
 
         <!-- List Chat -->
         @foreach ($chats as $chat)
-        <a href="{{ route('chat.mentor', ['courseId' => $chat->course_id, 'chatId' => $chat->id]) }}"
+        <a href="{{ route('chat.mentor', ['slug' => $chat->course->slug, 'chatId' => $chat->id]) }}"
             class="flex items-center p-2 rounded-lg cursor-pointer
             {{ $activeChat && $activeChat->id == $chat->id ? 'bg-sky-100' : '' }}">
             <img src="{{ $chat->student->photo ? asset('storage/' . $chat->student->photo) : asset('storage/default-profile.jpg') }}" class="w-10 h-10 rounded-full" alt="profile peserta" />
@@ -74,7 +74,7 @@
         <h2 class="text-xl font-semibold mb-4 text-gray-700">Chat</h2>
 
         @foreach ($chats as $chat)
-        <a href="{{ route('chat.mentor', ['courseId' => $chat->course_id, 'chatId' => $chat->id]) }}"
+        <a href="{{ route('chat.mentor', ['slug' => $chat->course->slug, 'chatId' => $chat->id]) }}"
             class="flex items-center p-2 rounded-lg cursor-pointer bg-white hover:bg-gray-100
             {{ $activeChat && $activeChat->id == $chat->id ? 'bg-sky-100' : '' }}">
             <img src="{{ $chat->student->photo ? asset('storage/' . $chat->student->photo) : asset('storage/default-profile.jpg') }}" class="w-10 h-10 rounded-full" alt="profile peserta" />

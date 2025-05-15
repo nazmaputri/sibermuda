@@ -219,20 +219,20 @@ class DashboardAdminController extends Controller
     {
         // Ambil query pencarian dari input
         $query = $request->input('search');
-    
-        // Filter data peserta berdasarkan role dan query pencarian
-        $users = User::where('role', 'student') // Hanya role 'student'
+
+        // Filter data peserta berdasarkan role, query pencarian, dan exclude soft deleted
+        $users = User::where('role', 'student')
+            ->whereNull('deleted_at') // pastikan tidak menampilkan user yang sudah soft delete
             ->when($query, function ($q) use ($query) {
                 $q->where(function ($subQuery) use ($query) {
                     $subQuery->where('name', 'LIKE', "%{$query}%")
                         ->orWhere('email', 'LIKE', "%{$query}%");
                 });
             })
-            ->paginate(5); // Pagination 5 per halaman
-    
-        // Kirim data ke view
+            ->paginate(5);
+
         return view('dashboard-admin.data-peserta', compact('users', 'query'));
-    }    
+    }
 
     public function show(Request $request)
     {
@@ -303,6 +303,9 @@ class DashboardAdminController extends Controller
         $user = auth()->user();
         $participants = Purchase::where('course_id', $courseId)
                         ->where('status', 'success')
+                        ->whereHas('user', function ($query) {
+                            $query->whereNull('deleted_at');
+                        })
                         ->with('user')
                         ->paginate(5);
 
@@ -356,53 +359,51 @@ class DashboardAdminController extends Controller
 
     public function laporan(Request $request)
     {
-        // Ambil filter
         $selectedCourseId = $request->get('course_id', null);
         $selectedMonth = $request->get('month');
-    
-        // Ambil semua purchases sukses untuk total keseluruhan
+
         $allPurchases = Purchase::where('status', 'success')
                                 ->with('payment')
                                 ->get();
 
         $bulan = Carbon::now()->month;
         $tahun = Carbon::now()->year;
-                                
-       // Total pendapatan per bulan berdasarkan 'created_at' di tabel purchase
+
         $totalRevenue = $allPurchases->filter(function ($purchase) use ($bulan, $tahun) {
             return $purchase->created_at &&
                 $purchase->created_at->month == $bulan &&
                 $purchase->created_at->year == $tahun;
         })->sum('harga_course');
 
-        // Total seluruh pendapatan dari semua purchase
         $totalAllRevenue = $allPurchases->sum('harga_course');
-                                
-        // Query untuk hasil yang difilter
+
+        // Query utama dengan user yang bisa saja sudah di-softdelete
         $purchasesQuery = Purchase::where('status', 'success')
-                                    ->with(['course', 'user', 'payment'])
-                                    ->orderBy('created_at', 'desc');
-    
-        // Filter berdasarkan Course
+            ->with([
+                'course',
+                'payment',
+                'user' => function ($query) {
+                    $query->withTrashed(); // tampilkan user yang sudah dihapus
+                }
+            ])
+            ->orderBy('created_at', 'desc');
+
         if ($selectedCourseId) {
             $purchasesQuery->where('course_id', $selectedCourseId);
         }
-    
-        // Filter berdasarkan Bulan
+
         if ($selectedMonth) {
             $purchasesQuery->whereMonth('created_at', $selectedMonth);
         }
-    
-        $revenues = $purchasesQuery->paginate(5);
-    
-        // Hitung total pendapatan berdasarkan filter yang diterapkan (bulan dan kursus)
+
+        $revenues = $purchasesQuery->paginate(10);
+
         $totalFilteredRevenue = $revenues->sum(function ($purchase) {
             return optional($purchase->payment)->amount;
         });
-    
-        // Ambil data kursus untuk ditampilkan di filter dropdown
+
         $coursesRevenue = Course::all();
-    
+
         return view('dashboard-admin.laporan', [
             'revenues' => $revenues,
             'coursesRevenue' => $coursesRevenue,
@@ -412,8 +413,8 @@ class DashboardAdminController extends Controller
             'totalAllRevenue' => $totalAllRevenue,
             'totalRevenue' => $totalRevenue
         ]);
-    }    
-    
+    }
+
     // menampilkan halaman form tambah mentor
     public function tambahmentor()
     {

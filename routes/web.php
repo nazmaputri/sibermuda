@@ -170,10 +170,10 @@ Route::middleware(['auth:mentor'])->group(function () {
 
     // Materi
     Route::patch('/materi/{id}/toggle-preview', [MateriController::class, 'togglePreview'])->name('materi.togglePreview');
-    Route::get('/materi/{courseId}/{materiId}', [MateriController::class, 'show'])->name('materi.show');
-    Route::get('/materi/{courseId}', [MateriController::class, 'create'])->name('materi.create');
+    Route::get('/materi/{slug}/{materiId}', [MateriController::class, 'show'])->name('materi.show');
+    Route::get('/materi/{slug}', [MateriController::class, 'create'])->name('materi.create');
     Route::post('/materi/{courseId}', [MateriController::class, 'store'])->name('materi.store');
-    Route::get('/materi/edit/{courseId}/{materiId}', [MateriController::class, 'edit'])->name('materi.edit');
+    Route::get('/materi/edit/{slug}/{materiId}', [MateriController::class, 'edit'])->name('materi.edit');
     Route::put('/materi/edit/{courseId}/{materiId}', [MateriController::class, 'update'])->name('materi.update');
     Route::delete('/materi/{courseId}/destroy/{materiId}', [MateriController::class, 'destroy'])->name('materi.destroy');
     Route::delete('video/{video}', [VideoController::class, 'destroy'])->name('video.destroy');

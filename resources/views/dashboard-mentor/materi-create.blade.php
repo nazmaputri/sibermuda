@@ -141,7 +141,7 @@
 
             <!-- Tombol Submit -->
             <div class="mt-6 flex justify-end space-x-2">
-                <a href="{{ route('courses.show', $course->id)}}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
+                <a href="{{ route('courses.show', $course->slug)}}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
                     Batal
                 </a>
                 <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-md">

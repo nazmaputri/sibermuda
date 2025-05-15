@@ -22,23 +22,24 @@ class CourseController extends Controller
     {
         $mentorId = Auth::id();
         $search = $request->input('search');
-    
+
         $courses = Course::with('category')
             ->where('mentor_id', $mentorId)
             ->withCount(['purchases as total_peserta' => function ($query) {
-                $query->where('status', 'success');
+                $query->where('status', 'success')
+                    ->whereHas('user'); // hanya pembelian dengan user yang belum soft delete
             }])
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('title', 'LIKE', "%{$search}%")
-                        ->orWhere('price', 'LIKE', "%{$search}%")
-                        ->orWhereHas('category', function ($q2) use ($search) {
-                            $q2->where('name', 'LIKE', "%{$search}%");
-                        });
+                    ->orWhere('price', 'LIKE', "%{$search}%")
+                    ->orWhereHas('category', function ($q2) use ($search) {
+                        $q2->where('name', 'LIKE', "%{$search}%");
+                    });
                 });
             })
             ->paginate(10);
-    
+
         return view('dashboard-mentor.kursus', compact('courses', 'search'));
     }
 
@@ -106,43 +107,38 @@ class CourseController extends Controller
         return redirect()->route('courses.index')->with('success', 'Kursus berhasil ditambahkan!');
     }
 
-    public function show($id)
+    public function show($slug)
     {
-        // Ambil data course beserta relasi materi yang terkait
-        $course = Course::with('materi')->findOrFail($id);
-        
-        // Menggunakan paginasi untuk menampilkan 5 materi per halaman
+        // Cari course berdasarkan slug
+        $course = Course::with('materi')->where('slug', $slug)->firstOrFail();
+        $id = $course->id;
+
+        // Lanjut query materi, rating, quiz, dsb dengan $id
         $materi = $course->materi()->paginate(5);
-    
-        // Ambil ID mentor yang sedang login
+
         $mentorId = Auth::id();
-    
-        // Ambil rating berdasarkan course_id (bisa disesuaikan jika ingin filter berdasarkan mentor juga)
+
         $ratings = RatingKursus::where('course_id', $id)
                     ->with('user')
                     ->paginate(5);
-    
-        // Ambil quiz berdasarkan course_id
-        $quizzes = Quiz::where('course_id', $id)->paginate(5);
-        
-        //Ambil Quiz
-        $finalQuizzes = Quiz::where('course_id', $id)
-                    // ->whereNull('materi_id')
-                    ->get();
-        
-        //Ambil Tugas Akhir
-        $finalTasks = FinalTask::where('course_id', $id)->paginate(5); // atau ->get()
 
-        // Ambil peserta yang pembayaran kursusnya lunas beserta data user-nya
+        $quizzes = Quiz::where('course_id', $id)->paginate(5);
+
+        $finalQuizzes = Quiz::where('course_id', $id)->get();
+
+        $finalTasks = FinalTask::where('course_id', $id)->paginate(5);
+
         $participants = Purchase::where('course_id', $id)
-                            ->where('status', 'success')
-                            ->with('user')
-                            ->paginate(5);
-    
-        // Kembalikan data ke view
-        return view('dashboard-mentor.kursus-detail', compact('course', 'quizzes', 'finalQuizzes', 'finalTasks', 'materi', 'participants', 'ratings'));
+                    ->where('status', 'success')
+                    ->whereHas('user')
+                    ->with('user')
+                    ->paginate(5);
+
+        return view('dashboard-mentor.kursus-detail', compact(
+            'course', 'quizzes', 'finalQuizzes', 'finalTasks', 'materi', 'participants', 'ratings'
+        ));
     }
-    
+        
     public function edit(Course $course)
     {
         $categories = Category::all();

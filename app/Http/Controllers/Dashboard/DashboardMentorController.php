@@ -49,13 +49,13 @@ class DashboardMentorController extends Controller
         $mentorId = Auth::id();
     
         // Menghitung jumlah peserta unik dengan status pembayaran 'success' untuk kursus mentor
-        $jumlahPeserta = Purchase::where('status', 'success')
-        ->whereHas('course', function ($query) use ($mentorId) {
-            $query->where('mentor_id', $mentorId);
-        })
-        ->distinct('user_id')
-        ->count('user_id');
-    
+       $jumlahPeserta = Purchase::where('status', 'success')
+                        ->whereHas('course', function ($query) use ($mentorId) {
+                            $query->where('mentor_id', $mentorId);
+                        })
+                        ->whereHas('user')  // pastikan user belum dihapus (soft deleted)
+                        ->distinct('user_id')
+                        ->count('user_id');
     
         // Menghitung jumlah kursus milik mentor
         $jumlahKursus = Course::where('mentor_id', $mentorId)->count(); 

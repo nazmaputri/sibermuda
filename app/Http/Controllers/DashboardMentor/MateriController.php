@@ -22,13 +22,13 @@ class MateriController extends Controller
         return view('dashboard-mentor.materi', compact('materi'));
     }
 
-    public function create($courseId)
+    public function create($slug)
     {
-        $course = Course::findOrFail($courseId);
-        $materi = new Materi(); // atau Materi::make()
+        $course = Course::where('slug', $slug)->firstOrFail();
+        $materi = new Materi();
 
         return view('dashboard-mentor.materi-create', compact('course', 'materi'));
-    }  
+    }
 
     public function togglePreview($id)
     {
@@ -44,14 +44,15 @@ class MateriController extends Controller
         return back()->with('success', 'Materi preview berhasil diatur.');
     }      
 
-    public function show($courseId, $materiId)
+    public function show($slug, $materiId)
     {
         // Ambil data course
-        $course = Course::findOrFail($courseId);
-    
+        $course = Course::with('materi')->where('slug', $slug)->firstOrFail();
+        $id = $course->id;
+
         // Ambil data materi yang terkait dengan course tersebut, termasuk video yang terkait
         $materi = Materi::with(['videos', 'course'])
-                    ->where('course_id', $courseId)
+                    ->where('course_id', $id)
                     ->findOrFail($materiId);
     
         // Ambil video terkait dengan materi
@@ -68,7 +69,7 @@ class MateriController extends Controller
         }
     
         // Kirim data ke view
-        return view('dashboard-mentor.materi-detail', compact('materi', 'courseId', 'materiId', 'course', 'videos'));
+        return view('dashboard-mentor.materi-detail', compact('materi', 'id', 'materiId', 'course', 'videos'));
     }    
     
     public function store(Request $request, $courseId)
@@ -76,7 +77,7 @@ class MateriController extends Controller
         // 1. Validasi dasar
         $request->validate([
             'judul'     => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
+            'deskripsi' => 'required|string',
 
             // Google Drive fields
             'title'         => 'nullable|array',
@@ -95,6 +96,7 @@ class MateriController extends Controller
             'youtube_link.*'       => 'nullable|url',
         ], [
             'judul.required' => 'Judul materi wajib diisi.',
+            'deskripsi.required' => 'Deskripsi materi wajib diisi.',
             'link.*.url'     => 'Link Google Drive harus berupa URL yang valid.',
             'youtube_link.*.url' => 'Link YouTube harus berupa URL yang valid.',
         ]);
@@ -137,8 +139,10 @@ class MateriController extends Controller
             }
         }
 
+        $course = Course::findOrFail($courseId);
+
         return redirect()
-            ->route('courses.show', $courseId)
+            ->route('courses.show', ['course' => $course->slug])
             ->with('success', 'Materi berhasil ditambahkan.');
     }
 
@@ -166,13 +170,15 @@ class MateriController extends Controller
         return $m[1] ?? null;
     }
     
-    public function edit($courseId, $materiId)
+    public function edit($slug, $materiId)
     {
-        $course = Course::findOrFail($courseId);
-        $materi = Materi::where('course_id', $courseId)->findOrFail($materiId);
+        $course = Course::with('materi')->where('slug', $slug)->firstOrFail();
+        $id = $course->id;
+
+        $materi = Materi::where('course_id', $id)->findOrFail($materiId);
         $materi->load(['videos', 'youtube']);
 
-        return view('dashboard-mentor.materi-edit', compact('materi', 'course'));
+        return view('dashboard-mentor.materi-edit', compact('materi', 'course', 'id'));
     }
 
     public function update(Request $request, $courseId, $materiId)
@@ -188,6 +194,7 @@ class MateriController extends Controller
         ]);
 
         $materi = Materi::findOrFail($materiId);
+        $course = Course::findOrFail($courseId);
         $materi->update([
             'judul'     => $request->judul,
             'deskripsi' => $request->deskripsi,
@@ -260,7 +267,7 @@ class MateriController extends Controller
         Youtube::where('materi_id', $materiId)->whereNotIn('id', $keptYoutubeIds)->delete();
 
         return redirect()
-        ->route('courses.show', ['course' => $courseId])
+        ->route('courses.show', ['course' => $course->slug])
         ->with('success', 'Materi berhasil diperbarui.');
     }
 

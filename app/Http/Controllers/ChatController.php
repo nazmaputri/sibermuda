@@ -12,28 +12,36 @@ use App\Models\User;
 
 class ChatController extends Controller
 {
-    public function chatMentor($courseId, $chatId = null)
+    public function chatMentor($slug, $chatId = null)
     {
         $user = auth()->user();
-        $course = Course::findOrFail($courseId);
-    
-        // Ambil chat berdasarkan mentor dan courseId
+
+        // Ambil course berdasarkan slug, tapi gunakan ID-nya untuk keperluan query
+        $course = Course::where('slug', $slug)->firstOrFail();
+        $courseId = $course->id;
+
+        // Ambil semua chat berdasarkan mentor dan course
         $chats = Chat::where('mentor_id', $user->id)
-            ->where('course_id', $courseId)
-            ->get();
-    
-        // Ambil daftar student yang telah membeli kursus dengan status pembayaran success
+                ->where('course_id', $courseId)
+                ->whereHas('student') // hanya chat yang student-nya masih aktif
+                ->with('student')
+                ->get();
+
+        // Ambil daftar student yang membeli kursus dengan status sukses
         $students = Purchase::where('status', 'success')
-            ->whereHas('course', function ($query) use ($user, $courseId) {
-                $query->where('mentor_id', $user->id)
-                    ->where('id', $courseId);
-            })
-            ->with('user')
-            ->get()
-            ->pluck('user')
-            ->unique();
-    
-        // Hanya ambil chat aktif jika chatId disediakan
+                    ->whereHas('course', function ($query) use ($user, $courseId) {
+                        $query->where('mentor_id', $user->id)
+                            ->where('id', $courseId);
+                    })
+                    ->whereHas('user', function ($query) {
+                        $query->whereNull('deleted_at'); // hanya ambil user yang belum dihapus
+                    })
+                    ->with('user')
+                    ->get()
+                    ->pluck('user')
+                    ->unique();
+
+        // Ambil chat aktif jika ada chatId
         $activeChat = null;
         $messages = [];
 
@@ -42,30 +50,30 @@ class ChatController extends Controller
                 ->where('mentor_id', $user->id)
                 ->where('course_id', $courseId)
                 ->first();
-        
+
             if ($activeChat) {
-                // Tandai semua pesan sebagai sudah dibaca (is_read = true)
+                // Tandai pesan sebagai sudah dibaca
                 $activeChat->messages()
                     ->where('is_read', false)
                     ->where('course_id', $courseId)
                     ->update(['is_read' => true]);
-        
-                // Ambil semua pesan setelah ditandai sudah dibaca
+
+                // Ambil pesan-pesan untuk chat ini
                 $messages = $activeChat->messages()
                     ->where('course_id', $courseId)
                     ->with('sender')
                     ->get();
             }
-        }        
-    
-        // Hitung jumlah pesan yang belum dibaca untuk setiap chat
+        }
+
+        // Hitung jumlah pesan belum dibaca untuk setiap chat
         foreach ($chats as $chat) {
             $chat->unreadMessagesCount = $chat->messages()
                 ->where('is_read', false)
                 ->count();
         }
 
-        return view('dashboard-mentor.chat', compact('chats', 'messages', 'activeChat', 'students'));
+        // Kirim data ke view
         return view('dashboard-mentor.chat', compact('chats', 'messages', 'activeChat', 'students', 'course'));
     }
       
