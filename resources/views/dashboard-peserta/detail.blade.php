@@ -57,7 +57,7 @@
                     <div class="flex space-x-2 items-center text-center">
                     @if (!$hasPurchased)
                         <!-- Tombol Keranjang -->
-                        <form action="{{ route('cart.add', ['id' => $course->id]) }}" method="POST" class="">
+                        <form action="{{ route('cart.add', ['slug' => $course->slug]) }}" method="POST" class="">
                             @csrf
                             <button type="submit" class="flex items-center p-1.5 space-x-2 text-white bg-red-400 rounded-md border hover:bg-red-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -96,7 +96,7 @@
                     <div>
                         <div @click="open = !open" class="flex justify-between items-center cursor-pointer">
                             <span class="text-gray-700 font-semibold mr-2 text-sm">{{ sprintf('%02d', $loop->iteration) }}.</span>
-                            <h4 class="text-sm font-medium text-gray-700 flex-1 capitalize">{{ $materi->judul }}</h4>
+                            <h4 class="text-sm font-medium text-gray-700 flex-1 capitalize">{{ $materi->judul ?: 'Tidak ada judul materi' }}</h4>
                             <svg :class="open ? 'transform rotate-180' : ''" class="w-5 h-5 transition-transform duration-300 ease-in-out text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                             </svg>
@@ -117,7 +117,7 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-green-500 flex-shrink-0">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
-                                            <h4 class=" text-gray-700 flex-1">{{ $video->title }}</h4>
+                                            <h4 class=" text-gray-700 flex-1">{{ $video->title ?: 'Tidak ada judul video' }}</h4>
                                             <!-- @if ($video->link)
                                             <iframe 
                                                 src="https://drive.google.com/file/d/{{ $video->link }}/preview" 
@@ -142,7 +142,7 @@
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-green-500 flex-shrink-0">
                                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 </svg>
-                                                <h3 class=" text-gray-700 flex-1">{{ $youtube->title }}</h3>
+                                                <h3 class=" text-gray-700 flex-1">{{ $youtube->title ?: 'Tidak ada judul video' }}</h3>
                                                 <!-- @if ($youtube->link)
                                                     <iframe
                                                         width="100%" height="250"
@@ -222,11 +222,11 @@
             @foreach($rating as $r)
                 <div class="bg-white border border-gray-200 p-4 rounded-lg">
                     <div class="flex items-center space-x-4">
-                        <img src="{{ $r->user->profile_photo ? asset('storage/' . $r->user->profile_photo) : asset('storage/default-profile.jpg') }}" 
+                        <img src="{{ $r->user->photo ? asset('storage/' . $r->user->photo) : asset('storage/default-profile.jpg') }}" 
                             alt="User Profile" class="w-6 h-6 rounded-full object-cover">
                         <div>
-                            <h4 class="text-sm font-medium text-gray-700">{{ $r->user->name }}</h4>
-                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($r->created_at)->format('d F Y') }}</span>
+                            <h4 class="text-sm font-medium text-gray-700">{{ Str::limit($r->user->name, 20) }}</h4>
+                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($r->created_at)->translatedFormat('d F Y') }}</span>
                         </div>
                     </div>
                     <div class="flex items-center space-x-1 mt-2">

@@ -50,8 +50,11 @@ class RatingKursusController extends Controller
             'comment' => $request->comment, // Komentar yang diberikan (opsional)
         ]);
 
+        // Ambil slug kursus berdasarkan ID
+        $course = Course::findOrFail($course_id);
+
         // Redirect dengan notifikasi sukses
-        return redirect()->route('detail-kursus', ['id' => $course_id])
+        return redirect()->route('detail-kursus', ['slug' => $course->slug])
                         ->with('success', 'Terimakasih atas penilaian anda!');
     }
 }
