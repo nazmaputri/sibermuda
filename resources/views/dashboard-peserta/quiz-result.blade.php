@@ -12,7 +12,7 @@
             <script>
                 function closeQuizResult() {
                     // Redirect ke route 'study-peserta' dengan ID course
-                    window.location.href = "{{ route('study-peserta', ['id' => $course->id]) }}";
+                    window.location.href = "{{ route('study-peserta', ['slug' => $course->slug]) }}";
                 }
             </script>
             <div class="mt-6 flex flex-col lg:flex-row gap-8">
