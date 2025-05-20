@@ -54,23 +54,46 @@
                 <!-- Kolom Kanan -->
                 <div>
                     <!-- Input untuk Kategori -->
-                    <div x-data="{ open: false, selected: '', selectedId: '', categories: @js($categories) }" class="relative mb-4">
+                    <div 
+                        x-data="{
+                            open: false, 
+                            selected: '', 
+                            selectedId: '', 
+                            categories: @js($categories),
+                            hasError: {{ $errors->has('category_id') ? 'true' : 'false' }},
+                            selectCategory(category) {
+                                this.selected = category.name;
+                                this.selectedId = category.id;
+                                this.open = false;
+                                this.hasError = false;
+                            }
+                        }" 
+                        class="relative mb-4"
+                    >
                         <label for="category_id" class="block font-medium text-gray-700 pb-2">Kategori Kursus</label>
 
                         <!-- Display Selected -->
-                        <button @click="open = !open" type="button"
-                            class="w-full p-2 text-sm text-left text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+                        <button 
+                            @click="open = !open" 
+                            type="button"
+                            class="w-full p-2 text-sm text-left text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400"
+                            :class="hasError ? 'border-red-500' : ''"
+                        >
                             <span x-text="selected || 'Pilih Kategori'"></span>
                         </button>
 
                         <!-- Dropdown List -->
-                        <div x-show="open" @click.away="open = false"
+                        <div 
+                            x-show="open" 
+                            @click.away="open = false"
                             class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm scrollbar-hide text-gray-700"
-                            style="display: none;">
+                        >
                             <template x-for="category in categories" :key="category.id">
-                                <div @click="selected = category.name; selectedId = category.id; open = false"
+                                <div 
+                                    @click="selectCategory(category)"
                                     class="cursor-pointer px-4 py-2 hover:bg-gray-100"
-                                    :class="{ 'bg-gray-100': selectedId === category.id }">
+                                    :class="{ 'bg-gray-100': selectedId === category.id }"
+                                >
                                     <span x-text="category.name"></span>
                                 </div>
                             </template>
@@ -79,9 +102,10 @@
                         <!-- Hidden Input to Submit -->
                         <input type="hidden" name="category_id" :value="selectedId">
 
-                        @error('category_id')
-                            <span class="text-red-500 text-sm">{{ $message }}</span>
-                        @enderror
+                        <!-- Error Message -->
+                        <template x-if="hasError">
+                            <span class="text-red-500 text-sm">{{ $errors->first('category_id') }}</span>
+                        </template>
                     </div>
 
                     <!-- Input untuk Harga -->
@@ -106,8 +130,11 @@
                     <!-- Input untuk Foto -->
                     <div class="mb-4">
                         <label for="image" class="block font-medium text-gray-700 pb-2">Foto Kursus</label>
-                        <input type="file" name="image" id="image" class="w-full p-2 text-sm text-gray-700 border rounded">
-                        <small class="text-gray-600">Format gambar yang diperbolehkan: jpg, png, jpeg</small>
+                        <input type="file" name="image" id="image" class="w-full p-2 text-sm text-gray-700 border rounded @error('image') border-red-500 @enderror">
+                        <small class="text-gray-600 block">Format gambar yang diperbolehkan: jpg, png, jpeg</small>
+                        @error('image')
+                            <span class="text-red-500 text-sm block">{{ $message }}</span>
+                        @enderror
                     </div>
                     
                     <div class="mt-4">
@@ -162,23 +189,29 @@
             chatStatusInactive.classList.remove('hidden');
         }
     });
+    
     // Menambahkan event listener untuk setiap input yang ada
     const inputs = document.querySelectorAll('input, textarea, select');
 
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            // Menghapus kelas border merah saat input mulai diubah
-            if (this.classList.contains('border-red-500')) {
+        inputs.forEach(input => {
+            const eventName = input.type === 'file' ? 'change' : 'input';
+
+            input.addEventListener(eventName, function () {
+                // Hapus border merah
                 this.classList.remove('border-red-500');
-            }
 
-            // Menghapus pesan error jika ada
-            const errorMessage = this.nextElementSibling;
-            if (errorMessage && errorMessage.classList.contains('text-red-500')) {
-                errorMessage.style.display = 'none';
-            }
+                // Cari parent (misalnya .mb-4)
+                const parent = this.closest('div');
+
+                if (parent) {
+                    // Cari pesan error di dalam parent
+                    const error = parent.querySelector('.text-red-500');
+
+                    if (error) {
+                        error.style.display = 'none';
+                    }
+                }
+            });
         });
-    });
 </script>
-
 @endsection
