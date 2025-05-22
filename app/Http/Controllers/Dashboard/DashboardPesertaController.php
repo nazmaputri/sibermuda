@@ -168,6 +168,7 @@ class DashboardPesertaController extends Controller
 
         $initialLimit = 3;
         $rating = RatingKursus::where('course_id', $id)
+                    ->where('display', true) // atau ->where('display', 1)
                     ->with('user')
                     ->take($initialLimit)
                     ->get();

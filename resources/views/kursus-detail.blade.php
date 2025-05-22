@@ -362,10 +362,10 @@
                                 <div class="swiper-slide min-w-[300px] max-w-[300px] h-[150px] border border-gray-200 rounded-xl p-4 hover:shadow-lg transition-shadow duration-300 ease-in-out" data-aos="zoom-in-up">
                                     <!-- Nama, Foto & Tanggal -->
                                     <div class="flex items-center space-x-2 mb-2">
-                                        <img src="{{ asset('storage/default-profile.jpg') }}" alt="Foto Profil" class="w-6 h-6 rounded-full object-cover">
+                                        <img src="{{ $rating->user->photo ? asset('storage/' . $rating->user->photo) : asset('storage/default-profile.jpg') }}" alt="Foto Profil" class="w-6 h-6 rounded-full object-cover">
                                         <div>
                                             <h4 class="text-sm font-semibold text-gray-800">{{ $rating->user->name }}</h4>
-                                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($rating->created_at)->format('d F Y') }}</span>
+                                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($rating->created_at)->translatedFormat('d F Y') }}</span>
                                         </div>
                                     </div>
 

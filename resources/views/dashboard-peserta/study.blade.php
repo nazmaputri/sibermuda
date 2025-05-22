@@ -60,6 +60,15 @@
                                         allowfullscreen
                                         class="rounded-lg shadow-md">
                                     </iframe>
+                                    <form method="POST" action="#" class="">
+                                        @csrf
+                                        <button type="submit" class="flex space-x-2 bg-sky-400 text-white px-2 py-1 rounded hover:bg-sky-300 text-sm mt-2.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg"class="w-5 h-5 mr-1.5" viewBox="0 0 32 32">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 17l5 5l12-12m-5 10l2 2l12-12"/>
+                                            </svg>
+                                            Selesai Menonton
+                                        </button>
+                                    </form>
                                     <p class="text-gray-700 mt-2 text-sm">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
                                     <p class="text-gray-700 text-sm">Video Google Drive tidak tersedia.</p>
@@ -81,6 +90,15 @@
                                         allowfullscreen
                                         class="rounded-lg shadow-md">
                                     </iframe>
+                                    <form method="POST" action="#" class="">
+                                        @csrf
+                                        <button type="submit" class="flex space-x-2 bg-sky-400 text-white px-2 py-1 rounded hover:bg-sky-300 text-sm mt-2.5">
+                                            <svg xmlns="http://www.w3.org/2000/svg"class="w-5 h-5 mr-1.5" viewBox="0 0 32 32">
+                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 17l5 5l12-12m-5 10l2 2l12-12"/>
+                                            </svg>
+                                            Selesai Menonton
+                                        </button>
+                                    </form>
                                     <p class="text-gray-700 mt-2 text-sm">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
                                     <p class="text-gray-700">Video YouTube tidak tersedia.</p>

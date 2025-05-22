@@ -64,14 +64,14 @@
                             </div>                                                      
                         </div>
                     </div>
-                    {{-- <!-- Progress Bar -->
+                    <!-- Progress Bar -->
                     <div>
                         <div class="w-full bg-gray-200 rounded-full h-4">
                             <!-- Progress dengan warna gradasi biru -->
                             <div class="h-4 rounded-full" style="width: {{ $course->progress }}%; background: linear-gradient(to right, #87CEEB, #4682B4);"></div>
                         </div>
-                        <p class="text-sm text-gray-500 mt-2 text-right">{{ $course->progress }}% completed</p>
-                    </div> --}}
+                        <p class="text-sm text-gray-500 mt-2 text-right">{{ $course->progress }}% Selesai</p>
+                    </div>
                 </div>
                 <!-- Button -->
                 <div class="p-2 mt-auto flex-col sm:flex-row justify-between gap-3">

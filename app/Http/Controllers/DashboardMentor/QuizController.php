@@ -152,6 +152,7 @@ class QuizController extends Controller
             'title.required' => 'Judul kuis harus diisi.',
             'description.required' => 'Deskripsi kuis harus diisi.',
             'duration.required' => 'Durasi harus diisi.',
+            'questions.min' => 'Minimal harus ada satu soal.',
             'questions.required' => 'Anda harus menambahkan soal.',
             'questions.*.question.required' => 'Soal tidak boleh kosong.',
             'questions.*.answers.*.required' => 'Setiap jawaban wajib diisi.',
@@ -188,11 +189,11 @@ class QuizController extends Controller
             }
 
             // Redirect ke halaman course.show setelah berhasil
-            return redirect()->route('courses.show', ['course' => $course->id])
+            return redirect()->route('courses.show', ['course' => $course->slug])
             ->with('success', 'Kuis berhasil ditambahkan.');
 
         } catch (\Exception $e) {
-            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil diupdate');
+            return redirect()->route('courses.show', ['course' => $course->slug])->with('success', 'Kuis berhasil diupdate');
         }
     }
     
@@ -275,10 +276,10 @@ class QuizController extends Controller
             }            
 
              // Redirect setelah sukses update kuis
-            return redirect()->route('courses.show', ['course' => $course->id])->with('success', 'Kuis berhasil diperbarui');
+            return redirect()->route('courses.show', ['course' => $course->slug])->with('success', 'Kuis berhasil diperbarui');
 
         } catch (\Exception $e) {
-            return redirect()->route('courses.show', ['course' => $course->id])->with('error', 'Terjadi kesalahan saat memperbarui kuis');
+            return redirect()->route('courses.show', ['course' => $course->slug])->with('error', 'Terjadi kesalahan saat memperbarui kuis');
         }
     }
 
