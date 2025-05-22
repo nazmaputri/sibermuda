@@ -63,6 +63,11 @@
                         {{ $course->chat ? 'Aktif' : 'Tidak Aktif' }}
                     </span>
                 </div>
+
+                <div class="flex flex-wrap capitalize">
+                    <span class="w-24">Kategori</span><span class="mr-1">:</span>
+                    <span>{{ $course->category->name }}</span>
+                </div>
             </div>
 
             <!-- Tombol untuk melihat sertifikat -->

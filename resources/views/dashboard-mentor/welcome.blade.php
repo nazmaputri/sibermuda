@@ -25,7 +25,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Peserta</h2>
-                <p class="text-xl font-semibold text-red-500">{{ $jumlahPeserta }} Peserta</p> <!-- Menampilkan jumlah peserta -->
+                <p class="text-md font-semibold text-red-500">{{ $jumlahPeserta }} Peserta</p> <!-- Menampilkan jumlah peserta -->
             </div>
         </div>
     
@@ -38,7 +38,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Kursus</h2>
-                <p class="text-xl font-semibold text-yellow-500">{{ $jumlahKursus }} Kursus</p> <!-- Menampilkan jumlah kursus -->
+                <p class="text-md font-semibold text-yellow-500">{{ $jumlahKursus }} Kursus</p> <!-- Menampilkan jumlah kursus -->
             </div>
         </div>
     
@@ -51,7 +51,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Materi</h2>
-                <p class="text-xl font-semibold text-blue-500">{{ $jumlahMateri }} Materi</p> <!-- Menampilkan jumlah materi -->
+                <p class="text-md font-semibold text-blue-500">{{ $jumlahMateri }} Materi</p> <!-- Menampilkan jumlah materi -->
             </div>
         </div>
     </div> 

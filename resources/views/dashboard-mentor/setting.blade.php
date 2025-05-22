@@ -62,7 +62,7 @@
 
         <!-- Password -->
         <div class="mb-4 relative">
-            <label for="password" class="block font-medium text-gray-700">Masukkan Kata Sandi Baru</label>
+            <label for="password" class="block font-medium text-gray-700">Kata Sandi Baru</label>
             
             <div class="relative">
                 <input type="password" name="password" id="password" id="new-password"
