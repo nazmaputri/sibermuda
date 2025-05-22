@@ -115,7 +115,7 @@ Route::middleware(['auth:student'])->group(function () {
     Route::get('dashboard-peserta/kursus', [DashboardPesertaController::class, 'kursusTerdaftar'])->name('daftar-kursus');
     Route::get('/detail-kursus-peserta/{slug}/{categorySlug?}', [DashboardPesertaController::class, 'kursus'])->name('kursus-peserta');
     Route::get('dashboard-peserta/kursus/{slug}', [DashboardPesertaController::class, 'detail'])->name('detail-kursus');
-    Route::get('dashboard-peserta/study/{slug}', [DashboardPesertaController::class, 'study'])->name('study-peserta');
+    Route::get('dashboard-peserta/study/{slug}/{materiId?}', [DashboardPesertaController::class, 'study'])->name('study-peserta');
     Route::get('dashboard-peserta/video', [DashboardPesertaController::class, 'video'])->name('video-peserta');
     Route::get('dashboard-peserta/quiz', [DashboardPesertaController::class, 'quiz'])->name('quiz-peserta');
     Route::get('dashboard-peserta/kategori', [DashboardPesertaController::class, 'kategori'])->name('kategori-peserta');
@@ -124,7 +124,8 @@ Route::middleware(['auth:student'])->group(function () {
     Route::put('/update-peserta', [SettingController::class, 'updatePeserta'])->name('update-peserta');
     Route::post('/kursus/{course_id}/rating', [RatingKursusController::class, 'store'])->name('ratings.store');
     Route::post('/rating/load-more', [DashboardPesertaController::class, 'loadMoreRating'])->name('rating.loadMore'); // rooute untuk menampilkan lebih banyak rating di halama detail kursus (role peserta)
- 
+    Route::post('/materi/{materi}/next-or-finish', [MateriController::class, 'nextOrFinish'])->name('materi.nextOrFinish');
+
     Route::get('/notifikasi/pembelian', [DashboardPesertaController::class, 'navbarNotifikasi']);
 
     //Keranjang

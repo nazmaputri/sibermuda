@@ -88,6 +88,21 @@ class DashboardPesertaController extends Controller
         ];
 
         foreach ($courses as $course) {
+
+             // Total materi dalam course
+            $totalMateri = $course->materi()->count();
+
+            if ($totalMateri > 0) {
+                $completedMateri = \App\Models\UserMateriProgress::where('user_id', $userId)
+                    ->whereIn('materi_id', $course->materi()->pluck('id'))
+                    ->where('status', 'selesai')
+                    ->count();
+
+                $course->progress = round(($completedMateri / $totalMateri) * 100);
+            } else {
+                $course->progress = 0;
+            }
+
             $isAllowed = false;
 
             $categoryName = strtolower($course->category->name ?? '');
@@ -207,13 +222,17 @@ class DashboardPesertaController extends Controller
         return response()->json(['html' => $view]);
     }
     
-   public function study($slug)
+    public function study($slug, $materiId = null)
     {
-        // Ambil course berdasarkan slug, lalu ambil id-nya
         $course = Course::with('materi')->where('slug', $slug)->firstOrFail();
-        $id = $course->id; // ← ambil ID-nya untuk query lain
+        $id = $course->id;
 
-        // Ambil riwayat kuis user
+        $completedMateriIds = \App\Models\UserMateriProgress::where('user_id', auth()->id())
+            ->whereIn('materi_id', $course->materi->pluck('id'))
+            ->where('status', 'selesai')
+            ->pluck('materi_id')
+            ->toArray();
+
         $quizHistories = \DB::table('materi_user')
             ->where('user_id', auth()->id())
             ->where('courses_id', $id)
@@ -221,10 +240,8 @@ class DashboardPesertaController extends Controller
             ->orderBy('completed_at', 'desc')
             ->get();
 
-        // Ambil Final Task terkait course
         $finalTask = FinalTask::where('course_id', $id)->first();
 
-        // Ambil Final Task History jika ada
         $finalTaskHistory = null;
         if ($finalTask) {
             $finalTaskHistory = \DB::table('final_task_user')
@@ -234,7 +251,14 @@ class DashboardPesertaController extends Controller
                 ->first();
         }
 
-        return view('dashboard-peserta.study', compact('course', 'quizHistories', 'finalTask', 'finalTaskHistory'));
+        // ➤ Ambil materi aktif berdasarkan $materiId atau default ke materi pertama
+        $materiAktif = $materiId
+                    ? $course->materi->where('id', $materiId)->first()
+                    : $course->materi->first();
+                    
+        return view('dashboard-peserta.study', compact(
+            'course', 'quizHistories', 'finalTask', 'finalTaskHistory', 'completedMateriIds', 'materiAktif'
+        ));
     }
 
     public function kursusTerdaftar()

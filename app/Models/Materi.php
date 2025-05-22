@@ -39,4 +39,9 @@ class Materi extends Model
                     ->withPivot('completed_at');
     }
 
+    public function userProgresses()
+    {
+        return $this->hasMany(UserMateriProgress::class);
+    }
+
 }

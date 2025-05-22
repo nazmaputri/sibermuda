@@ -38,7 +38,7 @@
         <!-- Konten Materi -->
         <div class="lg:col-span-3">
             @foreach ($course->materi as $materi)
-            <div x-show="selected == '{{ $materi->id }}'" x-transition class="bg-white shadow rounded-md p-4 m-2 border">
+            <div x-show="selected == '{{ $materi->id }}'" x-transition class="bg-white shadow rounded-md p-4 m-2 border relative">
                 <h3 class="text-md font-medium text-gray-700 mb-2">{{ $materi->judul }}</h3>
                 <p class="text-gray-700 mb-4">{{ $materi->deskripsi }}</p>
 
@@ -60,15 +60,6 @@
                                         allowfullscreen
                                         class="rounded-lg shadow-md">
                                     </iframe>
-                                    <form method="POST" action="#" class="">
-                                        @csrf
-                                        <button type="submit" class="flex space-x-2 bg-sky-400 text-white px-2 py-1 rounded hover:bg-sky-300 text-sm mt-2.5">
-                                            <svg xmlns="http://www.w3.org/2000/svg"class="w-5 h-5 mr-1.5" viewBox="0 0 32 32">
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 17l5 5l12-12m-5 10l2 2l12-12"/>
-                                            </svg>
-                                            Selesai Menonton
-                                        </button>
-                                    </form>
                                     <p class="text-gray-700 mt-2 text-sm">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
                                     <p class="text-gray-700 text-sm">Video Google Drive tidak tersedia.</p>
@@ -90,15 +81,6 @@
                                         allowfullscreen
                                         class="rounded-lg shadow-md">
                                     </iframe>
-                                    <form method="POST" action="#" class="">
-                                        @csrf
-                                        <button type="submit" class="flex space-x-2 bg-sky-400 text-white px-2 py-1 rounded hover:bg-sky-300 text-sm mt-2.5">
-                                            <svg xmlns="http://www.w3.org/2000/svg"class="w-5 h-5 mr-1.5" viewBox="0 0 32 32">
-                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 17l5 5l12-12m-5 10l2 2l12-12"/>
-                                            </svg>
-                                            Selesai Menonton
-                                        </button>
-                                    </form>
                                     <p class="text-gray-700 mt-2 text-sm">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
                                 @else
                                     <p class="text-gray-700">Video YouTube tidak tersedia.</p>
@@ -106,7 +88,21 @@
                             </li>
                         @endforeach
                     </ul>
-            @endif
+                @endif
+                {{-- Button Selanjutnya / Selesai --}}
+                <form method="POST" action="{{ route('materi.nextOrFinish', ['materi' => $materi->id]) }}" class="flex justify-end mt-6">
+                    @csrf
+                    <button type="submit" class="flex items-center bg-sky-500 hover:bg-sky-400 text-white text-sm font-medium px-4 py-2 rounded transition">
+                        @if ($loop->last)
+                            Selesai
+                        @else
+                            Selanjutnya
+                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        @endif
+                    </button>
+                </form>
             </div>
             @endforeach
 
@@ -309,16 +305,34 @@
             
             <!-- Daftar Materi -->
             <h3 class="text-md font-medium text-gray-700 mb-2 text-center mt-4">Daftar Materi</h3>
-            @foreach ($course->materi as $materi)
-            <div class="group space-y-1"> {{-- Tambahkan wrapper group untuk mengaktifkan efek hover --}}
-                <button @click="selected = '{{ $materi->id }}'; if(window.innerWidth < 1024) sidebarOpen = false" 
-                        class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 text-gray-600 transform transition-all duration-300 ease-in-out group-hover:translate-x-1"
-                        :class="{ 'bg-gray-100 font-medium text-gray-700': selected === '{{ $materi->id }}' }">
-                        &bull; {{ $materi->judul }}
-                </button>
-            </div>
-            @endforeach
+            @foreach ($course->materi as $index => $materi)
+                @php
+                    // Materi sudah selesai?
+                    $isCompleted = in_array($materi->id, $completedMateriIds);
 
+                    // Materi sebelumnya sudah selesai? (biar gak lompat-lompat)
+                    $prevMateriCompleted = $index === 0 ? true : in_array($course->materi[$index - 1]->id, $completedMateriIds);
+
+                    // Materi ini terkunci kalau prevMateriCompleted false
+                    $isLocked = !$prevMateriCompleted;
+                @endphp
+
+                <div class="group space-y-1">
+                    <button 
+                        @if ($isLocked)
+                            disabled
+                            class="w-full text-left px-3 py-2 text-sm rounded text-gray-400 cursor-not-allowed"
+                        @else
+                            @click="selected = '{{ $materi->id }}'; if(window.innerWidth < 1024) sidebarOpen = false"
+                            class="w-full text-left px-3 py-2 text-sm rounded hover:bg-gray-100 text-gray-600 transform transition-all duration-300 ease-in-out group-hover:translate-x-1"
+                            :class="{ 'bg-gray-100 font-medium text-gray-700': selected === '{{ $materi->id }}' }"
+                        @endif
+                    >
+                        &bull; {{ $materi->judul }}
+                    </button>
+                </div>
+            @endforeach
+            
            <!-- Kuis -->
             @if ($course->quizzes->isNotEmpty())
             <hr class="my-2">

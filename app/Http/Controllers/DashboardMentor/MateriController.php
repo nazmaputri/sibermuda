@@ -13,6 +13,7 @@ use App\Models\Answer;
 use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class MateriController extends Controller
 {
@@ -179,6 +180,78 @@ class MateriController extends Controller
         $materi->load(['videos', 'youtube']);
 
         return view('dashboard-mentor.materi-edit', compact('materi', 'course', 'id'));
+    }
+
+    public function nextOrFinish(Materi $materi)
+    {
+        $userId = auth()->id();
+
+        // Cek apakah progress untuk materi ini sudah ada
+        $existingProgress = \App\Models\UserMateriProgress::where('user_id', $userId)
+            ->where('materi_id', $materi->id)
+            ->first();
+
+        // Jika belum ada, buat progress baru
+        if (!$existingProgress) {
+            \App\Models\UserMateriProgress::create([
+                'user_id'   => $userId,
+                'materi_id' => $materi->id,
+                'course_id' => $materi->course_id,
+                'status'    => 'selesai'
+            ]);
+        }
+
+        $course = $materi->course;
+        $totalMateri = $course->materi()->count();
+
+        $completedMateriCount = \App\Models\UserMateriProgress::where('user_id', $userId)
+            ->whereIn('materi_id', $course->materi->pluck('id'))
+            ->where('status', 'selesai')
+            ->count();
+
+        $progress = $totalMateri > 0 ? ($completedMateriCount / $totalMateri) * 100 : 0;
+
+        $category = strtolower($course->kategori ?? '');
+
+        $isCyberCategory = in_array($category, [
+            'cyber security', 'siber', 'cybersecurity', 
+            'cyber security', 'cybersecurity', 'cybersecurity', 
+            'cyber', 'cyber'
+        ]);
+
+        if ($isCyberCategory) {
+            $isFinalTaskCompleted = $this->checkFinalTaskCompleted($userId, $course->id);
+
+            if (!$isFinalTaskCompleted && $progress >= 100) {
+                $progress = 99;
+            }
+        } else {
+            $isFinalTaskCompleted = true;
+        }
+
+        // Cari materi berikutnya
+        $nextMateri = $course->materi()->where('id', '>', $materi->id)->orderBy('id')->first();
+
+        if ($nextMateri) {
+            return redirect()->route('study-peserta', [
+                'slug' => $course->slug,
+                'materiId' => $nextMateri->id,
+            ])->with('success', 'Materi berhasil diselesaikan!');
+        } else {
+            // Kalau materi terakhir, redirect ke halaman course atau halaman lain sesuai kebutuhan
+            return redirect()->route('daftar-kursus')
+                ->with('success', 'Selamat! Anda telah menyelesaikan semua materi.');
+        }
+    }
+
+    private function checkFinalTaskCompleted($userId, $courseId)
+    {
+        $certificateStatus = DB::table('final_task_user')
+            ->where('user_id', $userId)
+            ->where('course_id', $courseId)
+            ->value('certificate_status');
+
+        return in_array($certificateStatus, ['completed', 'approved']);
     }
 
     public function update(Request $request, $courseId, $materiId)
