@@ -73,8 +73,11 @@ class FinalTaskController extends Controller
             'course_id' => $courseId,                   // Menambahkan course_id
         ]);
 
+        $course = Course::findOrFail($request->course_id);
+
         // Redirect ke halaman detail kursus atau ke halaman lain setelah berhasil
-        return redirect()->route('courses.show', ['course' => $courseId])->with('success', 'Tugas akhir berhasil ditambahkan.');
+        return redirect()->route('courses.show', ['course' => $course->slug])
+            ->with('success', 'Tugas akhir berhasil ditambahkan.');
     }
 
     // Update
@@ -97,14 +100,14 @@ class FinalTaskController extends Controller
             'course_id' => $courseId, // atau $request->input('course_id')
         ]);
     
-        // redirect ke halaman detail tugas akhir
-        return redirect()
-            ->route('courses.show', ['course' => $courseId])
+        $course = Course::findOrFail($request->course_id);
+
+        // Redirect ke halaman detail kursus atau ke halaman lain setelah berhasil
+        return redirect()->route('courses.show', ['course' => $course->slug])
             ->with('success', 'Tugas akhir berhasil diperbarui.');
     }    
 
-    // Hapus
-    public function destroy($id)
+    public function destroy($course, $id)
     {
         $finalTask = FinalTask::findOrFail($id);
         $finalTask->delete();
@@ -180,10 +183,12 @@ class FinalTaskController extends Controller
 
         // Simpan data ke tabel final_task_user
         FinalTaskUser::create($data);
+        
+        $course = Course::findOrFail($request->course_id);
 
         // Redirect ke route study-peserta dengan pesan sukses
-        return redirect()->route('study-peserta', ['id' => $request->course_id])
-            ->with('success', 'Tugas akhir berhasil diupload.');
+        return redirect()->route('study-peserta', ['slug' => $course->slug])
+                ->with('success', 'Tugas akhir berhasil diupload.');
     }
 
     public function confirm($id)

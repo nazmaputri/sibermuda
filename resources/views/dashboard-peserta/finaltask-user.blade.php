@@ -15,7 +15,7 @@
 
         <div>
             <label class="block font-medium mb-1 text-gray-700 text-sm">Judul Tugas</label>
-            <input type="text" name="title" id="title" class="w-full text-gray-700 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 p-2 @error('title') border-red-500 @enderror">
+            <input type="text" name="title" id="title" class="w-full text-gray-700 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 p-2 @error('title') border-red-500 @enderror" placeholder="Masukkan judul tugas akhir">
             @error('title')
                 <span class="text-red-500 text-sm" id="title-error">{{ $message }}</span>
             @enderror
@@ -23,7 +23,7 @@
 
         <div>
             <label class="block font-medium mb-1 text-gray-700 text-sm">Deskripsi Tugas</label>
-            <textarea name="description" id="description" class="w-full p-2 text-gray-700 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('description') border-red-500 @enderror"></textarea>
+            <textarea name="description" id="description" class="w-full p-2 text-gray-700 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('description') border-red-500 @enderror" placeholder="Masukkan deskripsi tugas akhir"></textarea>
             @error('description')
                 <span class="text-red-500 text-sm" id="description-error">{{ $message }}</span>
             @enderror

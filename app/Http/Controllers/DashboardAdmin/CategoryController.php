@@ -77,7 +77,7 @@ class CategoryController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'name.string' => 'Nama harus berupa teks.',
@@ -86,6 +86,7 @@ class CategoryController extends Controller
             'image.mimes' => 'Format gambar harus jpg, png, atau jpeg.',
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
             'description.string' => 'Deskripsi harus berupa teks.',
+            'description.required' => 'Deskripsi harus diisi.',
         ]);
 
         $category->name = $request->input('name');

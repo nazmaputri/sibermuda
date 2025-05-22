@@ -10,7 +10,7 @@
   </style>
 </head>
 <body>
-   <!-- ========== HEADER ========== -->
+<!-- ========== HEADER ========== -->
 <header class="flex flex-wrap fixed md:justify-start md:flex-nowrap z-50 w-full py-2 bg-white shadow-md">
   <nav class="relative max-w-7xl w-full flex flex-wrap md:grid md:grid-cols-12 basis-full items-center px-4 md:px-12 mx-auto">
     <div class="md:col-span-3 flex items-center gap-2">
@@ -50,8 +50,8 @@
     </div>
     <!-- End Button Group -->
 
-    <!-- Collapse -->
-    <div id="hs-navbar-hcail" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block md:w-auto md:basis-auto md:order-2 md:col-span-6 bg-navbar-default md:bg-transparent rounded-lg pl-4 pb-4 pt-2 z-50 mt-2" aria-labelledby="hs-navbar-hcail-collapse">
+    <!-- Menu di layar menengah keatas -->
+    <div id="" class="hidden md:block overflow-hidden transition-all duration-300 basis-full grow md:w-auto md:basis-auto md:order-2 md:col-span-6 bg-navbar-default md:bg-transparent rounded-lg pl-4 pb-4 pt-2 z-50 mt-2" aria-labelledby="hs-navbar-hcail-collapse">
       <div class="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
         <div>
           <a href="{{ route('landingpage') }}" class="relative inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('landingpage') ? 'font-semibold border-midnight' : '' }}" href="#" aria-current="page">
@@ -79,8 +79,35 @@
   </nav>
 </header>
 <!-- ========== END HEADER ========== -->
+
+<!-- Menu di layar menengah kebawah -->
+<div id="hs-navbar-hcail"  class="hs-collapse fixed top-16 left-4 right-4 overflow-x-hidden my-4 z-50 md:hidden hidden overflow-hidden transition-all duration-300 bg-white border border-gray-300 shadow-sm rounded-lg pl-4 pr-4 pb-4 pt-2" aria-labelledby="hs-navbar-hcail-collapse">
+  <div class="flex flex-col gap-y-4 gap-x-0 mt-2 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
+    <div>
+      <a href="{{ route('landingpage') }}" class="relative inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('landingpage') ? 'font-semibold border-midnight' : '' }}" href="#" aria-current="page">
+        Beranda
+      </a>
+    </div>
+    <div>
+      <a href="{{ route('tentang.kami') }}"class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('tentang.kami') ? 'font-semibold border-midnight' : '' }}">
+        Tentang
+      </a>
+    </div>
+    <div>
+      <a href="{{ route('visi.misi') }}"class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('visi.misi') ? 'font-semibold border-midnight' : '' }}">
+        Visi
+      </a>
+    </div>
+    <div>
+      <a href="{{ route('category') }}" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('category') ? 'font-semibold border-midnight' : '' }}">
+        Kategori
+      </a>
+    </div>
+  </div>
+</div>
 </body>
 </html>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const menuToggle = document.getElementById('menu-toggle');
