@@ -11,7 +11,7 @@
 </div>
 
 <div class="container mx-auto border border-gray-200 rounded-md" 
-     x-data="{ selected: '{{ $course->materi->first()->id ?? null }}', sidebarOpen: false }">
+    x-data="{ selected: '{{ $materiAktif->id ?? $course->materi->first()->id }}', sidebarOpen: false }">
      
     <!-- Header Course -->
     <div class="bg-white text-gray-600 pt-1 rounded-lg mt-2">
@@ -92,12 +92,14 @@
                 {{-- Button Selanjutnya / Selesai --}}
                 <form method="POST" action="{{ route('materi.nextOrFinish', ['materi' => $materi->id]) }}" class="flex justify-end mt-6">
                     @csrf
-                    <button type="submit" class="flex items-center bg-sky-500 hover:bg-sky-400 text-white text-sm font-medium px-4 py-2 rounded transition">
+                    <button type="submit" class="group flex items-center bg-sky-400 hover:bg-sky-300 text-white text-sm font-medium px-4 py-2 rounded transition">
                         @if ($loop->last)
                             Selesai
                         @else
                             Selanjutnya
-                            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="ml-2 h-4 w-4 transform transition-transform duration-200 group-hover:translate-x-1"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                             </svg>
                         @endif
