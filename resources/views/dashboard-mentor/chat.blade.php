@@ -79,7 +79,7 @@
             {{ $activeChat && $activeChat->id == $chat->id ? 'bg-sky-100' : '' }}">
             <img src="{{ $chat->student->photo ? asset('storage/' . $chat->student->photo) : asset('storage/default-profile.jpg') }}" class="w-10 h-10 rounded-full" alt="profile peserta" />
             <div class="ml-4">
-                <h3 class="text-gray-700 font-medium">{{ Str::limit($student->name, 12) }}</h3>
+                <h3 class="text-gray-700 font-medium">{{ \Illuminate\Support\Str::limit($chat->student->name, 12) }}</h3>
                 <p class="text-gray-500 text-sm truncate">Pesan terbaru...</p>
             </div>
             <!-- Tambahkan elemen notifikasi jika ada pesan yang belum dibaca -->
