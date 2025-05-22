@@ -30,14 +30,21 @@
         </div>
 
         <div>
-            <label class="block font-medium mb-1 text-gray-700 text-sm">Upload Foto Tugas (Opsional)</label>
-            <input type="file" name="photo[]" accept="image/*" multiple id="photo-input" class="block w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
+            <label class="block font-medium mb-1 text-gray-700 text-sm">Upload Foto Tugas</label>
+            <input type="file" name="photo[]" accept="image/*" multiple id="photo-input" class="block w-full p-2 text-sm text-gray-700 border rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('photo') border-red-500 @enderror">
+            <small class="text-gray-600 block">*Format gambar yang diperbolehkan: jpg, png, jpeg</small>
+            @error('photo')
+                <span class="text-red-500 text-sm block" id="photo-error">{{ $message }}</span>
+            @enderror
         </div>
 
         <!-- Tempat untuk menampilkan path foto yang dipilih -->
         <div id="photo-list" class="flex flex-wrap gap-4 mt-4"></div>
 
-        <div class="flex justify-end mr-1 mb-2">
+        <div class="flex space-x-2 justify-end mr-1 mb-2">
+            <a href="{{ route('study-peserta', ['slug' => $course->slug]) }}" class="bg-red-400 hover:bg-red-300 text-white text-sm py-2 px-4 rounded">
+                Batal
+            </a>
             <button type="submit" class="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-300 text-sm">
                 Kirim Tugas Akhir
             </button>
@@ -124,6 +131,11 @@
         const fileList = Array.from(event.target.files);
 
         selectedFiles.push(...fileList);
+
+        // Update kembali input.files agar semua file tersimpan di dalam form
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(file => dataTransfer.items.add(file));
+        event.target.files = dataTransfer.files;
 
         renderPhotos();
     });

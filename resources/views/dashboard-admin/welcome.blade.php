@@ -27,7 +27,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Mentor</h2>
-                <p class="text-md font-semibold text-gray-700">{{ $jumlahMentor }} Mentor</p>
+                <p class="text-md font-semibold text-red-500">{{ $jumlahMentor }} Mentor</p>
             </div>
         </div>
         <!-- Card Jumlah Peserta -->
@@ -39,7 +39,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Peserta</h2>
-                <p class="text-md font-semibold text-gray-700">{{ $jumlahPeserta }} Peserta</p>
+                <p class="text-md font-semibold text-yellow-500">{{ $jumlahPeserta }} Peserta</p>
             </div>
         </div>
          <!-- Card Jumlah Kursus -->
@@ -51,7 +51,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Kursus</h2>
-                <p class="text-md font-semibold text-gray-700">{{ $jumlahKursus }} Kursus</p>
+                <p class="text-md font-semibold text-blue-500">{{ $jumlahKursus }} Kursus</p>
             </div>
         </div>
         <!-- Card Jumlah Peserta -->
@@ -63,7 +63,7 @@
             </div>
             <div class="ml-4">
                 <h2 class="text-md font-semibold text-gray-700">Jumlah Kategori</h2>
-                <p class="text-md font-semibold text-gray-700">{{ $jumlahKategori }} Kategori</p>
+                <p class="text-md font-semibold text-green-500">{{ $jumlahKategori }} Kategori</p>
             </div>
         </div>
     </div>
@@ -73,15 +73,28 @@
         <div class="flex flex-col items-center mb-4">
             <div class="flex items-center space-x-4">
                 <h2 class="md:text-xl text-md font-semibold inline-block pb-1 text-gray-700">
-                    Laporan Perkembangan Pengguna Bulanan
+                    Perkembangan Pengguna Bulanan
                 </h2>
-                <select id="yearFilter" class="p-1 border rounded-md focus:outline-none focus:ring focus:ring-sky-200">
-                    @foreach ($years as $availableYear)
-                        <option value="{{ $availableYear }}" {{ $availableYear == $year ? 'selected' : '' }}>
-                            {{ $availableYear }}
-                        </option>
-                    @endforeach
-                </select>
+                <div x-data="{ open: false, selected: '{{ $year }}' }" class="relative w-20">
+                    <button @click="open = !open" class="w-full px-2 py-1 leading-tight border rounded-md bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-sky-200">
+                        <span x-text="selected" class="text-gray-700 text-sm"></span>
+                        <svg class="w-4 h-4 ml-2 transform transition-transform duration-300 ease-in-out" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div x-show="open" @click.away="open = false" class="absolute mt-1 w-full bg-white border rounded-md shadow-lg z-10 max-h-24 overflow-y-auto">
+                        @foreach ($years as $availableYear)
+                            <a 
+                                href="?year={{ $availableYear }}"
+                                @click="selected = '{{ $availableYear }}'; open = false"
+                                class="block px-4 py-2 text-sm text-gray-700 text-center hover:bg-sky-100 {{ $availableYear == $year ? 'bg-sky-50 font-semibold' : '' }}"
+                            >
+                                {{ $availableYear }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
             </div>
             <div class="border-b-2 w-full mt-1"></div>
         </div>

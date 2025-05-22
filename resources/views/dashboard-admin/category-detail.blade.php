@@ -119,7 +119,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center text-sm text-gray-600 py-4 border-l border-r border-b border-gray-200">Belum ada kursus dalam kategori ini.</td>
+                        <td colspan="5" class="text-center text-sm text-gray-600 py-2 border-l border-r border-b border-gray-200">Belum ada kursus dalam kategori ini.</td>
                     </tr>
                 @endforelse
             </tbody>
