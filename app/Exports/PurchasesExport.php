@@ -54,7 +54,7 @@ class PurchasesExport implements FromArray, WithHeadings, WithEvents, ShouldAuto
                     $purchase->user->name ?? '-',
                     $purchase->course->title ?? '-',
                     $purchase->harga_course ?? 0,
-                    $purchase->created_at->format('d M Y'),
+                    $purchase->created_at->translatedFormat('d M Y'),
                 ];
                 $currentRow++;
                 $subtotal += $purchase->harga_course ?? 0;

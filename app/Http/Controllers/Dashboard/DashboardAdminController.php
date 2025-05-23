@@ -262,7 +262,7 @@ class DashboardAdminController extends Controller
                         ->get();
         
         // Nama bulan
-        $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        $monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
         
         // Inisialisasi data untuk grafik
         $userGrowthData = array_fill(0, 12, 0);

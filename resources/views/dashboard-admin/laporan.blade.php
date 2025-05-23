@@ -83,7 +83,7 @@
         <!-- Filter Bulan -->
         <div x-data="{ 
                 open: false, 
-                selected: '{{ request('month') ? \Carbon\Carbon::create()->month((int) request('month'))->format('F') : 'Semua Bulan' }}', 
+                selected: '{{ request('month') ? \Carbon\Carbon::create()->month((int) request('month'))->translatedFormat('F') : 'Semua Bulan' }}', 
                 selectedMonth: '{{ request('month') ?? '' }}' 
             }" class="relative w-64">
             <label for="month" class="text-sm text-gray-600 mr-2">Filter Bulan:</label>
