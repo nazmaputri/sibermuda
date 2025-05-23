@@ -60,7 +60,7 @@ Route::middleware(['auth:admin'])->group(function () {
 
     //Pengaturan Akun
     Route::get('/settings-admin', [SettingController::class, 'admin'])->name('settings.admin');
-    Route::post('/settings', [SettingController::class, 'update']);
+    Route::post('/settings-admin/update', [SettingController::class, 'update']);
 
     //Notifikasi 
     Route::get('/admin/notifications', [DashboardAdminController::class, 'getNotifications'])->name('admin.notifications');

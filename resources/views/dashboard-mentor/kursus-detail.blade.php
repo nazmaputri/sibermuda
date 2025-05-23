@@ -99,9 +99,9 @@
                 <thead>
                     <tr class="bg-gray-100 text-sm text-gray-600">
                         <th class="px-4 py-2 border-b border-t border-l border-gray-200 rounded-tl-lg">No</th>
-                        <th class="px-4 py-2  border-b border-t border-gray-200">Judul</th>
-                        <th class="px-4 py-2  border-b border-t border-gray-200">Kursus</th>
-                        <th class="px-4 py-2  border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Judul</th>
+                        <th class="px-4 py-2 border-b border-t border-gray-200">Kursus</th>
+                        <th class="px-4 py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 text-sm">

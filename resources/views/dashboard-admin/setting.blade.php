@@ -4,7 +4,7 @@
 
 <div class="max-w-2xl mx-auto border border-gray-200 bg-white p-6 rounded-lg shadow-lg">
     <h2 class="text-lg font-semibold text-center text-gray-700 border-b-2 pb-2 mb-4">Pengaturan Akun</h2>
-    <form action="{{ url('/settings') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ url('/settings-admin/update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="photo" class="block font-medium text-gray-700">Foto Profil</label>
@@ -61,7 +61,7 @@
             <label for="password" class="block font-medium text-gray-700">Kata Sandi Lama</label>
             
             <div class="relative">
-                <input type="password" name="password" id="password" id="old-password"
+                <input type="password" name="password" id="old-password"
                     class="password-input p-2 pr-10 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">
                 
                 <!-- Icon Mata -->
@@ -83,10 +83,10 @@
 
         <!-- Password -->
         <div class="mb-4 relative">
-            <label for="new_password" class="block font-medium text-gray-700">Masukkan Kata Sandi Baru</label>
+            <label for="password" class="block font-medium text-gray-700">Kata Sandi Baru</label>
             
             <div class="relative">
-                <input type="password" name="new_password" id="new_password"
+                <input type="password" name="password" id="new_password"
                     class="p-2 pr-10 mt-1 block w-full text-sm text-gray-700 border-gray-200 border rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400" placeholder="Masukkan kata sandi">
                 
                 <!-- Icon Mata -->
@@ -101,7 +101,7 @@
                 </div>
             </div>
 
-            @error('new_password')
+            @error('password')
                 <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror
         </div>
