@@ -92,9 +92,16 @@
                             </button>
                         </a>
                     @else
-                        <button class="w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2 bg-white text-gray-500 border border-gray-500 cursor-not-allowed opacity-50" disabled>
-                            Sertifikat Tidak Tersedia
-                        </button>
+                        <div class="relative group w-full">
+                            <button
+                                class="w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2 bg-white text-gray-500 border border-gray-500 cursor-not-allowed opacity-50"
+                                disabled>
+                                Sertifikat Tidak Tersedia
+                            </button>
+                            <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:block bg-gray-700 text-white text-xs rounded py-1 px-2 z-10 whitespace-nowrap">
+                                Silakan selesaikan kuis/tugas akhir yang diberikan oleh mentor
+                            </div>
+                        </div>
                     @endif
                 
                     {{-- <a href="{{ $canDownloadCertificate ? route('certificate-detail', ['courseId' => $course->id]) : '#' }}" 
