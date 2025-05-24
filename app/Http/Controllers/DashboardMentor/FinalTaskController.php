@@ -14,7 +14,8 @@ class FinalTaskController extends Controller
     public function create($courseId)
     {
         $courses = Course::all();
-        return view('dashboard-mentor.finaltask-create', compact('courses', 'courseId'));
+        $course = Course::findOrFail($courseId); // cari course berdasarkan ID
+        return view('dashboard-mentor.finaltask-create', compact('courses', 'courseId', 'course'));
     }
 
     public function detail($courseId, $taskId)
