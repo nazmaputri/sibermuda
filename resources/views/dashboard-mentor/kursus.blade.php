@@ -82,7 +82,7 @@
                                 </a>
 
                                 <!-- Form hapus kursus -->
-                                <form action="{{ route('courses.destroy', $course->id) }}" method="POST" class="inline">
+                                <form action="{{ route('courses.destroy', $course->slug) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="btn-delete text-white bg-red-400 p-1 rounded-md hover:bg-red-300" title="Hapus">
