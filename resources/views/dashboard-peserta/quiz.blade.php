@@ -239,23 +239,49 @@
                 showQuestion(currentQuestion); // Tampilkan soal pertama
 
                 submitBtn.addEventListener('click', function () {
+                    // Cek apakah semua pertanyaan sudah dijawab
+                    let allAnswered = true;
+                    questions.forEach((question) => {
+                        const inputs = question.querySelectorAll('input[type="radio"]');
+                        const isAnswered = Array.from(inputs).some(input => input.checked);
+                        if (!isAnswered) {
+                            allAnswered = false;
+                        }
+                    });
+
+                    // Jika belum semua dijawab, munculkan alert
+                    if (!allAnswered) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Semua soal harus dijawab!',
+                            text: 'Silakan periksa kembali dan pastikan semua pertanyaan telah diisi.',
+                            confirmButtonText: 'OK',
+                            customClass: {
+                                confirmButton: 'bg-orange-400 hover:bg-orange-300 text-white px-4 py-2 rounded-sm'
+                            },
+                            buttonsStyling: false,
+                        });
+                        return; // Jangan lanjutkan proses submit
+                    }
+
+                    // Jika semua soal sudah dijawab, tampilkan konfirmasi kirim
                     Swal.fire({
                         title: 'Kirim kuis ini?',
                         icon: 'question',
                         customClass: {
-                            popup: 'text-sm', // Ukuran teks kecil untuk popup
-                            title: 'text-md', // Ukuran teks kecil untuk title
-                            confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2', // Tombol konfirmasi hijau dengan efek hover
-                            cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2', // Tombol batal merah dengan efek hover
+                            popup: 'text-sm',
+                            title: 'text-md',
+                            confirmButton: 'bg-green-400 hover:bg-green-300 text-white rounded-sm px-4 py-2 mx-2',
+                            cancelButton: 'bg-red-400 hover:bg-red-300 text-white rounded-sm px-4 py-2 mx-2',
                         },
-                        buttonsStyling: false, // Menonaktifkan styling default dari SweetAlert
+                        buttonsStyling: false,
                         showCancelButton: true,
                         cancelButtonText: 'Batal',
                         confirmButtonText: 'Ya, Kirim',
-                        reverseButtons: true, // Membalikkan posisi tombol confirm dan cancel
+                        reverseButtons: true,
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            document.getElementById('quiz-form').submit(); // Mengirim form jika tombol konfirmasi ditekan
+                            document.getElementById('quiz-form').submit();
                         }
                     });
                 });

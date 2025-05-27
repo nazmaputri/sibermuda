@@ -122,7 +122,7 @@ class ChatController extends Controller
         return view('dashboard-peserta.chat', compact('chats', 'messages', 'activeChat', 'mentorId', 'course'));
     }
 
-   public function sendMessage(Request $request, $chatId)
+    public function sendMessage(Request $request, $chatId)
     {
         // Validasi input pesan dan pastikan course_id disertakan
         $request->validate([
@@ -161,8 +161,11 @@ class ChatController extends Controller
                 'disable_swal' => true, // Supaya pesan tidak ditampilkan oleh sweetalert
             ]);
         } else {
+            // Ambil slug juga untuk mentor, karena route butuh slug, bukan courseId
+            $slug = Course::findOrFail($chat->course_id)->slug;
+
             return redirect()->route('chat.mentor', [
-                'courseId' => $chat->course_id,
+                'slug' => $slug,
                 'chatId' => $chat->id,
             ])->with([
                 'success' => 'Message sent successfully.',

@@ -43,9 +43,9 @@
                 
                     <!-- Status Lulus atau Tidak -->
                     @if ($score >= 75)
-                        <p class="text-green-500 text-center mt-4 text-sm">Selamat, Anda lulus kuis ini!</p>
+                        <p class="text-green-500 text-center text-sm">Selamat, Anda lulus kuis ini!</p>
                     @else
-                        <p class="text-red-500 text-center mt-4 text-sm">Maaf, Anda belum lulus kuis ini.</p>
+                        <p class="text-red-500 text-center text-sm">Maaf, Anda belum lulus kuis ini.</p>
                     @endif
                 </div>                             
 

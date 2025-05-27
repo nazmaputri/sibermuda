@@ -334,36 +334,36 @@
                     </button>
                 </div>
             @endforeach
-            
-           <!-- Kuis -->
-            @if ($course->quizzes->isNotEmpty())
-            <hr class="my-2">
-            <div class="group"> {{-- Tambahkan wrapper group --}}
-                <button @click="selected = 'quiz'; if(window.innerWidth < 1024) sidebarOpen = false" 
-                        class="w-full flex text-sm text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
-                        :class="{ 'bg-gray-100 font-medium text-gray-700': selected === 'quiz' }">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                    </svg>
-                    <span class="text-gray-600 ml-1 transform transition-all duration-300 ease-in-out group-hover:translate-x-1">Kuis</span>
-                </button>
-            </div>
-            @endif
 
-           <!-- Tugas Akhir -->
             @php
                 $allowedCategories = ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber'];
                 $courseCategory = strtolower($course->category->name ?? '');
+                $isCyberCategory = in_array($courseCategory, $allowedCategories);
             @endphp
 
-            <!-- Tugas Akhir (Final Task) Menu Sidebar -->
-            @if (in_array($courseCategory, $allowedCategories))
+            <!-- Kuis -->
+            @if (!$isCyberCategory && $course->quizzes->isNotEmpty())
+                <hr class="my-2">
+                <div class="group">
+                    <button @click="selected = 'quiz'; if(window.innerWidth < 1024) sidebarOpen = false"
+                            class="w-full flex text-sm text-left px-3 py-2 rounded hover:bg-gray-100 items-center"
+                            :class="{ 'bg-gray-100 font-medium text-gray-700': selected === 'quiz' }">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg>
+                        <span class="text-gray-600 ml-1 transform transition-all duration-300 ease-in-out group-hover:translate-x-1">Kuis</span>
+                    </button>
+                </div>
+            @endif
+
+            <!-- Tugas Akhir -->
+            @if ($isCyberCategory)
                 @if ($finalTask)
                     <hr class="my-2">
                     <div class="group">
                         <button @click="selected = 'final-task'; if(window.innerWidth < 1024) sidebarOpen = false"
-                            class="w-full flex text-left text-sm px-3 py-2 rounded hover:bg-gray-100 items-center"
-                            :class="{ 'bg-gray-100 font-medium text-gray-700': selected === 'final-task' }">
+                                class="w-full flex text-left text-sm px-3 py-2 rounded hover:bg-gray-100 items-center"
+                                :class="{ 'bg-gray-100 font-medium text-gray-700': selected === 'final-task' }">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1 text-gray-600">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
                             </svg>
@@ -371,7 +371,7 @@
                         </button>
                     </div>
                 @else
-                    <div class="flex items-center space-x-2 text-gray-600">
+                    <div class="flex items-center space-x-2 text-gray-600 mt-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m6 4.125 2.25 2.25m0 0 2.25 2.25M12 13.875l2.25-2.25M12 13.875l-2.25 2.25M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
                         </svg>
@@ -379,7 +379,7 @@
                     </div>
                 @endif
             @endif
-        
+
             <!-- Tombol tutup (mobile) -->
             <!-- <div class="block lg:hidden mt-4">
                 <button @click="sidebarOpen = false" 
