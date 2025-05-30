@@ -13,7 +13,7 @@ use App\Models\Materi;
 use App\Models\User;
 use App\Models\RatingKursus;
 use App\Models\Purchase;
-use App\Models\Payment;
+use App\Models\FinaltaskUser;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +22,28 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardMentorController extends Controller
 {
+    public function getPendingNotifications()
+    {
+        // Notifikasi: User telah menyelesaikan tugas akhir tapi status sertifikat belum dikonfirmasi admin
+        $finalTasks = FinalTaskUser::with('user', 'course')
+                        ->where('certificate_status', 'pending')
+                        ->get();
+
+        foreach ($finalTasks as $task) {
+            $finalTaskId = $task->finalTask ? $task->finalTask->id : null;
+            if ($finalTaskId) {
+                $notifications[] = [
+                    'type' => 'finaltask',
+                    'message' => "User <span class='font-medium'>{$task->user->name}</span> menyelesaikan tugas akhir di kursus <span class='font-medium'>{$task->course->title}</span>",
+                    'id' => 'finaltask_' . $task->id,
+                    'url' => route('finaltask.detail', ['course' => $task->course_id, 'id' => $finalTaskId]),
+                ];
+            }
+        }
+
+        return response()->json($notifications);
+    }
+
     public function index() {
         $mentorId = Auth::id();
         return view('layouts.dashboard-mentor');

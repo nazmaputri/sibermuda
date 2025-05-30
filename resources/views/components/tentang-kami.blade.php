@@ -174,7 +174,7 @@
         <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row-reverse h-auto">
             <!-- Foto di kanan (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pl-4 mb-4 md:mb-0">
-                <img src="{{ asset('storage/default-profile.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
+                <img src="{{ asset('storage/rizky.png') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
             </div>
 
             <!-- Teks di kiri -->

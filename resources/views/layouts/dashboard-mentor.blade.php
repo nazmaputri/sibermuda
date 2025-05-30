@@ -191,7 +191,87 @@
 
                 <h5 class="text-sm md:text-lg md:pl-4 font-semibold pl-1 text-gray-700">@yield('title')</h5>
 
-                <div class="ml-auto mr-4 relative">
+                <div class="ml-auto flex mr-4 space-x-4">
+                <!-- Notifikasi -->
+                <div class="relative flex items-center cursor-pointer" id="notification-container">
+                    <button id="notification-button" class="relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"/>
+                        </svg>
+
+                        <!-- Badge notifikasi -->
+                        <span id="notification-badge"
+                            class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-medium rounded-full w-4 h-4 flex items-center justify-center hidden">
+                            <span id="notification-count">0</span>
+                        </span>
+                    </button>
+
+                    <!-- Dropdown notifikasi -->
+                    <div id="notification-dropdown"
+                        class="absolute right-0 top-10 md:top-12 bg-white shadow-lg border border-gray-200 rounded-md w-60 md:w-96 hidden z-30">
+                        <p id="notification-empty" class="text-center pt-2.5 text-sm text-gray-500 hidden">
+                            Tidak ada notifikasi
+                        </p>
+                        <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
+                            <!-- Notifikasi akan dimuat di sini -->
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const badge = document.getElementById('notification-badge');
+                        const count = document.getElementById('notification-count');
+                        const list = document.getElementById('notification-list');
+                        const emptyText = document.getElementById('notification-empty');
+                        const dropdown = document.getElementById('notification-dropdown');
+                        const button = document.getElementById('notification-button');
+
+                        function renderNotifications(data) {
+                            list.innerHTML = ''; // Bersihkan notifikasi lama
+
+                            if (!data || data.length === 0) {
+                                // Tidak ada notifikasi
+                                badge.classList.add('hidden');
+                                count.textContent = '0';
+                                emptyText.classList.remove('hidden');
+                            } else {
+                                // Ada notifikasi
+                                badge.classList.remove('hidden');
+                                count.textContent = data.length;
+                                emptyText.classList.add('hidden');
+
+                                data.forEach(item => {
+                                    const div = document.createElement('div');
+                                    div.className = 'p-2 text-sm text-gray-700 border-b border-gray-100 hover:bg-gray-100 rounded cursor-pointer';
+                                    div.innerHTML = item.message;
+
+                                    div.addEventListener('click', () => {
+                                        window.location.href = item.url;
+                                    });
+
+                                    list.appendChild(div);
+                                });
+                            }
+                        }
+
+                        fetch('/notifications/final-task-user')
+                            .then(response => response.json())
+                            .then(data => {
+                                // Pastikan data adalah array, kalau server mengirim objek, sesuaikan di sini
+                                // Contoh: data.notifications atau data.items bisa disesuaikan
+                                const notifications = Array.isArray(data) ? data : (data.notifications || []);
+                                renderNotifications(notifications);
+                            })
+                            .catch(() => {
+                                // Kalau error fetch, juga tampilkan "Belum ada notifikasi"
+                                renderNotifications([]);
+                            });
+
+                        button.addEventListener('click', () => {
+                            dropdown.classList.toggle('hidden');
+                        });
+                    });
+                </script>
                 <!-- Wrapper yang bisa diklik untuk membuka dropdown -->
                 <div id="profile-dropdown-toggle" class="flex items-center space-x-3 cursor-pointer">
                     <div>
@@ -260,7 +340,7 @@
 
             <!-- Footer -->
             <footer class="bg-white text-left text-gray-600 text-sm p-3 shadow-lg border-t border-gray-200"> 
-               Copyright © 2025 <span class="text-midnight">Sibermuda.Idn</span> All Rights Reserved. Powered by PPLG SMKN 1 Ciomas
+               Copyright © 2025 <span class="text-midnight">Sibermuda.Id</span> All Rights Reserved. Powered by PPLG SMKN 1 Ciomas
             </footer>
 
         </div>

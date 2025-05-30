@@ -21,7 +21,7 @@
       <!-- End Logo -->
 
       <!-- Teks hanya muncul di layar md ke atas -->
-      <span class="text-md font-semibold text-midnight">Sibermuda.Idn</span>
+      <span class="text-md font-semibold text-midnight">Sibermuda.Id</span>
     </div>
 
     <!-- Button Group -->

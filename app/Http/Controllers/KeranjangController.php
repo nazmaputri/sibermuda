@@ -230,32 +230,41 @@ class KeranjangController extends Controller
         return redirect()->route('cart.index')->with('success', 'Kursus berhasil ditambahkan ke keranjang!');
     }
 
-    public function handlePurchase($courseId)
+   public function handlePurchase($slug)
     {
+        // Cari course berdasarkan slug
+        $course = Course::where('slug', $slug)->first();
+
+        if (!$course) {
+            return redirect()->back()->with('error', 'Kursus tidak ditemukan.');
+        }
+
+        $courseId = $course->id; // simpan id untuk kebutuhan lain
+
         if (!Auth::check()) {
             // Simpan ID kursus ke session agar bisa diproses setelah login
             Session::put('kursus_id_pending', $courseId);
             return redirect()->route('login')->with('message', 'Silakan login terlebih dahulu untuk membeli kursus.');
         }
-    
+
         // Cek jika user yang login adalah role student
         if (Auth::user()->role !== 'student') {
             return redirect()->back()->with('warning', 'Hanya peserta yang dapat membeli kursus.');
         }
-    
+
         // Cek apakah kursus sudah dibeli sebelumnya
         $hasPurchased = Purchase::where('user_id', Auth::id())
                                 ->where('course_id', $courseId)
                                 ->where('status', 'success')
                                 ->exists();
-    
+
         if ($hasPurchased) {
             return redirect()->back()->with('error', 'Kursus ini sudah Anda beli.');
         }
-    
+
         // Tambahkan ke keranjang jika belum dibeli
         return $this->addToCart(new Request(), $courseId);
-    }    
+    }
 
     // Menghapus kursus dari keranjang
     public function removeFromCart($cartId)

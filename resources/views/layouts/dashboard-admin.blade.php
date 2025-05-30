@@ -343,7 +343,7 @@
                     <div id="notification-dropdown"
                         class="absolute right-0 top-10 md:top-12 bg-white shadow-lg border border-gray-200 rounded-md w-60 md:w-96 hidden z-30">
                         <p id="notification-empty" class="text-center pt-2.5 text-sm text-gray-500 hidden">
-                            Belum ada notifikasi
+                            Tidak ada notifikasi
                         </p>
                         <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
@@ -492,7 +492,7 @@
 
             <!-- Footer -->
             <footer class="bg-white text-left text-gray-600 text-sm p-3 shadow-lg border-t border-gray-200"> 
-               Copyright © 2025 <span class="text-midnight">Sibermuda.Idn</span> All Rights Reserved. Powered by PPLG SMKN 1 Ciomas
+               Copyright © 2025 <span class="text-midnight">Sibermuda.Id</span> All Rights Reserved. Powered by PPLG SMKN 1 Ciomas
             </footer>
 
         </div>

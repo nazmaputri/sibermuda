@@ -232,7 +232,7 @@
 
                 <!-- Notifikasi -->
                 <div class="relative flex items-center cursor-pointer mr-4" id="notification-container">
-                    <button id="notification-button" class=" bg-white relative">
+                    <button id="notification-button" class="bg-white relative">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -252,7 +252,7 @@
                     <!-- Dropdown notifikasi -->
                     <div id="notification-dropdown" class="absolute z-10 right-0 top-8 bg-white shadow-lg rounded-md border border-gray-200 w-60 md:mt-1 md:w-96 hidden"> 
                         <p id="notification-empty" class="text-center pt-2.5 text-sm text-gray-500 hidden">
-                            Belum ada notifikasi
+                            Tidak ada notifikasi
                         </p>
                         <div id="notification-list" class="max-h-64 overflow-y-auto scrollbar-hide p-2">
                             <!-- Notifikasi akan dimuat di sini -->
@@ -269,51 +269,66 @@
                         const count = document.getElementById('notification-count');
                         const emptyMessage = document.getElementById('notification-empty');
 
-                        // Ambil data notifikasi
-                        fetch('/notifikasi/pembelian')
-                            .then(res => res.json())
-                            .then(data => {
-                                const seenIds = JSON.parse(localStorage.getItem('read_notifications') || '[]');
-                                const unread = data.filter(item => !seenIds.includes(item.id));
+                        // Fungsi untuk render notifikasi yang belum dibaca
+                        function renderNotifications(data) {
+                            const seenIds = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+                            // Filter notifikasi yang belum dibaca
+                            const unread = data.filter(item => !seenIds.includes(item.id));
 
-                                // Tampilkan badge jika ada yang belum dibaca
-                                if (unread.length > 0) {
-                                    badge.classList.remove('hidden');
-                                    count.textContent = unread.length;
-                                } else {
+                            if (unread.length > 0) {
+                                badge.classList.remove('hidden');
+                                count.textContent = unread.length;
+                                emptyMessage.classList.add('hidden');
+                                list.innerHTML = unread.map(item => `
+                                    <div class="p-2 text-sm border-b hover:bg-gray-100 cursor-pointer" data-id="${item.id}">
+                                        <div class="font-medium text-gray-700">Pembelian Dikonfirmasi</div>
+                                        <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
+                                        <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
+                                    </div>
+                                `).join('');
+                            } else {
+                                badge.classList.add('hidden');
+                                count.textContent = '0';
+                                emptyMessage.classList.remove('hidden');
+                                list.innerHTML = '';
+                            }
+                        }
+
+                        // Fungsi fetch dan render notifikasi
+                        function loadNotifications() {
+                            fetch('/notifikasi/pembelian')
+                                .then(res => res.json())
+                                .then(data => {
+                                    renderNotifications(data);
+                                })
+                                .catch(() => {
+                                    // Jika gagal fetch, anggap tidak ada notifikasi
                                     badge.classList.add('hidden');
-                                }
-
-                                // Tampilkan pesan kosong jika tidak ada notifikasi
-                                if (data.length === 0) {
+                                    count.textContent = '0';
                                     emptyMessage.classList.remove('hidden');
                                     list.innerHTML = '';
-                                } else {
-                                    emptyMessage.classList.add('hidden');
-                                    list.innerHTML = data.map(item => `
-                                        <div class="p-2 text-sm border-b hover:bg-gray-100">
-                                            <div class="font-medium text-gray-700">Pembelian Dikonfirmasi</div>
-                                            <div class="text-gray-600 text-xs">Kursus: ${item.course_title}</div>
-                                            <div class="text-gray-400 text-xs">${new Date(item.updated_at).toLocaleString()}</div>
-                                        </div>
-                                    `).join('');
-                                }
-                            });
+                                });
+                        }
 
-                        // Toggle dropdown saat tombol diklik
+                        loadNotifications();
+
+                        // Toggle dropdown dan tandai semua notifikasi sebagai sudah dibaca
                         button.addEventListener('click', (event) => {
-                            event.stopPropagation(); // Cegah klik tombol menutup dropdown langsung
+                            event.stopPropagation();
 
                             dropdown.classList.toggle('hidden');
 
-                            // Jika dropdown sedang dibuka
                             if (!dropdown.classList.contains('hidden')) {
+                                // Tandai semua notifikasi sebagai sudah dibaca saat dropdown dibuka
                                 fetch('/notifikasi/pembelian')
                                     .then(res => res.json())
                                     .then(data => {
                                         const ids = data.map(item => item.id);
                                         localStorage.setItem('read_notifications', JSON.stringify(ids));
                                         badge.classList.add('hidden');
+                                        count.textContent = '0';
+                                        // Setelah tandai semua dibaca, reload tampilan agar hilang notifikasi
+                                        loadNotifications();
                                     });
                             }
                         });
@@ -326,8 +341,36 @@
                                 dropdown.classList.add('hidden');
                             }
                         });
+
+                        // Optional: jika ingin klik notifikasi langsung dianggap dibaca (hapus satu per satu)
+                        list.addEventListener('click', (event) => {
+                            const notifDiv = event.target.closest('div[data-id]');
+                            if (!notifDiv) return;
+
+                            const id = parseInt(notifDiv.getAttribute('data-id'));
+                            let readIds = JSON.parse(localStorage.getItem('read_notifications') || '[]');
+
+                            if (!readIds.includes(id)) {
+                                readIds.push(id);
+                                localStorage.setItem('read_notifications', JSON.stringify(readIds));
+                            }
+
+                            notifDiv.remove();
+
+                            // Update badge dan count setelah hapus satu notifikasi
+                            const remainingNotifs = list.querySelectorAll('div[data-id]');
+                            if (remainingNotifs.length === 0) {
+                                badge.classList.add('hidden');
+                                count.textContent = '0';
+                                emptyMessage.classList.remove('hidden');
+                            } else {
+                                badge.classList.remove('hidden');
+                                count.textContent = remainingNotifs.length;
+                                emptyMessage.classList.add('hidden');
+                            }
+                        });
                     });
-                </script>         
+                </script>
                 
                 <div class="relative">
                 <!-- Wrapper yang bisa diklik untuk membuka dropdown -->
@@ -400,7 +443,7 @@
 
             <!-- Footer -->
             <footer class="bg-white text-left text-gray-600 text-sm p-3 shadow-lg border-t border-gray-200"> 
-               Copyright © 2025 <span class="text-midnight">Sibermuda.Idn</span> All Rights Reserved. Powered by PPLG SMKN 1 Ciomas
+               Copyright © 2025 <span class="text-midnight">Sibermuda.Id</span> All Rights Reserved. Powered by PPLG SMKN 1 Ciomas
             </footer>
 
         </div>
