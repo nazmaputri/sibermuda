@@ -303,7 +303,7 @@
                 </div>
 
                 <!-- Dropdown Menu -->
-                <div id="dropdown" class="hidden absolute right-0 mt-2 w-48 bg-white border rounded-lg shadow-lg z-10">
+                <div id="dropdown" class="hidden absolute right-6 mt-10 md:mt-12 w-48 bg-white border rounded-lg shadow-lg z-10">
                     <ul class="py-1 space-y-1">
                         <li>
                             <a href="{{ route('settings.mentor') }}" class="group group-hover:text-white block flex items-center p-1 text-sm text-gray-700 hover:bg-midnight rounded-md mx-2">

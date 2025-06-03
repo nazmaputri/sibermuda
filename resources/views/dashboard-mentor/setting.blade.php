@@ -25,6 +25,15 @@
                 <p class="text-red-500 text-xs">{{ $message }}</p>
             @enderror
         </div>
+        
+        <!-- Nomor Telepon -->
+        <div class="mb-4">
+            <label for="phone_number" class="block font-medium text-gray-700">Nomor Telepon</label>
+            <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="p-2 text-sm mt-1 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700">
+            @error('phone_number') 
+                <p class="text-red-500 text-xs">{{ $message }}</p>
+            @enderror
+        </div>
 
         <!-- Email -->
         <div class="mb-4">

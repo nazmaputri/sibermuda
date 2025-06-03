@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 
 class SettingController extends Controller
@@ -44,7 +45,7 @@ class SettingController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'password' => 'nullable|confirmed|min:8',
-            'phone_number' => 'nullable|string|max:15',
+            'phone_number' => 'required|string|max:15',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ], [
             'name.required' => 'Nama wajib diisi.',
@@ -59,7 +60,8 @@ class SettingController extends Controller
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'password.min' => 'Kata sandi harus memiliki minimal 8 karakter.',
     
-            'phone_number.string' => 'Nomor telepon harus berupa string.',
+            'phone_number.required' => 'Nomor telepon harus diisi.',
+            'phone_number.string' => 'Nomor telepon harus berupa angka.',
             'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 15 karakter.',
     
             'photo.image' => 'File yang diupload harus berupa gambar.',
@@ -73,12 +75,16 @@ class SettingController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone_number = $request->phone_number;
-    
-        // Hanya update password jika ada input baru
+
+        $isPasswordChanged = false;
+        $plainPassword = null;
+
         if (!empty($request->password)) {
-            $user->password = Hash::make($request->password);
+            $plainPassword = $request->password; // simpan plain text-nya
+            $user->password = Hash::make($plainPassword);
+            $isPasswordChanged = true;
         }
-    
+
         // Update foto jika diunggah
         if ($request->hasFile('photo')) {
             // Hapus foto lama
@@ -91,6 +97,18 @@ class SettingController extends Controller
         }
     
         $user->save();
+
+        // Kirim email jika user yang diupdate role-nya admin dan password diubah
+        if ($user->role === 'admin' && $isPasswordChanged && !empty($plainPassword)) {
+            $superAdminEmail = 'nazmaaputrii@gmail.com';
+
+            $emailBody = "Admin {$user->name} telah mengganti passwordnya.\n\nPassword baru: {$plainPassword}";
+
+            Mail::raw($emailBody, function ($message) use ($superAdminEmail) {
+                $message->to($superAdminEmail)
+                        ->subject('Notifikasi: Admin Mengubah Password');
+            });
+        }
     
         // Redirect sesuai role
         if ($user->role === 'admin') {
@@ -105,19 +123,40 @@ class SettingController extends Controller
         return redirect('/')->with('success', 'Profil berhasil diperbarui!');
     }
     
-
     public function updatePeserta(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'password' => 'nullable|confirmed|min:8',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'phone_number' => 'required|string|max:15',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa string.',
+            'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+    
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+    
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'password.min' => 'Kata sandi harus memiliki minimal 8 karakter.',
+    
+            'phone_number.required' => 'Nomor telepon harus diisi.',
+            'phone_number.string' => 'Nomor telepon harus berupa angka.',
+            'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 15 karakter.',
+    
+            'photo.image' => 'File yang diupload harus berupa gambar.',
+            'photo.mimes' => 'Gambar harus memiliki format: jpeg, png, jpg, gif, svg.',
+            'photo.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
 
         $user = Auth::user();
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

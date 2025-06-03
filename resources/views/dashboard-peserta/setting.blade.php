@@ -27,6 +27,15 @@
             @enderror
         </div>
 
+        <!-- No Telepon -->
+        <div class="mb-4">
+            <label for="phone_number" class="block text-sm font-medium text-gray-700">Nomor Telepon</label>
+            <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="p-1.5 text-sm mt-1 block w-full border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-gray-700">
+            @error('phone_number')
+                <p class="text-red-500 text-xs">{{ $message }}</p>
+            @enderror
+        </div>
+
         <!-- Email -->
         <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
@@ -38,7 +47,7 @@
 
          <!-- Password lama -->
          <div class="mb-4 relative">
-            <label for="password" class="block font-medium text-gray-700">Kata Sandi Lama</label>
+            <label for="password" class="block text-sm font-medium text-gray-700">Kata Sandi Lama</label>
             
             <div class="relative">
                 <input type="password" name="password" id="password" id="old-password"
@@ -63,7 +72,7 @@
 
         <!-- Password -->
         <div class="mb-4 relative">
-            <label for="password" class="block font-medium text-gray-700">Masukkan Kata Sandi Baru</label>
+            <label for="password" class="block text-sm font-medium text-gray-700">Masukkan Kata Sandi Baru</label>
             
             <div class="relative">
                 <input type="password" name="password" id="password" id="new-password"
@@ -88,7 +97,7 @@
 
        <!-- Password Confirmation -->
        <div class="mb-4 relative">
-            <label for="password_confirmation" class="block font-medium text-gray-700">Konfirmasi Kata Sandi Baru</label>
+            <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Konfirmasi Kata Sandi Baru</label>
             
             <div class="relative">
                 <input type="password" name="password_confirmation" id="password_confirmation"
