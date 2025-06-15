@@ -240,7 +240,7 @@
             
             <div>
                 <p class="font-semibold">No Rek. Admin:</p>
-                <p class="text-gray-700 mb-2 border-b border-gray-200">0895365544316 (Dana/Bank)</p>
+                <p class="text-gray-700 mb-2 border-b border-gray-200">Seabank : 901328065980 A.N (Rama Ahmad Ramdani) </p>
             </div>
             
             <p class="text-sm text-gray-600">*Refresh halaman ini jika kamu sudah kirim bukti pembayaran</p>

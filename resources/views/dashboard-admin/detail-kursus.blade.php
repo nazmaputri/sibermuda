@@ -219,6 +219,58 @@
     <div class="bg-white mt-6 p-6 rounded-lg shadow-md border border-gray-200">
         <h3 class="text-lg font-semibold mb-4 inline-block pb-1 text-gray-700">Peserta Terdaftar</h3>
             <div class="overflow-x-auto">
+                <!-- Tombol Import -->
+                <button class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition duration-300"
+                    onclick="document.getElementById('manualImportModal').classList.remove('hidden')"> 
+                    + Import Peserta Manual
+                </button>
+
+                <!-- Modal -->
+                <div id="manualImportModal" class="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center hidden">
+                    <div class="bg-white rounded-xl p-6 w-full max-w-md shadow-lg relative">
+                        <button
+                            class="absolute top-2 right-2 text-gray-500 hover:text-red-500"
+                            onclick="document.getElementById('manualImportModal').classList.add('hidden')"
+                        >✕</button>
+
+                        <h2 class="text-xl font-semibold mb-4 text-gray-800">Import Peserta Manual</h2>
+
+                        <form method="POST" action="{{ route('admin.import.manual') }}">
+                            @csrf
+
+                            <!-- Hidden input untuk course_id -->
+                            <input type="hidden" name="course_id" value="{{ $course->id }}">
+
+                            <!-- Tampilkan nama kursus -->
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Kursus</label>
+                                <p class="text-gray-800 font-semibold">{{ $course->title }}</p>
+                            </div>
+
+                            <!-- Pilih peserta -->
+                            <div class="mb-4">
+                                <label for="user_ids" class="block text-sm font-medium text-gray-700 mb-1">Pilih Peserta</label>
+                                <select name="user_ids[]" id="user_ids" multiple required class="w-full border rounded-md p-2 h-32">
+                                    @foreach ($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
+                                    @endforeach
+                                </select>
+                                <small class="text-gray-500">Gunakan Ctrl / Command untuk memilih lebih dari satu</small>
+                            </div>
+
+                            <!-- Submit -->
+                            <div class="flex justify-end">
+                                <button
+                                    type="submit"
+                                    class="bg-green-600 hover:bg-green-700 text-white font-medium px-4 py-2 rounded-md transition"
+                                >
+                                    Import Sekarang
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="min-w-full w-64">
                 <table class="min-w-full border-separate border-spacing-0" id="courseTable">
                     <thead>

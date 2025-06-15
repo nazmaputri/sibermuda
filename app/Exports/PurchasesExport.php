@@ -24,7 +24,12 @@ class PurchasesExport implements FromArray, WithHeadings, WithEvents, ShouldAuto
         $this->courseId = $courseId;
         $this->month = $month;
 
-        $query = Purchase::with(['user', 'course']);
+        $query = Purchase::with(['user', 'course', 'payment'])
+            ->whereHas('payment', function ($q) {
+                $q->where('transaction_status', 'success');
+            })
+            ->where('status', 'success')
+            ->where('harga_course', '>', 0); // ⛔ Hindari pembelian manual
 
         if ($courseId) {
             $query->where('course_id', $courseId);
@@ -44,7 +49,6 @@ class PurchasesExport implements FromArray, WithHeadings, WithEvents, ShouldAuto
         $currentRow = 2;
 
         foreach ($grouped as $courseTitle => $items) {
-            // Judul kursus (judul section)
             $this->data[] = [$courseTitle];
             $this->rowStyles[] = $currentRow++;
             $subtotal = 0;
@@ -60,16 +64,14 @@ class PurchasesExport implements FromArray, WithHeadings, WithEvents, ShouldAuto
                 $subtotal += $purchase->harga_course ?? 0;
             }
 
-            // Baris subtotal
             $this->data[] = ['', 'Total ' . $courseTitle, $subtotal, ''];
             $this->rowStyles[] = $currentRow++;
-            $this->data[] = ['']; // spasi antar kursus
+            $this->data[] = [''];
             $currentRow++;
 
             $this->totalOverall += $subtotal;
         }
 
-        // Tambah spasi & total keseluruhan
         $this->data[] = [''];
         $this->data[] = ['', 'Total Keseluruhan', $this->totalOverall, ''];
         $this->rowStyles[] = $currentRow + 1;

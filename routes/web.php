@@ -85,6 +85,9 @@ Route::middleware(['auth:admin'])->group(function () {
     Route::delete('/dashboard/peserta/{id}', [DashboardAdminController::class, 'deletePeserta'])->name('datapeserta-admin.delete');
     //Update status pembayaran
     Route::put('/admin/update-status/{id}', [PaymentController::class, 'updateStatus'])->name('admin.update-status');
+
+    //Pembayaran Manual
+    Route::post('/admin/import-manual', [DashboardAdminController::class, 'importManual'])->name('admin.import.manual');
    
     //Import Peserta dari Excel
     Route::post('import-excel', [DashboardAdminController::class, 'importExcel'])->name('import.excel');

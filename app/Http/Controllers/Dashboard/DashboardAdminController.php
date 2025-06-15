@@ -24,9 +24,56 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UserImport;
 use App\Exports\PurchasesExport;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class DashboardAdminController extends Controller
 {
+
+    public function importManual(Request $request)
+    {
+        $request->validate([
+            'course_id' => 'required|exists:courses,id',
+            'user_ids' => 'required|array',
+            'user_ids.*' => 'exists:users,id',
+        ]);
+
+        $courseId = $request->course_id;
+        $userIds = $request->user_ids;
+
+        foreach ($userIds as $userId) {
+            // Skip jika sudah pernah membeli kursus ini
+            $existing = Purchase::where('user_id', $userId)
+                ->where('course_id', $courseId)
+                ->first();
+
+            if ($existing) {
+                continue;
+            }
+
+            $manualTransactionId = 'manual-' . Carbon::now()->format('Ymd') . '-' . Str::random(6);
+
+            // Tambahkan ke tabel purchases
+            Purchase::create([
+                'user_id' => $userId,
+                'course_id' => $courseId,
+                'harga_course' => 0,
+                'transaction_id' => $manualTransactionId,
+                'status' => 'success',
+            ]);
+
+            // Tambahkan ke tabel payments
+            Payment::create([
+                'user_id' => $userId,
+                'transaction_id' => $manualTransactionId,
+                'payment_type' => 'manual',
+                'transaction_status' => 'success',
+                'amount' => 0,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Peserta manual berhasil diimport.');
+    }
+
     public function getNotifications()
     {
         // Notifikasi: Pembayaran kursus yang belum dicek admin (status pending)
@@ -292,14 +339,9 @@ class DashboardAdminController extends Controller
 
     public function detailkursus($categoryId, $courseId)
     {
-        // 1. Ambil kategori berdasarkan ID pertama (categoryId)
-        $category = Category::with('courses')
-                            ->findOrFail($categoryId);
-
-        // Ambil kursus dengan relasi finalTask
+        $category = Category::with('courses')->findOrFail($categoryId);
         $course = Course::with('finalTask')->findOrFail($courseId);
 
-        // 3. Ambil peserta untuk kursus itu, hanya yang sukses bayar
         $user = auth()->user();
         $participants = Purchase::where('course_id', $courseId)
                         ->where('status', 'success')
@@ -309,7 +351,12 @@ class DashboardAdminController extends Controller
                         ->with('user')
                         ->paginate(5);
 
-        return view('dashboard-admin.detail-kursus', compact('course', 'category', 'participants'));
+        // Tambahkan ini:
+        $users = User::where('role', 'student')
+                ->whereNull('deleted_at')
+                ->get();
+
+        return view('dashboard-admin.detail-kursus', compact('course', 'category', 'participants', 'users'));
     }
 
     public function updateStatus($id)
@@ -363,8 +410,9 @@ class DashboardAdminController extends Controller
         $selectedMonth = $request->get('month');
 
         $allPurchases = Purchase::where('status', 'success')
-                                ->with('payment')
-                                ->get();
+                            ->where('harga_course', '>', 0)
+                            ->with('payment')
+                            ->get();
 
         $bulan = Carbon::now()->month;
         $tahun = Carbon::now()->year;
@@ -379,11 +427,12 @@ class DashboardAdminController extends Controller
 
         // Query utama dengan user yang bisa saja sudah di-softdelete
         $purchasesQuery = Purchase::where('status', 'success')
+            ->where('harga_course', '>', 0) // ⛔ Exclude pembelian manual
             ->with([
                 'course',
                 'payment',
                 'user' => function ($query) {
-                    $query->withTrashed(); // tampilkan user yang sudah dihapus
+                    $query->withTrashed(); // tetap tampilkan user yang sudah dihapus
                 }
             ])
             ->orderBy('created_at', 'desc');
