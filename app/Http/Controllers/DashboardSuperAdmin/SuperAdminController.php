@@ -180,7 +180,7 @@ class SuperAdminController extends Controller
             return $query->where('name', 'like', "%{$search}%");
         })->paginate(5);
 
-        $courses = Course::paginate(10);
+        $courses = Course::get();
 
         return view('dashboard-superadmin.kategori-superadmin', compact('categories', 'courses', 'search'));
     }

@@ -2,34 +2,37 @@
 @section('title', 'Kategori')
 @section('content')
 <div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
-    <!-- Tombol Tambah Kategori -->
+    <!-- kontainer searchbar dan button -->
     <div class="mb-6 p-1 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 md:space-x-4">
-        <!-- Tombol untuk menampilkan kursus -->
-        <!-- <button id="showCoursesButton" class="bg-sky-300 shadow-md text-white px-2 py-2 rounded-md font-semibold hover:bg-sky-200 flex items-center space-x-2"> -->
-            <!-- Gambar Ikon -->
-            <!-- <img id="toggleIcon" class="w-5 h-5" style="filter: invert(1);" src="https://img.icons8.com/ios-glyphs/30/fine-print--v1.png" alt="fine-print--v1" /> -->
-            <!-- Teks Tombol -->
-            <!-- <span id="buttonText">Tampilkan Semua Kursus</span> -->
-        <!-- </button> -->
         <form action="{{ route('kategori-superadmin') }}" method="GET" class="w-full md:max-w-xs">
-                <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
-                    <div class="flex items-center border border-gray-300 rounded-lg bg-white">
-                        <svg class="w-4 h-4 text-gray-500 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                        <input type="search" name="search" id="search" 
-                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none" 
-                            placeholder="Cari Kategori..." value="{{ request('search') }}" />
-                    </div>
+            <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
+            <div class="flex items-center border border-gray-300 rounded-lg bg-white">
+                <svg class="w-4 h-4 text-gray-500 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+                <input type="search" name="search" id="search" class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none" placeholder="Cari Kategori..." value="{{ request('search') }}" />
+            </div>
         </form>
-    
-        <!-- Tambah Kategori -->
-        <a id="addCategoryButton" href="{{ route('tambahkategori-superadmin') }}" class="inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-            <span class="text-sm">Tambah Kategori</span>
-        </a>
+
+       <div class="flex justify-end space-x-2">
+            <!-- Tombol untuk menampilkan kursus -->
+            <button id="showCoursesButton" class="bg-sky-400 shadow-md text-white px-2 py-1.5 rounded-md font-semibold text-sm hover:bg-sky-300 flex items-center space-x-2">
+                <!-- Gambar Ikon -->
+                <svg id="toggleIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                </svg>
+                <!-- Teks Tombol -->
+                <span id="buttonText">Semua Kursus</span>
+            </button>
+
+            <!-- Tambah Kategori -->
+            <a id="addCategoryButton" href="{{ route('tambahkategori-superadmin') }}" class="inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                <span class="text-sm">Tambah Kategori</span>
+            </a>
+       </div>
     </div>    
 
     <!-- Tabel Kategori -->
@@ -91,39 +94,36 @@
     </div>
 
      <!-- Pagination untuk kategori -->
-     <div class="mt-4">
+     <div id="paginationKategori" class="mt-4">
         {{ $categories->links() }} 
     </div>
 
     <!-- Daftar Kursus (Awalnya disembunyikan) -->
     <div id="coursesList" class="hidden mt-6">
         <!-- Wrapper responsif -->
-        <div class="overflow-x-auto w-full">
-            <table class="min-w-full border-collapse">
+        <div class="overflow-x-auto">
+            <div class="min-w-full w-64">
+            <table class="min-w-full border-separate border-spacing-0">
                 <thead>
-                    <tr class="bg-sky-100 text-gray-700 text-sm">
-                        <th class="py-2 px-2 text-center text-gray-700 border-b border-l border-gray-200">No</th>
-                        <th class="py-2 px-2 text-center text-gray-700 border-b border-gray-200">Kursus</th>
-                        <th class="py-2 px-2 text-center text-gray-700 border-b border-r border-gray-200">Kategori</th>
+                    <tr class="bg-gray-100 text-gray-600 text-sm">
+                        <th class="py-2 border-b border-l border-t border-gray-200 text-center rounded-tl-lg">No</th>
+                        <th class="py-2 border-b border-t border-gray-200">Kursus</th>
+                        <th class="py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Kategori</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($courses as $index => $course)
-                    <tr class="bg-white hover:bg-sky-50 user-row border-b">
-                        <td class="px-2 py-3 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $index + 1 }}</td>
+                    <tr class="bg-white hover:bg-gray-50 user-row border-b">
+                        <td class="py-3 px-2 text-center text-gray-600 text-sm border-b border-l border-gray-200">{{ $index + 1 }}</td>
                         <td class="py-3 px-2 text-gray-600 text-sm border-b border-gray-200">{{ $course->title }}</td>
-                        <td class="py-3 px-2 text-gray-600 text-sm border-b border-r border-gray-200">{{ $course->category }}</td>
+                        <td class="py-3 px-2 text-gray-600 text-sm border-b border-r border-gray-200">{{ $course->category?->name  ?? 'Tidak diketahui'}}</td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-
-        <!-- Pagination untuk kursus -->
-        <div class="mt-4">
-            {{ $courses->links() }} 
         </div>
-        </div>
+    </div>
 </div>
 
 <script>
@@ -133,6 +133,7 @@
     const buttonText = document.getElementById('buttonText');
     const toggleIcon = document.getElementById('toggleIcon');
     const addCategoryButton = document.getElementById('addCategoryButton'); // Tombol Tambah Kategori
+    const paginationKategori = document.getElementById('paginationKategori'); // Pagination kategori
 
     // Menangani perubahan tampilan saat tombol diklik
     showCoursesButton.addEventListener('click', function () {
@@ -141,14 +142,16 @@
             coursesList.classList.remove('hidden');
             categoriesTable.classList.add('hidden');
             addCategoryButton.classList.remove('hidden'); // tetap tampilkan tombol tambah kkategori
-            buttonText.innerText = 'Tampilkan Semua Kategori';
+            paginationKategori.classList.add('hidden'); // Sembunyikan pagination kategori
+            buttonText.innerText = 'Semua Kategori';
             toggleIcon.src = 'https://img.icons8.com/ios-glyphs/30/fine-print--v1.png'; // Ikon untuk kategori
         } else {
             // Tampilkan kategori, sembunyikan kursus, tampilkan tombol Tambah Kategori
             coursesList.classList.add('hidden');
             categoriesTable.classList.remove('hidden');
             addCategoryButton.classList.remove('hidden'); // Tampilkan tombol
-            buttonText.innerText = 'Tampilkan Semua Kursus';
+            paginationKategori.classList.remove('hidden'); // Tampilkan pagination kategori
+            buttonText.innerText = 'Semua Kursus';
             toggleIcon.src = 'https://img.icons8.com/ios-glyphs/30/fine-print--v1.png'; // Ikon untuk kursus
         }
     });

@@ -5,7 +5,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
             <div class="mt-2">
-                <h2 class="text-xl font-semibold text-gray-600">
+                <h2 class="text-md font-semibold text-gray-600">
                     Rp. {{ number_format($totalAllRevenue, 0, ',', '.') }}
                 </h2>
                 <p class="text-md text-gray-600">
@@ -25,7 +25,7 @@
         </div>
         <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
             <div class="mt-2">
-                <h2 class="text-xl font-semibold text-gray-600">
+                <h2 class="text-md font-semibold text-gray-600">
                     Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
                 </h2>
                 <p class="text-md text-gray-600">
@@ -47,18 +47,38 @@
 
     <!-- Canvas Grafik Pendapatan -->
     <div class="bg-white p-6 shadow-md my-6 border border-gray-200 rounded-lg">
-        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
-            <h2 class="md:text-xl text-md text-gray-700 font-semibold">
-                Grafik Pendapatan Tahun
+        <div class="flex flex-row items-center justify-center gap-4 mb-6">
+            <h2 class="text-md text-gray-700 font-semibold">
+                Statistik Pendapatan
             </h2>
-            <form method="GET" action="{{ route('laporan-superadmin') }}" class="flex items-center gap-2">
-                <select name="year" id="year" onchange="this.form.submit()" class="border border-gray-300 rounded px-3 py-1 text-sm">
-                    @for ($year = now()->year; $year >= 2020; $year--)
-                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
-                            {{ $year }}
-                        </option>
-                    @endfor
-                </select>
+            <form method="GET" action="{{ route('laporan-superadmin') }}">
+                <div x-data="{ open: false, selected: '{{ $selectedYear }}' }" class="relative w-20">
+                    <!-- Tombol tampilan dropdown -->
+                    <button type="button" @click="open = !open"
+                        class="w-full px-2 py-1 leading-tight border rounded-md bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-sky-200">
+                        <span x-text="selected" class="text-gray-700 text-sm"></span>
+                        <svg class="w-4 h-4 ml-2 transform transition-transform duration-300 ease-in-out"
+                            :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Opsi tahun -->
+                    <div x-show="open" @click.away="open = false"
+                        class="absolute mt-1 w-full bg-white border rounded-md shadow-lg z-10 max-h-24 overflow-y-auto">
+                        @for ($year = now()->year; $year >= 2025; $year--)
+                            <button type="submit"
+                                name="year"
+                                value="{{ $year }}"
+                                @click="selected = '{{ $year }}'; open = false"
+                                class="block w-full px-4 py-2 text-sm text-gray-700 text-center hover:bg-sky-100 {{ $selectedYear == $year ? 'bg-sky-50 font-semibold' : '' }}">
+                                {{ $year }}
+                            </button>
+                        @endfor
+                    </div>
+                </div>
             </form>
         </div>
         <div class="w-full overflow-x-auto h-[300px]">
@@ -68,7 +88,7 @@
 
     <!-- Pendapatan Per Kursus -->
     <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-700 mb-2">Detail Pembelian Kursus</h3>
+        <h3 class="text-md font-semibold text-gray-700 mb-2">Detail Pembelian Kursus</h3>
     
         <!-- Form Filter dan Export Menjadi Satu -->
         <form method="GET" class="mb-4 flex flex-wrap items-end gap-4">

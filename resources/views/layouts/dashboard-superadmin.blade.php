@@ -57,7 +57,10 @@
                     <span class="flex-1 h-px bg-gray-400"></span>
                 </span>
             </p>
-            <div class="md:absolute md:right-[-16px] top-10">
+            <div :class="{
+                'md:absolute md:right-[-16px] top-10': sidebarExpanded,
+                'top-14': !sidebarExpanded
+            }">
                 <!-- Tombol toggle untuk membuka tutup sidebar -->
                 <button 
                     @click="sidebarExpanded = !sidebarExpanded" 
@@ -309,9 +312,9 @@
         </div>
 
         <!-- Content didalam navbar -->
-        <div class="flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col bg-zinc-50">
             <!-- Navbar -->
-            <header class="bg-white shadow p-2 flex items-center justify-start">
+            <header class="bg-white shadow-md p-2 mx-6 mt-3 mb-2 border border-gray-200 rounded rounded-md flex items-center justify-start">
             <!-- button ☰ membuka sidebar -->
             <button 
                 @click="sidebarExpanded = !sidebarExpanded" 
@@ -322,7 +325,7 @@
                 </svg>
             </button>
 
-            <h5 class="text-sm md:text-lg md:pl-4 font-semibold pl-2 text-gray-700">@yield('title')</h5>
+            <h5 class="text-sm md:text-md md:pl-4 font-semibold pl-2 text-gray-700">@yield('title')</h5>
 
                 <div class="ml-auto flex mr-4 space-x-4">
                <!-- Notifikasi -->
@@ -437,7 +440,7 @@
                             @endif
                         </div>
                         <div class="hidden md:block flex flex-col">
-                            <p class="text-gray-800 font-semibold mr-2 text-sm">{{ Str::limit(Auth::user()->name, 9) }}</p>
+                            <p class="text-gray-700 font-semibold mr-2 text-sm">{{ Str::limit(Auth::user()->name, 9) }}</p>
                             <p class="text-gray-600 text-sm">{{ Auth::user()->role }}</p>
                         </div>
                         <button id="dropdown-button-profile" class="text-gray-600 focus:outline-none ml-2 transition-transform duration-300">
@@ -450,7 +453,7 @@
                     <div id="profile-dropdown-toggle" class="flex items-center space-x-3">
                         <img src="{{ asset('storage/default-profile.jpg') }}" alt="Default Profile" class="rounded-full w-8 h-8 object-cover">
                         <div class="hidden md:block flex flex-col">
-                            <p class="text-gray-800 font-semibold mr-2 text-sm">Guest</p>
+                            <p class="text-gray-700 font-semibold mr-2 text-sm">Guest</p>
                             <p class="text-gray-600 text-sm">Not logged in</p>
                         </div>
                     </div>
@@ -486,14 +489,14 @@
             </header>
 
             <!-- Konten utama -->
-            <main class="flex-1 p-6 overflow-auto"> 
+            <main class="flex-1 p-6 overflow-auto bg-zinc-50"> 
                 @yield('content')
             </main>
 
             <!-- Footer -->
-            <footer class="bg-white text-left text-gray-600 text-sm p-3 shadow-lg border-t border-gray-200"> 
+            <!-- <footer class="bg-white text-left text-gray-600 text-sm p-3 shadow-lg border-t border-gray-200"> 
                Copyright © 2025 <span class="text-midnight">Sibermuda.Id</span> All Rights Reserved. Powered by PPLG SMKN 1 Ciomas
-            </footer>
+            </footer> -->
 
         </div>
     </div>

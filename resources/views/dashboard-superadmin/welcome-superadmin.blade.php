@@ -52,12 +52,122 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+        <div class="bg-white border border-gray-200 shadow-md p-4 rounded-md">
+            <p class="text-gray-700 text-md font-semibold mb-2">Log Aktivitas</p>
+            <!-- Tabel log aktivitas -->
+            <div class="overflow-x-auto overflow-hidden">
+                <div class="min-w-full w-64 max-h-48 overflow-y-auto scrollbar-hide">
+                <table class="min-w-full border-separate border-spacing-0" id="userTable">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 text-sm">
+                            <th class="py-2 border-b border-l border-t border-gray-200 rounded-tl-lg whitespace-nowrap">Nama</th>
+                            <th class="py-2 border-b border-t border-gray-200 whitespace-nowrap">Status</th>
+                            <th class="py-2 border-b border-t border-gray-200 border-r rounded-tr-lg whitespace-nowrap">Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-white hover:bg-gray-50 user-row">
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200 whitespace-nowrap">Intan Nuraeni omg ali menjadi pacarku</td>
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 whitespace-nowrap">Aktif 30 menit yang lalu</td>
+                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500 whitespace-nowrap">Lihat</td>                            
+                        </tr>   
+                        <tr class="bg-white hover:bg-gray-50 user-row">
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
+                                <!-- Lingkaran hijau dengan animasi -->
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                Online
+                            </td>
+                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
+                        </tr>
+                        <tr class="bg-white hover:bg-gray-50 user-row">
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
+                                <!-- Lingkaran hijau dengan animasi -->
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                Online
+                            </td>
+                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
+                        </tr>
+                        <tr class="bg-white hover:bg-gray-50 user-row">
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
+                                <!-- Lingkaran hijau dengan animasi -->
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                Online
+                            </td>
+                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
+                        </tr>
+                        <tr class="bg-white hover:bg-gray-50 user-row">
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
+                                <!-- Lingkaran hijau dengan animasi -->
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                Online
+                            </td>
+                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
+                        </tr>
+                        <tr class="bg-white hover:bg-gray-50 user-row">
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
+                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
+                                <!-- Lingkaran hijau dengan animasi -->
+                                <span class="relative flex h-2 w-2">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                </span>
+                                Online
+                            </td>
+                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white border border-gray-200 shadow-md p-4 rounded-md">
+            <p class="text-gray-700 text-md font-semibold mb-2">Kursus Terjual</p>
+            <!-- Tabel log aktivitas -->
+            <div class="overflow-x-auto overflow-hidden">
+                <div class="min-w-full w-64">
+                <table class="min-w-full border-separate border-spacing-0" id="userTable">
+                    <thead>
+                        <tr class="bg-gray-100 text-gray-600 text-sm">
+                            <th class="py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">Kursus</th>
+                            <th class="py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Jumlah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr class="bg-white hover:bg-gray-50 user-row">
+                                <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Kursus memasak</td>
+                                <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">100 Peserta</td>                            
+                            </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Grafik Perkembangan Pengguna Bulanan -->
     <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6 mb-6 mt-10">
         <div class="flex flex-col items-center mb-4">
             <div class="flex items-center space-x-4">
-                <h2 class="md:text-xl text-md font-semibold inline-block pb-1 text-gray-700">
-                    Perkembangan Pengguna Bulanan
+                <h2 class="text-md font-semibold inline-block pb-1 text-gray-700">
+                    Statistik Pengguna
                 </h2>
                 <div x-data="{ open: false, selected: '{{ $year }}' }" class="relative w-20">
                     <button @click="open = !open" class="w-full px-2 py-1 leading-tight border rounded-md bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-sky-200">
@@ -80,7 +190,7 @@
                     </div>
                 </div>
             </div>
-            <div class="border-b-2 w-full mt-1"></div>
+            
         </div>
         <!-- Wrapper responsif: selalu punya height! -->
         <div class="relative w-full h-64 sm:h-80 md:h-80 lg:h-80">

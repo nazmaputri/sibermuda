@@ -55,7 +55,10 @@
                     <span class="flex-1 h-px bg-gray-400"></span>
                 </span>
             </p>
-            <div class="md:absolute md:right-[-16px] top-10">
+            <div :class="{
+                'md:absolute md:right-[-16px] top-10': sidebarExpanded,
+                'top-14': !sidebarExpanded
+            }">
                 <!-- Tombol toggle untuk membuka tutup sidebar -->
                 <button 
                     @click="sidebarExpanded = !sidebarExpanded" 
