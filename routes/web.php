@@ -21,6 +21,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\DashboardSuperAdmin\SuperAdminController;
 use Illuminate\Support\Facades\Route;
 
 //LandingPage
@@ -215,6 +216,27 @@ Route::middleware('auth:mentor,student')->group(function () {
     Route::post('chat-send/{chatId}', [ChatController::class, 'sendMessage'])->name('chat.send');
     Route::get('/chat/start/{slug}/{studentId?}', [ChatController::class, 'startChat'])->name('chat.start');
 });
+
+// FITUR/AKSES SUPERADMIN
+Route::get('/welcome-superadmin', [SuperAdminController::class, 'index'])->name('welcome-superadmin'); //Dashboard Superadmin
+Route::get('/settings-superadmin', [SuperAdminController::class, 'setting'])->name('settings.superadmin'); //Pengaturan Akun
+Route::get('/login-superadmin-sber-md', [SuperAdminController::class, 'loginsuperadmin'])->name('super-admin-login'); //Login Superadmin
+Route::get('/dashboard-superadmin/data-mentor', [SuperAdminController::class, 'datamentor'])->name('datamentor-superadmin'); //Data Mentor
+Route::get('/dashboard-superadmin/tambah-mentor', [SuperAdminController::class, 'tambahmentorbysuperadmin'])->name('tambah-mentor-superadmin'); //Form Tambah Data Mentor
+Route::get('/dashboard-superadmin/detailmentor/{id}', [SuperAdminController::class, 'detailmentorsuperadmin'])->name('detaildata-mentor-superadmin'); //Detail Mentor Superadmin
+Route::get('/dashboard-superadmin/data-peserta', [SuperAdminController::class, 'peserta'])->name('datapeserta-superadmin'); //Data Peserta Superadmin
+Route::get('/dashboard-superadmin/detailpeserta/{id}', [SuperAdminController::class, 'detailpeserta'])->name('detaildata-peserta-superadmin'); //Detail Data Peserta Superadmin
+Route::get('/dashboard-superadmin/kategori', [SuperAdminController::class, 'kategori'])->name('kategori-superadmin'); //Kategori Kursus Superadmin
+Route::get('/dashboard-superadmin/tambah-kategori', [SuperAdminController::class, 'tambahkategori'])->name('tambahkategori-superadmin'); //Form Tambah Kategori Kursus Superadmin
+Route::get('/dashboard-superadmin/edit-kategori/{category}', [SuperAdminController::class, 'editkategori'])->name('editkategori-superadmin'); //Form Edit Kategori Kursus Superadmin
+Route::get('/dashboard-superadmin/detail-kategori/{id}', [SuperadminController::class, 'detailkategori'])->name('detailkategori-superadmin'); //Detail kategori Superadmin
+Route::get('/dashboard-superadmin/kursus/{categoryId}/{courseId}', [SuperAdminController::class, 'detailkursus'])->name('detail-kursus-superadmin'); //Detail Kursus Superadmin
+Route::get('/dashboard-superadmin/diskon', [SuperAdminController::class, 'diskon'])->name('diskon-superadmin'); //Diskon Superadmin
+Route::get('/dashboard-superadmin/tambah-diskon', [SuperAdminController::class, 'tambahdiskon'])->name('tambah-diskon-superadmin'); //Tambah Diskon Superadmin
+Route::get('/dashboard-superadmin/edit-diskon/{id}', [SuperAdminController::class, 'editdiskon'])->name('editdiskon-superadmin'); //Edit Diskon Superadmin
+Route::get('/dashboard-superadmin/rating-superadmin', [SuperAdminController::class, 'rating'])->name('rating-superadmin'); //Rating Superadmin
+Route::get('dashboard-superadmin/laporan-superadmin', [SuperAdminController::class, 'laporan'])->name('laporan-superadmin'); //Laporan Superadmin
+Route::get('/dashboard-superadmin/notifications', [SuperAdminController::class, 'Notifications'])->name('superadmin.notifications'); //Notifikasi Superadmin
 
 // Route jika halaman tidak ditemukan notfound
 Route::fallback(function () {
