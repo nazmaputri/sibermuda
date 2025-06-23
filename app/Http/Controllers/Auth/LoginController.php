@@ -11,6 +11,7 @@ use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Models\Keranjang;
 use App\Models\Purchase;
+use App\Models\AdminLoginLog;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Auth\Events\Verified;
@@ -60,6 +61,17 @@ class LoginController extends Controller
             return back()->withErrors(['password' => 'Password salah.'])
                 ->withInput($request->except('password'));
         }
+
+        $log = AdminLoginLog::create([
+            'admin_id'     => $user->id,
+            'role'         => $user->role,
+            'ip_address'   => $request->ip(),
+            'user_agent'   => $request->userAgent(),
+            'logged_in_at' => now(),
+        ]);
+
+        // Simpan ID log ke session
+        session(['admin_login_logs_id' => $log->id]);
 
         // Login admin
         Auth::guard('admin')->login($user);
@@ -256,7 +268,23 @@ class LoginController extends Controller
 
     public function logoutAdmin(Request $request)
     {
+        $logId = session('admin_login_logs_id');
+        $adminId = auth('admin')->id();
+
+        // Logout dulu
         Auth::guard('admin')->logout();
+
+        // Update log yang sesuai ID login tadi
+        if ($logId && $adminId) {
+            AdminLoginLog::where('id', $logId)
+                ->where('admin_id', $adminId)
+                ->update([
+                    'logged_out_at' => now(),
+                ]);
+        }
+
+        // Hapus session log ID dan sesi login
+        $request->session()->forget('admin_login_logs_id');
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

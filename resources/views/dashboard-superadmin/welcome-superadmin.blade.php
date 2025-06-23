@@ -52,93 +52,132 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+    <div class="grid grid-cols-1 md:grid-cols gap-6 mt-10">
         <div class="bg-white border border-gray-200 shadow-md p-4 rounded-md">
             <p class="text-gray-700 text-md font-semibold mb-2">Log Aktivitas</p>
             <!-- Tabel log aktivitas -->
             <div class="overflow-x-auto overflow-hidden">
-                <div class="min-w-full w-64 max-h-48 overflow-y-auto scrollbar-hide">
-                <table class="min-w-full border-separate border-spacing-0" id="userTable">
-                    <thead>
-                        <tr class="bg-gray-100 text-gray-600 text-sm">
-                            <th class="py-2 border-b border-l border-t border-gray-200 rounded-tl-lg whitespace-nowrap">Nama</th>
-                            <th class="py-2 border-b border-t border-gray-200 whitespace-nowrap">Status</th>
-                            <th class="py-2 border-b border-t border-gray-200 border-r rounded-tr-lg whitespace-nowrap">Detail</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="bg-white hover:bg-gray-50 user-row">
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200 whitespace-nowrap">Intan Nuraeni omg ali menjadi pacarku</td>
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 whitespace-nowrap">Aktif 30 menit yang lalu</td>
-                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500 whitespace-nowrap">Lihat</td>                            
-                        </tr>   
-                        <tr class="bg-white hover:bg-gray-50 user-row">
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
-                                <!-- Lingkaran hijau dengan animasi -->
-                                <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                Online
-                            </td>
-                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50 user-row">
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
-                                <!-- Lingkaran hijau dengan animasi -->
-                                <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                Online
-                            </td>
-                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50 user-row">
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
-                                <!-- Lingkaran hijau dengan animasi -->
-                                <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                Online
-                            </td>
-                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50 user-row">
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
-                                <!-- Lingkaran hijau dengan animasi -->
-                                <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                Online
-                            </td>
-                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
-                        </tr>
-                        <tr class="bg-white hover:bg-gray-50 user-row">
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Ali</td>
-                            <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-gray-200 flex items-center gap-2">
-                                <!-- Lingkaran hijau dengan animasi -->
-                                <span class="relative flex h-2 w-2">
-                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                                </span>
-                                Online
-                            </td>
-                            <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">Lihat</td>                            
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="min-w-full max-h-64 overflow-y-auto scrollbar-hide">
+                    <table class="min-w-full border-separate border-spacing-0 text-sm" id="userTable">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-600">
+                                <th class="py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">Nama</th>
+                                <th class="py-2 border-b border-t border-gray-200">Waktu Login</th>
+                                <th class="py-2 border-b border-t border-gray-200">IP Address</th>
+                                <th class="py-2 border-b border-t border-gray-200">Status</th>
+                                <th class="py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Detail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($logs as $log)
+                                @php
+                                    $lastLogin = \Carbon\Carbon::parse($log->logged_in_at);
+                                    $now = \Carbon\Carbon::now();
+                                    $isOnline = is_null($log->logged_out_at);
+                                @endphp
+                                <tr class="bg-white hover:bg-gray-50 user-row">
+                                    <td class="px-4 py-2 border-b border-l border-gray-200 text-gray-600">{{ $log->admin->name }}</td>
+                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600">{{ $lastLogin->format('d M Y H:i') }}</td>
+                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600">{{ $log->ip_address }}</td>
+                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600">
+                                        @if ($isOnline)
+                                            <div class="flex items-center gap-2">
+                                                <span class="relative flex h-2 w-2">
+                                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                                </span>
+                                                Online
+                                            </div>
+                                        @else
+                                            Offline (Logout {{ \Carbon\Carbon::parse($log->logged_out_at)->diffForHumans() }})
+                                        @endif
+                                    </td>
+                                    <td class="px-4 py-2 text-center border-b border-r border-gray-200 text-gray-600">
+                                        <button 
+                                            onclick="openModal({{ $log->id }})"
+                                            data-log='@json($log)'
+                                            class="text-blue-600 hover:text-blue-800"
+                                        >Lihat</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <!-- Modal Pop-up -->
+                        <div id="logModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
+                            <div class="bg-white w-full max-w-md rounded-xl shadow-lg p-6 relative">
+                                <h2 class="text-xl font-bold mb-4">Detail Login Admin</h2>
+                                <div class="space-y-2 text-sm text-gray-700">
+                                    <p><strong>Nama:</strong> <span id="modal-name"></span></p>
+                                    <p><strong>Role:</strong> <span id="modal-role"></span></p>
+                                    <p><strong>IP Address:</strong> <span id="modal-ip"></span></p>
+                                    <p><strong>Waktu Login:</strong> <span id="modal-time"></span></p>
+                                    <hr class="my-2">
+                                    <p><strong>Sistem Operasi:</strong> <span id="modal-os"></span></p>
+                                    <p><strong>Browser:</strong> <span id="modal-browser"></span></p>
+                                    <p><strong>Perangkat:</strong> <span id="modal-device"></span></p>
+                                    <p><strong>User Agent:</strong> <span id="modal-agent" class="text-xs break-words"></span></p>
+                                </div>
+                                <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl">&times;</button>
+                            </div>
+                        </div>
+                        <script>
+                            function parseUserAgent(ua) {
+                                let os = 'Tidak diketahui';
+                                let browser = 'Tidak diketahui';
+                                let device = 'Desktop';
+
+                                // Deteksi OS
+                                if (/Windows NT 10/.test(ua)) os = 'Windows 10';
+                                else if (/Windows NT 6.3/.test(ua)) os = 'Windows 8.1';
+                                else if (/Windows NT 6.1/.test(ua)) os = 'Windows 7';
+                                else if (/Mac OS X/.test(ua)) os = 'macOS';
+                                else if (/Android/.test(ua)) os = 'Android';
+                                else if (/iPhone/.test(ua)) os = 'iOS';
+
+                                // Deteksi Browser
+                                if (/Chrome\/([0-9.]+)/.test(ua)) browser = 'Chrome ' + ua.match(/Chrome\/([0-9.]+)/)[1];
+                                else if (/Firefox\/([0-9.]+)/.test(ua)) browser = 'Firefox ' + ua.match(/Firefox\/([0-9.]+)/)[1];
+                                else if (/Safari\/([0-9.]+)/.test(ua)) browser = 'Safari';
+                                else if (/Edg\/([0-9.]+)/.test(ua)) browser = 'Edge ' + ua.match(/Edg\/([0-9.]+)/)[1];
+
+                                // Deteksi device
+                                if (/Mobile|Android|iPhone/.test(ua)) device = 'Mobile';
+
+                                return { os, browser, device };
+                            }
+
+                            function openModal(logId) {
+                                const button = document.querySelector(`button[onclick="openModal(${logId})"]`);
+                                const logData = JSON.parse(button.getAttribute('data-log'));
+
+                                const parsedUA = parseUserAgent(logData.user_agent);
+
+                                document.getElementById('modal-name').textContent = logData.admin.name;
+                                document.getElementById('modal-role').textContent = logData.role;
+                                document.getElementById('modal-ip').textContent = logData.ip_address;
+                                document.getElementById('modal-time').textContent = new Date(logData.logged_in_at).toLocaleString();
+
+                                // Tampilkan rincian user agent
+                                document.getElementById('modal-os').textContent = parsedUA.os;
+                                document.getElementById('modal-browser').textContent = parsedUA.browser;
+                                document.getElementById('modal-device').textContent = parsedUA.device;
+                                document.getElementById('modal-agent').textContent = logData.user_agent;
+
+                                document.getElementById('logModal').classList.remove('hidden');
+                                document.getElementById('logModal').classList.add('flex');
+                            }
+
+                            function closeModal() {
+                                document.getElementById('logModal').classList.add('hidden');
+                                document.getElementById('logModal').classList.remove('flex');
+                            }
+                        </script>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white border border-gray-200 shadow-md p-4 rounded-md">
+        {{-- <div class="bg-white border border-gray-200 shadow-md p-4 rounded-md">
             <p class="text-gray-700 text-md font-semibold mb-2">Kursus Terjual</p>
             <!-- Tabel log aktivitas -->
             <div class="overflow-x-auto overflow-hidden">
@@ -159,7 +198,7 @@
                 </table>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <!-- Grafik Perkembangan Pengguna Bulanan -->

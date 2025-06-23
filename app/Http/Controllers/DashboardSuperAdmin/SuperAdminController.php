@@ -13,6 +13,7 @@ use App\Models\Discount;
 use App\Models\Rating;
 use Carbon\Carbon;
 use App\Models\Payment;
+use App\Models\AdminLoginLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -66,6 +67,7 @@ class SuperAdminController extends Controller
 
     public function index(Request $request)
     {
+        $logs = AdminLoginLog::with('admin')->latest('logged_in_at')->paginate(10);
         $jumlahMentor = User::where('role', 'mentor')->count();
         $jumlahPeserta = User::where('role', 'student')->count(); 
         $jumlahKursus = Course::count();
@@ -127,7 +129,8 @@ class SuperAdminController extends Controller
             'pesertaGrowthData'   => $pesertaGrowthData,
             'monthNames'      => $monthNames,
             'years'           => $years,
-            'year'            => $year
+            'year'            => $year,
+            'logs'            => $logs
         ]);
     }    
 
