@@ -92,7 +92,7 @@
                         <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $course->image_path) }}" alt="{{ $course->title }}">
                         <div class="flex flex-col flex-grow">
                             <h3 class="text-md font-semibold text-gray-700 capitalize mx-3 mt-1">{{ $course->title }}</h3>
-                            <p class="text-sm text-gray-600 mx-3 capitalize">Mentor : {{ $course->mentor->name }}</p>
+                            <p class="text-sm text-gray-600 mx-3 capitalize">Mentor : {{ $course->mentor?->name ?? 'Tidak diketahui'}}</p>
                             {{-- <p class="text-red-500 inline-flex items-center text-sm rounded-xl font-semibold mx-3" id="course-price-{{ $course->id }}">
                                 Rp. {{ number_format($course->discounted_price ?? $course->price, 0, ',', '.') }}
                             </p>   --}}
