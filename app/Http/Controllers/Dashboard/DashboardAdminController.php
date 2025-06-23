@@ -351,12 +351,19 @@ class DashboardAdminController extends Controller
                         ->with('user')
                         ->paginate(5);
 
+        $totalPeserta = Purchase::where('course_id', $courseId)
+                ->where('status', 'success')
+                ->whereHas('user', function ($query) {
+                    $query->whereNull('deleted_at');
+                })
+                ->count();
+
         // Tambahkan ini:
         $users = User::where('role', 'student')
                 ->whereNull('deleted_at')
                 ->get();
 
-        return view('dashboard-admin.detail-kursus', compact('course', 'category', 'participants', 'users'));
+        return view('dashboard-admin.detail-kursus', compact('course', 'category', 'participants', 'users', 'totalPeserta'));
     }
 
     public function updateStatus($id)

@@ -15,9 +15,55 @@ use Carbon\Carbon;
 use App\Models\Payment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class SuperAdminController extends Controller
 {
+    public function prosesloginSuperAdmin(Request $request)
+    {
+        // Validasi input dasar
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ], [
+            'email.required' => 'Email harus diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'password.required' => 'Password harus diisi.',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput($request->except('password'));
+        }
+
+        // Ambil user berdasarkan email
+        $user = User::where('email', $request->email)->first();
+
+        // Jika user tidak ditemukan
+        if (!$user) {
+            return back()->withErrors(['email' => 'Email tidak ditemukan.'])
+                ->withInput($request->except('password'));
+        }
+
+        // Cek apakah user adalah Super Admin dan role-nya admin
+        if ($user->role !== 'admin' || $user->name !== 'Super Admin') {
+            return back()->withErrors(['email' => 'Akses hanya diperbolehkan untuk Super Admin.'])
+                ->withInput($request->except('password'));
+        }
+
+        // Cek password
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Password salah.'])
+                ->withInput($request->except('password'));
+        }
+
+        // Login Super Admin
+        Auth::guard('admin')->login($user);
+        $request->session()->regenerate();
+
+        return redirect()->route('welcome-superadmin');
+    }
+
     public function index(Request $request)
     {
         $jumlahMentor = User::where('role', 'mentor')->count();

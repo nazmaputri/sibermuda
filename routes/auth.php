@@ -3,12 +3,16 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\DashboardSuperAdmin\SuperAdminController;
 use Illuminate\Support\Facades\Route;
 
 
 // Route untuk login
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
+
+//Login Super Admin
+Route::post('login-superadmin', [SuperAdminController::class, 'prosesloginSuperAdmin'])->name('prosesloginSuperAdmin');
 
 //Forgot password
 Route::get('/forgot-password', [PasswordController::class, 'showForgotForm'])->name('password.request');

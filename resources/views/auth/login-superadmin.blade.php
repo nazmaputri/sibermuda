@@ -63,7 +63,7 @@
             <p class="mb-2 text-gray-600 text-center">Selamat datang Super Admin</p>    
 
             {{-- Form Login --}}
-            <form action="{{ route('prosesLogin') }}" method="POST" class="space-y-4" id="form">
+            <form action="{{ route('prosesloginSuperAdmin') }}" method="POST" class="space-y-4" id="form">
                 @csrf
                 <!-- Email -->
                 <div>

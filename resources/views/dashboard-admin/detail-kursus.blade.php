@@ -39,10 +39,10 @@
                 </div>
                 <div class="flex flex-wrap">
                     <span class="w-24 text-sm text-gray-700">Total Peserta</span><span class="mr-1">:</span>
-                    <span class="text-gray-700 text-sm">Peserta</span>
+                    <span class="text-gray-700 text-sm">{{ $totalPeserta }} Peserta</span>
                 </div>
-            <!-- <p class="text-gray-600 text-sm">Kapasitas : {{ $course->capacity }} peserta</p>  -->
-            <!-- <p class="text-gray-600 text-sm">Tanggal Mulai : {{ $course->start_date }}</p> -->
+                <!-- <p class="text-gray-600 text-sm">Kapasitas : {{ $course->capacity }} peserta</p>  -->
+                <!-- <p class="text-gray-600 text-sm">Tanggal Mulai : {{ $course->start_date }}</p> -->
         </div>
     </div>
 
@@ -134,7 +134,7 @@
 
         @php
             $catName = strtolower($course->category->name ?? '');
-            $isCyber = in_array($catName, ['cyber security', 'siber', 'cybersecurity', 'cyber']);
+            $isCyber = in_array($catName, ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber']);
         @endphp
 
         <!-- Tugas Akhir atau Kuis -->
