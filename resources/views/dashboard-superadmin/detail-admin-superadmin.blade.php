@@ -19,7 +19,7 @@
             <!-- Kolom Kiri: Foto Profil & Role -->
             <div class="flex flex-col items-center space-y-1">
                 <!-- Foto Profil -->
-                <div class="w-64 h-64 overflow-hidden flex justify-center items-center bg-gray-100">
+                <div class="w-48 h-48 overflow-hidden flex justify-center items-center bg-gray-100">
                     <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('storage/default-profile.jpg') }}" alt="" class="object-cover w-full h-full">
                 </div>                
             </div>
@@ -33,10 +33,10 @@
                 </div>
 
                 <!-- Password -->
-                <div class="p-2">
+                <!-- <div class="p-2">
                     <h4 class="font-semibold text-gray-700 text-sm">Password:</h4>
                     <p class="text-sm text-gray-700"></p>
-                </div>
+                </div> -->
 
                 <!-- Role -->
                 <div class="p-2">

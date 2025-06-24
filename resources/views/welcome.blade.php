@@ -62,7 +62,6 @@
                         <div
                             class="absolute left-1/2 translate-x-[-50%] mt-2 px-3 py-1 bg-black text-white text-xs rounded shadow-md opacity-0 pointer-events-none transition-opacity duration-300"
                             id="copy-toast">
-                            Disalin!
                         </div>
                     </div>
                 </div>
@@ -169,17 +168,55 @@
         AOS.refresh();
     });
 
+    //function copy kode diskon
     function copyToClipboard(button, text) {
-        navigator.clipboard.writeText(text).then(() => {
-        const toast = button.parentElement.querySelector('#copy-toast');
-        toast.classList.remove('opacity-0');
-        toast.classList.add('opacity-100');
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast(button, "Disalin!");
+            }).catch(() => {
+                fallbackCopy(text, button);
+            });
+        } else {
+            fallbackCopy(text, button);
+        }
+    }
 
-        setTimeout(() => {
-            toast.classList.remove('opacity-100');
-            toast.classList.add('opacity-0');
-        }, 3000);
-    });
+    //function untuk menangani ketika gagal mengcopy karena tidak diizinkan di pengaturan hosting
+    function fallbackCopy(text, button) {
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = 0;
+        textarea.style.left = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+            const successful = document.execCommand("copy");
+            if (successful) {
+                showToast(button, "Disalin!");
+            } else {
+                throw new Error("Copy command failed");
+            }
+        } catch (err) {
+            showToast(button, "Gagal!");
+        }
+        document.body.removeChild(textarea);
+    }
+
+    //function ntuk menangani toast saat copy kode diskon
+    function showToast(button, message) {
+        const toast = button.parentElement.querySelector('#copy-toast');
+        if (toast) {
+            toast.textContent = message;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 3000);
+        }
     }
 </script>
 

@@ -139,28 +139,34 @@
     <!-- Card 1 -->
     <div>
         <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row h-auto">
-            <!-- Foto di kiri (atas saat mobile) -->
-            <div class="md:w-1/3 w-full md:pr-4 mb-4 md:mb-0">
-                <img src="{{ asset('storage/default-profile.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
+            <!-- Foto di kanan (atas saat mobile) -->
+            <div class="md:w-1/3 w-full md:pl-4 mb-4 md:mb-0">
+                <div class="relative group rounded-xl overflow-hidden w-full h-64 md:h-full">
+                    <!-- Gambar -->
+                    <img src="{{ asset('storage/default-profile.jpg') }}" alt="Mentor Profile" class="w-full h-full object-cover rounded-xl transition duration-300">
+
+                    <!-- Overlay ketika hover -->
+                    <div class="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-50 transition duration-300 rounded-xl"></div>
+                </div>
             </div>
 
             <!-- Teks di kanan -->
-            <div class="md:w-2/3 w-full flex flex-col justify-center">
-                <h3 class="text-lg md:text-2xl font-semibold text-midnight">Rama Ahmed</h3>
+            <div class="md:w-2/3 w-full flex flex-col justify-center md:pl-6">
+                <h3 class="text-lg md:text-2xl font-semibold text-midnight">Rama Ahmad Ramdani</h3>
                 <p class="text-sm text-gray-500 mb-2">Chief Executive Officer</p>
                 <p class="text-gray-600 text-md">
                  Kak Rama Ahmed adalah pakar cyber security dengan karier gemilang yang juga mendirikan Sibermuda, platform edukasi yang telah melatih ribuan talenta lokal melalui pelatihan, sertifikasi, dan program peningkatan kesadaran keamanan digital di Indonesia.
                 </p>
                 <div class="flex space-x-4 mt-2">
-                    <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
+                    <!-- <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
                         <i class="fab fa-linkedin"></i>
-                    </a>
+                    </a> -->
                      <a href="https://www.tiktok.com/@ramahmdr?is_from_webapp=1&sender_device=pc" target="_blank" class="text-gray-600 hover:text-gray-800 text-xl">
                         <i class="fab fa-tiktok"></i>
                     </a>
-                    <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
+                    <!-- <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
                         <i class="fab fa-youtube"></i>
-                    </a>
+                    </a> -->
                     <a href="https://www.instagram.com/ramahmdrr?igsh=MWNsa2gybmg2ZDlydQ==" target="_blank" class="text-gray-600 hover:text-pink-500 text-xl">
                         <i class="fab fa-instagram"></i>
                     </a>
@@ -174,20 +180,26 @@
         <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row-reverse h-auto">
             <!-- Foto di kanan (atas saat mobile) -->
             <div class="md:w-1/3 w-full md:pl-4 mb-4 md:mb-0">
-                <img src="{{ asset('storage/rizky.png') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
+                <div class="relative group rounded-xl overflow-hidden w-full h-64 md:h-full">
+                    <!-- Gambar -->
+                    <img src="{{ asset('storage/CTO.png') }}" alt="Mentor Profile" class="w-full h-full object-cover rounded-xl transition duration-300">
+
+                    <!-- Overlay ketika hover -->
+                    <div class="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-50 transition duration-300 rounded-xl"></div>
+                </div>
             </div>
 
             <!-- Teks di kiri -->
-            <div class="md:w-2/3 w-full flex flex-col justify-center">
+            <div class="md:w-2/3 w-full flex flex-col justify-center md:pr-6">
                 <h3 class="text-lg md:text-2xl font-semibold text-midnight">Rizky MR</h3>
                 <p class="text-sm text-gray-500 mb-2">Chief Technology Officer</p>
                 <p class="text-gray-600 text-md">
                  Kak Rizky MR adalah seorang frontend developer berpengalaman yang juga mengajar sebagai guru frontend. Ia telah sukses mengembangkan berbagai proyek dan membimbing banyak orang dalam menguasai keterampilan desain web.
                 </p>
                 <div class="flex space-x-4 mt-2">
-                    <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
+                    <!-- <a href="https://www.linkedin.com" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
                         <i class="fab fa-linkedin"></i>
-                    </a>
+                    </a> -->
                     <a href="github.com/learningbydoing08" target="_blank" class="text-gray-600 hover:text-gray-800 text-xl">
                         <i class="fab fa-github"></i>
                     </a>
@@ -206,12 +218,18 @@
     <div>
         <div class="bg-white rounded-2xl p-2 text-left flex flex-col md:flex-row h-auto">
             <!-- Foto di kiri (atas saat mobile) -->
-            <div class="md:w-1/3 w-full md:pr-4 mb-4 md:mb-0">
-                <img src="{{ asset('storage/default-profile.jpg') }}" alt="Mentor Profile" class="rounded-xl w-full h-64 md:h-full object-cover">
+            <div class="md:w-1/3 w-full md:pl-4 mb-4 md:mb-0">
+                <div class="relative group rounded-xl overflow-hidden w-full h-64 md:h-full">
+                    <!-- Gambar -->
+                    <img src="{{ asset('storage/CAO.png') }}" alt="Mentor Profile" class="w-full h-full object-cover rounded-xl transition duration-300">
+
+                    <!-- Overlay ketika hover -->
+                    <div class="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-50 transition duration-300 rounded-xl"></div>
+                </div>
             </div>
 
             <!-- Teks di kanan -->
-            <div class="md:w-2/3 w-full flex flex-col justify-center">
+            <div class="md:w-2/3 w-full flex flex-col justify-center md:pl-6">
                 <h3 class="text-lg md:text-2xl font-semibold text-midnight">Delika Pratiwi</h3>
                 <p class="text-sm text-gray-500 mb-2">Chief Academy Officer</p>
                 <p class="text-gray-600 text-md">
@@ -221,9 +239,9 @@
                     <a href="https://www.linkedin.com/in/delikapratiwi" target="_blank" class="text-gray-600 hover:text-blue-600 text-xl">
                         <i class="fab fa-linkedin"></i>
                     </a>
-                    <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
+                    <!-- <a href="https://www.youtube.com" target="_blank" class="text-gray-600 hover:text-red-600 text-xl">
                         <i class="fab fa-youtube"></i>
-                    </a>
+                    </a> -->
                     <a href="https://www.instagram.com/delikapratiwi?igsh=Z2gyZDNiamNxbWFk" target="_blank" class="text-gray-600 hover:text-pink-500 text-xl">
                         <i class="fab fa-instagram"></i>
                     </a>
