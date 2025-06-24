@@ -13,7 +13,7 @@
                     <!-- <p class="text-gray-600 text-sm mt-2 capitalize"><span class="">Mentor :</span> {{ $course->mentor->name }}</p>
                     <p class="text-gray-600 text-sm mb-5"><span class="">Masa Aktif :</span> {{ $course->duration }}</p> -->
 
-                    <nav class="text-sm mt-auto whitespace-nowrap overflow-x-auto">
+                    <nav class="text-sm mt-auto whitespace-nowrap overflow-x-auto scrollbar-hide">
                         <ol class="flex space-x-2 text-gray-600 mt-2">
                             <li>
                                 <a href="{{ route('detail-kursus', $course->slug) }}" class="hover:text-sky-500 hover:underline">Detail</a>

@@ -115,11 +115,18 @@ Route::middleware(['auth:admin'])->group(function () {
     // FITUR/AKSES SUPERADMIN
     Route::get('/welcome-superadmin', [SuperAdminController::class, 'index'])->name('welcome-superadmin'); //Dashboard Superadmin
     Route::get('/settings-superadmin', [SuperAdminController::class, 'setting'])->name('settings.superadmin'); //Pengaturan Akun
+    Route::get('/dashboard-superadmin/data-admin', [SuperAdminController::class, 'dataadmin'])->name('dataadmin-superadmin'); //Data Admin
+    Route::post('/dashboard-superadmin/{id}/status-inactive', [SuperAdminController::class, 'updatestatusadmintoinactive'])->name('updatestatusadmintoinactive'); //Update Status Admin Jadi Inactive
+    Route::post('/dashboard-superadmin/{id}/status-active', [SuperAdminController::class, 'updatestatusadmintoactive'])->name('updatestatusadmintoactive'); //Update Status Admin Jadi Active
+    Route::get('/dashboard-superadmin/detail-admin/{id}', [SuperAdminController::class, 'detailadmin'])->name('detaildataadmin-superadmin'); //Detail Admin
+    Route::delete('/dashboard-superadmin/admin/{id}', [SuperAdminController::class, 'destroyadmin'])->name('dataadmin-delete-superadmin'); //Hapus Admin
     Route::get('/dashboard-superadmin/data-mentor', [SuperAdminController::class, 'datamentor'])->name('datamentor-superadmin'); //Data Mentor
     Route::get('/dashboard-superadmin/tambah-mentor', [SuperAdminController::class, 'tambahmentorbysuperadmin'])->name('tambah-mentor-superadmin'); //Form Tambah Data Mentor
     Route::get('/dashboard-superadmin/detailmentor/{id}', [SuperAdminController::class, 'detailmentorsuperadmin'])->name('detaildata-mentor-superadmin'); //Detail Mentor Superadmin
     Route::get('/dashboard-superadmin/data-peserta', [SuperAdminController::class, 'peserta'])->name('datapeserta-superadmin'); //Data Peserta Superadmin
     Route::get('/dashboard-superadmin/detailpeserta/{id}', [SuperAdminController::class, 'detailpeserta'])->name('detaildata-peserta-superadmin'); //Detail Data Peserta Superadmin
+    Route::get('/dashboard-superadmin/edit-peserta/{id}', [SuperAdminController::class, 'editpeserta'])->name('edit-peserta-superadmin'); //Form Edit Data Peserta Superadmin
+    Route::put('/dashboard-superadmin/update-peserta/{id}', [SuperAdminController::class, 'updatepeserta'])->name('update-peserta-superadmin'); ///Update Data Peserta Superadmin
     Route::get('/dashboard-superadmin/kategori', [SuperAdminController::class, 'kategori'])->name('kategori-superadmin'); //Kategori Kursus Superadmin
     Route::get('/dashboard-superadmin/tambah-kategori', [SuperAdminController::class, 'tambahkategori'])->name('tambahkategori-superadmin'); //Form Tambah Kategori Kursus Superadmin
     Route::get('/dashboard-superadmin/edit-kategori/{category}', [SuperAdminController::class, 'editkategori'])->name('editkategori-superadmin'); //Form Edit Kategori Kursus Superadmin

@@ -67,30 +67,44 @@ class DashboardMentorController extends Controller
 
     public function show()
     {
-        // Ambil ID mentor yang sedang login
         $mentorId = Auth::id();
-    
-        // Menghitung jumlah peserta unik dengan status pembayaran 'success' untuk kursus mentor
-       $jumlahPeserta = Purchase::where('status', 'success')
-                        ->whereHas('course', function ($query) use ($mentorId) {
-                            $query->where('mentor_id', $mentorId);
-                        })
-                        ->whereHas('user')  // pastikan user belum dihapus (soft deleted)
-                        ->distinct('user_id')
-                        ->count('user_id');
-    
-        // Menghitung jumlah kursus milik mentor
-        $jumlahKursus = Course::where('mentor_id', $mentorId)->count(); 
-    
-        // Menghitung jumlah materi yang terkait dengan kursus mentor
-        $jumlahMateri = Materi::whereHas('course', function ($query) use ($mentorId) {
-                $query->where('mentor_id', $mentorId);
-            })
-            ->count(); 
-    
-        // Mengirimkan data ke view
-        return view('dashboard-mentor.welcome', compact('jumlahPeserta', 'jumlahKursus', 'jumlahMateri'));
-    }    
+
+        $purchases = Purchase::with('course')
+            ->where('status', 'success')
+            ->whereHas('course', fn ($q) => $q->where('mentor_id', $mentorId))
+            ->whereHas('user')
+            ->whereYear('created_at', now()->year)
+            ->get();
+
+        // Label bulan
+        $labels = collect(range(1, 12))->map(fn($m) => Carbon::create(null, $m)->format('M'))->toArray();
+
+        $monthlyTotal = array_fill(0, 12, 0);
+        $tooltipData = array_fill(0, 12, []);
+        $currentYear = now()->year;
+
+        foreach ($purchases as $purchase) {
+            $monthIdx = Carbon::parse($purchase->created_at)->month - 1;
+            $monthlyTotal[$monthIdx]++;
+
+            $courseTitle = $purchase->course->title;
+            if (!isset($tooltipData[$monthIdx][$courseTitle])) {
+                $tooltipData[$monthIdx][$courseTitle] = 0;
+            }
+            $tooltipData[$monthIdx][$courseTitle]++;
+        }
+
+        return view('dashboard-mentor.welcome', [
+            'labels' => $labels,
+            'monthlyTotal' => $monthlyTotal,
+            'tooltipData' => $tooltipData,
+            'currentYear' => $currentYear, // ← tambahkan ini
+            // tetap bisa kirim data dashboard lainnya juga:
+            'jumlahPeserta' => $purchases->unique('user_id')->count(),
+            'jumlahKursus' => Course::where('mentor_id', $mentorId)->count(),
+            'jumlahMateri' => Materi::whereHas('course', fn ($q) => $q->where('mentor_id', $mentorId))->count()
+        ]);
+    }
    
     public function tambahmateri() {
         $mentorId = Auth::id();

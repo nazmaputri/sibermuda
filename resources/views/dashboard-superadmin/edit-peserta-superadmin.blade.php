@@ -1,20 +1,19 @@
 @extends('layouts.dashboard-superadmin')
-@section('title', 'Tambah Mentor')
+@section('title', 'Edit Peserta')
 @section('content')
 <div>
     <div class="bg-white p-6 rounded-md shadow-lg overflow-auto border border-gray-200">
         <div class="justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Mentor</h3>
+            <h3 class="text-lg font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Edit Peserta</h3>
         </div>
-        <form action="{{ route('register') }}" method="POST" class="grid grid-col-1 md:grid-cols-2 gap-6">
+        <form action="{{ route('update-peserta-superadmin', $peserta->id) }}" method="POST" class="grid grid-col-1 md:grid-cols-2 gap-6">
             @csrf
-            @method('POST')
-            
+             @method('PUT')
             <input type="hidden" name="added_by_admin" value="true">
             <!-- Nama Lengkap -->
             <div class="order-1 md:order-none">
                 <label for="name" class="block font-medium  text-gray-700 pb-2">Nama Lengkap</label>
-                <input type="text" name="name" id="name" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('name') border-red-500 @enderror" placeholder="Masukkan nama lengkap">
+                <input type="text" name="name" id="name" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('name') border-red-500 @enderror" placeholder="Masukkan nama lengkap" value="{{ old('name', $peserta->name) }}">
                 @error('name')
                     <p class="text-red-500 text-sm mt-1" id="name-error">{{ $message }}</p>
                 @enderror
@@ -23,7 +22,7 @@
             <!-- Email -->
             <div class="order-2 md:order-none">
                 <label for="email" class="block font-medium text-gray-700 pb-2">Email</label>
-                <input type="email" name="email" id="email" class="anti-autofill w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('email') border-red-500 @enderror" placeholder="Masukkan Email" value="{{ old('email') }}" autocomplete="off" {{-- atau coba: autocomplete="new-password" --}} readonly  onfocus="this.removeAttribute('readonly');"
+                <input type="email" name="email" id="email" class="anti-autofill w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('email') border-red-500 @enderror" placeholder="Masukkan Email" autocomplete="off" {{-- atau coba: autocomplete="new-password" --}} readonly  onfocus="this.removeAttribute('readonly');" value="{{ old('email', $peserta->email) }}"
                 >
                 @error('email')
                     <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
@@ -33,7 +32,7 @@
             <!-- Nomor Telepon -->
             <div class="order-3 md:order-none">
                 <label for="phone_number" class="block font-medium text-gray-700 pb-2">Nomor Telepon</label>
-                <input type="text" name="phone_number" id="phone_number" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('phone_number') border-red-500 @enderror" placeholder="Masukkan nomor telepon">
+                <input type="text" name="phone_number" id="phone_number" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('phone_number') border-red-500 @enderror" placeholder="Masukkan nomor telepon"  value="{{ old('phone_number', $peserta->phone_number) }}">
                 @error('phone_number')
                     <p class="text-red-500 text-sm mt-1" id="phone_number-error">{{ $message }}</p>
                 @enderror
@@ -66,13 +65,13 @@
             </div>
 
             <!-- Deskripsi Pengalaman -->
-            <div class="order-6 md:order-none">
+            <!-- <div class="order-6 md:order-none">
                 <label for="experience" class="block font-medium text-gray-700 pb-2">Deskripsi Pengalaman</label>
                 <textarea name="experience" id="experience" rows="4" class="w-full px-4 py-2 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('experience') border-red-500 @enderror" placeholder="Deskripsikan pengalaman"></textarea>
                 @error('experience')
                     <p class="text-red-500 text-sm mt-1" id="experience-error">{{ $message }}</p>
                 @enderror
-            </div>
+            </div> -->
 
             <!-- Konfirmasi Password -->
             <div class="relative order-5 md:order-none">
@@ -105,7 +104,7 @@
             
             <!-- Submit Button -->
             <div class="order-7 col-span-1 md:col-span-2 flex justify-end space-x-4">
-                <a href="{{ route('datamentor-superadmin') }}" class="bg-red-400 text-white font-medium py-2 px-6 rounded-md hover:bg-red-300">Batal</a>
+                <a href="{{ route('datapeserta-superadmin') }}" class="bg-red-400 text-white font-medium py-2 px-6 rounded-md hover:bg-red-300">Batal</a>
                 <button type="submit" class="bg-sky-400 text-white font-medium py-2 px-6 rounded-md hover:bg-sky-300">
                     Tambah
                 </button>

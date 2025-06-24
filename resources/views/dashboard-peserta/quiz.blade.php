@@ -12,9 +12,9 @@
         </div>
         
         <!-- Wrapper -->
-        <div x-data="{ open: window.innerWidth >= 768 }" class="flex flex-col md:flex-row gap-2 mt-4 relative">
+        <div x-data="{ open: window.innerWidth >= 768 }" class="flex flex-col md:flex-row gap-2 mt-4"> <!-- tambah class relative aja kalau mau responsive -->
             <!-- Sidebar Nomor Soal -->
-            <div class="relative md:w-1/4">
+            <div class="md:w-1/4"> <!-- tambah class relative aja kalau mau responsive -->
                 <!-- Tombol Toggle (ada di atas sidebar) -->
             <div class="mb-1 md:mb-0 md:hidden">
             <button 

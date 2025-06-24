@@ -85,7 +85,7 @@
                 </button>
 
                 <!-- Dropdown menu -->
-                <div x-show="open" @click.away="open = false" class="absolute z-10 mt-1 w-full bg-white border rounded-lg shadow-lg">
+                <div x-show="open" @click.away="open = false" class="mt-1 w-full bg-white border rounded-lg shadow-lg"> <!-- disini tambah class absolute aja kalau mau agar dropdownnya responsive-->
                     <div class="p-2">
                         <input type="text" placeholder="Cari kursus..." x-model="searchTerm"
                             class="w-full text-sm text-gray-700 px-4 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400">

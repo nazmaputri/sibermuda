@@ -55,4 +55,66 @@
             </div>
         </div>
     </div> 
+
+    <!-- Grafik Garis Total Peserta -->
+    <div class="bg-white border border-gray-200 shadow-md rounded-lg p-6 mb-6 mt-10 w-full overflow-x-auto">
+        <h2 class="text-md font-semibold inline-block pb-1 text-gray-700">
+            Statistik Pembelian Kursus Tahun {{ $currentYear }}
+        </h2>
+        <canvas id="chartPeserta" class="max-w-full h-40 md:h-52 lg:h-60" style="max-height: 250px;"></canvas>
+    </div>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('chartPeserta').getContext('2d');
+
+    const labels = @json($labels); // ['Jan', 'Feb', ..., 'Dec']
+    const data = @json($monthlyTotal); // [10, 20, 15, ...]
+    const tooltipData = @json($tooltipData); // array detail
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Total Peserta',
+                data: data,
+                borderColor: '#0ea5e9',
+                backgroundColor: 'rgba(14,165,233,0.1)',
+                fill: true,
+                tension: 0.3,
+                pointRadius: 4,
+                pointBackgroundColor: '#0ea5e9',
+                pointHoverRadius: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const idx = context.dataIndex;
+                            const courseInfo = tooltipData[idx];
+                            const lines = [`Total: ${data[idx]} peserta`];
+                            for (const [course, count] of Object.entries(courseInfo)) {
+                                lines.push(`• ${course}: ${count}`);
+                            }
+                            return lines;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+</script>
 @endsection

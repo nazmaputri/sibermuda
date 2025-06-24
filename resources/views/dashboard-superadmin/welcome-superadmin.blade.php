@@ -65,7 +65,7 @@
                                 <th class="py-2 border-b border-t border-gray-200">Waktu Login</th>
                                 <th class="py-2 border-b border-t border-gray-200">IP Address</th>
                                 <th class="py-2 border-b border-t border-gray-200">Status</th>
-                                <th class="py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Detail</th>
+                                <th class="py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,10 +76,10 @@
                                     $isOnline = is_null($log->logged_out_at);
                                 @endphp
                                 <tr class="bg-white hover:bg-gray-50 user-row">
-                                    <td class="px-4 py-2 border-b border-l border-gray-200 text-gray-600">{{ $log->admin->name }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600">{{ $lastLogin->format('d M Y H:i') }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600">{{ $log->ip_address }}</td>
-                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600">
+                                    <td class="px-4 py-2 border-b border-l border-gray-200 text-gray-600 whitespace-nowrap">{{ $log->admin->name }}</td>
+                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600 whitespace-nowrap">{{ $lastLogin->format('d M Y H:i') }}</td>
+                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600 whitespace-nowrap">{{ $log->ip_address }}</td>
+                                    <td class="px-4 py-2 border-b border-gray-200 text-gray-600 whitespace-nowrap">
                                         @if ($isOnline)
                                             <div class="flex items-center gap-2">
                                                 <span class="relative flex h-2 w-2">
@@ -89,36 +89,71 @@
                                                 Online
                                             </div>
                                         @else
-                                            Offline (Logout {{ \Carbon\Carbon::parse($log->logged_out_at)->diffForHumans() }})
+                                            <div class="flex items-center gap-2">
+                                                <span class="relative flex h-2 w-2">
+                                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-gray-500"></span>
+                                                </span>
+                                                Ofline
+                                            </div> (Logout {{ \Carbon\Carbon::parse($log->logged_out_at)->diffForHumans() }})
                                         @endif
                                     </td>
                                     <td class="px-4 py-2 text-center border-b border-r border-gray-200 text-gray-600">
                                         <button 
                                             onclick="openModal({{ $log->id }})"
                                             data-log='@json($log)'
-                                            class="text-blue-600 hover:text-blue-800"
+                                            class="text-blue-500 hover:text-blue-400"
                                         >Lihat</button>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <!-- Modal Pop-up -->
+                        <!-- Modal Pop-up -->
                         <div id="logModal" class="fixed inset-0 bg-black bg-opacity-40 hidden items-center justify-center z-50">
-                            <div class="bg-white w-full max-w-md rounded-xl shadow-lg p-6 relative">
-                                <h2 class="text-xl font-bold mb-4">Detail Login Admin</h2>
-                                <div class="space-y-2 text-sm text-gray-700">
-                                    <p><strong>Nama:</strong> <span id="modal-name"></span></p>
-                                    <p><strong>Role:</strong> <span id="modal-role"></span></p>
-                                    <p><strong>IP Address:</strong> <span id="modal-ip"></span></p>
-                                    <p><strong>Waktu Login:</strong> <span id="modal-time"></span></p>
-                                    <hr class="my-2">
-                                    <p><strong>Sistem Operasi:</strong> <span id="modal-os"></span></p>
-                                    <p><strong>Browser:</strong> <span id="modal-browser"></span></p>
-                                    <p><strong>Perangkat:</strong> <span id="modal-device"></span></p>
-                                    <p><strong>User Agent:</strong> <span id="modal-agent" class="text-xs break-words"></span></p>
+                            <div id="modal-content" class="bg-white w-full mx-4 md:mx-0 max-w-sm md:max-w-xl rounded-xl shadow-lg p-6 relative transition-transform duration-300 scale-95 opacity-0">
+                                <h2 class="text-md font-semibold text-gray-700 mb-1 text-center">Detail Login Admin</h2>
+                                <div class="w-16 h-1 bg-gray-600 mx-auto mb-4 rounded"></div>
+                                <div class="grid grid-cols-[max-content_1ch_auto] gap-x-2 text-sm text-gray-700">
+                                    <div class="text-left font-medium">Nama</div>
+                                    <div>:</div>
+                                    <div id="modal-name"></div>
+
+                                    <div class="text-left font-medium">Role</div>
+                                    <div>:</div>
+                                    <div id="modal-role"></div>
+
+                                    <div class="text-left font-medium">IP Address</div>
+                                    <div>:</div>
+                                    <div id="modal-ip"></div>
+
+                                    <div class="text-left font-medium">Waktu Login</div>
+                                    <div>:</div>
+                                    <div id="modal-time"></div>
+
+                                    <!-- <div class="col-span-3"><hr class="my-2"></div> -->
+
+                                    <div class="text-left font-medium">Sistem Operasi</div>
+                                    <div>:</div>
+                                    <div id="modal-os"></div>
+
+                                    <div class="text-left font-medium">Browser</div>
+                                    <div>:</div>
+                                    <div id="modal-browser"></div>
+
+                                    <div class="text-left font-medium">Perangkat</div>
+                                    <div>:</div>
+                                    <div id="modal-device"></div>
+
+                                    <div class="text-left font-medium">User Agent</div>
+                                    <div>:</div>
+                                    <div id="modal-agent" class="text-xs break-words"></div>
                                 </div>
-                                <button onclick="closeModal()" class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl">&times;</button>
+                                <!-- button tutup modal -->
+                                <button onclick="closeModal()" class="absolute top-7 right-4 text-gray-500 hover:text-gray-400 text-xl">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fill-rule="evenodd" d="M10 8.586L15.95 2.636a1 1 0 111.414 1.414L11.414 10l5.95 5.95a1 1 0 01-1.414 1.414L10 11.414l-5.95 5.95a1 1 0 01-1.414-1.414L8.586 10 2.636 4.05a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                         <script>
@@ -150,55 +185,50 @@
                             function openModal(logId) {
                                 const button = document.querySelector(`button[onclick="openModal(${logId})"]`);
                                 const logData = JSON.parse(button.getAttribute('data-log'));
-
                                 const parsedUA = parseUserAgent(logData.user_agent);
 
+                                // Isi konten
                                 document.getElementById('modal-name').textContent = logData.admin.name;
                                 document.getElementById('modal-role').textContent = logData.role;
                                 document.getElementById('modal-ip').textContent = logData.ip_address;
                                 document.getElementById('modal-time').textContent = new Date(logData.logged_in_at).toLocaleString();
-
-                                // Tampilkan rincian user agent
                                 document.getElementById('modal-os').textContent = parsedUA.os;
                                 document.getElementById('modal-browser').textContent = parsedUA.browser;
                                 document.getElementById('modal-device').textContent = parsedUA.device;
                                 document.getElementById('modal-agent').textContent = logData.user_agent;
 
-                                document.getElementById('logModal').classList.remove('hidden');
-                                document.getElementById('logModal').classList.add('flex');
+                                const modal = document.getElementById('logModal');
+                                const content = document.getElementById('modal-content');
+
+                                modal.classList.remove('hidden');
+                                modal.classList.add('flex');
+
+                                // Tambah animasi masuk
+                                setTimeout(() => {
+                                    content.classList.remove('scale-95', 'opacity-0');
+                                    content.classList.add('scale-100', 'opacity-100');
+                                }, 10); // kasih sedikit delay agar transisinya terasa
                             }
 
                             function closeModal() {
-                                document.getElementById('logModal').classList.add('hidden');
-                                document.getElementById('logModal').classList.remove('flex');
+                                const modal = document.getElementById('logModal');
+                                const content = document.getElementById('modal-content');
+
+                                // Tambah animasi keluar
+                                content.classList.remove('scale-100', 'opacity-100');
+                                content.classList.add('scale-95', 'opacity-0');
+
+                                // Tunggu selesai transisi lalu sembunyikan
+                                setTimeout(() => {
+                                    modal.classList.add('hidden');
+                                    modal.classList.remove('flex');
+                                }, 300); // sama seperti duration-300 di Tailwind
                             }
                         </script>
                 </div>
             </div>
         </div>
 
-        {{-- <div class="bg-white border border-gray-200 shadow-md p-4 rounded-md">
-            <p class="text-gray-700 text-md font-semibold mb-2">Kursus Terjual</p>
-            <!-- Tabel log aktivitas -->
-            <div class="overflow-x-auto overflow-hidden">
-                <div class="min-w-full w-64">
-                <table class="min-w-full border-separate border-spacing-0" id="userTable">
-                    <thead>
-                        <tr class="bg-gray-100 text-gray-600 text-sm">
-                            <th class="py-2 border-b border-l border-t border-gray-200 rounded-tl-lg">Kursus</th>
-                            <th class="py-2 border-b border-t border-r border-gray-200 rounded-tr-lg">Jumlah</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <tr class="bg-white hover:bg-gray-50 user-row">
-                                <td class="px-4 py-1.5 text-gray-600 text-sm border-b border-l border-gray-200">Kursus memasak</td>
-                                <td class="px-4 py-1.5 text-center border-b border-r border-gray-200 text-sm text-gray-600 hover:text-gray-500">100 Peserta</td>                            
-                            </tr>
-                    </tbody>
-                </table>
-                </div>
-            </div>
-        </div> --}}
     </div>
 
     <!-- Grafik Perkembangan Pengguna Bulanan -->

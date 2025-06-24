@@ -11,6 +11,8 @@ use App\Models\RatingKursus;
 use App\Models\Purchase;
 use App\Models\Discount;
 use App\Models\Rating;
+use App\Mail\HelloMail;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use App\Models\Payment;
 use App\Models\AdminLoginLog;
@@ -145,6 +147,76 @@ class SuperAdminController extends Controller
         return view('auth.login-superadmin');
     }
 
+    public function dataadmin(Request $request)
+    {
+        // Ambil query pencarian dari input
+        $query = $request->input('search');
+
+        // Filter data mentor berdasarkan role dan query pencarian
+        $users = User::where('role', 'admin') // Pastikan hanya role mentor
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($subQuery) use ($query) {
+                    $subQuery->where('name', 'LIKE', "%{$query}%")
+                        ->orWhere('status', 'LIKE', "%{$query}%");
+                });
+            })
+            ->paginate(5); // Pagination 5 per halaman
+
+        // Mengirim data mentor dan query ke view
+        return view('dashboard-superadmin.data-admin-superadmin', compact('users', 'query'));
+    }
+
+    // update status mentor menjadi pending (+oleh intan)
+    public function updatestatusadmintoinactive($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Periksa apakah status saat ini bukan 'pending'
+        if ($user->status !== 'inactive') {
+            // Ubah status menjadi 'inactive'
+            $user->status = 'inactive';
+            $user->save();
+
+            return redirect()->back()->with('success', 'Status mentor berhasil diperbarui menjadi nonaktif!');
+        }
+
+        return redirect()->back()->with('info', 'User sudah dalam status nonanctive.');
+    }
+
+    public function updatestatusadmintoactive($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Periksa apakah status saat ini 'pending'
+        if (in_array($user->status, ['pending', 'inactive'])) {
+            // Ubah status menjadi 'active'
+            $user->status = 'active';
+            $user->save();
+
+            // Kirim email ke user
+            Mail::to($user->email)->send(new HelloMail($user->name));
+
+            return redirect()->back()->with('success', 'Status mentor berhasil di perbaharui dan email telah terkirim!');
+        }
+
+        return redirect()->back()->with('info', 'User berhasil diaktifkan.');
+    }
+
+    public function detailadmin($id)
+    {
+        $user = User::findOrFail($id);
+    
+        return view('dashboard-superadmin.detail-admin-superadmin', compact('user'));
+    }    
+
+    public function destroyadmin($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+    
+        return redirect()->route('dataadmin-superadmin')->with('success', 'User berhasil dihapus.');
+    }  
+
     public function datamentor(Request $request)
     {
         // Ambil query pencarian dari input
@@ -220,6 +292,65 @@ class SuperAdminController extends Controller
     
         return view('dashboard-superadmin.detail-peserta-superadmin', compact('user', 'purchasedCourses'));
     }   
+
+    public function editpeserta($id)
+    {
+        $peserta = User::findOrFail($id); // ambil data peserta berdasarkan id
+        return view('dashboard-superadmin.edit-peserta-superadmin', compact('peserta'));
+    }
+
+    public function updatepeserta(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,',
+            'password' => 'nullable|confirmed|min:8',
+            'phone_number' => 'required|string|max:15',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+        ], [
+            'name.required' => 'Nama wajib diisi.',
+            'name.string' => 'Nama harus berupa string.',
+            'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
+    
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
+            'email.unique' => 'Email sudah terdaftar.',
+    
+            'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
+            'password.min' => 'Kata sandi harus memiliki minimal 8 karakter.',
+    
+            'phone_number.required' => 'Nomor telepon harus diisi.',
+            'phone_number.string' => 'Nomor telepon harus berupa angka.',
+            'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 15 karakter.',
+    
+            'photo.image' => 'File yang diupload harus berupa gambar.',
+            'photo.mimes' => 'Gambar harus memiliki format: jpeg, png, jpg, gif, svg.',
+            'photo.max' => 'Ukuran gambar maksimal 2MB.',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone_number = $request->phone_number;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        if ($request->hasFile('photo')) {
+            if ($user->photo) {
+                Storage::delete('public/' . $user->photo);
+            }
+
+            $path = $request->file('photo')->store('images/profile', 'public');
+            $user->photo = $path;
+        }
+
+        $user->save();
+
+        return redirect()->route('dashboard-superadmin.data-peserta-superadmin')->with('success', 'Profil berhasil diperbarui!');
+    }
 
     public function kategori(Request $request)
     {

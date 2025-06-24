@@ -250,9 +250,9 @@
 
                          <button onclick="document.getElementById('manualImportModal').classList.add('hidden')" class="absolute top-6 right-6 text-gray-600 hover:text-gray-500 text-xl font-medium">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10 8.586L15.95 2.636a1 1 0 111.414 1.414L11.414 10l5.95 5.95a1 1 0 01-1.414 1.414L10 11.414l-5.95 5.95a1 1 0 01-1.414-1.414L8.586 10 2.636 4.05a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
-                                </svg>
-                            </button>
+                                <path fill-rule="evenodd" d="M10 8.586L15.95 2.636a1 1 0 111.414 1.414L11.414 10l5.95 5.95a1 1 0 01-1.414 1.414L10 11.414l-5.95 5.95a1 1 0 01-1.414-1.414L8.586 10 2.636 4.05a1 1 0 011.414-1.414L10 8.586z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
 
                         <h2 class="text-xl font-semibold text-gray-700 mb-1 text-center">Import Peserta Manual</h2>
                         <div class="w-16 h-1 bg-gray-600 mx-auto mb-4 rounded"></div>

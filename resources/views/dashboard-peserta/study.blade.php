@@ -38,57 +38,71 @@
         <!-- Konten Materi -->
         <div class="lg:col-span-3">
             @foreach ($course->materi as $materi)
-            <div x-show="selected == '{{ $materi->id }}'" x-transition class="bg-white shadow rounded-md p-4 m-2 border relative">
+            <div x-show="selected == '{{ $materi->id }}'" x-transition class="bg-white shadow rounded-md p-4 m-2 border"> <!-- tambah class relative aja kalau mau responsive -->
                 <h3 class="text-md font-medium text-gray-700 mb-2">{{ $materi->judul }}</h3>
                 <p class="text-gray-700 mb-4">{{ $materi->deskripsi }}</p>
 
-                <!-- Video -->
                 @if($materi->videos->isEmpty() && $materi->youtube->isEmpty())
-                <p class="text-gray-700 text-sm">Tidak ada video untuk materi ini.</p>
+                    <p class="text-gray-700 text-sm">Tidak ada video untuk materi ini.</p>
                 @else
-                    <ul class="mt-4 space-y-4">
-                        {{-- Google Drive Videos --}}
-                        @foreach ($materi->videos as $video)
-                            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                <h3 class="font-medium text-gray-700 mb-4 text-sm">{{ $video->title }}</h3>
-    
-                                @if ($video->link)
-                                    <iframe
-                                        src="https://drive.google.com/file/d/{{ $video->link }}/preview"
-                                        width="100%" height="480"
-                                        allow="autoplay"
-                                        allowfullscreen
-                                        class="rounded-lg shadow-md">
-                                    </iframe>
+                    @php
+                        $allVideos = collect($materi->videos)->map(function($v) {
+                            $v->source = 'gdrive';
+                            return $v;
+                        })->merge(
+                            collect($materi->youtube)->map(function($v) {
+                                $v->source = 'youtube';
+                                return $v;
+                            })
+                        );
+                    @endphp
+
+                    <div class="mt-4 space-y-4">
+                        @foreach ($allVideos as $i => $video)
+                            <div x-data="{ open: false }"
+                                :class="open ? 'border-gray-300' : 'border-gray-200'"
+                                class="bg-white border rounded-lg p-2.5 flex flex-col self-start transition-colors duration-300">
+                                <div @click="open = !open" class="flex items-center justify-between cursor-pointer">
+                                    <div class="flex items-center space-x-2">
+                                        <span class="text-gray-700 font-medium text-sm">{{ $i + 1 }}.</span>
+                                        <h3 class="text-sm font-medium text-gray-700">{{ $video->title ?: 'Tidak ada judul video' }}</h3>
+                                    </div>
+                                    <svg :class="{ 'rotate-180': open }" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </div>
+
+                                <div x-show="open" x-collapse class="mt-4 overflow-hidden">
+                                    @if ($video->link)
+                                        @if ($video->source === 'gdrive')
+                                            <iframe
+                                                src="https://drive.google.com/file/d/{{ $video->link }}/preview"
+                                                width="100%" height="480"
+                                                allow="autoplay"
+                                                allowfullscreen
+                                                class="rounded-lg shadow-md">
+                                            </iframe>
+                                        @elseif ($video->source === 'youtube')
+                                            <iframe
+                                                width="100%" height="480"
+                                                src="https://www.youtube.com/embed/{{ $video->link }}"
+                                                frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen
+                                                class="rounded-lg shadow-md">
+                                            </iframe>
+                                        @endif
+                                    @else
+                                        <p class="text-gray-700 text-sm">Video tidak tersedia.</p>
+                                    @endif
+
                                     <p class="text-gray-700 mt-2 text-sm">{{ $video->description ?: 'Tidak ada deskripsi video' }}</p>
-                                @else
-                                    <p class="text-gray-700 text-sm">Video Google Drive tidak tersedia.</p>
-                                @endif
-                            </li>
+                                </div>
+                            </div>
                         @endforeach
-    
-                        {{-- YouTube Videos --}}
-                        @foreach ($materi->youtube as $yt)
-                            <li class="bg-gray-100 p-4 rounded-lg shadow-sm">
-                                <h3 class="font-medium mb-4 text-gray-700 text-sm">{{ $yt->title }}</h3>
-    
-                                @if ($yt->link)
-                                    <iframe
-                                        width="100%" height="480"
-                                        src="https://www.youtube.com/embed/{{ $yt->link }}"
-                                        frameborder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowfullscreen
-                                        class="rounded-lg shadow-md">
-                                    </iframe>
-                                    <p class="text-gray-700 mt-2 text-sm">{{ $yt->description ?: 'Tidak ada deskripsi video' }}</p>
-                                @else
-                                    <p class="text-gray-700">Video YouTube tidak tersedia.</p>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
+                    </div>
                 @endif
+
                 {{-- Button Selanjutnya / Selesai --}}
                 <form method="POST" action="{{ route('materi.nextOrFinish', ['materi' => $materi->id]) }}" class="flex justify-end mt-6">
                     @csrf
