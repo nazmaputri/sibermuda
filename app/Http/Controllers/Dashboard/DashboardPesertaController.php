@@ -256,8 +256,10 @@ class DashboardPesertaController extends Controller
                     ? $course->materi->where('id', $materiId)->first()
                     : $course->materi->first();
                     
+        $allMateriCompleted = count($completedMateriIds) === $course->materi->count();
+
         return view('dashboard-peserta.study', compact(
-            'course', 'quizHistories', 'finalTask', 'finalTaskHistory', 'completedMateriIds', 'materiAktif'
+            'course', 'quizHistories', 'finalTask', 'finalTaskHistory', 'completedMateriIds', 'materiAktif', 'allMateriCompleted'
         ));
     }
 
