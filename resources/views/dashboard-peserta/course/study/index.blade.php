@@ -408,7 +408,7 @@
                 $allowedCategories = ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber'];
                 $courseCategory = strtolower($course->category->name ?? '');
                 $isCyberCategory = in_array($courseCategory, $allowedCategories);
-            @endphp 
+            @endphp
 
             <!-- Menu Kuis di sidebar -->
                 <hr class="my-2">

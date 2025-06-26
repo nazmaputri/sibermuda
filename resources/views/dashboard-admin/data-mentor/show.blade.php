@@ -21,8 +21,8 @@
                 <!-- Foto Profil -->
                 <div class="w-20 h-20 rounded-full overflow-hidden flex justify-center items-center bg-gray-100">
                     <img src="{{ $user->photo ? asset('storage/' . $user->photo) : asset('storage/default-profile.jpg') }}" alt="" class="object-cover w-full h-full">
-                </div>                
-                
+                </div>
+
                 <!-- Nama -->
                 <div class="p-1">
                     <p class="font-semibold text-gray-700 text-sm">{{ Str::limit($user->name, 35, '...') }}</p>
@@ -60,13 +60,13 @@
                     <h4 class="font-semibold text-gray-700 text-sm">Tanggal Registrasi:</h4>
                     <p class="text-sm text-gray-700">{{\Carbon\Carbon::parse($user->created_at)->translatedFormat('d F Y') }}</p>
                 </div>
-                
+
                 <div class="p-2">
                     <h4 class="font-semibold text-gray-700 text-sm">Email Terverifikasi:</h4>
                     <p class="text-sm text-gray-700">
                         {{ $user->email_verified_at ? \Carbon\Carbon::parse($user->email_verified_at)->translatedFormat('d F Y H:i:s') : 'Belum Terverifikasi' }}
                     </p>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
@@ -89,13 +89,13 @@
                             <!-- <th class="px-4 py-2 text-center border-b border-r border-gray-200 border-t rounded-tr-lg">Aksi</th> -->
                         </tr>
                     </thead>
-                
+
                     <tbody class="text-gray-600 text-sm">
-                        @forelse ($courses as $index => $course) 
+                        @forelse ($courses as $index => $course)
                             <tr class="bg-white hover:bg-gray-50 border-b text-sm">
                                 <td class="px-2 py-2 text-center border-b border-l border-gray-200">{{ $courses->firstItem() + $index }}</td>
                                 <td class="px-4 py-2 border-b border-gray-200">{{ Str::limit($course->title, 40) }}</td>
-                                <td class="px-4 py-2 border-b border-gray-200 text-center">Rp {{ number_format($course->price, 0, ',', '.') }}</td> 
+                                <td class="px-4 py-2 border-b border-gray-200 text-center">Rp {{ number_format($course->price, 0, ',', '.') }}</td>
                                 <td class="px-4 py-2 border-b border-gray-200 text-center">{{\Carbon\Carbon::parse( $course->created_at)->translatedFormat('d F Y') }}</td>
                                 <td class="px-4 py-2 border-b border-gray-200 text-center border-r">
                                     @if (!empty($course->average_rating) && is_numeric($course->average_rating))
@@ -103,11 +103,11 @@
                                     @else
                                         Belum ada rating
                                     @endif
-                                </td> 
+                                </td>
                                 <!-- Tombol Lihat Detail -->
                                 <!-- <td class="py-3 px-6 text-center border-b border-r border-gray-200">
                                     <div class="flex items-center justify-center space-x-8">
-                                       
+
                                         <a href="{{ route('detailkursus', [$course->id]) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />

@@ -24,13 +24,13 @@
 
 <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 mt-7">
     <h2 class="text-md font-medium mb-5 text-gray-700 border-b-2 pb-2">Kursus Saya</h2>
-    
+
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($courses as $course)
             <div class="bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-200">
                 <!-- Image -->
                 <img src="{{ asset('storage/' . $course->image_path) }}" alt="Kursus {{ $course->title }}" class="w-full h-40 object-cover rounded-t-lg">
-    
+
                 <!-- Course Content -->
                 <div class="px-4 pt-4 pb-1 flex flex-col flex-grow">
                     <div class="flex justify-between items-center mb-2">
@@ -61,7 +61,7 @@
                                         </svg>
                                     @endif
                                 @endfor
-                            </div>                                                      
+                            </div>
                         </div>
                     </div>
                     <!-- Progress Bar -->
@@ -84,7 +84,7 @@
                     @php
                         $canDownload = $canDownloadCertificates[$course->id] ?? false;
                     @endphp
-                    
+
                     @if ($canDownload)
                         <a href="{{ route('certificate.download', ['courseId' => $course->id]) }}">
                             <button class="w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2 bg-white text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors">
@@ -103,20 +103,20 @@
                             </div>
                         </div>
                     @endif
-                
-                    {{-- <a href="{{ $canDownloadCertificate ? route('certificate-detail', ['courseId' => $course->id]) : '#' }}" 
+
+                    {{-- <a href="{{ $canDownloadCertificate ? route('certificate-detail', ['courseId' => $course->id]) : '#' }}"
                         class="flex-1 {{ !$canDownloadCertificate ? 'pointer-events-none' : '' }}">
-                         <button class="w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2 
+                         <button class="w-full py-2 rounded-lg font-medium flex items-center justify-center gap-2
                              {{ !$canDownloadCertificate ? 'bg-white text-gray-600 border-gray-600 cursor-not-allowed' : 'bg-white text-green-500 border border-green-300 hover:bg-green-300 hover:text-white transition-colors group' }}">
-                             
-                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5 transition-all 
+
+                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-5 h-5 transition-all
                                  {{ !$canDownloadCertificate ? 'grayscale opacity-50 cursor-not-allowed' : 'group-hover:fill-white fill-green-500' }}">
                                  <path d="M 9.5 7 C 6.47 7 4 9.47 4 12.5 L 4 31.5 C 4 34.53 6.47 37 9.5 37 L 30 37 L 30 35.65 C 28.75 34.11 28 32.14 28 30 C 28 25.03 32.03 21 37 21 C 39.83 21 42.36 22.31 44 24.36 L 44 12.5 C 44 9.47 41.53 7 38.5 7 L 9.5 7 z M 13.5 15 L 34.5 15 C 35.33 15 36 15.67 36 16.5 C 36 17.33 35.33 18 34.5 18 L 13.5 18 C 12.67 18 12 17.33 12 16.5 C 12 15.67 12.67 15 13.5 15 z M 37 23 A 7 7 0 1 0 37 37 A 7 7 0 1 0 37 23 z M 13.5 26 L 22.5 26 C 23.33 26 24 26.67 24 27.5 C 24 28.33 23.33 29 22.5 29 L 13.5 29 C 12.67 29 12 28.33 12 27.5 C 12 26.67 12.67 26 13.5 26 z M 32 37.48 L 32 43.98 C 32 44.79 32.91 45.26 33.57 44.8 L 36.43 42.8 C 36.77 42.56 37.23 42.56 37.57 42.8 L 40.43 44.8 C 41.09 45.26 42 44.79 42 43.98 L 42 37.48 C 40.57 38.44 38.85 39 37 39 C 35.15 39 33.43 38.44 32 37.48 z"></path>
                              </svg>
                              Sertifikat
                          </button>
                      </a> --}}
-                </div>                
+                </div>
             </div>
         @empty
             <div class="col-span-full text-center items-center justify-center flex flex-col">
@@ -126,7 +126,7 @@
                 <p class="text-gray-600 text-center text-sm">Belum ada kursus yang diikuti.</p>
             </div>
         @endforelse
-    </div>    
+    </div>
 </div>
 
 <script>

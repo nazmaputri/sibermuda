@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
-    
+
     public function certificate($courseId)
     {
         $userId = auth()->id();
@@ -76,7 +76,7 @@ class CertificateController extends Controller
 
         return view('dashboard-peserta.certificate-detail', $data);
     }
-    
+
     // Menampilkan Sertifikat
     public function showCertificate($courseId)
     {
@@ -100,7 +100,7 @@ class CertificateController extends Controller
         // Mengembalikan view untuk sertifikat
         return view('dashboard-mentor.sertifikat', $data);
     }
-    
+
     // Mengunduh Sertifikat
     public function downloadCertificate($courseId)
     {
@@ -147,5 +147,5 @@ class CertificateController extends Controller
 
         return $pdf->download('certificate.pdf');
     }
-    
+
 }

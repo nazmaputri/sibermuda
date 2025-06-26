@@ -158,7 +158,7 @@ class DashboardPesertaController extends Controller
 
         return view('dashboard-peserta.welcome', compact('user', 'courses', 'canDownloadCertificates', 'totalKursus', 'totalSertifikat', 'currentDateTimeFormatted'));
     }
-    
+
     public function chat() {
         return view('dashboard-peserta.chat');
     }
@@ -223,7 +223,7 @@ class DashboardPesertaController extends Controller
 
         return response()->json(['html' => $view]);
     }
-    
+
     public function study($slug, $materiId = null)
     {
         $user   = auth()->user();
@@ -258,7 +258,7 @@ class DashboardPesertaController extends Controller
         $materiAktif = $materiId
                     ? $course->materi->where('id', $materiId)->first()
                     : $course->materi->first();
-                    
+
         $allMateriCompleted = count($completedMateriIds) === $course->materi->count();
 
         return view('dashboard-peserta.study', compact( 'user',
@@ -271,7 +271,7 @@ class DashboardPesertaController extends Controller
         // Mendapatkan ID user yang sedang login
           $user   = auth()->user();
         $userId = auth()->id();
-    
+
         // Mengambil kursus yang sudah dibeli oleh user dengan status pembayaran 'success'
         $courses = Course::whereIn('id', function ($query) use ($userId) {
             $query->select('course_id')
@@ -279,16 +279,21 @@ class DashboardPesertaController extends Controller
                   ->where('user_id', $userId)
                   ->where('status', 'success');
         })->get();
-    
+
         // Mengecek apakah chat aktif pada setiap kursus
         foreach ($courses as $course) {
             // Jika chat aktif, maka akan ditandai
             $course->isChatActive = $course->chat == 1;
         }
+<<<<<<< HEAD
     
         return view('dashboard-peserta.kursus', compact('user', 'courses'));
+=======
+
+        return view('dashboard-peserta.kursus', compact('courses'));
+>>>>>>> f150f7743424685430dcf051a8381a5a50faf934
     }
-    
+
 
     public function video() {
         return view('dashboard-peserta.video');
@@ -302,7 +307,7 @@ class DashboardPesertaController extends Controller
          $user   = auth()->user();
         // Ambil semua kategori untuk dropdown
         $categories = Category::all();
-        
+
         // Jika ada kategori yang dipilih, ambil kursus berdasarkan kategori tersebut
         if ($request->has('kategori') && $request->kategori != '') {
              $courses = Course::where('category_id', $request->kategori)
@@ -338,25 +343,30 @@ class DashboardPesertaController extends Controller
 
             // Menghitung rata-rata rating untuk kursus ini
             $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
-                    
+
             // Membatasi rating maksimal 5
             $averageRating = min($averageRating, 5);
-        
+
             // Menyimpan rata-rata rating untuk kursus
             $course->average_rating = $averageRating;
-            
+
             // Menghitung jumlah bintang penuh, setengah, dan kosong
             $fullStars = floor($averageRating); // Bintang penuh
             $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
             $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
-        
+
             // Menyimpan jumlah bintang untuk ditampilkan di view
             $course->rating_full_stars = $fullStars;
             $course->rating_half_star = $halfStar;
             $course->rating_empty_stars = $emptyStars;
         }
+<<<<<<< HEAD
     
         return view('dashboard-peserta.categories', compact('user', 'categories', 'courses'));
+=======
+
+        return view('dashboard-peserta.categories', compact('categories', 'courses'));
+>>>>>>> f150f7743424685430dcf051a8381a5a50faf934
     }
 
     public function showCategoryDetail($categoryId)
@@ -364,34 +374,34 @@ class DashboardPesertaController extends Controller
           $user   = auth()->user();
         // Ambil kategori berdasarkan ID
         $category = Category::findOrFail($categoryId);
-    
+
         // Ambil semua kursus berdasarkan kategori
         $courses = Course::where('category_id', $category->id)->get();
-    
+
         // Iterasi setiap kursus untuk menghitung rating
         foreach ($courses as $course) {
             // Menghitung rata-rata rating untuk kursus ini
             $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
-    
+
             // Membatasi rating maksimal 5
             $averageRating = min($averageRating, 5);
-    
+
             // Menyimpan rata-rata rating ke properti kursus
             $course->average_rating = $averageRating;
-    
+
             // Menghitung jumlah bintang penuh, setengah, dan kosong
             $fullStars = floor($averageRating); // Bintang penuh
             $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
             $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
-    
+
             // Menyimpan jumlah bintang untuk ditampilkan di view
             $course->rating_full_stars = $fullStars;
             $course->rating_half_star = $halfStar;
             $course->rating_empty_stars = $emptyStars;
         }
-    
+
         // Return data ke view
         return view('dashboard-peserta.categories-detail', compact('user','category', 'courses'));
     }
-    
+
 }

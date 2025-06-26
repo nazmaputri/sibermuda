@@ -7,7 +7,7 @@ use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Course;
-use App\Models\Materi; 
+use App\Models\Materi;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
@@ -17,17 +17,17 @@ class QuizController extends Controller
     {
         $user   = auth()->user();
         $quiz = Quiz::with('questions.answers')->findOrFail($quizId);
-        
+
         return view('dashboard-peserta.quiz', compact('quiz', 'user'));
     }
 
     public function detail($courseId, $quizId = null)
     {
         $materi = null;
-    
+
         $quiz = Quiz::findOrFail($quizId);
         $course = Course::findOrFail($courseId);
-    
+
         return view('dashboard-mentor.quiz-detail', compact('quiz', 'course', 'courseId', 'materi'));
     }
 
@@ -186,7 +186,7 @@ class QuizController extends Controller
             return redirect()->route('courses.show', ['course' => $course->slug])->with('success', 'Kuis berhasil diupdate');
         }
     }
-    
+
     public function edit($courseId, $quiz)
     {
         $course = Course::findOrFail($courseId);
@@ -252,10 +252,10 @@ class QuizController extends Controller
                         'question' => $questionData['question']
                     ]);
                 }
-            
+
                 // Hapus semua jawaban lama dulu agar tidak duplikat
                 $question->answers()->delete();
-            
+
                 // Simpan ulang jawaban
                 foreach ($questionData['answers'] as $answerIndex => $answerText) {
                     $question->answers()->create([
@@ -263,7 +263,7 @@ class QuizController extends Controller
                         'is_correct' => $answerIndex == $questionData['correct_answer'],
                     ]);
                 }
-            }            
+            }
 
              // Redirect setelah sukses update kuis
             return redirect()->route('courses.show', ['course' => $course->slug])->with('success', 'Kuis berhasil diperbarui');

@@ -21,6 +21,8 @@ class CategoryController extends Controller
             return $query->where('name', 'like', "%{$search}%");
         })->paginate(5);
 
+        $categories = Category::where('id' ,  3)->first();
+
         $courses = Course::paginate(10);
 
         return view('dashboard-admin.category.index', compact('categories', 'courses', 'search'));
