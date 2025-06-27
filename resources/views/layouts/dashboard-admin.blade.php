@@ -472,7 +472,7 @@
                             </a>
                         </li>
                         <li class="mx-2">
-                            <form action="{{ route('logout') }}" method="GET" class="group block w-full">
+                            <form action="{{ route('logout.admin') }}" method="GET" class="group block w-full">
                                 @csrf
                                 <button type="submit" class="flex items-center w-full p-1 text-sm text-red-600 hover:bg-red-600 hover:text-white rounded-md">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" 

@@ -27,41 +27,18 @@ class LoginController extends Controller
 
     public function prosesLogin(Request $request)
     {
-        // Validasi input dasar
-        $validator = Validator::make($request->all(), [
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required|string',
-        ], [
-            'email.required' => 'Email harus diisi.',
-            'email.email' => 'Format email tidak valid.',
-            'password.required' => 'Password harus diisi.',
         ]);
-
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput($request->except('password'));
-        }
-
-        // Ambil user berdasarkan email
+    
         $user = User::where('email', $request->email)->first();
-
-        // Jika user tidak ditemukan
-        if (!$user) {
-            return back()->withErrors(['email' => 'Email tidak ditemukan.'])
-                ->withInput($request->except('password'));
+    
+        if (!$user || $user->role !== 'admin' || !Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['email' => 'Login gagal.'])->withInput();
         }
-
-        // Cek apakah user adalah admin
-        if ($user->role !== 'admin') {
-            return back()->withErrors(['email' => 'Akses hanya diperbolehkan untuk admin.'])
-                ->withInput($request->except('password'));
-        }
-
-        // Cek password
-        if (!Hash::check($request->password, $user->password)) {
-            return back()->withErrors(['password' => 'Password salah.'])
-                ->withInput($request->except('password'));
-        }
-
+    
+        // Buat log login
         $log = AdminLoginLog::create([
             'admin_id'     => $user->id,
             'role'         => $user->role,
@@ -69,14 +46,13 @@ class LoginController extends Controller
             'user_agent'   => $request->userAgent(),
             'logged_in_at' => now(),
         ]);
-
+    
         // Simpan ID log ke session
         session(['admin_login_logs_id' => $log->id]);
-
-        // Login admin
+    
         Auth::guard('admin')->login($user);
         $request->session()->regenerate();
-
+    
         return redirect()->route('welcome-admin');
     }
 
@@ -266,30 +242,31 @@ class LoginController extends Controller
         return redirect('login')->with('success', 'Anda telah berhasil logout.');
     }
 
-    public function logoutAdmin(Request $request)
+     public function logoutAdmin(Request $request)
     {
+        // Ambil ID log & admin sebelum logout
         $logId = session('admin_login_logs_id');
-        $adminId = auth('admin')->id();
-
-        // Logout dulu
+        $adminId = auth('admin')->id(); // Penting: ambil SEBELUM logout
+    
+        // Logout user
         Auth::guard('admin')->logout();
-
-        // Update log yang sesuai ID login tadi
+    
+        // Update waktu keluar di log
         if ($logId && $adminId) {
             AdminLoginLog::where('id', $logId)
                 ->where('admin_id', $adminId)
-                ->update([
-                    'logged_out_at' => now(),
-                ]);
+                ->whereNull('logged_out_at')
+                ->update(['logged_out_at' => now()]);
         }
-
-        // Hapus session log ID dan sesi login
+    
+        // Hapus session log
         $request->session()->forget('admin_login_logs_id');
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
+    
         return redirect('login')->with('success', 'Anda telah berhasil logout.');
     }
+
 
     public function logoutMentor(Request $request)
     {
