@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 
 class CertificateController extends Controller
 {
-    
+
     public function certificate($courseId)
     {
         $userId = auth()->id();
@@ -76,7 +76,7 @@ class CertificateController extends Controller
 
         return view('dashboard-peserta.certificate-detail', $data);
     }
-    
+
     // Menampilkan Sertifikat
     public function showCertificate($courseId)
     {
@@ -100,58 +100,34 @@ class CertificateController extends Controller
         // Mengembalikan view untuk sertifikat
         return view('dashboard-mentor.sertifikat', $data);
     }
-    
+
     // Mengunduh Sertifikat
     public function downloadCertificate($courseId)
     {
         $userId = auth()->id();
 
-        // Ambil data pembelian dari tabel purchases
+        // Ambil data pembelian
         $purchase = Purchase::where('user_id', $userId)
             ->where('course_id', $courseId)
             ->where('status', 'success')
             ->firstOrFail();
 
         $course = $purchase->course;
-    
-        $cyberKeywords = [
-            'cyber security', 'siber', 'cybersecurity', 
-            'cyber', 'Cyber Security', 'CyberSecurity', 
-            'Cybersecurity', 'Cyber'
-        ];
 
-        $categoryName = strtolower($course->category->name ?? '');
-
-        $isCyberSecurity = collect($cyberKeywords)
-            ->map(fn($item) => strtolower($item))
-            ->contains($categoryName);
-
-        $completionDate = null;
-
-        if ($isCyberSecurity) {
-            // Ambil created_at dari final_task_user yang status-nya approved
-            $completionDate = DB::table('final_task_user')
-                ->where('user_id', $userId)
-                ->where('course_id', $courseId)
-                ->where('certificate_status', 'approved')
-                ->value('created_at');
-        } else {
-            // Ambil created_at dari materi_user yang nilainya >= 75
-            $completionDate = DB::table('materi_user')
+        // Ambil tanggal kelulusan dari materi_user (kuis) yang nilainya >= 75
+        $completionDate = DB::table('materi_user')
             ->where('user_id', $userId)
             ->where('courses_id', $courseId)
             ->where('nilai', '>=', 75)
-            ->orderBy('created_at', 'asc') // ← ambil yang paling awal
+            ->orderBy('created_at', 'asc') // ambil yang paling awal
             ->value('created_at');
 
-        }
-
-        // Format tanggal jika tidak null
-        $completionDateFormatted = $completionDate 
-            ? \Carbon\Carbon::parse($completionDate)->translatedFormat('d F Y') 
+        // Format tanggal
+        $completionDateFormatted = $completionDate
+            ? \Carbon\Carbon::parse($completionDate)->translatedFormat('d F Y')
             : 'Tanggal Tidak Diketahui';
 
-        // Data untuk sertifikat
+        // Data sertifikat
         $data = [
             'participant_name'       => $purchase->user->name,
             'course_title'           => $course->title,
@@ -159,18 +135,17 @@ class CertificateController extends Controller
             'course_start_date'      => Carbon::parse($course->start_date)->format('d M Y'),
             'course_end_date'        => Carbon::parse($course->end_date)->format('d M Y'),
             'mentor_name'            => $course->mentor->name ?? 'Tidak Diketahui',
-            'completion_date'        => $completionDate ? Carbon::parse($completionDate)->format('d M Y') : 'Belum Selesai',
+            'completion_date'        => $completionDateFormatted,
             'signature_title_left'   => 'Direktur Kursus',
             'signature_title_right'  => 'Mentor Kursus',
-            'completion_date' => $completionDateFormatted,
-            'is_pdf'                 => true // ← agar image tampil saat diunduh  
+            'is_pdf'                 => true
         ];
 
-        // Buat PDF menggunakan DOMPDF
+        // Buat PDF sertifikat
         $pdf = Pdf::loadView('dashboard-mentor.sertifikat', $data)
                 ->setPaper('a4', 'landscape');
 
         return $pdf->download('certificate.pdf');
     }
-    
+
 }

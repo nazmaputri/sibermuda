@@ -7,7 +7,7 @@ use App\Models\Quiz;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\Course;
-use App\Models\Materi; 
+use App\Models\Materi;
 use Illuminate\Http\Request;
 
 class QuizController extends Controller
@@ -22,46 +22,31 @@ class QuizController extends Controller
     public function detail($courseId, $quizId = null)
     {
         $materi = null;
-    
+
         $quiz = Quiz::findOrFail($quizId);
         $course = Course::findOrFail($courseId);
-    
+
         return view('dashboard-mentor.quiz-detail', compact('quiz', 'course', 'courseId', 'materi'));
     }
 
     public function result($quizId)
     {
-        // Ambil data kuis
         $quiz = Quiz::findOrFail($quizId);
-        
-        // Ambil skor, hasil, dan waktu mulai ujian dari session
+
         $score = session('score', null);
         $results = session('results', []);
         $startTime = session('start_time', null);
-        
-        // Ambil course terkait dengan quiz
+
         $course = $quiz->course;
-    
-        // Jika data hasil kuis tidak ditemukan di session
+
         if ($score === null || empty($results) || $startTime === null) {
             return redirect()->route('quiz.show', $quizId)->withErrors('Hasil kuis tidak ditemukan.');
         }
-    
-        // Simpan hasil kuis ke materi_user untuk riwayat
-        $userId = auth()->id();
-        $courseId = $course->id;
-        \DB::table('materi_user')->updateOrInsert(
-            ['user_id' => $userId, 'courses_id' => $courseId, 'quiz_id' => $quizId],
-            [
-                'nilai' => $score,
-                'completed_at' => now(),
-                'updated_at' => now(),
-            ]
-        );
-    
-        // Menampilkan hasil kuis ke dalam view
+
+        // TIDAK PERLU SIMPAN ULANG KE materi_user DI SINI
+
         return view('dashboard-peserta.quiz-result', compact('quiz', 'score', 'results', 'startTime', 'course'));
-    }    
+    }
 
     public function submit(Request $request, $quizId)
     {
@@ -196,7 +181,7 @@ class QuizController extends Controller
             return redirect()->route('courses.show', ['course' => $course->slug])->with('success', 'Kuis berhasil diupdate');
         }
     }
-    
+
     public function edit($courseId, $quiz)
     {
         $course = Course::findOrFail($courseId);
@@ -262,10 +247,10 @@ class QuizController extends Controller
                         'question' => $questionData['question']
                     ]);
                 }
-            
+
                 // Hapus semua jawaban lama dulu agar tidak duplikat
                 $question->answers()->delete();
-            
+
                 // Simpan ulang jawaban
                 foreach ($questionData['answers'] as $answerIndex => $answerText) {
                     $question->answers()->create([
@@ -273,7 +258,7 @@ class QuizController extends Controller
                         'is_correct' => $answerIndex == $questionData['correct_answer'],
                     ]);
                 }
-            }            
+            }
 
              // Redirect setelah sukses update kuis
             return redirect()->route('courses.show', ['course' => $course->slug])->with('success', 'Kuis berhasil diperbarui');

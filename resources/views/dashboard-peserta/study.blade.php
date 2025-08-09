@@ -11,14 +11,14 @@
 </div>
 
 <!-- Pembungkus kontainer utama -->
-<div class="container mx-auto border border-gray-200 rounded-md" 
+<div class="container mx-auto border border-gray-200 rounded-md"
     x-data="{ selected: '{{ $materiAktif->id ?? $course->materi->first()->id }}', sidebarOpen: false, isLargeScreen: window.matchMedia('(min-width: 1024px)').matches }"
     x-init="
          // Listener resize untuk update isLargeScreen secara real-time
          window.addEventListener('resize', () => {
              isLargeScreen = window.matchMedia('(min-width: 1024px)').matches
          });">
-     
+
     <!-- Header Kursus -->
     <div class="bg-white text-gray-600 pt-1 rounded-lg mt-2">
         <h2 class="md:text-xl text-md text-center font-medium capitalize">{{ $course->title }}</h2>
@@ -29,7 +29,7 @@
     <div class="block lg:hidden text-right mt-2 ml-2">
         <button @click="sidebarOpen = !sidebarOpen"
                 class="bg-sky-400 hover:bg-sky-300 text-white px-1.5 py-1.5 rounded mr-2 flex items-center gap-2">
-            
+
             <!-- Ikon Menu (hamburger) -->
             <template x-if="!sidebarOpen">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -45,14 +45,14 @@
 
             <!-- Ikon Close (X) -->
             <template x-if="sidebarOpen">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" 
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </template>
-            
+
         </button>
     </div>
 
@@ -148,7 +148,7 @@
             @endforeach
 
            <!-- Konten Final Task sampai line 240 -->
-            @if($finalTask)
+            {{-- @if($finalTask)
                 <div x-show="selected === 'final-task'" x-transition class="bg-white rounded-md p-4 mx-2 border border-gray-200">
                     <h3 class="text-lg font-medium text-center text-gray-700 mb-4">Tugas Akhir</h3>
 
@@ -162,7 +162,7 @@
                             <span class="">{{ $finalTask->desc }}</span>
                         </div>
                     </div>
-        
+
                     <!-- Cek apakah tugas sudah dikerjakan -->
                     @php
                         $isCompleted = DB::table('final_task_user')->where('user_id', Auth::id())->where('final_task_id', $finalTask->id)->exists();
@@ -202,7 +202,7 @@
                                             <td class="px-4 py-2 text-gray-600 text-sm border-b border-gray-200">
                                                 {{ \Carbon\Carbon::parse($finalTaskHistory->created_at)->translatedFormat('d F Y, H:i') }}
                                             </td>
-                                            <td class="px-4 py-2 text-sm border-b border-r border-gray-200 
+                                            <td class="px-4 py-2 text-sm border-b border-r border-gray-200
                                                 @if($finalTaskHistory->certificate_status === 'pending') text-yellow-500
                                                 @elseif($finalTaskHistory->certificate_status === 'approved') text-green-500
                                                 @else text-gray-600 @endif">
@@ -237,12 +237,18 @@
                 <div x-show="selected === 'final-task'" x-transition class="bg-white shadow rounded-md p-4 m-2 border text-center text-gray-700 text-sm">
                     Tugas akhir belum tersedia.
                 </div>
-            @endif
+            @endif --}}
 
             <!-- Konten Kuis sampai line 357 -->
-            @if ($course->quizzes->isNotEmpty())
-            <div x-show="selected === 'quiz'" x-transition class="bg-white rounded-md p-4 mx-2 border border-gray-200">
-                <h3 class="text-lg font-medium text-gray-700 mb-4">Daftar Kuis</h3>
+            @if ($course->quizzes->isEmpty())
+                <div x-show="selected === 'quiz'" x-transition class="bg-white rounded-md p-4 mx-2 border border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-700 mb-4">Daftar Kuis</h3>
+                    <p class="text-gray-500 text-sm">Kuis belum tersedia saat ini.</p>
+                </div>
+            @else
+                <div x-show="selected === 'quiz'" x-transition class="bg-white rounded-md p-4 mx-2 border border-gray-200">
+                    <h3 class="text-lg font-medium text-gray-700 mb-4">Daftar Kuis</h3>
+
                 @foreach ($course->quizzes as $quiz)
                     <div class="mb-4">
                         @php
@@ -358,7 +364,7 @@
         </div>
 
         <!-- Sidebar Materi -->
-        <div 
+        <div
             class="lg:col-span-1 bg-white lg:mr-2 px-1 border border-gray-200 rounded-md scrollbar-hide"
             :class="{
                 'fixed top-20 mt-9 right-0 w-64 max-h-[70vh] shadow-lg z-20 p-4 overflow-y-auto': !isLargeScreen && sidebarOpen,
@@ -367,7 +373,7 @@
             }"
             x-transition
             @click.outside="if (!isLargeScreen) sidebarOpen = false">
-            
+
             <!-- Menu Daftar Materi di sidebar -->
             <h3 class="text-md font-medium text-gray-700 mb-2 text-center mt-4">Daftar Materi</h3>
             @foreach ($course->materi as $index => $materi)
@@ -383,7 +389,7 @@
                 @endphp
 
                 <div class="group space-y-1">
-                    <button 
+                    <button
                         @if ($isLocked)
                             disabled
                             class="w-full text-left px-3 py-2 text-sm rounded text-gray-400 cursor-not-allowed"
@@ -398,17 +404,16 @@
                 </div>
             @endforeach
 
-            @php
+            {{-- @php
                 $allowedCategories = ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber'];
                 $courseCategory = strtolower($course->category->name ?? '');
                 $isCyberCategory = in_array($courseCategory, $allowedCategories);
-            @endphp
+            @endphp --}}
 
             <!-- Menu Kuis di sidebar -->
-            @if (!$isCyberCategory && $course->quizzes->isNotEmpty())
                 <hr class="my-2">
                 <div class="group">
-                    <button 
+                    <button
                         @if (!$allMateriCompleted)
                             disabled
                             class="w-full flex text-sm text-left px-3 py-2 rounded text-gray-400 cursor-not-allowed items-center"
@@ -429,14 +434,13 @@
                         <span class="ml-1">Kuis</span>
                     </button>
                 </div>
-            @endif
 
             <!-- Menu Tugas Akhir di sidebar-->
-            @if ($isCyberCategory)
+            {{-- @if ($isCyberCategory)
                 @if ($finalTask)
                     <hr class="my-2">
                     <div class="group">
-                        <button 
+                        <button
                             @if (!$allMateriCompleted)
                                 disabled
                                 class="w-full flex text-sm text-left px-3 py-2 rounded text-gray-400 cursor-not-allowed items-center"
@@ -465,7 +469,7 @@
                         <p class="text-sm">Tugas akhir belum tersedia</p>
                     </div>
                 @endif
-            @endif
+            @endif --}}
         </div>
     </div>
 </div>

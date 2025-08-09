@@ -73,14 +73,14 @@
             <!-- Tombol untuk melihat sertifikat -->
             <!-- <p id="view-certificate-btn" class="cursor-pointer text-blue-500 hover:underline text-sm">Lihat Sertifikat</p> -->
         </div>
-     </div>          
-                
+     </div>
+
     <div class="mb-2 flex items-center justify-between p-1 border-b-2">
         <h2 class="text-lg font-semibold text-gray-700 pt-2">
             Materi Kursus
-        </h2>                                                     
+        </h2>
     </div>
-                    
+
     <div class="text-right">
         <a href="{{ route('materi.create', ['slug' => $course->slug]) }}" class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-medium py-2 px-4 rounded-md">
             <!-- Ikon muncul pada semua ukuran layar -->
@@ -89,9 +89,9 @@
             </svg>
             <!-- Teks hanya muncul pada mode desktop (sm dan lebih besar) -->
             <span class="ml-2 text-sm">Tambah Materi</span>
-        </a> 
+        </a>
     </div>
-        
+
     <!-- Tabel Materi -->
     <div class="overflow-hidden overflow-x-auto w-full">
         <div class="min-w-full w-64">
@@ -174,21 +174,20 @@
 </div>
 
 <!-- Tabel Kuis -->
-@php
+{{-- @php
     // Ambil nama kategori (jika kosong, default jadi string kosong)
     $namaKategori = strtolower($course->category->name ?? '');
-@endphp
+@endphp --}}
 <!-- Section Kuis -->
-@if (! in_array($namaKategori, ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber']))
     <div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
         <div class="mb-2 flex items-center justify-between p-1 border-b-2">
-            <h2 class="text-lg font-semibold text-gray-700 pt-2">Kuis</h2>                                                     
+            <h2 class="text-lg font-semibold text-gray-700 pt-2">Kuis</h2>
         </div>
         <div class="text-right">
             @php
                 $quizExists = $course->quizzes()->exists(); // Cek apakah sudah ada kuis
             @endphp
-            <a href="{{ route('quiz.create', ['courseId' => $course->id]) }}" 
+            <a href="{{ route('quiz.create', ['courseId' => $course->id]) }}"
             class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-medium py-2 px-4 rounded-md @if ($quizExists) cursor-not-allowed opacity-50 @endif"
             @if ($quizExists) onclick="return false;" @endif>
                 <!-- Ikon muncul pada semua ukuran layar -->
@@ -197,7 +196,7 @@
                 </svg>
                 <!-- Teks hanya muncul pada mode desktop (sm dan lebih besar) -->
                 <span class="ml-2 text-sm">Tambah Kuis</span>
-            </a> 
+            </a>
         </div>
         <!-- Kuis -->
         <div class="overflow-hidden overflow-x-auto w-full">
@@ -253,33 +252,32 @@
             </div>
         </div>
     </div>
-@endif
 
 <!-- Tabel Tugas Akhir -->
-@php
+{{-- @php
     $catName = strtolower($course->category->name ?? '');
-@endphp
+@endphp --}}
 
-@if(in_array($catName, ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber']))
+{{-- @if(in_array($catName, ['cyber security', 'siber', 'cybersecurity', 'Cyber Security', 'CyberSecurity', 'Cybersecurity', 'cyber', 'Cyber']))
     <!-- Section Tugas Akhir -->
     <div class="bg-white p-6 rounded-lg shadow-md mt-6 border border-gray-200">
         <div class="mb-2 flex items-center justify-between p-1 border-b-2">
-            <h2 class="text-lg font-semibold text-gray-700 pt-2">Tugas Akhir</h2>                                                     
+            <h2 class="text-lg font-semibold text-gray-700 pt-2">Tugas Akhir</h2>
         </div>
         <div class="text-right">
             @php
                 $finalTaskExists = $course->finalTask()->exists(); // Cek apakah sudah ada tugas akhir
             @endphp
-            <a href="{{ route('finaltask.create', ['courseId' => $course->id]) }}" 
+            <a href="{{ route('finaltask.create', ['courseId' => $course->id]) }}"
             class="mt-2 inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-medium py-2 px-4 rounded-md @if ($finalTaskExists) cursor-not-allowed opacity-50 @endif"
             @if ($finalTaskExists) onclick="return false;" @endif>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
                 <span class="ml-2 text-sm">Tugas Akhir</span>
-            </a> 
+            </a>
         </div>
-    
+
         <div class="overflow-hidden overflow-x-auto w-full">
             <div class="min-w-full w-64">
                 <table class="min-w-full mt-4 border-separate border-spacing-0">
@@ -334,7 +332,7 @@
             </div>
         </div>
     </div>
-@endif
+@endif --}}
 
 <!-- Tabel Peserta Terdaftar -->
 <div class="mt-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
@@ -368,10 +366,10 @@
                 </tbody>
             </table>
         </div>
-    </div> 
+    </div>
     <div class="mt-4">
         {{ $participants->links() }}
-    </div>       
+    </div>
 </div>
 
 <!-- Tabel Rating -->
@@ -415,7 +413,7 @@
                                 {{ $displayStatus['label'] }}
                             </span>
                         </td>
-                        <td class="px-4 py-2  text-center rounded-md border-b border-r border-gray-200">                              
+                        <td class="px-4 py-2  text-center rounded-md border-b border-r border-gray-200">
                             <div class="flex items-center justify-center space-x-4 ">
                             <form action="{{ route('toggle.displaymentor', $rating->id) }}" method="POST">
                                 @csrf
@@ -443,7 +441,7 @@
                                 </button>
                             </form>
                             </div>
-                        </td>                                                             
+                        </td>
                     </tr>
                     @empty
                     <tr>
@@ -506,7 +504,7 @@
         toggle.addEventListener('change', function() {
             var ratingId = this.id.split('-').pop();  // Mendapatkan id rating dari ID toggle
             var form = this.closest('form');
-                                    
+
             // Mengirim formulir untuk mengubah status display
             form.submit();
         });
@@ -522,7 +520,7 @@
             })
             .catch(error => console.error("Error fetching certificate:", error));
     });
-    
+
     document.getElementById("close-popup").addEventListener("click", function () {
         document.getElementById("certificate-popup").classList.add("hidden");
     });
