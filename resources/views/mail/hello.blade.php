@@ -51,7 +51,7 @@
         <h1>Selamat, {{ $mentorName }}!</h1>
         <p>Akun Anda telah diaktifkan oleh Admin dan kini Anda resmi menjadi mentor di <strong>Sibermuda</strong>!</p>
         <p>Silakan login untuk mengakses akun Anda dan mulai membuat kursus pertama Anda.</p>
-        <a href="https://sibermuda.pplgsmkn1ciomas.my.id/login" class="btn">Login Sekarang</a>
+        <a href="https://www.sibermuda.id/login" class="btn">Login Sekarang</a>
         <br>
         <hr>
         <p><em><strong>Catatan Penting:</strong></em></p>

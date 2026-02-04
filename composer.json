@@ -9,6 +9,7 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "biscolab/laravel-recaptcha": "^6.1",
         "cviebrock/eloquent-sluggable": "^11.0",
+        "enshrined/svg-sanitize": "*",
         "laravel/framework": "^11.9",
         "laravel/socialite": "^5.19",
         "laravel/tinker": "^2.9",

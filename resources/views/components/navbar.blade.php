@@ -6,8 +6,12 @@
     <title>Landingpage</title>
     @vite('resources/css/app.css')
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-  </style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
 <body>
 <!-- ========== HEADER ========== -->
@@ -42,131 +46,180 @@
         </a>
 
       <div class="md:hidden">
-        <button type="button" id="menu-toggle" class="hs-collapse-toggle size-[38px] flex justify-center items-center text-sm font-semibold rounded-xl text-midnight border border-midnight text-orange hover:bg-gray-100 focus:outline-none focus:bg-gray-100" id="hs-navbar-hcail-collapse" aria-expanded="false" aria-controls="hs-navbar-hcail" aria-label="Toggle navigation" data-hs-collapse="#hs-navbar-hcail">
-          <svg class="hs-collapse-open:hidden shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
-          <svg class="hs-collapse-open:block hidden shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        <button type="button" id="menu-toggle" class="size-[38px] flex justify-center items-center text-sm font-semibold rounded-xl text-midnight border border-midnight hover:bg-gray-100 focus:outline-none focus:bg-gray-100">
+          <svg class="open-icon shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+          <svg class="close-icon hidden shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
     </div>
     <!-- End Button Group -->
 
     <!-- Menu di layar menengah keatas -->
-    <div id="" class="hidden md:block overflow-hidden transition-all duration-300 basis-full grow md:w-auto md:basis-auto md:order-2 md:col-span-6 bg-navbar-default md:bg-transparent rounded-lg pl-4 pb-4 pt-2 z-50 mt-2" aria-labelledby="hs-navbar-hcail-collapse">
+    <div class="hidden md:block overflow-visible transition-all duration-300 basis-full grow md:w-auto md:basis-auto md:order-2 md:col-span-6 bg-navbar-default md:bg-transparent rounded-lg pl-4 pb-4 pt-2 z-50 mt-2">
       <div class="flex flex-col gap-y-4 gap-x-0 mt-5 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
         <div>
-          <a href="{{ route('landingpage') }}" class="relative inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('landingpage') ? 'font-semibold border-midnight' : '' }}" href="#" aria-current="page">
+          <a href="{{ route('landingpage') }}" class="relative inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('landingpage') ? 'font-semibold text-midnight' : '' }}">
             Beranda
           </a>
         </div>
         <div>
-          <a href="{{ route('tentang.kami') }}"class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('tentang.kami') ? 'font-semibold border-midnight' : '' }}">
+          <a href="{{ route('tentang.kami') }}" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('tentang.kami') ? 'font-semibold text-midnight' : '' }}">
             Tentang
           </a>
         </div>
         <div>
-          <a href="{{ route('visi.misi') }}"class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('visi.misi') ? 'font-semibold border-midnight' : '' }}">
-            Visi
-          </a>
-        </div>
-        <div>
-          <a href="{{ route('category') }}" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('category') ? 'font-semibold border-midnight' : '' }}">
+          <a href="{{ route('category') }}" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('category') ? 'font-semibold text-midnight' : '' }}">
             Kategori
           </a>
         </div>
+        <div>
+          <a href="{{ route('berita') }}" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('berita') ? 'font-semibold text-midnight' : '' }}">
+            Berita
+          </a>
+        </div>
+        <div>
+          <a href="{{ route('bootcamp') }}" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('bootcamp') ? 'font-semibold text-midnight' : '' }}">
+            Bootcamp
+          </a>
+        </div>
+
+        <!-- Dropdown Others -->
+        <div class="relative group">
+          <button class="inline-flex items-center gap-x-2 hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs(['visi.misi', 'testimoni', 'serti-verify']) ? 'font-semibold text-midnight' : '' }}">
+            Lainnya
+            <svg class="w-4 h-4 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div class="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 -translate-y-2 z-50 border border-gray-100">
+            <div class="py-2">
+              <a href="{{ route('visi.misi') }}" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 hover:text-midnight transition-colors duration-200 {{ request()->routeIs('visi.misi') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+                <div class="flex items-center gap-3">
+                  <span>Visi & Misi</span>
+                </div>
+              </a>
+              <a href="{{ route('testimoni') }}" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 hover:text-midnight transition-colors duration-200 {{ request()->routeIs('testimoni') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+                <div class="flex items-center gap-3">
+                  <span>Testimoni</span>
+                </div>
+              </a>
+              <a href="{{ route('serti-verify') }}" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 hover:text-midnight transition-colors duration-200 {{ request()->routeIs('serti-verify') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+                <div class="flex items-center gap-3">
+                  <span>Verifikasi Sertifikat</span>
+                </div>
+              </a>
+               <a href="{{ route('affiliate') }}" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 hover:text-midnight transition-colors duration-200 {{ request()->routeIs('affiliate') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+                <div class="flex items-center gap-3">
+                  <span>Affiliate</span>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <!-- End Collapse -->
   </nav>
 </header>
 <!-- ========== END HEADER ========== -->
 
-<!-- Menu di layar menengah kebawah -->
-<div id="hs-navbar-hcail"  class="hs-collapse fixed top-16 left-4 right-4 overflow-x-hidden my-4 z-50 md:hidden hidden overflow-hidden transition-all duration-300 bg-white border border-gray-300 shadow-sm rounded-lg pl-4 pr-4 pb-4 pt-2" aria-labelledby="hs-navbar-hcail-collapse">
-  <div class="flex flex-col gap-y-4 gap-x-0 mt-2 md:flex-row md:justify-center md:items-center md:gap-y-0 md:gap-x-7 md:mt-0">
-    <div>
-      <a href="{{ route('landingpage') }}" class="relative inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('landingpage') ? 'font-semibold border-midnight' : '' }}" href="#" aria-current="page">
-        Beranda
+<!-- Menu Mobile (Hamburger) -->
+<div id="mobile-menu" class="fixed top-16 left-4 right-4 md:hidden overflow-hidden transition-all duration-300 bg-white rounded-lg shadow-lg z-50 hidden max-h-0">
+  <div class="flex flex-col gap-y-2 p-4">
+    <a href="{{ route('landingpage') }}" class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-midnight rounded-lg transition-colors duration-200 {{ request()->routeIs('landingpage') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+      Beranda
+    </a>
+    <a href="{{ route('tentang.kami') }}" class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-midnight rounded-lg transition-colors duration-200 {{ request()->routeIs('tentang.kami') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+      Tentang
+    </a>
+    <a href="{{ route('category') }}" class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-midnight rounded-lg transition-colors duration-200 {{ request()->routeIs('category') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+      Kategori
+    </a>
+    <a href="{{ route('berita') }}" class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-midnight rounded-lg transition-colors duration-200 {{ request()->routeIs('berita') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+      Berita
+    </a>
+    <a href="{{ route('bootcamp') }}" class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-midnight rounded-lg transition-colors duration-200 {{ request()->routeIs('bootcamp') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+      Bootcamp
+    </a>
+
+    <!-- Mobile Dropdown -->
+    <div class="border-t border-gray-200 mt-2 pt-2">
+      <div class="px-4 py-2 text-xs font-semibold text-gray-500 uppercase">Lainnya</div>
+      <a href="{{ route('visi.misi') }}" class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-midnight rounded-lg transition-colors duration-200 {{ request()->routeIs('visi.misi') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+        <div class="flex items-center gap-3">
+          <span>Visi & Misi</span>
+        </div>
       </a>
-    </div>
-    <div>
-      <a href="{{ route('tentang.kami') }}"class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('tentang.kami') ? 'font-semibold border-midnight' : '' }}">
-        Tentang
+      <a href="{{ route('testimoni') }}" class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-midnight rounded-lg transition-colors duration-200 {{ request()->routeIs('testimoni') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+        <div class="flex items-center gap-3">
+          <span>Testimoni</span>
+        </div>
       </a>
-    </div>
-    <div>
-      <a href="{{ route('visi.misi') }}"class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('visi.misi') ? 'font-semibold border-midnight' : '' }}">
-        Visi
+      <a href="{{ route('serti-verify') }}" class="block px-4 py-2.5 text-gray-700 hover:bg-gray-100 hover:text-midnight rounded-lg transition-colors duration-200 {{ request()->routeIs('serti-verify') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+        <div class="flex items-center gap-3">
+          <span>Verifikasi Sertifikat</span>
+        </div>
       </a>
-    </div>
-    <div>
-      <a href="{{ route('category') }}" class="inline-block hover:text-midnight focus:outline-none text-gray-600 transition-all duration-300 hover:-translate-y-0.5 {{ request()->routeIs('category') ? 'font-semibold border-midnight' : '' }}">
-        Kategori
-      </a>
+       <a href="{{ route('affiliate') }}" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-100 hover:text-midnight transition-colors duration-200 {{ request()->routeIs('affiliate') ? 'bg-gray-100 font-semibold text-midnight' : '' }}">
+            <div class="flex items-center gap-3">
+                <span>Affiliate</span>
+            </div>
+        </a>
     </div>
   </div>
 </div>
-</body>
-</html>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const menuToggle = document.getElementById('menu-toggle');
-  const menu = document.getElementById('hs-navbar-hcail');
-  const openIcon = menuToggle.querySelector('.hs-collapse-open\\:hidden');
-  const closeIcon = menuToggle.querySelector('.hs-collapse-open\\:block');
-  const sections = ['home', 'about', 'category', 'price', 'rating'];
-  const links = sections.map(section => document.getElementById('link-' + section));
+  const mobileMenu = document.getElementById('mobile-menu');
+  const openIcon = menuToggle.querySelector('.open-icon');
+  const closeIcon = menuToggle.querySelector('.close-icon');
 
+  // Toggle mobile menu
   menuToggle.addEventListener('click', function () {
-    if (window.innerWidth < 768) {
-      if (menu.classList.contains('hidden')) {
-        menu.classList.remove('hidden');
-        menu.style.maxHeight = menu.scrollHeight + 'px';
-        menu.classList.add('bg-white', 'text-midnight');
-      } else {
-        menu.style.maxHeight = '0px';
-        setTimeout(() => {
-          menu.classList.add('hidden');
-        }, 300);
-      }
-      openIcon.classList.toggle('hidden');
-      closeIcon.classList.toggle('hidden');
+    if (mobileMenu.classList.contains('hidden')) {
+      // Open menu
+      mobileMenu.classList.remove('hidden');
+      mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+      openIcon.classList.add('hidden');
+      closeIcon.classList.remove('hidden');
+    } else {
+      // Close menu
+      mobileMenu.style.maxHeight = '0px';
+      setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+      }, 300);
+      openIcon.classList.remove('hidden');
+      closeIcon.classList.add('hidden');
     }
   });
 
+  // Close menu when clicking outside
+  document.addEventListener('click', function(event) {
+    if (!menuToggle.contains(event.target) && !mobileMenu.contains(event.target)) {
+      if (!mobileMenu.classList.contains('hidden')) {
+        mobileMenu.style.maxHeight = '0px';
+        setTimeout(() => {
+          mobileMenu.classList.add('hidden');
+        }, 300);
+        openIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      }
+    }
+  });
+
+  // Handle window resize
   window.addEventListener('resize', function () {
     if (window.innerWidth >= 768) {
-      menu.style.maxHeight = 'none';
-      menu.classList.remove('hidden');
-      menu.classList.remove('bg-white', 'text-midnight');
+      mobileMenu.classList.add('hidden');
+      mobileMenu.style.maxHeight = '0px';
       openIcon.classList.remove('hidden');
-      closeIcon.classList.add('block');
+      closeIcon.classList.add('hidden');
     }
-  });
-  function setActiveLink() {
-    let scrollPos = window.scrollY + 100; // 100px offset for better accuracy
-    sections.forEach((section, index) => {
-      let sectionElement = document.querySelector('#' + section);
-      if (sectionElement) {
-        let sectionTop = sectionElement.offsetTop;
-        let sectionHeight = sectionElement.offsetHeight;
-        if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-          links.forEach(link => link.classList.remove('border-midnight', 'font-semibold'));
-          links[index].classList.add('border-midnight', 'font-semibold');
-        }
-      }
-    });
-  }
-
-  // Event listener for scroll to detect active section
-  window.addEventListener('scroll', setActiveLink);
-
-  // Event listener for click
-  links.forEach(link => {
-    link.addEventListener('click', function () {
-      links.forEach(l => l.classList.remove('border-midnight'));
-      this.classList.add('border-midnight');
-    });
   });
 });
 </script>
+</body>
+</html>

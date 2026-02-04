@@ -15,8 +15,10 @@ class QuizController extends Controller
 
     public function show($quizId)
     {
+        $user   = auth()->user();
         $quiz = Quiz::with('questions.answers')->findOrFail($quizId);
-        return view('dashboard-peserta.quiz', compact('quiz'));
+        
+        return view('dashboard-peserta.quiz', compact('quiz', 'user'));
     }
 
     public function detail($courseId, $quizId = null)
@@ -31,40 +33,27 @@ class QuizController extends Controller
 
     public function result($quizId)
     {
-        // Ambil data kuis
+        $user   = auth()->user();
         $quiz = Quiz::findOrFail($quizId);
-        
-        // Ambil skor, hasil, dan waktu mulai ujian dari session
+
         $score = session('score', null);
         $results = session('results', []);
         $startTime = session('start_time', null);
-        
-        // Ambil course terkait dengan quiz
+
         $course = $quiz->course;
-    
-        // Jika data hasil kuis tidak ditemukan di session
+
         if ($score === null || empty($results) || $startTime === null) {
             return redirect()->route('quiz.show', $quizId)->withErrors('Hasil kuis tidak ditemukan.');
         }
-    
-        // Simpan hasil kuis ke materi_user untuk riwayat
-        $userId = auth()->id();
-        $courseId = $course->id;
-        \DB::table('materi_user')->updateOrInsert(
-            ['user_id' => $userId, 'courses_id' => $courseId, 'quiz_id' => $quizId],
-            [
-                'nilai' => $score,
-                'completed_at' => now(),
-                'updated_at' => now(),
-            ]
-        );
-    
-        // Menampilkan hasil kuis ke dalam view
-        return view('dashboard-peserta.quiz-result', compact('quiz', 'score', 'results', 'startTime', 'course'));
-    }    
+
+        // TIDAK PERLU SIMPAN ULANG KE materi_user DI SINI
+
+        return view('dashboard-peserta.quiz-result', compact('quiz', 'score', 'results', 'startTime', 'course', 'user'));
+    }
 
     public function submit(Request $request, $quizId)
     {
+        $user   = auth()->user();
         \Log::info("Submit method called for Quiz ID: {$quizId}");
         \Log::info("Request data: ", $request->all());
 
@@ -121,6 +110,7 @@ class QuizController extends Controller
 
     public function retake($quizId)
     {
+        $user   = auth()->user();
         $quiz = Quiz::findOrFail($quizId);
 
         // Set ulang waktu mulai kuis di session (optional)

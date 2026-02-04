@@ -9,6 +9,8 @@ use App\Http\Controllers\DashboardMentor\VideoController;
 use App\Http\Controllers\DashboardMentor\PdfController;
 use App\Http\Controllers\DashboardMentor\QuizController;
 use App\Http\Controllers\DashboardAdmin\CategoryController;
+use App\Http\Controllers\DashboardAdmin\NewsController;
+use App\Http\Controllers\DashboardAdmin\BootcampController;
 use App\Http\Controllers\DashboardMentor\RatingKursusController;
 use App\Http\Controllers\DashboardMentor\FinalTaskController;
 use App\Http\Controllers\LandingPageController;
@@ -18,22 +20,34 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\KeranjangController;
-use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\DashboardAdmin\DataAffiliateController;
+use App\Http\Controllers\DashboardAdmin\DataMentorController;
+use App\Http\Controllers\DashboardAdmin\DataPesertaController;
+use App\Http\Controllers\DashboardAdmin\DiscountController;
+use App\Http\Controllers\DashboardAdmin\LaporanController;
+use App\Http\Controllers\DashboardAdmin\MainController;
+use App\Http\Controllers\DashboardAdmin\RatingController as DashboardAdminRatingController;
 use App\Http\Controllers\DashboardSuperAdmin\SuperAdminController;
 use Illuminate\Support\Facades\Route;
 
 //LandingPage
-Route::get('/', [LandingPageController::class, 'lp'])->name('landingpage');
-Route::get('/course/{slug}', [LandingPageController::class, 'detail'])->name('kursus.detail');
-Route::get('/category/{slug}', [LandingPageController::class, 'category'])->name('category.detail');
-Route::post('/ratings', [RatingController::class, 'store'])->name('rating.store');
+Route::get('/', [LandingPageController::class, 'main'])->name('landingpage');
+Route::get('/kursus/{slug}', [LandingPageController::class, 'detail'])->name('kursus.detail');
 Route::get('/beli-kursus/{slug}', [KeranjangController::class, 'handlePurchase'])->name('beli.kursus');
-Route::get('/tutorialbeli', [LandingPageController::class, 'tutorialbeli'])->name('tutorial.beli');
-Route::get('/tentangkami', [LandingPageController::class, 'tentangkami'])->name('tentang.kami');
-Route::get('/visi', [LandingPageController::class, 'visi'])->name('visi.misi');
-Route::get('/category', [LandingPageController::class, 'categorylp'])->name('category');
+Route::post('/rating', [RatingController::class, 'store'])->name('rating.store');
+Route::get('/tutorialbeli', [LandingPageController::class, 'buyingTutor'])->name('tutorial.beli');
+Route::get('/tentangkami', [LandingPageController::class, 'about'])->name('tentang.kami');
+Route::get('/visi-misi', [LandingPageController::class, 'visi'])->name('visi.misi');
+Route::get('/kategori', [LandingPageController::class, 'category'])->name('category');
+Route::get('/kategori/{slug}', [LandingPageController::class, 'categoryShow'])->name('category.detail');
+Route::get('/berita', [LandingPageController::class, 'news'])->name('berita');
+Route::get('/berita/{slug}', [LandingPageController::class, 'newsShow'])->name('news.detail');
+Route::get('/testimoni', [LandingPageController::class, 'rating'])->name('testimoni');
+Route::get('/bootcamp', [LandingPageController::class, 'bootcamp'])->name('bootcamp');
+Route::get('/verifikasi-sertifikat', [LandingPageController::class, 'sertiverify'])->name('serti-verify');
+Route::get('/program-affiliate', [LandingPageController::class, 'affiliate'])->name('affiliate');
 
 //Verifikasi Email
 Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verify'])->middleware(['signed', 'throttle:6,1'])->name('verification.verify');
@@ -44,101 +58,43 @@ Route::post('login-admin', [LoginController::class, 'prosesLogin'])->name('prose
 Route::get('/login-superadmin-sber-md', [SuperAdminController::class, 'loginsuperadmin'])->name('super-admin-login'); //Login Superadmin
 
 // Route berdasarkan role
-
 Route::middleware(['auth:admin'])->group(function () {
-    
-    //Beranda
-    Route::get('dashboard-admin/welcome', [DashboardAdminController::class, 'show'])->name('welcome-admin');
+    Route::prefix('dashboard-admin')->name('admin.')->group(function () {
+        Route::get('/beranda', [MainController::class, 'show'])->name('welcome');
 
-    //Kursus
-    Route::get('/kursus/{categoryId}/{courseId}', [DashboardAdminController::class, 'detailkursus'])->name('detail-kursusadmin');
-    Route::get('/kursus/{id}', [DashboardAdminController::class, 'detailkursus'])->name('detailkursus'); //nggadipake, tp jgn dikomen nnti detail mentor malah ngaco 
+        // Notifikasi admin
+        Route::get('/notifications', [MainController::class, 'getNotifications'])->name('notifications');
 
-    //Laporan
-    Route::get('dashboard-admin/laporan', [DashboardAdminController::class, 'laporan'])->name('laporan-admin');
+        Route::resource('bootcamp', BootcampController::class);
 
-    //Penilaian
-    Route::get('dashboard-admin/rating', [DashboardAdminController::class, 'rating'])->name('rating-admin');
+        Route::resource('categories', CategoryController::class);
+        Route::patch('/categories/{categoryId}/courses/{courseId}/approve', [CategoryController::class, 'approve'])->name('courses.approve');
+        Route::patch('/categories/{categoryId}/courses/{courseId}/publish', [CategoryController::class, 'publish'])->name('courses.publish');
+        Route::patch('/categories/{categoryId}/courses/{courseId}/hidden', [CategoryController::class, 'hiddencourse'])->name('courses.hidden');
 
-    //Pengaturan Akun
-    Route::get('/settings-admin', [SettingController::class, 'admin'])->name('settings.admin');
-    Route::post('/settings-admin/update', [SettingController::class, 'update']);
+        Route::get('/courses/{categoryId}/{courseId}', [CourseController::class, 'show'])->name('courses.show');
 
-    //Notifikasi 
-    Route::get('/admin/notifications', [DashboardAdminController::class, 'getNotifications'])->name('admin.notifications');
-    
-    //Rating
-    Route::post('toggle/displayadmin/{id}', [RatingController::class, 'toggleDisplayAdmin'])->name('toggle.displayadmin');
-    Route::delete('/ratings/{id}', [RatingController::class, 'destroy'])->name('ratings.destroy');
+        Route::resource('data-affiliate', DataAffiliateController::class)->except(['store', 'update']);
 
-    //Mentor
-    Route::get('/mentor/detail/{id}', [DashboardAdminController::class, 'detailmentor'])->name('detaildata-mentor');
-    Route::get('dashboard-admin/data-mentor', [DashboardAdminController::class, 'mentor'])->name('datamentor-admin');
-    Route::get('dashboard-admin/tambah-mentor', [DashboardAdminController::class, 'tambahmentor'])->name('tambah-mentor');
-    Route::post('/admin/users/{id}/status/inactive', [DashboardAdminController::class, 'updateStatusToInactive'])->name('updateStatusToInactive'); 
-    Route::post('/mentor/toggle/status', [DashboardAdminController::class, 'toggleActive'])->name('mentors.toggle');
-    Route::post('/admin/users/{id}/status', [DashboardAdminController::class, 'updateStatus'])->name('admin.users.updateStatus'); 
-    Route::delete('/dashboard/mentor/{id}', [DashboardAdminController::class, 'destroy'])->name('datamentor-admin.delete');
+        Route::resource('data-mentor', DataMentorController::class)->only(['index', 'create', 'show', 'destroy']);
+        Route::post('/data-mentor/{id}/status/inactive', [DataMentorController::class, 'updateStatusToInactive'])->name('data-mentor.status.inactive');
+        Route::post('/data-mentor/{id}/status/active', [DataMentorController::class, 'updateStatus'])->name('data-mentor.status.active');
+        Route::post('/data-mentor/toggle-status', [DataMentorController::class, 'toggleActive'])->name('data-mentor.toggle-status');
 
-    //Peserta
-    Route::get('/peserta/detail/{id}', [DashboardAdminController::class, 'detailpeserta'])->name('detaildata-peserta');
-    Route::get('dashboard-admin/tambah-peserta', [DashboardAdminController::class, 'tambahpeserta'])->name('tambah-peserta');
-    Route::get('dashboard-admin/data-peserta', [DashboardAdminController::class, 'peserta'])->name('datapeserta-admin');
-    Route::delete('/dashboard/peserta/{id}', [DashboardAdminController::class, 'deletePeserta'])->name('datapeserta-admin.delete');
-    //Update status pembayaran
-    Route::put('/admin/update-status/{id}', [PaymentController::class, 'updateStatus'])->name('admin.update-status');
+        Route::resource('data-peserta', DataPesertaController::class)->only(['index', 'create', 'show', 'destroy']);
+        Route::post('/data-peserta/import-manual', [DataPesertaController::class, 'importManual'])->name('data-peserta.import-manual');
+        Route::post('/data-peserta/import-excel', [DataPesertaController::class, 'importExcel'])->name('data-peserta.import-excel');
 
-    //Pembayaran Manual
-    Route::post('/admin/import-manual', [DashboardAdminController::class, 'importManual'])->name('admin.import.manual');
-   
-    //Import Peserta dari Excel
-    Route::post('import-excel', [DashboardAdminController::class, 'importExcel'])->name('import.excel');
+        Route::resource('discount', DiscountController::class);
+        Route::post('/discount/apply', [DiscountController::class, 'applyDiscount'])->name('discount.apply');
 
-    //Export Data Pendapatan ke Excel
-    Route::get('/purchases/export', [DashboardAdminController::class, 'export'])->name('purchases.export');
+        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+        Route::get('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
 
-    //Discount 
-    Route::get('discount', [DiscountController::class, 'index'])->name('discount');
-    Route::get('discount-tambah', [DiscountController::class, 'create'])->name('discount-tambah');
-    Route::post('discount.store', [DiscountController::class, 'store'])->name('discount.store');
-    Route::get('discount/{id}/edit', [DiscountController::class, 'edit'])->name('discount.edit');
-    Route::put('discount/{id}', [DiscountController::class, 'update'])->name('discount.update');
-    Route::delete('discount/{id}', [DiscountController::class, 'destroy'])->name('discount.destroy');
+        Route::resource('news', NewsController::class);
 
-    // Kategori
-    Route::resource('categories', CategoryController::class);
-    Route::patch('/courses/{categoryId}/{courseId}/approve', [DashboardAdminController::class, 'approve'])->name('courses.approve');
-    Route::patch('/courses/{categoryId}/{courseId}/publish', [DashboardAdminController::class, 'publish'])->name('courses.publish');
-    Route::patch('/courses/{categoryId}/{courseId}/hiddencourse', [DashboardAdminController::class, 'hiddencourse'])->name('hiddencourse');
-    Route::get('/categories/{id}', [CategoryController::class, 'show'])->name('categories.show');
-
-    // FITUR/AKSES SUPERADMIN
-    Route::get('/welcome-superadmin', [SuperAdminController::class, 'index'])->name('welcome-superadmin'); //Dashboard Superadmin
-    Route::get('/settings-superadmin', [SuperAdminController::class, 'setting'])->name('settings.superadmin'); //Pengaturan Akun
-    Route::get('/dashboard-superadmin/data-admin', [SuperAdminController::class, 'dataadmin'])->name('dataadmin-superadmin'); //Data Admin
-    Route::post('/dashboard-superadmin/{id}/status-inactive', [SuperAdminController::class, 'updatestatusadmintoinactive'])->name('updatestatusadmintoinactive'); //Update Status Admin Jadi Inactive
-    Route::post('/dashboard-superadmin/{id}/status-active', [SuperAdminController::class, 'updatestatusadmintoactive'])->name('updatestatusadmintoactive'); //Update Status Admin Jadi Active
-    Route::get('/dashboard-superadmin/detail-admin/{id}', [SuperAdminController::class, 'detailadmin'])->name('detaildataadmin-superadmin'); //Detail Admin
-    Route::delete('/dashboard-superadmin/admin/{id}', [SuperAdminController::class, 'destroyadmin'])->name('dataadmin-delete-superadmin'); //Hapus Admin
-    Route::get('/dashboard-superadmin/data-mentor', [SuperAdminController::class, 'datamentor'])->name('datamentor-superadmin'); //Data Mentor
-    Route::get('/dashboard-superadmin/tambah-mentor', [SuperAdminController::class, 'tambahmentorbysuperadmin'])->name('tambah-mentor-superadmin'); //Form Tambah Data Mentor
-    Route::get('/dashboard-superadmin/detailmentor/{id}', [SuperAdminController::class, 'detailmentorsuperadmin'])->name('detaildata-mentor-superadmin'); //Detail Mentor Superadmin
-    Route::get('/dashboard-superadmin/data-peserta', [SuperAdminController::class, 'peserta'])->name('datapeserta-superadmin'); //Data Peserta Superadmin
-    Route::get('/dashboard-superadmin/detailpeserta/{id}', [SuperAdminController::class, 'detailpeserta'])->name('detaildata-peserta-superadmin'); //Detail Data Peserta Superadmin
-    Route::get('/dashboard-superadmin/edit-peserta/{id}', [SuperAdminController::class, 'editpeserta'])->name('edit-peserta-superadmin'); //Form Edit Data Peserta Superadmin
-    Route::put('/dashboard-superadmin/update-peserta/{id}', [SuperAdminController::class, 'updatepeserta'])->name('update-peserta-superadmin'); ///Update Data Peserta Superadmin
-    Route::get('/dashboard-superadmin/kategori', [SuperAdminController::class, 'kategori'])->name('kategori-superadmin'); //Kategori Kursus Superadmin
-    Route::get('/dashboard-superadmin/tambah-kategori', [SuperAdminController::class, 'tambahkategori'])->name('tambahkategori-superadmin'); //Form Tambah Kategori Kursus Superadmin
-    Route::get('/dashboard-superadmin/edit-kategori/{category}', [SuperAdminController::class, 'editkategori'])->name('editkategori-superadmin'); //Form Edit Kategori Kursus Superadmin
-    Route::get('/dashboard-superadmin/detail-kategori/{id}', [SuperadminController::class, 'detailkategori'])->name('detailkategori-superadmin'); //Detail kategori Superadmin
-    Route::get('/dashboard-superadmin/kursus/{categoryId}/{courseId}', [SuperAdminController::class, 'detailkursus'])->name('detail-kursus-superadmin'); //Detail Kursus Superadmin
-    Route::get('/dashboard-superadmin/diskon', [SuperAdminController::class, 'diskon'])->name('diskon-superadmin'); //Diskon Superadmin
-    Route::get('/dashboard-superadmin/tambah-diskon', [SuperAdminController::class, 'tambahdiskon'])->name('tambah-diskon-superadmin'); //Tambah Diskon Superadmin
-    Route::get('/dashboard-superadmin/edit-diskon/{id}', [SuperAdminController::class, 'editdiskon'])->name('editdiskon-superadmin'); //Edit Diskon Superadmin
-    Route::get('/dashboard-superadmin/rating-superadmin', [SuperAdminController::class, 'rating'])->name('rating-superadmin'); //Rating Superadmin
-    Route::get('dashboard-superadmin/laporan-superadmin', [SuperAdminController::class, 'laporan'])->name('laporan-superadmin'); //Laporan Superadmin
-    Route::get('/dashboard-superadmin/notifications', [SuperAdminController::class, 'Notifications'])->name('superadmin.notifications'); //Notifikasi Superadmin
-
+        Route::resource('rating', DashboardAdminRatingController::class)->only(['index', 'destroy']);
+    });
 });
 
 Route::middleware(['auth:student'])->group(function () {
@@ -153,8 +109,12 @@ Route::middleware(['auth:student'])->group(function () {
     Route::get('dashboard-peserta/quiz', [DashboardPesertaController::class, 'quiz'])->name('quiz-peserta');
     Route::get('dashboard-peserta/kategori', [DashboardPesertaController::class, 'kategori'])->name('kategori-peserta');
     Route::get('/categories/{id}/detail', [DashboardPesertaController::class, 'showCategoryDetail'])->name('categories-detail');
+
+    //Setting
     Route::get('/settings-student', [SettingController::class, 'student'])->name('settings-student');
     Route::put('/update-peserta', [SettingController::class, 'updatePeserta'])->name('update-peserta');
+    Route::get('/user/{user}/avatar', [SettingController::class, 'showAvatar'])->name('user.avatar');
+
     Route::post('/kursus/{course_id}/rating', [RatingKursusController::class, 'store'])->name('ratings.store');
     Route::post('/rating/load-more', [DashboardPesertaController::class, 'loadMoreRating'])->name('rating.loadMore'); // rooute untuk menampilkan lebih banyak rating di halama detail kursus (role peserta)
     Route::post('/materi/{materi}/next-or-finish', [MateriController::class, 'nextOrFinish'])->name('materi.nextOrFinish');
@@ -199,7 +159,7 @@ Route::middleware(['auth:mentor'])->group(function () {
     Route::get('/notifications/final-task-user', [DashboardMentorController::class, 'getPendingNotifications']);
     Route::get('/settings-mentor', [SettingController::class, 'mentor'])->name('settings.mentor');
     Route::post('/settings', [SettingController::class, 'update']);
-    
+
     //Kursus
     Route::resource('courses', CourseController::class);
 
@@ -252,4 +212,6 @@ Route::fallback(function () {
 });
 
 require __DIR__.'/auth.php';
+
+require __DIR__.'/affiliate.php';
 

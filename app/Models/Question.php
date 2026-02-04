@@ -19,7 +19,7 @@ class Question extends Model
     // Relasi ke tabel answers
     public function answers()
     {
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class, 'question_id');
     }
 }
 

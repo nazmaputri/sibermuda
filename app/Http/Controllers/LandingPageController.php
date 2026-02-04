@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\MateriVideo;
@@ -9,6 +10,7 @@ use App\Models\Rating;
 use App\Models\User;
 use App\Models\RatingKursus;
 use App\Models\Discount;
+use App\Models\Purchase;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,72 +18,104 @@ class LandingPageController extends Controller
 {
     public function index()
     {
-        return view('components.home');
+        return view('landing-page.home');
     }
 
-    public function categorylp()
+    public function category()
     {
         $category = Category::all();
-        return view('components.course', compact('category'));
+        return view('landing-page.course.index', compact('category'));
     }
 
     public function visi()
     {
-        return view('components.visi');
+        return view('landing-page.visi');
     }
 
-    public function price()
+    public function ratingAll()
     {
-        return view('components.price');
+        return view('landing-page.rating');
+    }
+
+    public function buyingTutor()
+    {
+        return view('landing-page.buying-tutor');
+    }
+
+    public function news()
+    {
+        return view('landing-page.news.index');
+    }
+
+    public function newsShow($slug)
+    {
+        return view('landing-page.news.show', compact('slug'));
+    }
+
+    public function bootcamp()
+    {
+        return view('landing-page.bootcamp');
+    }
+
+    public function sertiverify()
+    {
+        return view('landing-page.serti-verify');
+    }
+
+    public function affiliate()
+    {
+        return view('landing-page.affiliate');
     }
 
     public function about()
     {
-        return view('components.about');
+        $mentor = User::where('role', 'mentor')
+            ->where('status', 'active')
+            ->with('courses')
+            ->get();
+
+        return view('landing-page.about', compact('mentor'));
     }
 
-    public function rating()
+    public function rating(Request $request)
     {
-        return view('components.rating');
+        $minChars = $request->get('min_chars', 100);
+
+        $ratings = Rating::where('display', true)
+            ->get()
+            ->filter(function ($rating) use ($minChars) {
+                $charCount = strlen(str_replace(' ', '', $rating->comment));
+                return $charCount >= $minChars;
+            })
+            ->sortByDesc('created_at')
+            ->values();
+
+        $totalTestimonials = $ratings->count();
+        $averageRating = $ratings->avg('rating') ?? 0;
+
+        return view('landing-page.course.rating', compact('ratings', 'totalTestimonials', 'averageRating', 'minChars'));
     }
 
-    public function tutorialbeli()
+    public function price()
     {
-        return view('components.tutorial-beli');
-    }
+        $totalPeserta = Purchase::where('course_id', $courseId)
+            ->where('status', 'success')
+            ->whereHas('user', function ($query) {
+                $query->whereNull('deleted_at');
+            })
+            ->count();
 
-    public function tentangkami()
-    {
-        $mentor = User::where('role', 'mentor')->with('courses')->get();
-    
-        return view('components.tentang-kami', compact('mentor'));
-    }    
-    
-    public function detail($slug)
-    {
-        $today = Carbon::now();
-    
-        // Ambil kursus berdasarkan slug dan relasi diskon yang aktif
-        $course = Course::with(['discounts' => function ($query) use ($today) {
-            $query->whereDate('start_date', '<=', $today)
-                  ->whereDate('end_date', '>=', $today);
-        }])->where('slug', $slug)->firstOrFail();
-    
-        // Cek diskon yang berlaku untuk semua kursus
         $discount = Discount::whereDate('start_date', '<=', $today)
             ->whereDate('end_date', '>=', $today)
             ->where('apply_to_all', true)
             ->first();
-    
-        // Ambil diskon aktif khusus untuk kursus ini (jika ada)
+
         $activeDiscount = $course->discounts->first();
-    
-        // Gunakan diskon khusus jika tersedia
+
         if ($activeDiscount) {
             $discount = $activeDiscount;
         }
-    
-        // Waktu mulai & akhir diskon
+
         if ($discount) {
             $start_datetime = Carbon::parse($discount->start_date . ' ' . $discount->start_time);
             $end_datetime = Carbon::parse($discount->end_date . ' ' . $discount->end_time);
@@ -89,71 +123,117 @@ class LandingPageController extends Controller
             $start_datetime = null;
             $end_datetime = null;
         }
-    
-        // Ambil rating berdasarkan course_id
+
         $ratings = RatingKursus::where('course_id', $course->id)->with('user')->get();
-    
-        // Harga & Diskon
+
         $originalPrice = $course->price;
         $discountPercentage = $discount ? $discount->discount_percentage : 0;
         $discountedPrice = $originalPrice * (1 - $discountPercentage / 100);
-    
-        return view('kursus-detail', compact(
-            'course', 'ratings', 'discount',
-            'start_datetime', 'end_datetime',
-            'originalPrice', 'discountPercentage', 'discountedPrice'
+
+        return view('landing-page.course.price', compact(
+            'totalPeserta',
+            'discount',
+            'start_datetime',
+            'end_datetime',
+            'originalPrice',
+            'discountPercentage',
+            'discountedPrice'
         ));
     }
-    
-    public function category($slug)
+
+    public function detail($slug)
     {
-        // Mendapatkan kategori dengan kursus yang statusnya 'approved' atau 'published'
+        $today = Carbon::now();
+
+        $course = Course::with(['discounts' => function ($query) use ($today) {
+            $query->whereDate('start_date', '<=', $today)
+                ->whereDate('end_date', '>=', $today);
+        }])->where('slug', $slug)->firstOrFail();
+
+        $discount = Discount::whereDate('start_date', '<=', $today)
+            ->whereDate('end_date', '>=', $today)
+            ->where('apply_to_all', true)
+            ->first();
+
+        $activeDiscount = $course->discounts->first();
+
+        if ($activeDiscount) {
+            $discount = $activeDiscount;
+        }
+
+        if ($discount) {
+            $start_datetime = Carbon::parse($discount->start_date . ' ' . $discount->start_time);
+            $end_datetime = Carbon::parse($discount->end_date . ' ' . $discount->end_time);
+        } else {
+            $start_datetime = null;
+            $end_datetime = null;
+        }
+
+        $ratings = RatingKursus::where('course_id', $course->id)->with('user')->get();
+
+        $originalPrice = $course->price;
+        $discountPercentage = $discount ? $discount->discount_percentage : 0;
+        $discountedPrice = $originalPrice * (1 - $discountPercentage / 100);
+
+        return view('course-show', compact(
+            'course',
+            'ratings',
+            'discount',
+            'start_datetime',
+            'end_datetime',
+            'originalPrice',
+            'discountPercentage',
+            'discountedPrice'
+        ));
+    }
+
+    public function categoryShow($slug)
+    {
         $category = Category::with(['courses' => function ($query) {
             $query->whereIn('status', ['approved', 'published']);
         }])->where('slug', $slug)->firstOrFail();
 
-        // Mengambil kursus dari kategori yang ditemukan
         $courses = $category->courses;
 
-        // Menghitung rata-rata rating untuk setiap kursus
         foreach ($courses as $course) {
             $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
             $course->average_rating = min($averageRating ?? 0, 5); // Cegah null
 
             $activeDiscount = Discount::where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->where(function ($query) use ($course) {
-                $query->where('apply_to_all', false)
-                    ->whereHas('courses', function ($q) use ($course) {
-                        $q->where('course_id', $course->id);
-                    });
-            })
-            ->first();
+                ->where('end_date', '>=', now())
+                ->where(function ($query) use ($course) {
+                    $query->where('apply_to_all', false)
+                        ->whereHas('courses', function ($q) use ($course) {
+                            $q->where('course_id', $course->id);
+                        });
+                })
+                ->first();
 
-            // Hitung harga setelah diskon jika diskon hanya berlaku pada kursus tertentu
             if ($activeDiscount) {
-            $discountPercentage = $activeDiscount->discount_percentage;
-            $discountedPrice = $course->price - ($course->price * $discountPercentage / 100);
-            $course->discounted_price = $discountedPrice;
+                $discountPercentage = $activeDiscount->discount_percentage;
+                $discountedPrice = $course->price - ($course->price * $discountPercentage / 100);
+                $course->discounted_price = $discountedPrice;
             } else {
-            // Jika diskon berlaku untuk semua (apply_to_all = true), jangan tampilkan harga diskon
-            $course->discounted_price = null;
+                $course->discounted_price = null;
             }
         }
 
-        // Mengirimkan data ke view
-        return view('category-detail', compact('category', 'courses'));
+        return view('category-show', compact('category', 'courses'));
     }
-    
-    public function lp()
+
+    public function main()
     {
-        $today = Carbon::now();
-    
-        $discount = Discount::whereDate('start_date', '<=', $today)
-            ->whereDate('end_date', '>=', $today)
-            ->where('apply_to_all', true)
+        $now = Carbon::now();
+
+        $discount = Discount::where('apply_to_all', true)
+            ->where(function ($query) use ($now) {
+                $query->where(function ($q) use ($now) {
+                    $q->whereRaw("STR_TO_DATE(CONCAT(start_date, ' ', start_time), '%Y-%m-%d %H:%i:%s') <= ?", [$now])
+                        ->whereRaw("STR_TO_DATE(CONCAT(end_date, ' ', end_time), '%Y-%m-%d %H:%i:%s') >= ?", [$now]);
+                });
+            })
             ->first();
-    
+
         if ($discount) {
             $start_datetime = Carbon::parse($discount->start_date . ' ' . $discount->start_time);
             $end_datetime = Carbon::parse($discount->end_date . ' ' . $discount->end_time);
@@ -164,48 +244,58 @@ class LandingPageController extends Controller
 
         $courses = Course::where('status', 'published')->get();
 
-        $totalMentor = User::where('role', 'mentor')->count();
+        $totalMentor = User::where('role', 'mentor')
+            ->where('status', 'active')
+            ->count();
         $totalStudent = User::where('role', 'student')->count();
 
-        // Menghitung rating rata-rata untuk setiap kursus dari tabel rating_kursus
         foreach ($courses as $course) {
-            $course->video_count = MateriVideo::whereIn('materi_id', 
-            Materi::where('course_id', $course->id)->pluck('id')
-        )->count();
+            $course->video_count = MateriVideo::whereIn(
+                'materi_id',
+                Materi::where('course_id', $course->id)->pluck('id')
+            )->count();
 
-            $activeDiscount = Discount::where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->where(function ($query) use ($course) {
-                $query->where('apply_to_all', false)
-                    ->whereHas('courses', function ($q) use ($course) {
-                        $q->where('course_id', $course->id);
-                    });
-            })
-            ->first();
+            $course->total_participants = Purchase::where('course_id', $course->id)
+                ->where('status', 'success')
+                ->whereHas('user', function ($query) {
+                    $query->whereNull('deleted_at');
+                })
+                ->count();
 
-            // Hitung harga setelah diskon jika diskon hanya berlaku pada kursus tertentu
+            $activeDiscount = Discount::where('apply_to_all', false)
+                ->whereHas('courses', function ($q) use ($course) {
+                    $q->where('course_id', $course->id);
+                })
+                ->where(function ($query) use ($now) {
+                    $query->whereRaw("STR_TO_DATE(CONCAT(start_date, ' ', start_time), '%Y-%m-%d %H:%i:%s') <= ?", [$now])
+                        ->whereRaw("STR_TO_DATE(CONCAT(end_date, ' ', end_time), '%Y-%m-%d %H:%i:%s') >= ?", [$now]);
+                })
+                ->first();
+
             if ($activeDiscount) {
-            $discountPercentage = $activeDiscount->discount_percentage;
-            $discountedPrice = $course->price - ($course->price * $discountPercentage / 100);
-            $course->discounted_price = $discountedPrice;
+                $discountPercentage = $activeDiscount->discount_percentage;
+                $course->discounted_price = $course->price - ($course->price * $discountPercentage / 100);
             } else {
-            // Jika diskon berlaku untuk semua (apply_to_all = true), jangan tampilkan harga diskon
-            $course->discounted_price = null;
+                $course->discounted_price = null;
             }
-        
+
             $course->quiz_count = $course->quizzes()->count();
-            // $course->pdf_count = $course->pdfMaterials()->count();
-            
-            // Menghitung rata-rata rating dan membatasi maksimal 5
             $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
-            $course->average_rating = min($averageRating, 5);  // Membatasi nilai rating maksimal 5 
+            $course->average_rating = min($averageRating ?? 0, 5);
         }
 
-        $category = Category::select('id', 'name', 'slug')->get();
+        $categories = Category::select('id', 'name', 'slug')->get();
         $ratings = Rating::all();
-        
-        // Kirim data ke view
-        return view('welcome', compact('category', 'courses', 'ratings', 'discount', 'start_datetime', 'end_datetime', 'totalMentor', 'totalStudent'));
-    }
 
+        return view('main', compact(
+            'categories',
+            'courses',
+            'ratings',
+            'discount',
+            'start_datetime',
+            'end_datetime',
+            'totalMentor',
+            'totalStudent'
+        ));
+    }
 }

@@ -19,7 +19,7 @@ class PurchasesExport implements FromArray, WithHeadings, WithEvents, ShouldAuto
     protected $rowStyles = [];
     protected $totalOverall = 0;
 
-    public function __construct($courseId, $month)
+   public function __construct($courseId, $month)
     {
         $this->courseId = $courseId;
         $this->month = $month;

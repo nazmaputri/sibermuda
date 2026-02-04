@@ -13,18 +13,18 @@ return new class extends Migration
     {
         // Tabel users
         Schema::create('users', function (Blueprint $table) {
-            $table->id(); 
-            $table->string('name'); 
+            $table->id();
+            $table->string('name');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('photo')->nullable();
-            $table->string('email')->unique(); 
-            $table->string('password'); 
-            $table->string('phone_number')->nullable(); 
-            $table->enum('role', ['student', 'mentor', 'admin'])->default('student'); 
-            $table->text('experience')->nullable(); 
-            $table->enum('status', ['active', 'inactive', 'pending'])->default('pending'); 
-            $table->rememberToken(); 
-            $table->timestamps(); 
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('phone_number')->nullable();
+            $table->enum('role', ['student', 'mentor', 'admin', 'affiliate', 'school-admin'])->default('student');
+            $table->text('experience')->nullable();
+            $table->enum('status', ['active', 'inactive', 'pending'])->default('pending');
+            $table->rememberToken();
+            $table->timestamps();
         });
 
         // Tabel untuk reset password tokens

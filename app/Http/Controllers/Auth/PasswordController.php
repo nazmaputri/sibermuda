@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth; 
 
 class PasswordController extends Controller
 {
@@ -28,7 +29,6 @@ class PasswordController extends Controller
         return $status === Password::RESET_LINK_SENT
             ? redirect()->route('success-forgot-password')->with('status', __($status))
             : back()->withErrors(['email' => __($status)]);
-    
     }
 
     // Tampilkan form reset password dari link email
@@ -36,7 +36,7 @@ class PasswordController extends Controller
     {
         return view('auth.reset-password', [
             'token' => $token,
-            'email' => $request->query('email') // pastikan email dikirim lewat URL (query string)
+            'email' => $request->query('email')
         ]);
     }
 
@@ -48,34 +48,30 @@ class PasswordController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8|confirmed',
         ]);
-    
-        // Proses reset password
+
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
-                // Update password user
+                // Update password dan regenerate token
                 $user->forceFill([
                     'password' => Hash::make($password),
-                ])->save();
-    
-                // Trigger event
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                // Logout semua session lain user (pastikan SESSION_DRIVER=database)
+                Auth::logoutOtherDevices($password);
+
                 event(new PasswordReset($user));
-    
-                Log::info('Password successfully reset for user: ' . $user->email);
             }
         );
-    
-        // Cek hasil reset
+
         if ($status === Password::PASSWORD_RESET) {
             return redirect()->route('success-reset-password')
-                             ->with('status', __('Password berhasil direset.'));
+                             ->with('status', __('Password berhasil direset. Semua session lama telah di-logout.'));
         }
-    
-        // Gagal reset
-        Log::error('Password reset failed for email: ' . $request->email . ' | Status: ' . $status);
+
         return back()->withErrors(['email' => [__($status)]])
                      ->withInput($request->only('email'));
     }
-    
 }
-

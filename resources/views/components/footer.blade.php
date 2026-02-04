@@ -60,17 +60,17 @@
         <div class="mt-8 border-t border-white pt-4 text-sm">
             <div class="flex flex-col md:flex-row justify-center items-center text-center gap-1 md:gap-2">
                 <p>
-                    Copyright &copy; 2025 
+                    Copyright &copy; 2025
                     <span class="text-white">Sibermuda.Id</span> All rights reserved.
                 </p>
-                <p>
-                    Powered by 
-                    <a href="https://www.instagram.com/pplgsmkn1ciomas?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
-                      target="_blank" 
+                {{-- <p>
+                    Powered by
+                    <a href="https://www.instagram.com/pplgsmkn1ciomas?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                      target="_blank"
                       class="text-white no-underline hover:text-gray-300 ml-1">
                       PPLG SMKN 1 Ciomas
                     </a>
-                </p>
+                </p> --}}
             </div>
         </div>
     </div>

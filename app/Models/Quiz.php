@@ -23,13 +23,13 @@ class Quiz extends Model
     // Relasi dengan model Course
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     // Relasi dengan model Question 
     public function questions()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(Question::class, 'quiz_id');
     }
 
     // Relasi dengan materi

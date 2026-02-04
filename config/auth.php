@@ -50,6 +50,16 @@ return [
             'driver' => 'session',
             'provider' => 'mentors',
         ],
+
+        'affiliate' => [
+            'driver' => 'session',
+            'provider' => 'affiliates',
+        ],
+
+        'school-admin' => [
+            'driver' => 'session',
+            'provider' => 'school-admins',
+        ],
     ],
 
     /*
@@ -81,6 +91,16 @@ return [
         ],
 
         'mentors' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'affiliates' => [
+            'driver' => 'eloquent',
+            'model' => env('AUTH_MODEL', App\Models\User::class),
+        ],
+
+        'school-admins' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],

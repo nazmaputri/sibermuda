@@ -10,9 +10,12 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    /**
+     * Menampilkan daftar kategori
+     */
     public function index(Request $request)
     {
-        $search = $request->input('search'); // Ambil input dari searchbar
+        $search = $request->input('search');
 
         $categories = Category::when($search, function ($query, $search) {
             return $query->where('name', 'like', "%{$search}%");
@@ -20,22 +23,20 @@ class CategoryController extends Controller
 
         $courses = Course::paginate(10);
 
-        return view('dashboard-admin.category', compact('categories', 'courses', 'search'));
+        return view('dashboard-admin.category.index', compact('categories', 'courses', 'search'));
     }
 
-    public function show($id)
-    {
-        $category = Category::with('courses')->where('id', $id)->firstOrFail();
-        $courses = $category->courses()->paginate(5);
-  
-        return view('dashboard-admin.category-detail', compact('category', 'courses'));
-    }    
-
+    /**
+     * Menampilkan form tambah kategori
+     */
     public function create()
     {
-        return view('dashboard-admin.category-create');
+        return view('dashboard-admin.category.create');
     }
 
+    /**
+     * Menyimpan kategori baru
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -46,32 +47,47 @@ class CategoryController extends Controller
             'name.required' => 'Nama kategori wajib diisi.',
             'name.string' => 'Nama kategori harus berupa teks.',
             'name.max' => 'Nama kategori tidak boleh lebih dari 255 karakter.',
-            'image.required' => 'foto wajib diisi.',
+            'image.required' => 'Foto wajib diisi.',
             'image.image' => 'File yang diunggah harus berupa gambar.',
             'image.mimes' => 'Format gambar harus berupa jpg, png, atau jpeg.',
             'image.max' => 'Ukuran gambar tidak boleh lebih dari 2MB.',
-            'description.required' => 'deskripsi wajib diisi.',
+            'description.required' => 'Deskripsi wajib diisi.',
             'description.string' => 'Deskripsi harus berupa teks.',
         ]);
 
         $data = $request->only(['name', 'description']);
 
-        // Cek apakah ada gambar yang di-upload
         if ($request->hasFile('image')) {
             $data['image_path'] = $request->file('image')->store('images/kategori', 'public');
         }
 
-        // Simpan kategori
         Category::create($data);
 
-        return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan!');
+        return redirect()->route('category.index')->with('success', 'Kategori berhasil ditambahkan!');
     }
 
+    /**
+     * Menampilkan detail kategori beserta kursus
+     */
+    public function show($id)
+    {
+        $category = Category::with('courses')->where('id', $id)->firstOrFail();
+        $courses = $category->courses()->paginate(5);
+
+        return view('dashboard-admin.category.show', compact('category', 'courses'));
+    }
+
+    /**
+     * Menampilkan form edit kategori
+     */
     public function edit(Category $category)
     {
-        return view('dashboard-admin.category-edit', compact('category'));
+        return view('dashboard-admin.category.edit', compact('category'));
     }
 
+    /**
+     * Update kategori
+     */
     public function update(Request $request, Category $category)
     {
         $request->validate([
@@ -92,22 +108,22 @@ class CategoryController extends Controller
         $category->name = $request->input('name');
         $category->description = $request->input('description');
 
-        // Cek apakah ada gambar baru
         if ($request->hasFile('image')) {
-            // Hapus gambar lama jika ada
             if ($category->image_path) {
                 Storage::disk('public')->delete($category->image_path);
             }
 
-            // Simpan gambar baru
             $category->image_path = $request->file('image')->store('images/kategori', 'public');
         }
 
         $category->save();
 
-        return redirect()->route('categories.index')->with('success', 'Kategori berhasil diperbarui!');
+        return redirect()->route('category.index')->with('success', 'Kategori berhasil diperbarui!');
     }
 
+    /**
+     * Menghapus kategori
+     */
     public function destroy(Category $category)
     {
         if ($category->image_path) {
@@ -116,6 +132,42 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus!');
+        return redirect()->route('category.index')->with('success', 'Kategori berhasil dihapus!');
+    }
+
+    /**
+     * Approve kursus
+     */
+    public function approve($categoryId, $courseId)
+    {
+        $course = Course::findOrFail($courseId);
+        $course->status = 'approved';
+        $course->save();
+
+        return redirect()->route('category.show', $categoryId)->with('success', 'Kursus berhasil disetujui!');
+    }
+
+    /**
+     * Publish kursus
+     */
+    public function publish($categoryId, $courseId)
+    {
+        $course = Course::findOrFail($courseId);
+        $course->status = 'published';
+        $course->save();
+
+        return redirect()->route('category.show', $categoryId)->with('success', 'Kursus berhasil dipublikasikan!');
+    }
+
+    /**
+     * Sembunyikan kursus (batalkan publish)
+     */
+    public function hiddencourse($categoryId, $courseId)
+    {
+        $course = Course::findOrFail($courseId);
+        $course->status = 'nopublished';
+        $course->save();
+
+        return redirect()->route('category.show', $categoryId)->with('success', 'Kursus berhasil disembunyikan!');
     }
 }

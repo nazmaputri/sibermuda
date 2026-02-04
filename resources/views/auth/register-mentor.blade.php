@@ -60,7 +60,7 @@
                     <h2 class="text-3xl font-semibold">Daftar Mentor</h2>
                 </div>
                 <h4 class="text-center text-gray-700">
-                    Ayo menjadi mentor bersama Sibermuda.Idn!
+                    Ayo menjadi mentor bersama Sibermuda.Id!
                 </h4>
             </div> 
 

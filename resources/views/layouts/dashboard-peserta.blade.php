@@ -6,6 +6,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite('resources/css/app.css')
     @section('title', 'Dashboard')
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}?v=2>
+
+    <title>Sibermuda : Platform Kursus Online</title> 
+
+    <meta property="og:title" content="Sibermuda: Platform Kursus Online">
+    <meta property="og:description" content="Bangun karirmu dengan pembelajaran yang tepat, bersama mentor terbaik dan materi berstandar industri.">
+    <meta property="og:image" content="https://sibermuda.id/storage/logo.png"> <meta property="og:url" content="https://sibermuda.id">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="id_ID">
     <script src="https://cdn.tailwindcss.com"></script> <!-- import tailwind (pake CDN juga soalnya pas di hosting ga muncul style nya) -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script> <!-- import alphine untuk layout responsivenya -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -382,7 +391,7 @@
                         <!-- Pengecekan gambar profil -->
                         @if(Auth::user()->photo)
                             <!-- Tampilkan gambar profil jika ada -->
-                            <img src="{{ asset('storage/' . Auth::user()->photo) }}" alt="User Profile" class="rounded-full w-8 h-8 object-cover">
+                            <img src="{{ route('user.avatar', $user->id) }}" alt="User Profile" class="rounded-full w-8 h-8 object-cover">
                             @else
                             <!-- Tampilkan gambar default jika tidak ada foto profil -->
                             <img src="{{ asset('storage/default-profile.jpg') }}" alt="Default Profile" class="rounded-full w-8 h-8 object-cover">

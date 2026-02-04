@@ -16,6 +16,7 @@ class KeranjangController extends Controller
     // Menampilkan halaman keranjang
     public function index(Request $request)
     {
+          $user   = auth()->user();
         // Hapus keranjang jika kursusnya sudah dibeli
         Keranjang::where('user_id', Auth::id())->get()->each(function ($cart) {
             $purchased = Purchase::where('user_id', Auth::id())
@@ -137,7 +138,7 @@ class KeranjangController extends Controller
         ->where('role', 'admin')
         ->value('phone_number');
     
-        return view('dashboard-peserta.keranjang', compact(
+        return view('dashboard-peserta.keranjang', compact('user',
             'availableCarts','carts', 'couponDiscount', 'totalPrice', 'totalPriceAfterDiscount', 'couponCode', 'nomorAdmin',  'pendingTransactions', 'subtotal', 'courseSpecificDiscounts', 'availableCount', 'pendingCount', 'globalDiscount', 'purchasesWithPrices'
            
         ));
@@ -145,6 +146,7 @@ class KeranjangController extends Controller
 
     public function keranjangpending(Request $request)
     {
+          $user   = auth()->user();
         // Ambil data pembelian dengan status pending
         $purchases = Purchase::where('user_id', auth()->id())
             ->whereHas('payment', function ($query) {
@@ -192,7 +194,7 @@ class KeranjangController extends Controller
         $availableCount = $availableCarts->count();
         $pendingCount = $pendingCarts->count();
     
-        return view('dashboard-peserta.keranjang-pending', compact('pendingCarts', 'pendingCount', 'availableCount', 'purchasesWithPrices'));
+        return view('dashboard-peserta.keranjang-pending', compact('user', 'pendingCarts', 'pendingCount', 'availableCount', 'purchasesWithPrices'));
     }
     
     // Menambahkan kursus ke keranjang (hanya bisa ditambahkan sekali)

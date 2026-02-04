@@ -40,6 +40,7 @@ class DashboardPesertaController extends Controller
 
     public function detail($slug)
     {
+          $user   = auth()->user();
         // Ambil course berdasarkan slug
         $course = Course::where('slug', $slug)->first();
 
@@ -55,16 +56,17 @@ class DashboardPesertaController extends Controller
             ->exists();
 
         // Kirim data kursus dan status rating ke view
-        return view('dashboard-peserta.kursus-detail', compact('course', 'hasRated'));
+        return view('dashboard-peserta.kursus-detail', compact('user', 'course', 'hasRated'));
     }
 
     public function index() {
         return view('layouts.dashboard-peserta');
     }
 
-    public function show()
+   public function show()
     {
         $userId = auth()->id();
+        $user   = auth()->user();
 
         $courses = Course::whereIn('id', function ($query) use ($userId) {
             $query->select('course_id')
@@ -75,17 +77,17 @@ class DashboardPesertaController extends Controller
 
         $totalKursus = $courses->count();
 
-        Carbon::setLocale('en'); 
+        Carbon::setLocale('en');
         $currentDateTime = Carbon::now();  // Mengambil tanggal dan waktu sekarang
         $currentDateTimeFormatted = $currentDateTime->translatedFormat('l, d F Y H:i:s');
 
         $canDownloadCertificates = [];
 
-        $cyberKeywords = [
-            'cyber security', 'siber', 'cybersecurity', 
-            'cyber', 'Cyber Security', 'CyberSecurity', 
-            'Cybersecurity', 'Cyber'
-        ];
+        // $cyberKeywords = [
+        //     'cyber security', 'siber', 'cybersecurity',
+        //     'cyber', 'Cyber Security', 'CyberSecurity',
+        //     'Cybersecurity', 'Cyber'
+        // ];
 
         foreach ($courses as $course) {
 
@@ -105,47 +107,46 @@ class DashboardPesertaController extends Controller
 
             $isAllowed = false;
 
-            $categoryName = strtolower($course->category->name ?? '');
+            // $categoryName = strtolower($course->category->name ?? '');
 
             // Cek apakah kategori termasuk cybersecurity
-            $isCyberSecurity = collect($cyberKeywords)
-                ->map(fn($item) => strtolower($item))
-                ->contains($categoryName);
+            // $isCyberSecurity = collect($cyberKeywords)
+            //     ->map(fn($item) => strtolower($item))
+            //     ->contains($categoryName);
 
-                if ($isCyberSecurity) {
-                    // Butuh persetujuan mentor
-                    $certificateStatus = DB::table('final_task_user')
-                        ->where('user_id', $userId)
-                        ->where('course_id', $course->id)
-                        ->value('certificate_status');
-                
-                    $isAllowed = $certificateStatus === 'approved';
-                } else {
+            //     if ($isCyberSecurity) {
+            //         // Butuh persetujuan mentor
+            //         $certificateStatus = DB::table('final_task_user')
+            //             ->where('user_id', $userId)
+            //             ->where('course_id', $course->id)
+            //             ->value('certificate_status');
+
+            //         $isAllowed = $certificateStatus === 'approved';
+            //     } else {
                     // Non-cybersecurity: ambil nilai tertinggi
                     $nilai = DB::table('materi_user')
                         ->where('user_id', $userId)
                         ->where('courses_id', $course->id)
                         ->max('nilai'); // <-- ini penting
-                
+
                     $isAllowed = $nilai !== null && $nilai >= 75;
-                }
-                
-                $canDownloadCertificates[$course->id] = $isAllowed;                
+            
+                $canDownloadCertificates[$course->id] = $isAllowed;
 
             // Menghitung rata-rata rating untuk kursus ini
                 $averageRating = RatingKursus::where('course_id', $course->id)->avg('stars');
-                
+
                 // Membatasi rating maksimal 5
                 $averageRating = min($averageRating, 5);
-            
+
                 // Menyimpan rata-rata rating untuk kursus
                 $course->average_rating = $averageRating;
-                
+
                 // Menghitung jumlah bintang penuh, setengah, dan kosong
                 $fullStars = floor($averageRating); // Bintang penuh
                 $halfStar = $averageRating - $fullStars >= 0.5; // Bintang setengah
                 $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0); // Bintang kosong
-            
+
                 // Menyimpan jumlah bintang untuk ditampilkan di view
                 $course->rating_full_stars = $fullStars;
                 $course->rating_half_star = $halfStar;
@@ -155,7 +156,7 @@ class DashboardPesertaController extends Controller
         // Hitung total sertifikat yang tersedia
         $totalSertifikat = collect($canDownloadCertificates)->filter()->count();
 
-        return view('dashboard-peserta.welcome', compact('courses', 'canDownloadCertificates', 'totalKursus', 'totalSertifikat', 'currentDateTimeFormatted'));
+        return view('dashboard-peserta.welcome', compact('user', 'courses', 'canDownloadCertificates', 'totalKursus', 'totalSertifikat', 'currentDateTimeFormatted'));
     }
     
     public function chat() {
@@ -164,6 +165,7 @@ class DashboardPesertaController extends Controller
 
     public function kursus($slug, $categorySlug = null)
     {
+         $user   = auth()->user();
         // Cari course berdasarkan slug → ambil id
         $course = Course::where('slug', $slug)->firstOrFail();
         $id = $course->id;
@@ -202,7 +204,7 @@ class DashboardPesertaController extends Controller
             }
         }
 
-        return view('dashboard-peserta.detail', compact('course', 'paymentStatus', 'hasPurchased', 'category', 'rating', 'id', 'totalCount'));
+        return view('dashboard-peserta.detail', compact('user', 'course', 'paymentStatus', 'hasPurchased', 'category', 'rating', 'id', 'totalCount'));
     }
 
     // Untuk AJAX saat load lebih banyak rating di halaman detail kursus (role peserta)
@@ -224,6 +226,7 @@ class DashboardPesertaController extends Controller
     
     public function study($slug, $materiId = null)
     {
+        $user   = auth()->user();
         $course = Course::with('materi')->where('slug', $slug)->firstOrFail();
         $id = $course->id;
 
@@ -258,7 +261,7 @@ class DashboardPesertaController extends Controller
                     
         $allMateriCompleted = count($completedMateriIds) === $course->materi->count();
 
-        return view('dashboard-peserta.study', compact(
+        return view('dashboard-peserta.study', compact( 'user',
             'course', 'quizHistories', 'finalTask', 'finalTaskHistory', 'completedMateriIds', 'materiAktif', 'allMateriCompleted'
         ));
     }
@@ -266,6 +269,7 @@ class DashboardPesertaController extends Controller
     public function kursusTerdaftar()
     {
         // Mendapatkan ID user yang sedang login
+          $user   = auth()->user();
         $userId = auth()->id();
     
         // Mengambil kursus yang sudah dibeli oleh user dengan status pembayaran 'success'
@@ -282,7 +286,7 @@ class DashboardPesertaController extends Controller
             $course->isChatActive = $course->chat == 1;
         }
     
-        return view('dashboard-peserta.kursus', compact('courses'));
+        return view('dashboard-peserta.kursus', compact('user', 'courses'));
     }
     
 
@@ -295,15 +299,19 @@ class DashboardPesertaController extends Controller
     }
 
     public function kategori(Request $request) {
+         $user   = auth()->user();
         // Ambil semua kategori untuk dropdown
         $categories = Category::all();
         
         // Jika ada kategori yang dipilih, ambil kursus berdasarkan kategori tersebut
         if ($request->has('kategori') && $request->kategori != '') {
-            $courses = Course::where('category_id', $request->kategori)->get(); // Ambil kursus berdasarkan kategori yang dipilih
+             $courses = Course::where('category_id', $request->kategori)
+        ->whereIn('status', ['published', 'approved'])
+        ->get();
+        //Ambil kursus berdasarkan kategori yang dipilih
         } else {
             // Jika tidak ada kategori yang dipilih, tampilkan semua kursus
-            $courses = Course::all();
+            $courses = Course::whereIn('status', ['published', 'approved'])->get();
         }
 
         foreach ($courses as $course) {
@@ -348,11 +356,12 @@ class DashboardPesertaController extends Controller
             $course->rating_empty_stars = $emptyStars;
         }
     
-        return view('dashboard-peserta.categories', compact('categories', 'courses'));
+        return view('dashboard-peserta.categories', compact('user', 'categories', 'courses'));
     }
 
     public function showCategoryDetail($categoryId)
     {
+          $user   = auth()->user();
         // Ambil kategori berdasarkan ID
         $category = Category::findOrFail($categoryId);
     
@@ -382,7 +391,7 @@ class DashboardPesertaController extends Controller
         }
     
         // Return data ke view
-        return view('dashboard-peserta.categories-detail', compact('category', 'courses'));
+        return view('dashboard-peserta.categories-detail', compact('user','category', 'courses'));
     }
     
 }
