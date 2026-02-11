@@ -1,195 +1,286 @@
 @extends('layouts.dashboard-affiliate')
-@section('title', 'Laporan')
+@section('title', 'Laporan Affiliate')
 @section('content')
-<div class="container mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
-            <div class="mt-2">
-                <h2 class="text-xl font-semibold text-gray-600">
-                    Rp. {{ number_format($totalAllRevenue, 0, ',', '.') }}
-                </h2>
-                <p class="text-md text-gray-600">
-                    Pendapatan Keseluruhan
-                </p>
+    {{-- Header Section --}}
+    <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Laporan Performa Affiliate</h1>
+        <p class="text-gray-600 mt-1">Pantau performa dan komisi affiliate Anda secara detail</p>
+    </div>
+
+    {{-- Statistik Utama --}}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        {{-- Total Komisi --}}
+        <div class="bg-white rounded-lg shadow-md p-5 flex items-center border border-gray-200 border-l-4 border-l-green-500">
+            <div class="p-2 bg-green-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
             </div>
-            <div class="flex items-end gap-1 h-24 w-fit cursor-pointer ml-auto">
-                <!-- Batang 1 -->
-                <div class="w-3 h-6 bg-gradient-to-t from-[#08072a] to-[#1c1b3a] hover:h-10 transition-all duration-300 rounded-t"></div>
-
-                <!-- Batang 2 -->
-                <div class="w-3 h-10 bg-gradient-to-t from-[#08072a] to-[#2d2b5a] hover:h-14 transition-all duration-300 rounded-t"></div>
-
-                <!-- Batang 3 -->
-                <div class="w-3 h-16 bg-gradient-to-t from-[#08072a] to-[#3e3b7a] hover:h-20 transition-all duration-300 rounded-t"></div>
+            <div class="ml-4">
+                <h2 class="text-sm font-medium text-gray-500">Total Komisi</h2>
+                <p class="text-xl font-bold text-green-600">Rp {{ number_format($totalKomisi ?? 0, 0, ',', '.') }}</p>
             </div>
         </div>
-        <div class="bg-white rounded-lg shadow-md px-5 py-2 flex items-center border border-gray-200">
-            <div class="mt-2">
-                <h2 class="text-xl font-semibold text-gray-600">
-                    Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
-                </h2>
-                <p class="text-md text-gray-600">
-                    Pendapatan Bulan Ini
-                </p>
+
+        {{-- Komisi Bulan Ini --}}
+        <div class="bg-white rounded-lg shadow-md p-5 flex items-center border border-gray-200 border-l-4 border-l-blue-500">
+            <div class="p-2 bg-blue-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+                </svg>
             </div>
-            <div class="flex items-end gap-1 h-24 w-fit cursor-pointer ml-auto">
-                <!-- Batang 1 -->
-                <div class="w-3 h-6 bg-gradient-to-t from-[#08072a] to-[#1c1b3a] hover:h-10 transition-all duration-300 rounded-t"></div>
+            <div class="ml-4">
+                <h2 class="text-sm font-medium text-gray-500">Komisi Bulan Ini</h2>
+                <p class="text-xl font-bold text-blue-600">Rp {{ number_format($komisiBulanIni ?? 0, 0, ',', '.') }}</p>
+            </div>
+        </div>
 
-                <!-- Batang 2 -->
-                <div class="w-3 h-10 bg-gradient-to-t from-[#08072a] to-[#2d2b5a] hover:h-14 transition-all duration-300 rounded-t"></div>
+        {{-- Total Klik --}}
+        <div class="bg-white rounded-lg shadow-md p-5 flex items-center border border-gray-200 border-l-4 border-l-purple-500">
+            <div class="p-2 bg-purple-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672 13.684 16.6m0 0-2.51 2.225.569-9.47 5.227 7.917-3.286-.672ZM12 2.25V4.5m5.834.166-1.591 1.591M20.25 10.5H18M7.757 14.743l-1.59 1.59M6 10.5H3.75m4.007-4.243-1.59-1.59" />
+                </svg>
+            </div>
+            <div class="ml-4">
+                <h2 class="text-sm font-medium text-gray-500">Total Klik</h2>
+                <p class="text-xl font-bold text-purple-600">{{ number_format($totalKlik ?? 0, 0, ',', '.') }}</p>
+            </div>
+        </div>
 
-                <!-- Batang 3 -->
-                <div class="w-3 h-16 bg-gradient-to-t from-[#08072a] to-[#3e3b7a] hover:h-20 transition-all duration-300 rounded-t"></div>
+        {{-- Conversion Rate --}}
+        <div class="bg-white rounded-lg shadow-md p-5 flex items-center border border-gray-200 border-l-4 border-l-yellow-500">
+            <div class="p-2 bg-yellow-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
+                </svg>
+            </div>
+            <div class="ml-4">
+                <h2 class="text-sm font-medium text-gray-500">Conversion Rate</h2>
+                <p class="text-xl font-bold text-yellow-600">{{ number_format($konversiRate ?? 0, 2) }}%</p>
             </div>
         </div>
     </div>
 
-    <!-- Pendapatan Per Kursus -->
-    <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
-        <h3 class="text-lg font-semibold text-gray-700 mb-2">Detail Pembelian Kursus</h3>
+    {{-- Grafik Section --}}
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {{-- Grafik Komisi Bulanan --}}
+        <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6">
+            <div class="flex flex-col items-center mb-4">
+                <div class="flex items-center space-x-4 w-full justify-center">
+                    <h2 class="text-lg font-semibold inline-block pb-1 text-gray-700">
+                        Komisi Bulanan
+                    </h2>
+                    <div x-data="{ open: false, selected: '{{ $year }}' }" class="relative w-20">
+                        <button @click="open = !open" class="w-full px-2 py-1 leading-tight border rounded-md bg-white flex justify-between items-center focus:outline-none focus:ring-1 focus:ring-sky-200">
+                            <span x-text="selected" class="text-gray-700 text-sm"></span>
+                            <svg class="w-4 h-4 ml-2 transform transition-transform duration-300 ease-in-out" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
 
-        <!-- Form Filter dan Export Menjadi Satu -->
-        <form method="GET" class="mb-4 flex flex-wrap items-end gap-4">
-
-        <!-- Filter Kursus -->
-        <div x-data="{ open: false, selected: '{{ request('course_id') ? $coursesRevenue->firstWhere('id', request('course_id'))->title : 'Semua Kursus' }}', selectedId: '{{ request('course_id') ?? '' }}' }" class="relative w-64">
-            <label for="course_id" class="text-sm text-gray-600 mr-2">Filter Kursus:</label>
-            <div @click="open = !open" class="border rounded px-4 py-2 text-sm bg-white cursor-pointer text-gray-700 flex justify-between items-center h-[38px]">
-                <span class="truncate max-w-[200px] overflow-hidden whitespace-nowrap" x-text="selected"></span>
-                <svg class="w-4 h-4 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-            </div>
-            <div x-show="open" @click.away="open = false"
-                class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm scrollbar-hide text-gray-700"
-                style="display: none;">
-                <div @click="selected = 'Semua Kursus'; selectedId = ''; open = false"
-                    class="cursor-pointer px-4 py-2 hover:bg-gray-100"
-                    :class="{ 'bg-gray-100': selectedId === '' }">
-                    Semua Kursus
-                </div>
-                @foreach ($coursesRevenue as $course)
-                    <div @click="selected = '{{ $course->title }}'; selectedId = '{{ $course->id }}'; open = false"
-                        class="cursor-pointer px-4 py-2 hover:bg-gray-100"
-                        :class="{ 'bg-gray-100': selectedId == '{{ $course->id }}' }">
-                        {{ $course->title }}
+                        <div x-show="open" @click.away="open = false" class="absolute mt-1 w-full bg-white border rounded-md shadow-lg z-10 max-h-24 overflow-y-auto">
+                            @foreach ($years as $availableYear)
+                                <a
+                                    href="?year={{ $availableYear }}"
+                                    @click="selected = '{{ $availableYear }}'; open = false"
+                                    class="block px-4 py-2 text-sm text-gray-700 text-center hover:bg-sky-100 {{ $availableYear == $year ? 'bg-sky-50 font-semibold' : '' }}"
+                                >
+                                    {{ $availableYear }}
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
-                @endforeach
-            </div>
-            <input type="hidden" name="course_id" :value="selectedId">
-        </div>
-
-        <!-- Filter Bulan -->
-        <div x-data="{
-                open: false,
-                selected: '{{ request('month') ? \Carbon\Carbon::create()->month((int) request('month'))->translatedFormat('F') : 'Semua Bulan' }}',
-                selectedMonth: '{{ request('month') ?? '' }}'
-            }" class="relative w-64">
-            <label for="month" class="text-sm text-gray-600 mr-2">Filter Bulan:</label>
-            <div @click="open = !open" class="border rounded px-4 py-2 text-sm bg-white cursor-pointer text-gray-700 flex justify-between items-center">
-                <span x-text="selected"></span>
-                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                </svg>
-            </div>
-            <div x-show="open" @click.away="open = false"
-                class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded shadow max-h-48 overflow-y-auto text-sm scrollbar-hide text-gray-700"
-                style="display: none;">
-                <div @click="selected = 'Semua Bulan'; selectedMonth = ''; open = false"
-                    class="cursor-pointer px-4 py-2 hover:bg-gray-100"
-                    :class="{ 'bg-gray-100': selectedMonth === '' }">
-                    Semua Bulan
                 </div>
-                @for ($m = 1; $m <= 12; $m++)
-                    @php $monthName = \Carbon\Carbon::create()->month($m)->translatedFormat('F');@endphp
-                    <div @click="selected = '{{ $monthName }}'; selectedMonth = '{{ $m }}'; open = false"
-                        class="cursor-pointer px-4 py-2 hover:bg-gray-100"
-                        :class="{ 'bg-gray-100': selectedMonth == '{{ $m }}' }">
-                        {{ $monthName }}
-                    </div>
-                @endfor
+                <div class="border-b-2 w-full mt-1"></div>
             </div>
-            <input type="hidden" name="month" :value="selectedMonth">
+            <div class="relative w-full h-64">
+                <canvas id="komisiChart" class="absolute inset-0 w-full h-full"></canvas>
+            </div>
         </div>
 
-        <!-- Tombol Filter -->
-        <button type="submit" class="bg-blue-400 hover:bg-blue-300 text-white px-4 py-2 rounded text-sm">
-            Filter
-        </button>
+        {{-- Grafik Klik & Konversi --}}
+        <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6">
+            <div class="flex flex-col items-center mb-4">
+                <h2 class="text-lg font-semibold inline-block pb-1 text-gray-700">
+                    Klik & Konversi Bulanan
+                </h2>
+                <div class="border-b-2 w-full mt-1"></div>
+            </div>
+            <div class="relative w-full h-64">
+                <canvas id="klikKonversiChart" class="absolute inset-0 w-full h-full"></canvas>
+            </div>
+        </div>
+    </div>
 
-        <!-- Tombol Export -->
-        <button type="submit" formaction="{{ route('purchases.export') }}" class="bg-green-400 hover:bg-green-300 text-white px-4 py-2 rounded text-sm">
-            Ekspor ke Excel
-        </button>
-        </form>
-
-        <!-- Total -->
-        <div class="my-3 text-right text-md text-gray-700 font-semibold">
-            @if($selectedCourseId || $selectedMonth)
-                Total Pendapatan :
-                <span class="text-red-500">Rp. {{ number_format($totalFilteredRevenue, 0, ',', '.') }}</span>
-            @else
-                Total Pendapatan :
-                <span class="text-red-500">Rp. {{ number_format($totalAllRevenue, 0, ',', '.') }}</span>
-            @endif
+    {{-- Top Kursus --}}
+    <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6 mb-6">
+        <div class="flex flex-col items-center mb-4">
+            <h2 class="text-lg font-semibold inline-block pb-1 text-gray-700">Top 5 Kursus Terlaris</h2>
+            <div class="border-b-2 w-full mt-1"></div>
         </div>
 
-        <div class="overflow-x-auto">
-            <div class="min-w-full w-64">
-            <table class="min-w-full text-sm border-separate border-spacing-0">
-                <thead class="bg-sky-100 text-gray-700">
-                    <tr class="bg-gray-100 text-sm text-600">
-                        <th class="px-4 py-2 border-t border-b border-l border-gray-200 text-center rounded-tl-lg">No</th>
-                        <th class="px-4 py-2 border-t border-b border-gray-200 text-center">Nama Peserta</th>
-                        <th class="px-4 py-2 border-t border-b border-gray-200 text-center">Judul Kursus</th>
-                        <th class="px-4 py-2 border-t border-b border-gray-200 text-center">Harga</th>
-                        <th class="px-4 py-2 border-t border-b border-r border-gray-200 text-center rounded-tr-lg">Tanggal</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            @foreach($kursusTop as $index => $kursus)
+            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg p-4 text-center">
+                <div class="text-3xl font-bold text-blue-600 mb-2">#{{ $index + 1 }}</div>
+                <h3 class="font-semibold text-gray-800 text-sm mb-2">{{ $kursus->nama }}</h3>
+                <p class="text-xs text-gray-600 mb-1">Terjual: <span class="font-bold">{{ $kursus->total_terjual }}x</span></p>
+                <p class="text-xs text-gray-600">Komisi: <span class="font-bold text-green-600">Rp {{ number_format($kursus->total_komisi, 0, ',', '.') }}</span></p>
+            </div>
+            @endforeach
+        </div>
+    </div>
 
-                  @if ($revenues->isEmpty())
-                    <tr>
-                        <td colspan="5" class="text-center py-2 text-sm text-gray-600 border-b border-l border-r border-gray-200">
-                            Data tidak tersedia
-                        </td>
-                    </tr>
-                @else
-                    @php
-                        $startNumber = ($revenues->currentPage() - 1) * $revenues->perPage() + 1;
-                    @endphp
+    {{-- Riwayat Transaksi --}}
+    <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6">
+        <div class="flex flex-col items-center mb-4">
+            <h2 class="text-lg font-semibold inline-block pb-1 text-gray-700">Riwayat Transaksi</h2>
+            <div class="border-b-2 w-full mt-1"></div>
+        </div>
 
-                    @foreach ($revenues as $index => $purchase)
-                        <tr class="hover:bg-gray-50 text-gray-600 text-sm">
-                            <td class="px-4 py-2 text-center border-l border-b border-gray-200">
-                                {{ $startNumber + $index }}
+        @if(isset($transaksiTerbaru) && count($transaksiTerbaru) > 0)
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pembeli</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Kursus</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Harga</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Komisi (%)</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($transaksiTerbaru as $transaksi)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {{ $transaksi->invoice }}
                             </td>
-                            <td class="px-4 py-2 border-b border-gray-200">
-                                {{ $purchase->user->name ?? '-' }}
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $transaksi->created_at->format('d M Y') }}
                             </td>
-                            <td class="px-4 py-2 border-b border-gray-200">
-                                {{ $purchase->course->title ?? '-' }}
+                            <td class="px-6 py-4 text-sm text-gray-900">
+                                {{ $transaksi->pembeli_nama }}
                             </td>
-                            <td class="px-4 py-2 border-b border-gray-200">
-                                Rp. {{ number_format(optional($purchase)->harga_course, 0, ',', '.') }}
+                            <td class="px-6 py-4 text-sm text-gray-900">
+                                {{ $transaksi->kursus_nama }}
                             </td>
-                            <td class="px-4 py-2 text-center border-b border-gray-200 border-r">
-                                {{ $purchase->created_at->translatedFormat('d F Y') }}
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                Rp {{ number_format($transaksi->harga, 0, ',', '.') }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-green-600">
+                                Rp {{ number_format($transaksi->komisi, 0, ',', '.') }} ({{ $transaksi->persentase }}%)
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if($transaksi->status == 'paid')
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Dibayar
+                                    </span>
+                                @elseif($transaksi->status == 'pending')
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        Pending
+                                    </span>
+                                @else
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                        Gagal
+                                    </span>
+                                @endif
                             </td>
                         </tr>
-                    @endforeach
-                @endif
-
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
-        </div>
-
-        <div class="pagination mt-4">
-            {{ $revenues->links('pagination::tailwind') }}
-        </div>
+        @else
+            <div class="text-center py-12">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <p class="mt-4 text-gray-500 font-medium">Belum ada transaksi</p>
+            </div>
+        @endif
     </div>
-</div>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Grafik Komisi Bulanan
+            const ctxKomisi = document.getElementById('komisiChart').getContext('2d');
+            const komisiChart = new Chart(ctxKomisi, {
+                type: 'line',
+                data: {
+                    labels: @json($monthNames),
+                    datasets: [{
+                        label: 'Komisi (Rp)',
+                        data: @json($komisiPerBulan),
+                        borderColor: 'rgba(34, 197, 94, 1)',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rp ' + value.toLocaleString('id-ID');
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Komisi: Rp ' + context.parsed.y.toLocaleString('id-ID');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Grafik Klik & Konversi
+            const ctxKlikKonversi = document.getElementById('klikKonversiChart').getContext('2d');
+            const klikKonversiChart = new Chart(ctxKlikKonversi, {
+                type: 'bar',
+                data: {
+                    labels: @json($monthNames),
+                    datasets: [
+                        {
+                            label: 'Klik',
+                            data: @json($klikPerBulan),
+                            backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Konversi',
+                            data: @json($konversiPerBulan),
+                            backgroundColor: 'rgba(168, 85, 247, 0.7)',
+                            borderColor: 'rgba(168, 85, 247, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

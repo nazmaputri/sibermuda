@@ -6,7 +6,7 @@
         <div class="justify-between items-center mb-4">
             <h3 class="text-xl font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Tambah Peserta</h3>
         </div>
-        <form action="{{ route('tambah-peserta') }}" method="POST" class="gap-6 space-y-3 grid grid-col-1 md:grid-cols-2">
+        <form action="{{ route('admin.data-peserta.store') }}" method="POST" class="gap-6 space-y-3 grid grid-col-1 md:grid-cols-2">
             @csrf
             <input type="hidden" name="added_by_admin" value="true">
             <!-- Nama Lengkap -->
@@ -26,7 +26,7 @@
                     <p class="text-red-500 text-sm mt-1" id="email-error">{{ $message }}</p>
                 @enderror
             </div>
-           
+
             <!-- Nomor Telepon -->
             <div>
                 <label for="phone_number" class="block font-semibold text-gray-700 pb-2">Nomor Telepon</label>
@@ -49,7 +49,7 @@
                 @error('password')
                     <p class="text-red-500 text-sm mt-1" id="password-error">{{ $message }}</p>
                 @enderror
-            </div> 
+            </div>
 
             <!-- Konfirmasi Password -->
             <div class="relative">

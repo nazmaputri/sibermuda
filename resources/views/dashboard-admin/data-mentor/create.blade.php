@@ -40,12 +40,12 @@
             <!-- Password -->
             <div class="relative order-4 md:order-none">
                 <label for="password" class="block font-medium text-gray-700 pb-2">Kata Sandi</label>
-                
+
                 <div class="relative">
                     <input type="password" name="password" id="password"
                         class="w-full px-4 py-2 pr-10 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('password') border-red-500 @enderror"
                         placeholder="Masukkan kata sandi">
-                    
+
                     <!-- Icon Mata -->
                     <div class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500" id="togglePassword">
                         <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -75,12 +75,12 @@
             <!-- Konfirmasi Password -->
             <div class="relative order-5 md:order-none">
                 <label for="password_confirmation" class="block font-medium text-gray-700 pb-2">Konfirmasi Kata Sandi</label>
-                
+
                 <div class="relative">
                     <input type="password" name="password_confirmation" id="password_confirmation"
                         class="w-full px-4 py-2 pr-10 text-sm text-gray-700 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('password') border-red-500 @enderror"
                         placeholder="Masukkan konfirmasi kata sandi">
-                    
+
                     <!-- Icon Mata -->
                     <div class="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500" id="toggleConfirmPassword">
                         <svg id="eyeConfirmIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -102,7 +102,7 @@
             <input type="hidden" name="role" value="mentor">
             <!-- Submit Button -->
             <div class="order-7 col-span-1 md:col-span-2 flex justify-end space-x-4">
-                <a href="{{ route('datamentor-admin') }}" class="bg-red-400 text-white font-medium py-2 px-6 rounded-md hover:bg-red-300">Batal</a>
+                <a href="{{ route('admin.data-mentor.index') }}" class="bg-red-400 text-white font-medium py-2 px-6 rounded-md hover:bg-red-300">Batal</a>
                 <button type="submit" class="bg-sky-400 text-white font-medium py-2 px-6 rounded-md hover:bg-sky-300">
                     Tambah
                 </button>

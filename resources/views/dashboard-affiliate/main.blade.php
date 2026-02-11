@@ -2,77 +2,77 @@
 @section('title', 'Dashboard')
 @section('content')
     {{-- Welcome Section --}}
-    <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Selamat Datang, {{ Auth::user()->name ?? 'Affiliate' }}!</h1>
-                <p class="text-gray-600 mt-1">Kelola program afiliasi Anda dan pantau performa dari sini</p>
-            </div>
-            <div class="hidden md:block">
-                <div class="text-right">
-                    <p class="text-sm text-gray-500">Hari dan Tanggal</p>
-                    <p id="realtime-clock" class="text-lg font-medium text-gray-700">{{ now()->locale('id')->isoFormat('dddd, D MMMM YYYY HH:mm:ss') }}</p>
-                </div>
+    <div class="bg-white rounded-lg border border-gray-200 shadow-md p-5 w-full flex flex-col md:flex-row h-auto items-center mb-6">
+        <!-- Text Content -->
+        <div class="w-full text-center md:text-left mb-4 md:mb-0">
+            <h1 class="text-xl font-semibold mb-4 text-gray-700">Selamat datang, {{ Auth::user()->name }}!</h1>
+            <p class="mb-6 text-gray-600">
+                Kelola program afiliasi Anda dan pantau performa dari sini.
+                <br>Mari raih komisi lebih banyak dengan berbagi link referral Anda!
+            </p>
+        </div>
+        <!-- Clock Content -->
+        <div class="md:w-1/4 flex justify-center md:justify-end">
+            <div class="text-center md:text-right">
+                <p class="text-sm font-medium text-gray-500">Hari dan Tanggal</p>
+                <p id="realtime-clock" class="text-md font-medium text-gray-700">{{ now()->locale('id')->isoFormat('dddd, D MMMM YYYY HH:mm:ss') }}</p>
             </div>
         </div>
     </div>
 
-    {{-- Quick Stats --}}
+    {{-- Cards Statistik --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        {{-- Total Komisi --}}
-        <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-md p-6 text-white">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-green-100 text-sm">Total Komisi</p>
-                    <h2 class="text-3xl font-bold mt-2">Rp {{ number_format($totalKomisi ?? 0, 0, ',', '.') }}</h2>
-                </div>
-                <div class="bg-white bg-opacity-20 p-3 rounded-full">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                    </svg>
-                </div>
+        {{-- Card Total Komisi --}}
+        <div class="bg-white rounded-lg shadow-md p-5 flex items-center border border-gray-200 border-l-4 border-l-green-500">
+            <div class="p-2 bg-green-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+            </div>
+            <div class="ml-4">
+                <h2 class="text-md font-semibold text-gray-700">Total Komisi</h2>
+                <p class="text-md font-semibold text-green-500">Rp {{ number_format($totalKomisi ?? 0, 0, ',', '.') }}</p>
             </div>
         </div>
 
-        {{-- Total Referral --}}
-        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-md p-6 text-white">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-blue-100 text-sm">Total Referral Berhasil</p>
-                    <h2 class="text-3xl font-bold mt-2">{{ number_format($totalReferral ?? 0, 0, ',', '.') }}</h2>
-                </div>
-                <div class="bg-white bg-opacity-20 p-3 rounded-full">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                    </svg>
-                </div>
+        {{-- Card Total Referral --}}
+        <div class="bg-white rounded-lg shadow-md p-5 flex items-center border border-gray-200 border-l-4 border-l-blue-500">
+            <div class="p-2 bg-blue-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                </svg>
+            </div>
+            <div class="ml-4">
+                <h2 class="text-md font-semibold text-gray-700">Total Referral</h2>
+                <p class="text-md font-semibold text-blue-500">{{ number_format($totalReferral ?? 0, 0, ',', '.') }} Orang</p>
             </div>
         </div>
 
-        {{-- Komisi Bulan Ini --}}
-        <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-md p-6 text-white">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-purple-100 text-sm">Komisi Bulan Ini</p>
-                    <h2 class="text-3xl font-bold mt-2">Rp {{ number_format($komisiBulanIni ?? 0, 0, ',', '.') }}</h2>
-                </div>
-                <div class="bg-white bg-opacity-20 p-3 rounded-full">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                    </svg>
-                </div>
+        {{-- Card Komisi Bulan Ini --}}
+        <div class="bg-white rounded-lg shadow-md p-5 flex items-center border border-gray-200 border-l-4 border-l-purple-500">
+            <div class="p-2 bg-purple-500 rounded-full">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+                </svg>
+            </div>
+            <div class="ml-4">
+                <h2 class="text-md font-semibold text-gray-700">Komisi Bulan Ini</h2>
+                <p class="text-md font-semibold text-purple-500">Rp {{ number_format($komisiBulanIni ?? 0, 0, ',', '.') }}</p>
             </div>
         </div>
     </div>
 
     {{-- Link Affiliate Card --}}
     <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 mb-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-            <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
-            </svg>
-            Link Affiliate Anda
-        </h2>
+        <div class="flex flex-col items-center mb-4">
+            <h2 class="text-xl font-semibold inline-block pb-1 text-gray-700 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                </svg>
+                Link Affiliate Anda
+            </h2>
+            <div class="border-b-2 w-full mt-1"></div>
+        </div>
 
         <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-lg p-5">
             <div class="grid md:grid-cols-2 gap-4">
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <p class="text-sm text-gray-600 mt-4 flex items-start">
-                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 mr-2 mt-0.5 text-blue-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
                 Bagikan link atau kode referral Anda kepada teman dan dapatkan komisi dari setiap pembelian kursus yang mereka lakukan!
@@ -119,43 +119,49 @@
 
     {{-- Quick Actions --}}
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <a href="{{ route('affiliate.laporan') }}" class="bg-white rounded-lg shadow-md border-2 border-gray-200 hover:border-blue-500 p-6 transition group">
+        {{-- Lihat Laporan --}}
+        {{-- <a href="{{ route('affiliate.laporan') }}" class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg p-5 transition group"> --}}
+        <a href="#" class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg p-5 transition group">
             <div class="flex items-center">
-                <div class="bg-blue-100 group-hover:bg-blue-200 p-3 rounded-lg transition">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                <div class="p-2 bg-blue-100 group-hover:bg-blue-200 rounded-full transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="font-semibold text-gray-800 group-hover:text-blue-600 transition">Lihat Laporan</h3>
+                    <h3 class="text-md font-semibold text-gray-700 group-hover:text-blue-600 transition">Lihat Laporan</h3>
                     <p class="text-sm text-gray-500">Detail performa & komisi</p>
                 </div>
             </div>
         </a>
 
-        <a href="{{ route('affiliate.penarikan') }}" class="bg-white rounded-lg shadow-md border-2 border-gray-200 hover:border-green-500 p-6 transition group">
+        {{-- Penarikan Dana --}}
+        {{-- <a href="{{ route('affiliate.penarikan') }}" class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg p-5 transition group"> --}}
+        <a href="#" class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg p-5 transition group">
             <div class="flex items-center">
-                <div class="bg-green-100 group-hover:bg-green-200 p-3 rounded-lg transition">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                <div class="p-2 bg-green-100 group-hover:bg-green-200 rounded-full transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-green-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="font-semibold text-gray-800 group-hover:text-green-600 transition">Penarikan Dana</h3>
+                    <h3 class="text-md font-semibold text-gray-700 group-hover:text-green-600 transition">Penarikan Dana</h3>
                     <p class="text-sm text-gray-500">Tarik komisi Anda</p>
                 </div>
             </div>
         </a>
 
-        <a href="{{ route('affiliate.panduan') }}" class="bg-white rounded-lg shadow-md border-2 border-gray-200 hover:border-purple-500 p-6 transition group">
+        {{-- Panduan Affiliate --}}
+        {{-- <a href="{{ route('affiliate.panduan') }}" class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg p-5 transition group"> --}}
+        <a href="#" class="bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg p-5 transition group">
             <div class="flex items-center">
-                <div class="bg-purple-100 group-hover:bg-purple-200 p-3 rounded-lg transition">
-                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                <div class="p-2 bg-purple-100 group-hover:bg-purple-200 rounded-full transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-purple-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
                     </svg>
                 </div>
                 <div class="ml-4">
-                    <h3 class="font-semibold text-gray-800 group-hover:text-purple-600 transition">Panduan Affiliate</h3>
+                    <h3 class="text-md font-semibold text-gray-700 group-hover:text-purple-600 transition">Panduan Affiliate</h3>
                     <p class="text-sm text-gray-500">Tips & cara kerja</p>
                 </div>
             </div>
@@ -163,13 +169,16 @@
     </div>
 
     {{-- Aktivitas Terbaru --}}
-    <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4 border-b pb-3">Aktivitas Terbaru</h2>
+    <div class="bg-white shadow-md border border-gray-200 rounded-lg p-6">
+        <div class="flex flex-col items-center mb-4">
+            <h2 class="text-xl font-semibold inline-block pb-1 text-gray-700">Aktivitas Terbaru</h2>
+            <div class="border-b-2 w-full mt-1"></div>
+        </div>
 
         @if(isset($aktivitasTerbaru) && count($aktivitasTerbaru) > 0)
-            <div class="space-y-4">
+            <div class="space-y-3">
                 @foreach($aktivitasTerbaru as $aktivitas)
-                <div class="flex items-start p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
+                <div class="flex items-start p-4 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition">
                     <div class="flex-shrink-0">
                         <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                             <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -192,7 +201,7 @@
                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
                 </svg>
-                <p class="mt-4 text-gray-500">Belum ada aktivitas</p>
+                <p class="mt-4 text-gray-500 font-medium">Belum ada aktivitas</p>
                 <p class="text-sm text-gray-400 mt-1">Mulai bagikan link affiliate Anda untuk mendapatkan komisi!</p>
             </div>
         @endif
@@ -238,7 +247,6 @@
         }
 
         function showNotification(message) {
-            // Simple notification (you can replace with better toast library)
             const notification = document.createElement('div');
             notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
             notification.textContent = message;

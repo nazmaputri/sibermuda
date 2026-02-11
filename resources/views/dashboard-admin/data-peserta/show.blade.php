@@ -4,7 +4,7 @@
 
 <!-- Tombol Kembali -->
 <div class="flex justify-start mb-2">
-    <a href="{{ route('datapeserta-admin') }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
+    <a href="{{ route('admin.data-peserta.index') }}" class="text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105 inline-flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
         </svg>
@@ -98,10 +98,10 @@
                                     @php
                                         $status = $purchase->payment->transaction_status ?? '-';
                                     @endphp
-                                
+
                                     @if ($status === 'pending')
-                                        <button 
-                                            onclick="confirmUpdate(this, '{{ route('admin.update-status', $purchase->payment->id) }}')" 
+                                        <button
+                                            onclick="confirmUpdate(this, '{{ route('admin.update-status', $purchase->payment->id) }}')"
                                             data-nama="{{ $purchase->user->name ?? '-' }}"
                                             data-amount="{{ number_format($purchase->payment->amount ?? 0, 0, ',', '.') }}"
                                             class="bg-yellow-200/50 border border-2 border-yellow-300 text-yellow-600 px-2 py-0.5 rounded-xl hover:bg-yellow-300">
@@ -139,7 +139,7 @@
         </div>
         <div class="pagination mt-4">
             {{ $purchasedCourses->links('pagination::tailwind') }}
-        </div> 
+        </div>
     </div>
 </div>
 

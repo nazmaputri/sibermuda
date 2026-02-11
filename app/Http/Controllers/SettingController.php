@@ -19,30 +19,30 @@ class SettingController extends Controller
     {
         // Ambil informasi pengguna yang sedang login
         $user = Auth::user();
-    
+
         // Periksa apakah pengguna memiliki peran admin
         if ($user && $user->role === 'admin') {
-            return view('dashboard-admin.setting', compact('user'));
+            return view('dashboard-admin.setting.index', compact('user'));
         }
-    
+
         // Jika bukan admin, redirect ke halaman lain (contoh: dashboard utama) dengan pesan error
-        return redirect()->route('welcome-admin')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
+        return redirect()->route('admin.beranda')->with('error', 'Anda tidak memiliki akses ke halaman ini.');
     }
-    
+
     public function mentor()
     {
         $user = Auth::user();
-        
+
         return view('dashboard-mentor.setting', compact('user'));
     }
 
     public function student()
     {
         $user = Auth::user();
-        
+
         return view('dashboard-peserta.setting', compact('user'));
     }
-    
+
     public function update(Request $request)
     {
         $request->validate([
@@ -50,31 +50,31 @@ class SettingController extends Controller
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
             'password' => 'nullable|confirmed|min:8',
             'phone_number' => 'required|string|max:15',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
             'name.required' => 'Nama wajib diisi.',
             'name.string' => 'Nama harus berupa string.',
             'name.max' => 'Nama tidak boleh lebih dari 255 karakter.',
-    
+
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Email tidak valid.',
             'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
             'email.unique' => 'Email sudah terdaftar.',
-    
+
             'password.confirmed' => 'Konfirmasi kata sandi tidak cocok.',
             'password.min' => 'Kata sandi harus memiliki minimal 8 karakter.',
-    
+
             'phone_number.required' => 'Nomor telepon harus diisi.',
             'phone_number.string' => 'Nomor telepon harus berupa angka.',
             'phone_number.max' => 'Nomor telepon tidak boleh lebih dari 15 karakter.',
-    
+
             'photo.image' => 'File yang diupload harus berupa gambar.',
             'photo.mimes' => 'Gambar harus memiliki format: jpeg, png, jpg, gif, svg.',
             'photo.max' => 'Ukuran gambar maksimal 2MB.',
         ]);
-    
+
         $user = Auth::user();
-    
+
         // Update field umum
         $user->name = $request->name;
         $user->email = $request->email;
@@ -95,11 +95,11 @@ class SettingController extends Controller
             if ($user->photo) {
                 Storage::disk('public')->delete($user->photo);
             }
-    
+
             // Simpan foto baru
             $user->photo = $request->file('photo')->store('images/profile', 'public');
         }
-    
+
         $user->save();
 
         // Kirim email jika user yang diupdate role-nya admin dan password diubah
@@ -113,7 +113,7 @@ class SettingController extends Controller
                         ->subject('Notifikasi: Admin Mengubah Password');
             });
         }
-    
+
         // Redirect sesuai role
         if ($user->role === 'admin') {
             return redirect()->route('welcome-admin')->with('success', 'Profil berhasil diperbarui!');
@@ -122,11 +122,11 @@ class SettingController extends Controller
         } elseif ($user->role === 'student') {
             return redirect()->route('welcome-peserta')->with('success', 'Profil berhasil diperbarui!');
         }
-    
+
         // Default redirect jika role tidak dikenali
         return redirect('/')->with('success', 'Profil berhasil diperbarui!');
     }
-    
+
     public function updatePeserta(Request $request)
     {
         $request->validate([
@@ -249,7 +249,7 @@ class SettingController extends Controller
 
         return redirect()->route('welcome-peserta')->with('success', 'Profil berhasil diperbarui!');
     }
-    
+
      /**
      * Streaming aman avatar.
      * Mengambil file dari disk 'local' (storage/app/...) dan mengirimkan dengan header aman.

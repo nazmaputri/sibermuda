@@ -5,21 +5,21 @@
     <div class="bg-white shadow-md rounded-lg p-6 mb-6 border border-gray-200">
         <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
             <!-- Search Bar -->
-            <form action="{{ route('datapeserta-admin') }}" method="GET" class="w-full max-w-xs">
+            <form action="{{ route('admin.data-peserta.index') }}" method="GET" class="w-full max-w-xs">
                 <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
                     <div class="flex items-center border border-gray-300 rounded-lg bg-white">
                         <svg class="w-4 h-4 text-gray-500 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
-                        <input type="search" name="search" id="search" 
-                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none" 
+                        <input type="search" name="search" id="search"
+                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none"
                             placeholder="Cari Nama dan Email Peserta" value="{{ request('search') }}" />
                     </div>
             </form>
 
             <div class="flex text-center justify-between">
                 <!-- button tambah peserta -->
-                <form action="{{ route('import.excel') }}" method="POST" enctype="multipart/form-data" class="inline-block ml-4">
+                <form action="{{ route('admin.data-peserta.import-excel') }}" method="POST" enctype="multipart/form-data" class="inline-block ml-4">
                     @csrf
                     <label for="importExcel" class="cursor-pointer text-white px-4 py-2 font-semibold rounded-md shadow-blue-100 bg-blue-400 hover:bg-blue-300 focus:outline-none flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
@@ -28,7 +28,7 @@
                         <span class="text-sm">Import</span>
                     </label>
                     <input type="file" name="file" id="importExcel" accept=".xls,.xlsx" class="hidden" onchange="this.form.submit()">
-                </form>                
+                </form>
 
                 {{-- <!-- button tambah peserta -->
                 <a href="{{ route('tambah-peserta') }}"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md shadow-blue-100 bg-blue-400 hover:bg-blue-300 focus:outline-none flex items-center">
@@ -64,14 +64,14 @@
                             <td class="py-3 px-6 text-center border-b border-r border-gray-200">
                                 <div class="flex items-center justify-center space-x-5">
                                     <!-- Tombol Lihat Detail -->
-                                    <a href="{{ route('detaildata-peserta', ['id' => $user->id]) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
+                                    <a href="{{ route('admin.data-peserta.show', $user->id) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                         </svg>
                                     </a>
                                     <!-- Tombol hapus -->
-                                    <form action="{{ route('datapeserta-admin.delete', $user->id) }}" method="POST" class="inline">
+                                    <form action="{{ route('admin.data-peserta.destroy', $user->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-delete mt-1 text-white bg-red-400 p-1 rounded-md hover:bg-red-300" title="Hapus">
@@ -82,7 +82,7 @@
                                     </form>
 
                                 </div>
-                            </td>                            
+                            </td>
                         </tr>
                     @endforeach
                     @if ($users->isEmpty())

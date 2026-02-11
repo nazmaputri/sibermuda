@@ -4,19 +4,19 @@
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6 mb-6 border border-gray-200">
         <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
-            <form action="{{ route('datamentor-admin') }}" method="GET" class="w-full md:max-w-xs">
+            <form action="{{ route('admin.data-mentor.index') }}" method="GET" class="w-full md:max-w-xs">
                 <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
                     <div class="flex items-center border border-gray-300 rounded-lg bg-white">
                         <svg class="w-4 h-4 text-gray-500 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
-                        <input type="search" name="search" id="search" 
-                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none" 
+                        <input type="search" name="search" id="search"
+                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none"
                             placeholder="Cari Nama dan Status Mentor" value="{{ request('search') }}" />
                     </div>
             </form>
 
-            <a href="{{ route('tambah-mentor') }}"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md shadow-blue-100 bg-blue-400 hover:bg-blue-300 focus:outline-none flex items-center">
+            <a href="{{ route('admin.data-mentor.create') }}"  class="ml-4 text-white px-4 py-2 font-semibold rounded-md shadow-blue-100 bg-blue-400 hover:bg-blue-300 focus:outline-none flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
@@ -64,26 +64,26 @@
                             <td class="py-3 px-6 text-center border-b border-r border-gray-200">
                                 <div class="flex items-center justify-center space-x-8">
                                     <!-- Toggle Aktif/Nonaktifkan Mentor -->
-                                    <form action="{{ $user->status === 'active' ? route('updateStatusToInactive', $user->id) : route('admin.users.updateStatus', $user->id) }}" 
+                                    <form action="{{ $user->status === 'active' ? route('admin.data-mentor.status.inactive', $user->id) : route('admin.data-mentor.status.active', $user->id) }}"
                                         method="POST" class="toggle-form">
                                         @csrf
-                                        <button type="submit" class="relative w-9 h-5 rounded-full transition-colors duration-300 ease-in-out 
+                                        <button type="submit" class="relative w-9 h-5 rounded-full transition-colors duration-300 ease-in-out
                                             {{ $user->status === 'active' ? 'bg-green-400' : 'bg-gray-300' }} mt-1" title="{{ $user->status === 'active' ? 'Nonaktifkan' : 'Aktifkan' }}">
-                                            <div class="absolute top-0.5 start-[2px] bg-white border-gray-300 border rounded-full h-4 w-4 
-                                                transition-transform duration-300 ease-in-out 
+                                            <div class="absolute top-0.5 start-[2px] bg-white border-gray-300 border rounded-full h-4 w-4
+                                                transition-transform duration-300 ease-in-out
                                                 {{ $user->status === 'active' ? 'translate-x-full border-white' : '' }}">
                                             </div>
                                         </button>
                                     </form>
 
                                     <!-- Tombol Lihat Detail -->
-                                    <a href="{{ route('detaildata-mentor', ['id' => $user->id]) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
+                                    <a href="{{ route('admin.data-mentor.show', $user->id) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                         </svg>
                                     </a>
-                                    <form action="{{ route('datamentor-admin.delete', $user->id) }}" method="POST" class="inline">
+                                    <form action="{{ route('admin.data-mentor.destroy', $user->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-delete text-white bg-red-400 p-1 mt-1 rounded-md hover:bg-red-300" title="Hapus">
@@ -93,7 +93,7 @@
                                         </button>
                                     </form>
                                 </div>
-                            </td>                                                                        
+                            </td>
                         </tr>
                     @endforeach
                     @endif

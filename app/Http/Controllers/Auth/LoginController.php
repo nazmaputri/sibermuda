@@ -53,7 +53,7 @@ class LoginController extends Controller
         Auth::guard('admin')->login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('admin.welcome');
+        return redirect()->route('admin.beranda');
     }
 
      // verifikasi email
@@ -133,7 +133,7 @@ class LoginController extends Controller
             switch ($user->role) {
                 case 'admin':
                     Auth::guard('admin')->login($user);
-                    return redirect()->route('welcome-admin');
+                    return redirect()->route('admin.beranda');
 
                 case 'mentor':
                     Auth::guard('mentor')->login($user);

@@ -6,24 +6,24 @@
     <div class="">
         <div class="flex flex-col md:flex-row items-center justify-between space-y-4 mb-4">
             <!-- searchbar -->
-            <form action="{{ route('discount') }}" method="GET" class="w-full md:max-w-xs">
+            <form action="{{ route('admin.discount.index') }}" method="GET" class="w-full md:max-w-xs">
                 <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
                     <div class="flex items-center border border-gray-300 rounded-lg bg-white">
                         <svg class="w-4 h-4 text-gray-500 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
-                        <input type="search" name="search" id="search" 
-                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none" 
+                        <input type="search" name="search" id="search"
+                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none"
                             placeholder="Cari Kode Diskon..." value="{{ request('search') }}" />
                     </div>
             </form>
-            
+
             <!-- button tambah -->
             <div class="inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="white" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
-                <a href="{{ route('discount-tambah') }}" class="text-sm text-white rounded transition duration-300">Tambah Diskon</a>
+                <a href="{{ route('admin.discount.create') }}" class="text-sm text-white rounded transition duration-300">Tambah Diskon</a>
             </div>
         </div>
 
@@ -75,13 +75,13 @@
                                 </a>
 
                                 <!-- Tombol Edit -->
-                                <a href="{{ route('discount.edit', $discount->id) }}" class="text-white bg-yellow-300 p-1 rounded-md  hover:bg-yellow-200" title="Edit">
+                                <a href="{{ route('admin.discount.edit', $discount->id) }}" class="text-white bg-yellow-300 p-1 rounded-md  hover:bg-yellow-200" title="Edit">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                     </svg>
                                 </a>
                                 <!-- Tombol Hapus -->
-                                <form action="{{ route('discount.destroy', $discount->id) }}" method="POST" class="inline">
+                                <form action="{{ route('admin.discount.destroy', $discount->id) }}" method="POST" class="inline">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn-delete text-white bg-red-400 p-1 mt-1 rounded-md hover:bg-red-300" title="Hapus">

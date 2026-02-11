@@ -4,7 +4,7 @@
 <div class="container mx-auto bg-white rounded-lg p-5 border border-gray-200">
     <h2 class="text-lg font-semibold text-gray-700 text-center w-full border-b-2 border-gray-300 pb-2">Edit Diskon</h2>
 
-    <form action="{{ route('discount.update', $discount->id) }}" method="POST" class="mt-4 grid grid-col-1 md:grid-cols-2 space-x-3">
+    <form action="{{ route('admin.discount.update', $discount->id) }}" method="POST" class="mt-4 grid grid-col-1 md:grid-cols-2 space-x-3">
         @csrf
         @method('PUT')
 
@@ -150,7 +150,7 @@
 
         <!-- Tombol -->
         <div class="col-span-1 md:col-span-2 mt-6 flex justify-end space-x-2">
-            <a href="{{ route('discount') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
+            <a href="{{ route('admin.discount.index') }}" class="bg-red-400 hover:bg-red-300 text-white font-medium py-2 px-4 rounded-md">
                 Batal
             </a>
             <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white font-medium py-2 px-4 rounded-md">

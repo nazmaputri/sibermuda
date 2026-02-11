@@ -90,16 +90,16 @@
             <nav class="flex-grow mt-4">
                 <ul class="ml-4 mr-4 space-y-2 mt-2 text-gray-800">
 
-                <a href="{{ route('welcome-admin') }}" class="block group">
+                <a href="{{ route('admin.beranda') }}" class="block group">
                     <li class="flex items-center px-4 py-2 rounded-md space-x-4 transition-all duration-300 ease-in-out
-                            {{ Request::routeIs('welcome-admin') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
+                            {{ Request::routeIs('admin.beranda') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'">
 
                         <!-- Icon dengan efek geser ke kanan saat hover -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                             class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                    {{ Request::routeIs('welcome-admin') ? 'text-white' : 'text-gray-700' }}">
+                                    {{ Request::routeIs('admin.beranda') ? 'text-white' : 'text-gray-700' }}">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
                         </svg>
@@ -110,7 +110,7 @@
                             x-transition
                             x-cloak
                             class="whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                {{ Request::routeIs('welcome-admin') ? 'text-white' : 'text-gray-700' }}">
+                                {{ Request::routeIs('admin.beranda') ? 'text-white' : 'text-gray-700' }}">
                             Dashboard
                         </span>
                     </li>
@@ -147,17 +147,17 @@
                         x-transition
                         x-cloak
                         class="bg-white rounded-md shadow-lg ml-4 space-y-1 mt-2 p-2 transition-all duration-300 ease-in-out
-                            {{ Request::routeIs('datamentor-admin', 'datapeserta-admin', 'detaildata-mentor', 'detaildata-peserta') ? '' : 'hidden' }}">
+                            {{ Request::routeIs('admin.data-mentor.index', 'admin.data-peserta.index', 'admin.data-mentor.show', 'admin.data-peserta.show') ? '' : 'hidden' }}">
 
                         <!-- Data Mentor -->
-                        <li class="rounded-md {{ Request::routeIs('datamentor-admin', 'detaildata-mentor') ? 'bg-midnight' : 'hover:bg-gray-200' }}">
-                            <a href="{{ route('datamentor-admin') }}" class="flex items-center gap-2 p-2 rounded-sm group
-                                {{ Request::routeIs('datamentor-admin', 'detaildata-mentor') ? 'text-white' : 'text-gray-700' }}">
+                        <li class="rounded-md {{ Request::routeIs('admin.data-mentor.index', 'admin.data-mentor.show') ? 'bg-midnight' : 'hover:bg-gray-200' }}">
+                            <a href="{{ route('admin.data-mentor.index') }}" class="flex items-center gap-2 p-2 rounded-sm group
+                                {{ Request::routeIs('admin.data-mentor.index', 'admin.data-mentor.show') ? 'text-white' : 'text-gray-700' }}">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
                                     class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                    {{ Request::routeIs('datamentor-admin', 'detaildata-mentor') ? 'text-white' : 'text-gray-700' }}">
+                                    {{ Request::routeIs('admin.data-mentor.index', 'admin.data-mentor.show') ? 'text-white' : 'text-gray-700' }}">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                 </svg>
@@ -169,14 +169,14 @@
                         </li>
 
                         <!-- Data Peserta -->
-                        <li class="rounded-md {{ Request::routeIs('datapeserta-admin', 'detaildata-peserta') ? 'bg-midnight' : 'hover:bg-gray-200' }}">
-                            <a href="{{ route('datapeserta-admin') }}" class="flex items-center gap-2 p-2 rounded-sm group
-                                {{ Request::routeIs('datapeserta-admin', 'detaildata-peserta') ? 'text-white' : 'text-gray-700' }}">
+                        <li class="rounded-md {{ Request::routeIs('admin.data-peserta.index', 'admin.data-peserta.show') ? 'bg-midnight' : 'hover:bg-gray-200' }}">
+                            <a href="{{ route('admin.data-peserta.index') }}" class="flex items-center gap-2 p-2 rounded-sm group
+                                {{ Request::routeIs('admin.data-peserta.index', 'admin.data-peserta.show') ? 'text-white' : 'text-gray-700' }}">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
                                     class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                    {{ Request::routeIs('datapeserta-admin', 'detaildata-peserta') ? 'text-white' : 'text-gray-700' }}">
+                                    {{ Request::routeIs('admin.data-peserta.index', 'admin.data-peserta.show') ? 'text-white' : 'text-gray-700' }}">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                 </svg>
@@ -188,30 +188,30 @@
                         </li>
 
                         <!-- Data Affiliate -->
-                        <li class="rounded-md {{ Request::routeIs('dataaffiliate-admin', 'detaildata-affiliate') ? 'bg-midnight' : 'hover:bg-gray-200' }}">
-                            <a href="{{ route('dataaffiliate-admin') }}" class="flex items-center gap-2 p-2 rounded-sm group
-                                {{ Request::routeIs('dataaffiliate-admin', 'detaildata-affiliate') ? 'text-white' : 'text-gray-700' }}">
+                        <li class="rounded-md {{ Request::routeIs('admin.data-affiliate.index', 'admin.data-affiliate.show') ? 'bg-midnight' : 'hover:bg-gray-200' }}">
+                            <a href="{{ route('admin.data-affiliate.index') }}" class="flex items-center gap-2 p-2 rounded-sm group
+                                {{ Request::routeIs('admin.data-affiliate.index', 'admin.data-affiliate.show') ? 'text-white' : 'text-gray-700' }}">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor"
                                     class="w-5 h-5 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                    {{ Request::routeIs('dataaffiliate-admin', 'detaildata-affiliate') ? 'text-white' : 'text-gray-700' }}">
+                                    {{ Request::routeIs('admin.data-affiliate.index', 'admin.data-affiliate.show') ? 'text-white' : 'text-gray-700' }}">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                                 </svg>
 
                                 <span class="transform transition-all duration-300 ease-in-out group-hover:translate-x-1">
-                                    Data Mentor
+                                    Data Affiliate
                                 </span>
                             </a>
                         </li>
                     </ul>
                 </li>
 
-                <a href="{{ route('categories.index') }}" class="block group">
+                <a href="{{ route('admin.categories.index') }}" class="block group">
                     <li
                         class="flex items-center py-2 rounded-md space-x-4 transition-all duration-300 ease-in-out
-                        {{ Request::routeIs('categories.index', 'categories.create', 'categories.show', 'categories.edit', 'detail-kursusadmin') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
+                        {{ Request::routeIs('admin.categories.index', 'admin.categories.create', 'admin.categories.show', 'admin.categories.edit', 'admin.detail-kursusadmin') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
                     >
 
@@ -219,7 +219,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                             class="w-5 h-5 shrink-0 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                {{ Request::routeIs('categories.index', 'categories.create', 'categories.show', 'categories.edit', 'detail-kursusadmin') ? 'text-white' : 'text-gray-700' }}">
+                                {{ Request::routeIs('admin.categories.index', 'admin.categories.create', 'admin.categories.show', 'admin.categories.edit', 'admin.detail-kursusadmin') ? 'text-white' : 'text-gray-700' }}">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
@@ -230,16 +230,16 @@
                             x-transition
                             x-cloak
                             class="whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                            {{ Request::routeIs('categories.index', 'categories.create', 'categories.show', 'categories.edit', 'detail-kursusadmin') ? 'text-white' : 'text-gray-700' }}">
+                            {{ Request::routeIs('admin.categories.index', 'admin.categories.create', 'admin.categories.show', 'admin.categories.edit', 'admin.detail-kursusadmin') ? 'text-white' : 'text-gray-700' }}">
                             Kategori
                         </span>
                     </li>
                 </a>
 
-                <a href="{{ route('discount') }}" class="block group">
+                <a href="{{ route('admin.discount.index') }}" class="block group">
                     <li
                         class="flex items-center py-2 rounded-md space-x-4 transition-all duration-300 ease-in-out
-                        {{ Request::routeIs('discount', 'discount-tambah', 'discount.edit') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
+                        {{ Request::routeIs('admin.discount.index', 'admin.discount-tambah', 'admin.discount.edit') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
                     >
 
@@ -247,7 +247,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor"
                             class="w-5 h-5 shrink-0 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                {{ Request::routeIs('discount', 'discount-tambah', 'discount.edit') ? 'text-white' : 'text-gray-700' }}">
+                                {{ Request::routeIs('admin.discount.index', 'admin.discount-tambah', 'admin.discount.edit') ? 'text-white' : 'text-gray-700' }}">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="m8.99 14.993 6-6m6 3.001c0 1.268-.63 2.39-1.593 3.069a3.746 3.746 0 0 1-1.043 3.296 3.745 3.745 0 0 1-3.296 1.043 3.745 3.745 0 0 1-3.068 1.593c-1.268 0-2.39-.63-3.068-1.593a3.745 3.745 0 0 1-3.296-1.043 3.746 3.746 0 0 1-1.043-3.297 3.746 3.746 0 0 1-1.593-3.068c0-1.268.63-2.39 1.593-3.068a3.746 3.746 0 0 1 1.043-3.297 3.745 3.745 0 0 1 3.296-1.042 3.745 3.745 0 0 1 3.068-1.594c1.268 0 2.39.63 3.068 1.593a3.745 3.745 0 0 1 3.296 1.043 3.746 3.746 0 0 1 1.043 3.297 3.746 3.746 0 0 1 1.593 3.068ZM9.74 9.743h.008v.007H9.74v-.007Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm4.125 4.5h.008v.008h-.008v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                         </svg>
@@ -258,23 +258,23 @@
                             x-transition
                             x-cloak
                             class="whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                            {{ Request::routeIs('discount', 'discount-tambah', 'discount.edit') ? 'text-white' : 'text-gray-700' }}">
+                            {{ Request::routeIs('admin.discount.index', 'admin.discount.create', 'admin.discount.edit') ? 'text-white' : 'text-gray-700' }}">
                             Diskon
                         </span>
                     </li>
                 </a>
 
-                <a href="{{ route('rating-admin') }}" class="block group">
+                <a href="{{ route('admin.rating.index') }}" class="block group">
                     <li
                         class="flex items-center py-2 rounded-md space-x-4 transition-all duration-300 ease-in-out
-                        {{ Request::routeIs('rating-admin') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
+                        {{ Request::routeIs('admin.rating.index') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
                     >
                         <!-- Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor"
                             class="w-5 h-5 shrink-0 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                {{ Request::routeIs('rating-admin') ? 'text-white' : 'text-gray-700' }}">
+                                {{ Request::routeIs('admin.rating.index') ? 'text-white' : 'text-gray-700' }}">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
                         </svg>
@@ -285,7 +285,7 @@
                             x-transition
                             x-cloak
                             class="whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                            {{ Request::routeIs('rating-admin') ? 'text-white' : 'text-gray-700' }}">
+                            {{ Request::routeIs('admin.rating.index') ? 'text-white' : 'text-gray-700' }}">
                             Penilaian
                         </span>
                     </li>
@@ -294,7 +294,7 @@
                 <a href="{{ route('admin.news.index') }}" class="block group">
                     <li
                         class="flex items-center py-2 rounded-md space-x-4 transition-all duration-300 ease-in-out
-                        {{ Request::routeIs('news.index', 'news.create', 'news.show', 'news.edit') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
+                        {{ Request::routeIs('admin.news.index', 'admin.news.create', 'admin.news.show', 'admin.news.edit') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
                     >
 
@@ -302,7 +302,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                             class="w-5 h-5 shrink-0 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                {{ Request::routeIs('news.index', 'news.create', 'news.show', 'news.edit') ? 'text-white' : 'text-gray-700' }}">
+                                {{ Request::routeIs('admin.news.index', 'admin.news.create', 'admin.news.show', 'admin.news.edit') ? 'text-white' : 'text-gray-700' }}">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
                         </svg>
@@ -313,7 +313,7 @@
                             x-transition
                             x-cloak
                             class="whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                            {{ Request::routeIs('news.index', 'news.create', 'news.show', 'news.edit') ? 'text-white' : 'text-gray-700' }}">
+                            {{ Request::routeIs('admin.news.index', 'admin.news.create', 'admin.news.show', 'admin.news.edit') ? 'text-white' : 'text-gray-700' }}">
                             Berita
                         </span>
                     </li>
@@ -322,7 +322,7 @@
                 <a href="{{ route('admin.bootcamp.index') }}" class="block group">
                     <li
                         class="flex items-center py-2 rounded-md space-x-4 transition-all duration-300 ease-in-out
-                        {{ Request::routeIs('bootcamp.index', 'bootcamp.create', 'bootcamp.show', 'bootcamp.edit') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
+                        {{ Request::routeIs('admin.bootcamp.index', 'admin.bootcamp.create', 'admin.bootcamp.show', 'admin.bootcamp.edit') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
                     >
 
@@ -330,7 +330,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                             class="w-5 h-5 shrink-0 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                {{ Request::routeIs('bootcamp.index', 'bootcamp.create', 'bootcamp.show', 'bootcamp.edit') ? 'text-white' : 'text-gray-700' }}">
+                                {{ Request::routeIs('admin.bootcamp.index', 'admin.bootcamp.create', 'admin.bootcamp.show', 'admin.bootcamp.edit') ? 'text-white' : 'text-gray-700' }}">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" />
                         </svg>
@@ -340,23 +340,23 @@
                             x-transition
                             x-cloak
                             class="whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                            {{ Request::routeIs('bootcamp.index', 'bootcamp.create', 'bootcamp.show', 'bootcamp.edit') ? 'text-white' : 'text-gray-700' }}">
+                            {{ Request::routeIs('admin.bootcamp.index', 'admin.bootcamp.create', 'admin.bootcamp.show', 'admin.bootcamp.edit') ? 'text-white' : 'text-gray-700' }}">
                             Bootcamp
                         </span>
                     </li>
                 </a>
 
-                <a href="{{ route('laporan-admin') }}" class="block group">
+                <a href="{{ route('admin.laporan.index') }}" class="block group">
                     <li
                         class="flex items-center py-2 rounded-md space-x-4 transition-all duration-300 ease-in-out
-                            {{ Request::routeIs('laporan-admin') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
+                            {{ Request::routeIs('admin.laporan.index') ? 'bg-midnight' : 'hover:bg-gray-200' }}"
                         :class="sidebarExpanded ? 'px-4' : 'px-1.5'"
                     >
                         <!-- Icon -->
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                             stroke-width="1.5" stroke="currentColor"
                             class="w-5 h-5 shrink-0 transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                {{ Request::routeIs('laporan-admin') ? 'text-white' : 'text-gray-700' }}">
+                                {{ Request::routeIs('admin.laporan.index') ? 'text-white' : 'text-gray-700' }}">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M3.75 3v11.25A2.25 2.25 0 0 0 6 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0 1 18 16.5h-2.25m-7.5 0h7.5m-7.5 0-1 3m8.5-3 1 3m0 0 .5 1.5m-.5-1.5h-9.5m0 0-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6" />
                         </svg>
@@ -367,7 +367,7 @@
                             x-transition
                             x-cloak
                             class="whitespace-nowrap transform transition-all duration-300 ease-in-out group-hover:translate-x-1
-                                {{ Request::routeIs('laporan-admin') ? 'text-white' : 'text-gray-700' }}">
+                                {{ Request::routeIs('admin.laporan.index') ? 'text-white' : 'text-gray-700' }}">
                             Laporan
                         </span>
                     </li>
@@ -537,7 +537,7 @@
                 <div id="dropdown" class="hidden absolute right-6 mt-10 md:mt-12 w-48 bg-white border rounded-lg shadow-lg z-10">
                     <ul class="py-1 space-y-1">
                         <li>
-                            <a href="{{ route('settings.admin') }}" class="group group-hover:text-white block flex items-center p-1 text-sm text-gray-700 hover:bg-midnight rounded-md mx-2">
+                            <a href="{{ route('admin.setting') }}" class="group group-hover:text-white block flex items-center p-1 text-sm text-gray-700 hover:bg-midnight rounded-md mx-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
                                     class="w-4 h-4 ml-1 m-2 fill-current group-hover:text-white">
                                     <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/>

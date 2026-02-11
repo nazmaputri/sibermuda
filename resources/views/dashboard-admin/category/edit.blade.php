@@ -4,12 +4,12 @@
 <div class="container mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
         <h2 class="text-lg font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Edit Kategori</h2>
-        
+
         <!-- Form untuk edit kategori -->
-        <form action="{{ route('categories.update', $category->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.categories.update', $category->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-            
+
             <!-- Wrapper kiri untuk nama dan deskripsi -->
             <div class="flex flex-wrap">
                 <div class="w-full md:w-1/2 pr-4 mb-4">

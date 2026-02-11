@@ -11,26 +11,26 @@
             <!-- Teks Tombol -->
             <!-- <span id="buttonText">Tampilkan Semua Kursus</span> -->
         <!-- </button> -->
-        <form action="{{ route('categories.index') }}" method="GET" class="w-full md:max-w-xs">
+        <form action="{{ route('admin.categories.index') }}" method="GET" class="w-full md:max-w-xs">
                 <label for="search" class="mb-2 text-sm font-medium text-gray-900 sr-only">Cari</label>
                     <div class="flex items-center border border-gray-300 rounded-lg bg-white">
                         <svg class="w-4 h-4 text-gray-500 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
-                        <input type="search" name="search" id="search" 
-                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none" 
+                        <input type="search" name="search" id="search"
+                            class="block w-full p-2 pl-2 text-sm text-gray-700 border-0 rounded-lg focus:border-sky-400 focus:outline-none"
                             placeholder="Cari Kategori..." value="{{ request('search') }}" />
                     </div>
         </form>
-    
+
         <!-- Tambah Kategori -->
-        <a id="addCategoryButton" href="{{ route('categories.create') }}" class="inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
+        <a id="addCategoryButton" href="{{ route('admin.categories.create') }}" class="inline-flex shadow-md shadow-blue-100 hover:shadow-none items-center space-x-2 text-white bg-blue-400 hover:bg-blue-300 font-semibold py-2 px-4 rounded-md">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
             </svg>
             <span class="text-sm">Tambah Kategori</span>
         </a>
-    </div>    
+    </div>
 
     <!-- Tabel Kategori -->
     <div id="categoriesTable" class="overflow-hidden overflow-x-auto w-full">
@@ -54,20 +54,20 @@
                             <td class="py-3 px-2 text-center border-r border-b border-gray-200">
                                 <div class="flex items-center justify-center space-x-4">
                                     <!-- Tombol Lihat Detail -->
-                                    <a href="{{ route('categories.show', $category->id) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
+                                    <a href="{{ route('admin.categories.show', $category->id) }}" class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200" title="Lihat">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                         </svg>
                                     </a>
                                     <!-- Tombol Edit -->
-                                    <a href="{{ route('categories.edit', $category->id) }}" class="text-white bg-yellow-300 p-1 rounded-md  hover:bg-yellow-200" title="Edit">
+                                    <a href="{{ route('admin.categories.edit', $category->id) }}" class="text-white bg-yellow-300 p-1 rounded-md  hover:bg-yellow-200" title="Edit">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                         </svg>
                                     </a>
                                     <!-- Tombol Hapus -->
-                                    <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline">
+                                    <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn-delete text-white bg-red-400 p-1 mt-1 rounded-md hover:bg-red-300" title="Hapus">
@@ -92,7 +92,7 @@
 
      <!-- Pagination untuk kategori -->
      <div class="mt-4">
-        {{ $categories->links() }} 
+        {{ $categories->links() }}
     </div>
 
     <!-- Daftar Kursus (Awalnya disembunyikan) -->
@@ -121,7 +121,7 @@
 
         <!-- Pagination untuk kursus -->
         <div class="mt-4">
-            {{ $courses->links() }} 
+            {{ $courses->links() }}
         </div>
         </div>
 </div>

@@ -6,7 +6,7 @@
     <div class="bg-white shadow-md rounded-lg p-6 border border-gray-200">
         <h2 class="text-lg font-semibold mb-8 border-b-2 pb-2 text-gray-700 text-center">Tambah Kategori</h2>
 
-        <form action="{{ route('categories.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <!-- Nama Kategori -->
@@ -38,11 +38,11 @@
 
             <!-- Tombol Submit -->
             <div class="mt-6 flex justify-end space-x-2">
-                <a href="{{ route('categories.index') }}" class="bg-red-400 hover:bg-red-300 text-white py-2 px-4 font-medium rounded-md">
+                <a href="{{ route('admin.categories.index') }}" class="bg-red-400 hover:bg-red-300 text-white py-2 px-4 font-medium rounded-md">
                     Batal
                 </a>
                 <button type="submit" class="bg-sky-400 hover:bg-sky-300 text-white py-2 px-4 rounded-md font-medium">
-                    Tambah 
+                    Tambah
                 </button>
             </div>
         </form>

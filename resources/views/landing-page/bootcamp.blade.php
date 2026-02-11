@@ -114,6 +114,9 @@
             ]
         ]
     ]);
+
+    // Untuk testing: uncomment baris berikut untuk simulasi tidak ada bootcamp
+    // $bootcamps = collect([]);
 @endphp
 
 <!DOCTYPE html>
@@ -162,31 +165,33 @@
     @include('components.navbar')
 
     <section class="bg-midnight text-white py-16 w-full overflow-hidden">
-    <div class="container mx-auto px-6 mt-10">
-        <div class="text-center max-w-4xl mx-auto" data-aos="fade-up">
-            <h1 class="text-xl md:text-2xl font-['poppins'] text-center font-semibold mb-6">
-                Informasi Bootcamp Sibermuda
-            </h1>
-            <p class="text-md text-center mb-8 opacity-90">
-                Tingkatkan skill teknologi Anda dalam waktu singkat dengan program bootcamp kami. Dibimbing langsung oleh praktisi industri berpengalaman.
-            </p>
-            <div class="flex flex-wrap gap-4 justify-center">
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
-                    <div class="text-3xl font-bold">500+</div>
-                    <div class="text-sm opacity-80">Alumni Sukses</div>
+        <div class="container mx-auto px-6 mt-10">
+            <div class="text-center max-w-4xl mx-auto" data-aos="fade-up">
+                <h1 class="text-xl md:text-2xl font-['poppins'] text-center font-semibold mb-6">
+                    Informasi Bootcamp Sibermuda
+                </h1>
+                <p class="text-md text-center mb-8 opacity-90">
+                    Tingkatkan skill teknologi Anda dalam waktu singkat dengan program bootcamp kami. Dibimbing langsung oleh praktisi industri berpengalaman.
+                </p>
+                @if($bootcamps->isNotEmpty())
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
+                        <div class="text-3xl font-bold">500+</div>
+                        <div class="text-sm opacity-80">Alumni Sukses</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
+                        <div class="text-3xl font-bold">95%</div>
+                        <div class="text-sm opacity-80">Tingkat Kelulusan</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
+                        <div class="text-3xl font-bold">85%</div>
+                        <div class="text-sm opacity-80">Dapat Kerja</div>
+                    </div>
                 </div>
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
-                    <div class="text-3xl font-bold">95%</div>
-                    <div class="text-sm opacity-80">Tingkat Kelulusan</div>
-                </div>
-                <div class="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4">
-                    <div class="text-3xl font-bold">85%</div>
-                    <div class="text-sm opacity-80">Dapat Kerja</div>
-                </div>
+                @endif
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <!-- Bootcamp List Section -->
     <section id="bootcamps" class="bg-white py-12">
@@ -196,93 +201,153 @@
                     Program Bootcamp Kami
                 </h3>
                 <p class="text-md text-gray-700 text-center mt-2" data-aos="fade-up">
-                    Pilih program bootcamp yang sesuai dengan tujuan karir Anda
+                    @if($bootcamps->isNotEmpty())
+                        Pilih program bootcamp yang sesuai dengan tujuan karir Anda
+                    @else
+                        Program bootcamp akan segera hadir
+                    @endif
                 </p>
             </div>
 
-            <div class="grid md:grid-cols-2 gap-8 md:mx-8">
-                @foreach($bootcamps as $index => $bootcamp)
-                    <div class="bg-white border-2 border-gray-300 rounded-2xl overflow-hidden hover:border-[#08072a] transition-all duration-300 flex flex-col" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
-                        <!-- Image -->
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="{{ $bootcamp->image }}" alt="{{ $bootcamp->title }}" class="w-full h-full object-cover">
-                            @if($bootcamp->discount_price)
-                                <div class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                                    Diskon!
+            @if($bootcamps->isNotEmpty())
+                <div class="grid md:grid-cols-2 gap-8 md:mx-8">
+                    @foreach($bootcamps as $index => $bootcamp)
+                        <div class="bg-white border-2 border-gray-300 rounded-2xl overflow-hidden hover:border-[#08072a] transition-all duration-300 flex flex-col" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+                            <!-- Image -->
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="{{ $bootcamp->image }}" alt="{{ $bootcamp->title }}" class="w-full h-full object-cover">
+                                @if($bootcamp->discount_price)
+                                    <div class="absolute top-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                        Diskon!
+                                    </div>
+                                @endif
+                                <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-[#08072a]">
+                                    {{ $bootcamp->level }}
                                 </div>
-                            @endif
-                            <div class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-[#08072a]">
-                                {{ $bootcamp->level }}
+                            </div>
+
+                            <!-- Content -->
+                            <div class="p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-bold text-[#08072a] mb-3">
+                                    {{ $bootcamp->title }}
+                                </h3>
+
+                                <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                                    {{ $bootcamp->description }}
+                                </p>
+
+                                <!-- Info Grid -->
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span>{{ $bootcamp->duration }}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-sm text-gray-600">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span class="line-clamp-1">{{ $bootcamp->schedule }}</span>
+                                    </div>
+                                </div>
+
+                                <!-- Price -->
+                                <div class="mb-4">
+                                    @if($bootcamp->discount_price)
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-2xl font-bold text-[#08072a]">{{ $bootcamp->discount_price }}</span>
+                                            <span class="text-sm text-gray-400 line-through">{{ $bootcamp->price }}</span>
+                                        </div>
+                                    @else
+                                        <span class="text-2xl font-bold text-[#08072a]">{{ $bootcamp->price }}</span>
+                                    @endif
+                                </div>
+
+                                <!-- Features -->
+                                <div class="mb-4 flex-grow">
+                                    <p class="text-sm font-semibold text-gray-700 mb-2">Yang Akan Anda Dapatkan:</p>
+                                    <ul class="space-y-1">
+                                        @foreach(array_slice($bootcamp->features, 0, 3) as $feature)
+                                            <li class="flex items-start gap-2 text-sm text-gray-600">
+                                                <svg class="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                                </svg>
+                                                <span>{{ $feature }}</span>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+
+                                <!-- CTA Buttons -->
+                                <div class="flex gap-2 mt-auto">
+                                    <button onclick="openBootcampModal({{ $bootcamp->id }})" class="flex-1 bg-[#08072a] text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-opacity-90 transition-all duration-300 text-sm">
+                                        Lihat Detail
+                                    </button>
+                                    <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20bootcamp%20{{ urlencode($bootcamp->title) }}" target="_blank" class="flex-1 bg-green-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-green-700 transition-all duration-300 text-sm text-center flex items-center justify-center gap-2">
+                                        <i class="fab fa-whatsapp"></i>
+                                        Daftar
+                                    </a>
+                                </div>
                             </div>
                         </div>
-
-                        <!-- Content -->
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h3 class="text-xl font-bold text-[#08072a] mb-3">
-                                {{ $bootcamp->title }}
-                            </h3>
-
-                            <p class="text-gray-600 text-sm mb-4 line-clamp-3">
-                                {{ $bootcamp->description }}
+                    @endforeach
+                </div>
+            @else
+                <!-- Coming Soon Section -->
+                <div class="max-w-2xl mx-auto" data-aos="fade-up">
+                    <div class="bg-gradient-to-br from-[#08072a] to-[#1a1847] rounded-2xl p-12 text-center text-white shadow-xl">
+                        <div class="mb-6">
+                            <svg class="w-24 h-24 mx-auto text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-3xl font-bold mb-4">Coming Soon</h3>
+                        <p class="text-lg mb-6 opacity-90">
+                            Program bootcamp kami sedang dalam tahap persiapan. Kami akan segera menghadirkan program pelatihan intensif yang dirancang khusus untuk membantu Anda mencapai tujuan karir di bidang teknologi.
+                        </p>
+                        <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6 mb-6">
+                            <p class="text-sm font-semibold mb-3">Yang Dapat Anda Harapkan:</p>
+                            <div class="grid md:grid-cols-2 gap-3 text-left">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm">Kurikulum Terstruktur</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm">Mentor Berpengalaman</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm">Project-Based Learning</span>
+                                </div>
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                    </svg>
+                                    <span class="text-sm">Career Support</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <p class="text-sm opacity-90">
+                                <strong>Ingin mendapat notifikasi saat bootcamp dibuka?</strong><br>
+                                Hubungi kami sekarang!
                             </p>
-
-                            <!-- Info Grid -->
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div class="flex items-center gap-2 text-sm text-gray-600">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span>{{ $bootcamp->duration }}</span>
-                                </div>
-                                <div class="flex items-center gap-2 text-sm text-gray-600">
-                                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
-                                    </svg>
-                                    <span class="line-clamp-1">{{ $bootcamp->schedule }}</span>
-                                </div>
-                            </div>
-
-                            <!-- Price -->
-                            <div class="mb-4">
-                                @if($bootcamp->discount_price)
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-2xl font-bold text-[#08072a]">{{ $bootcamp->discount_price }}</span>
-                                        <span class="text-sm text-gray-400 line-through">{{ $bootcamp->price }}</span>
-                                    </div>
-                                @else
-                                    <span class="text-2xl font-bold text-[#08072a]">{{ $bootcamp->price }}</span>
-                                @endif
-                            </div>
-
-                            <!-- Features -->
-                            <div class="mb-4 flex-grow">
-                                <p class="text-sm font-semibold text-gray-700 mb-2">Yang Akan Anda Dapatkan:</p>
-                                <ul class="space-y-1">
-                                    @foreach(array_slice($bootcamp->features, 0, 3) as $feature)
-                                        <li class="flex items-start gap-2 text-sm text-gray-600">
-                                            <svg class="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <span>{{ $feature }}</span>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-
-                            <!-- CTA Buttons -->
-                            <div class="flex gap-2 mt-auto">
-                                <button onclick="openBootcampModal({{ $bootcamp->id }})" class="flex-1 bg-[#08072a] text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-opacity-90 transition-all duration-300 text-sm">
-                                    Lihat Detail
-                                </button>
-                                <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20bootcamp%20{{ urlencode($bootcamp->title) }}" target="_blank" class="flex-1 bg-green-600 text-white px-4 py-2.5 rounded-lg font-semibold hover:bg-green-700 transition-all duration-300 text-sm text-center flex items-center justify-center gap-2">
-                                    <i class="fab fa-whatsapp"></i>
-                                    Daftar
-                                </a>
-                            </div>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20ingin%20mendapat%20informasi%20tentang%20program%20bootcamp%20yang%20akan%20datang" target="_blank" class="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-all duration-300">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                                Hubungi Kami via WhatsApp
+                            </a>
                         </div>
                     </div>
-                @endforeach
-            </div>
+                </div>
+            @endif
         </div>
     </section>
 
@@ -329,6 +394,7 @@
         </div>
     </section>
 
+    @if($bootcamps->isNotEmpty())
     <!-- Modal Detail Bootcamp -->
     <div id="bootcampModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
         <div class="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
@@ -399,6 +465,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     @include('components.footer')
 
@@ -410,6 +477,7 @@
             once: true,
         });
 
+        @if($bootcamps->isNotEmpty())
         const bootcamps = @json($bootcamps);
 
         function openBootcampModal(id) {
@@ -481,6 +549,7 @@
                 closeBootcampModal();
             }
         });
+        @endif
     </script>
 </body>
 </html>

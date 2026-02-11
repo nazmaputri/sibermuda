@@ -65,7 +65,7 @@ class DataMentorController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('data-mentor.index')->with('success', 'User berhasil dihapus.');
+        return redirect()->route('admin.data-mentor.index')->with('success', 'User berhasil dihapus.');
     }
 
     /**
@@ -105,7 +105,7 @@ class DataMentorController extends Controller
     }
 
     /**
-     * Toggle status active/inactive 
+     * Toggle status active/inactive
      */
     public function toggleActive(Request $request)
     {

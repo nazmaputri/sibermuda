@@ -3,17 +3,17 @@
 @section('content')
 
 <div class="mb-3 flex justify-start">
-    <a href="{{ route('categories.index') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
+    <a href="{{ route('admin.categories.index') }}" class=" text-midnight font-semibold p-1 bg-white border border-gray-200 rounded-full transition-transform duration-300 ease-in-out transform hover:scale-105"> <!-- route awalnya : {{ route('categories-detail', ['id' => $category->id]) }} -->
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
         </svg>
-    </a>           
+    </a>
 </div>
 
 <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
     <!-- Detail Kategori -->
     <div class="flex flex-col lg:flex-row mb-4">
-        <div class="w-full lg:w-1/3 mb-4 lg:mb-0">       
+        <div class="w-full lg:w-1/3 mb-4 lg:mb-0">
             @if ($category->image_path)
                 <img src="{{ Storage::url($category->image_path) }}" alt="{{ $category->name }}" class="rounded-lg  w-80 h-35">
             @else
@@ -27,7 +27,7 @@
             <p class="text-sm text-gray-700 mb-2">{{ $category->description }}</p>
             <p class="text-sm text-gray-700">Total kursus : {{ $category->courses->count() }} kursus</p>
         </div>
-    </div>  
+    </div>
 </div>
 
 <div class="mt-6 bg-white p-6 rounded-lg shadow-md border border-gray-200">
@@ -56,21 +56,21 @@
                         <td class="py-3 px-4 text-center border-b border-r border-gray-200">
                             <div class="flex justify-center items-center space-x-4">
                                 <!-- Tombol Lihat Detail -->
-                                <a href="{{ route('detail-kursusadmin', ['categoryId' => $category->id, 'courseId'  => $course->id ]) }}" 
+                                {{-- <a href="{{ route('detail-kursusadmin', ['categoryId' => $category->id, 'courseId'  => $course->id ]) }}"
                                     class="text-white bg-sky-300 p-1 rounded-md hover:bg-sky-200 flex items-center" title="Lihat">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" 
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round" 
+                                        <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" 
+                                        <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                     </svg>
-                                </a>
+                                </a> --}}
 
                                 <!-- Tombol Setujui Kursus -->
-                                <form action="{{ route('courses.approve', ['categoryId' => $category->id, 'courseId' => $course->id]) }}" 
-                                    method="POST" 
-                                    class="flex items-center" 
+                                {{-- <form action="{{ route('courses.approve', ['categoryId' => $category->id, 'courseId' => $course->id]) }}"
+                                    method="POST"
+                                    class="flex items-center"
                                     title="Setujui Kursus">
                                     @csrf
                                     @method('PATCH')
@@ -78,25 +78,25 @@
                                         class="font-semibold p-1 rounded-md
                                             {{ $course->status == 'pending' ? 'bg-green-300 hover:bg-green-200 text-white' : 'bg-gray-300 text-white cursor-not-allowed' }}"
                                         {{ $course->status != 'pending' ? 'disabled' : '' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" 
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
                                             class="w-5 h-5 text-white" fill="currentColor">
                                             <path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/>
                                         </svg>
                                     </button>
-                                </form>
+                                </form> --}}
 
                                 @php
                                     $canToggle = in_array($course->status, ['approved', 'published', 'nopublished']);
                                 @endphp
 
-                                <form 
-                                    action="{{ 
-                                        $course->status == 'published' 
-                                            ? route('hiddencourse', ['categoryId' => $category->id, 'courseId' => $course->id]) 
+                                <form
+                                    action="{{
+                                        $course->status == 'published'
+                                            ? route('admin.courses.hidden', ['categoryId' => $category->id, 'courseId' => $course->id])
                                             : ($course->status == 'approved' || $course->status == 'nopublished'
-                                                ? route('courses.publish', ['categoryId' => $category->id, 'courseId' => $course->id]) 
-                                                : '#') 
-                                    }}" 
+                                                ? route('admin.courses.publish', ['categoryId' => $category->id, 'courseId' => $course->id])
+                                                : '#')
+                                    }}"
                                     method="POST" class="toggle-form">
                                     @csrf
                                     @method('PATCH')
@@ -129,7 +129,7 @@
 
     <!-- Pagination -->
     <div class="mt-4">
-        {{ $courses->links() }} 
+        {{ $courses->links() }}
     </div>
 </div>
 @endsection

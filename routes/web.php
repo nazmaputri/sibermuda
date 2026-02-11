@@ -57,46 +57,6 @@ Route::get('login-sber-md', [LoginController::class, 'loginAdmin'])->name('sber-
 Route::post('login-admin', [LoginController::class, 'prosesLogin'])->name('prosesLogin');
 Route::get('/login-superadmin-sber-md', [SuperAdminController::class, 'loginsuperadmin'])->name('super-admin-login'); //Login Superadmin
 
-// Route berdasarkan role
-Route::middleware(['auth:admin'])->group(function () {
-    Route::prefix('dashboard-admin')->name('admin.')->group(function () {
-        Route::get('/beranda', [MainController::class, 'show'])->name('welcome');
-
-        // Notifikasi admin
-        Route::get('/notifications', [MainController::class, 'getNotifications'])->name('notifications');
-
-        Route::resource('bootcamp', BootcampController::class);
-
-        Route::resource('categories', CategoryController::class);
-        Route::patch('/categories/{categoryId}/courses/{courseId}/approve', [CategoryController::class, 'approve'])->name('courses.approve');
-        Route::patch('/categories/{categoryId}/courses/{courseId}/publish', [CategoryController::class, 'publish'])->name('courses.publish');
-        Route::patch('/categories/{categoryId}/courses/{courseId}/hidden', [CategoryController::class, 'hiddencourse'])->name('courses.hidden');
-
-        Route::get('/courses/{categoryId}/{courseId}', [CourseController::class, 'show'])->name('courses.show');
-
-        Route::resource('data-affiliate', DataAffiliateController::class)->except(['store', 'update']);
-
-        Route::resource('data-mentor', DataMentorController::class)->only(['index', 'create', 'show', 'destroy']);
-        Route::post('/data-mentor/{id}/status/inactive', [DataMentorController::class, 'updateStatusToInactive'])->name('data-mentor.status.inactive');
-        Route::post('/data-mentor/{id}/status/active', [DataMentorController::class, 'updateStatus'])->name('data-mentor.status.active');
-        Route::post('/data-mentor/toggle-status', [DataMentorController::class, 'toggleActive'])->name('data-mentor.toggle-status');
-
-        Route::resource('data-peserta', DataPesertaController::class)->only(['index', 'create', 'show', 'destroy']);
-        Route::post('/data-peserta/import-manual', [DataPesertaController::class, 'importManual'])->name('data-peserta.import-manual');
-        Route::post('/data-peserta/import-excel', [DataPesertaController::class, 'importExcel'])->name('data-peserta.import-excel');
-
-        Route::resource('discount', DiscountController::class);
-        Route::post('/discount/apply', [DiscountController::class, 'applyDiscount'])->name('discount.apply');
-
-        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-        Route::get('/laporan/export', [LaporanController::class, 'export'])->name('laporan.export');
-
-        Route::resource('news', NewsController::class);
-
-        Route::resource('rating', DashboardAdminRatingController::class)->only(['index', 'destroy']);
-    });
-});
-
 Route::middleware(['auth:student'])->group(function () {
     //Dashboard Peserta
     Route::get('dashboard-peserta/welcome', [DashboardPesertaController::class, 'show'])->middleware('verified')->name('welcome-peserta');
@@ -215,3 +175,4 @@ require __DIR__.'/auth.php';
 
 require __DIR__.'/affiliate.php';
 
+require __DIR__.'/admin.php';
